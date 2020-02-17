@@ -2,7 +2,6 @@
 
 public class RotateArm : MonoBehaviour
 {
-    //[SerializeField] private TextMeshPro KeyLabel;
     [SerializeField] private Vector3 RotateDir;
     [SerializeField] private string RotateKeyStr;
     [SerializeField] private JoystickAxis Axis = JoystickAxis.None;
@@ -13,15 +12,6 @@ public class RotateArm : MonoBehaviour
 
     void Awake()
     {
-        //if (Axis != JoystickAxis.None)
-        //{
-        //    KeyLabel.text = Axis.ToString();
-        //}
-        //else
-        //{
-        //    KeyLabel.text = "";
-        //}
-
         CurOffset = 0;
     }
 
@@ -29,7 +19,7 @@ public class RotateArm : MonoBehaviour
     {
         if (Axis != JoystickAxis.None)
         {
-            if (Input.GetAxis(Axis.ToString()) < -0.8f)
+            if (Input.GetAxis(Axis.ToString()).Equals(-1))
             {
                 if (CurOffset > LowerLimit)
                 {
@@ -37,7 +27,7 @@ public class RotateArm : MonoBehaviour
                     CurOffset -= RotateDir.magnitude;
                 }
             }
-            else if (Input.GetAxis(Axis.ToString()) > 0.8f)
+            else if (Input.GetAxis(Axis.ToString()).Equals(1))
             {
                 if (CurOffset < UpperLimit)
                 {
@@ -47,12 +37,4 @@ public class RotateArm : MonoBehaviour
             }
         }
     }
-
-    void LateUpdate()
-    {
-        //Vector3 targetPos = KeyLabel.transform.position + Camera.main.transform.rotation * Vector3.forward;
-        //Vector3 targetOrientation = Camera.main.transform.rotation * Vector3.up;
-        //KeyLabel.transform.LookAt(targetPos, targetOrientation);
-    }
 }
-
