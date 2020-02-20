@@ -1,8 +1,11 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using DG.Tweening;
 
 public class Spring : MonoBehaviour
 {
+    public PlayerNumber PlayerNumber;
+
     [SerializeField] private JoystickButton Button = JoystickButton.None;
     [SerializeField] private Transform SpringObject;
 
@@ -18,11 +21,16 @@ public class Spring : MonoBehaviour
     {
         if (Button != JoystickButton.None)
         {
-            if (Input.GetButtonDown(Button.ToString()))
+            if (Input.GetButtonDown(Button + "_" + PlayerNumber))
             {
                 SpringObject.DOPause();
                 SpringObject.DOLocalMove(DefaultPos + BumperDest, 0.1f).OnComplete(delegate { SpringObject.DOLocalMove(DefaultPos, 0.3f); });
             }
         }
+    }
+
+    private void LateUpdate()
+    {
+        transform.LookAt(GameManager.Instance.Ball.transform);
     }
 }

@@ -2,6 +2,8 @@
 
 public class RotateArm : MonoBehaviour
 {
+    public PlayerNumber PlayerNumber;
+
     [SerializeField] private Vector3 RotateDir;
     [SerializeField] private string RotateKeyStr;
     [SerializeField] private JoystickAxis Axis = JoystickAxis.None;
@@ -19,7 +21,7 @@ public class RotateArm : MonoBehaviour
     {
         if (Axis != JoystickAxis.None)
         {
-            if (Input.GetAxis(Axis.ToString()).Equals(-1))
+            if (Input.GetAxis(Axis + "_" + PlayerNumber).Equals(-1))
             {
                 if (CurOffset > LowerLimit)
                 {
@@ -27,7 +29,7 @@ public class RotateArm : MonoBehaviour
                     CurOffset -= RotateDir.magnitude;
                 }
             }
-            else if (Input.GetAxis(Axis.ToString()).Equals(1))
+            else if (Input.GetAxis(Axis + "_" + PlayerNumber).Equals(1))
             {
                 if (CurOffset < UpperLimit)
                 {
