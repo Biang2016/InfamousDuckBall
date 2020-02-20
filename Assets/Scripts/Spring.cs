@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using UnityEngine;
 using DG.Tweening;
 
@@ -7,24 +8,23 @@ public class Spring : MonoBehaviour
     public PlayerNumber PlayerNumber;
 
     [SerializeField] private JoystickButton Button = JoystickButton.None;
-    [SerializeField] private Transform SpringObject;
+    [SerializeField] private Bumper Bumper;
 
     private Vector3 DefaultPos;
     [SerializeField] private Vector3 BumperDest;
 
     void Awake()
     {
-        DefaultPos = SpringObject.localPosition;
+        DefaultPos = Bumper.transform.localPosition;
     }
 
-    void Update()
+    void FixedUpdate()
     {
         if (Button != JoystickButton.None)
         {
             if (Input.GetButtonDown(Button + "_" + PlayerNumber))
             {
-                SpringObject.DOPause();
-                SpringObject.DOLocalMove(DefaultPos + BumperDest, 0.1f).OnComplete(delegate { SpringObject.DOLocalMove(DefaultPos, 0.3f); });
+                Bumper.Kick();
             }
         }
     }

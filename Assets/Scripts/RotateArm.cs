@@ -2,41 +2,39 @@
 
 public class RotateArm : MonoBehaviour
 {
-    public PlayerNumber PlayerNumber;
-
     [SerializeField] private Vector3 RotateDir;
     [SerializeField] private string RotateKeyStr;
-    [SerializeField] private JoystickAxis Axis = JoystickAxis.None;
 
-    private float CurOffset;
+    [SerializeField] private bool UseLimit = true;
     [SerializeField] private float UpperLimit = 10f;
     [SerializeField] private float LowerLimit = -10f;
 
-    void Awake()
+    [SerializeField] private Transform Model;
+
+    internal float Length
     {
-        CurOffset = 0;
+        get
+        {
+            if (Model)
+            {
+                return Model.transform.localScale.y * 2;
+            }
+
+            return 0;
+        }
     }
 
-    void Update()
+    void Awake()
     {
-        if (Axis != JoystickAxis.None)
+    }
+
+    public void SetRotation(float angle)
+    {
+        if (UseLimit)
         {
-            if (Input.GetAxis(Axis + "_" + PlayerNumber).Equals(-1))
-            {
-                if (CurOffset > LowerLimit)
-                {
-                    transform.Rotate(-RotateDir);
-                    CurOffset -= RotateDir.magnitude;
-                }
-            }
-            else if (Input.GetAxis(Axis + "_" + PlayerNumber).Equals(1))
-            {
-                if (CurOffset < UpperLimit)
-                {
-                    transform.Rotate(RotateDir);
-                    CurOffset += RotateDir.magnitude;
-                }
-            }
+            angle = Mathf.Clamp(angle, UpperLimit, LowerLimit);
         }
+
+        transform.localRotation = Quaternion.Euler(RotateDir * angle);
     }
 }

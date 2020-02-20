@@ -1,26 +1,74 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class GameManager : MonoSingleton<GameManager>
 {
+    private DebugPanel debugPanel;
+
+    private Vector3 BallDefaultPos = Vector3.zero;
+    public float PlayerRadius;
+
     void Start()
     {
-        UIManager.Instance.ShowUIForms<DebugPanel>();
+        debugPanel = UIManager.Instance.ShowUIForms<DebugPanel>();
+        debugPanel.SetScore(0, 0);
         UIManager.Instance.ShowUIForms<CameraDividePanel>();
 
         Player1.Initialize();
         Player2.Initialize();
+
+        BallDefaultPos = Ball.transform.position;
+        Input.ResetInputAxes();
     }
 
-    public void Reset()
+    public void Update()
     {
-        SceneManager.LoadScene("MainScene");
+        if (Input.GetKeyUp(KeyCode.F10))
+        {
+            SceneManager.LoadScene("MainScene");
+        }
     }
 
     public Player Player1;
     public Player Player2;
 
-    public GameObject Ball;
+    public GoalBall Ball;
+
+    public void Score(PlayerNumber playerNumber)
+    {
+        switch (playerNumber)
+        {
+            case PlayerNumber.P1:
+            {
+                Player2.Score++;
+                Player1.ParticleSystem.Play();
+                break;
+            }
+            case PlayerNumber.P2:
+            {
+                Player1.Score++;
+                Player2.ParticleSystem.Play();
+                break;
+            }
+        }
+
+        debugPanel.SetScore(Player1.Score, Player2.Score);
+        ResetBall();
+    }
+
+    public void ResetBall()
+    {
+        Ball.transform.position = BallDefaultPos;
+        Ball.Reset();
+    }
+
+    [SerializeField] private BoxCollider Boundary;
+
+    public float X_Min => Boundary.bounds.center.x - Boundary.bounds.extents.x;
+    public float X_Max => Boundary.bounds.center.x + Boundary.bounds.extents.x;
+    public float Z_Min => Boundary.bounds.center.z - Boundary.bounds.extents.z;
+    public float Z_Max => Boundary.bounds.center.z + Boundary.bounds.extents.z;
 }
 
 public enum JoystickAxis
