@@ -51,10 +51,10 @@ MonoBehaviour:
   Arm1: {fileID: 5766602183002742349}
   Arm2: {fileID: 5766602182235036592}
   HammerRoot: {fileID: 3331612034671318138}
-  MoveSpeed: 0.1
+  MoveSpeed: 0.07
   HorizontalAxis: 1
   VerticalAxis: 2
-  ArmSpeed: 0.15
+  ArmSpeed: 0.1
   ArmHorizontalAxis: 3
   ArmVerticalAxis: 4
   ParticleSystem: {fileID: 4431411104983328314}
