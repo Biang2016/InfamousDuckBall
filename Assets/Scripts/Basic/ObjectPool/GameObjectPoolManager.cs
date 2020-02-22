@@ -33,6 +33,7 @@ public class GameObjectPoolManager : MonoSingleton<GameObjectPoolManager>
     };
 
     public Dictionary<PrefabNames, GameObjectPool> PoolDict = new Dictionary<PrefabNames, GameObjectPool>();
+    public Dictionary<FX_Type, GameObjectPool> FXDict = new Dictionary<FX_Type, GameObjectPool>();
 
     void Awake()
     {
@@ -50,6 +51,21 @@ public class GameObjectPoolManager : MonoSingleton<GameObjectPoolManager>
                 PoolDict.Add(kv.Key, pool);
                 PoolObject po = go_Prefab.GetComponent<PoolObject>();
                 pool.Initiate(po, kv.Value);
+            }
+        }
+
+        foreach (string s in Enum.GetNames(typeof(FX_Type)))
+        {
+            FX_Type fx_Type = (FX_Type)Enum.Parse(typeof(FX_Type), s);
+            GameObject go_Prefab = PrefabManager.Instance.GetPrefab(s);
+            if (go_Prefab)
+            {
+                GameObject go = new GameObject("Pool_" + s);
+                GameObjectPool pool = go.AddComponent<GameObjectPool>();
+                pool.transform.SetParent(transform);
+                FXDict.Add(fx_Type, pool);
+                PoolObject po = go_Prefab.GetComponent<PoolObject>();
+                pool.Initiate(po, 20);
             }
         }
     }
