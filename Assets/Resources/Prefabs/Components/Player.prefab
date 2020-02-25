@@ -10,7 +10,9 @@ GameObject:
   m_Component:
   - component: {fileID: 3381610416113576982}
   - component: {fileID: 5900611319221739257}
+  - component: {fileID: 6518347232321813004}
   - component: {fileID: 4663157572418062037}
+  - component: {fileID: 8373888545427885202}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -49,7 +51,24 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   PlayerNumber: 0
+  PlayerControl: {fileID: 6518347232321813004}
+  PlayerCostume: {fileID: 8373888545427885202}
+  ConsiderPlayerInCamera: 0
   ParticleSystem: {fileID: 4431411104983328314}
+--- !u!114 &6518347232321813004
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 192930421289044361}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c59bcb322b5043441b913ea49494581f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  PlayerMove: {fileID: 4663157572418062037}
+  Controllable: 1
 --- !u!114 &4663157572418062037
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -65,6 +84,25 @@ MonoBehaviour:
   MoveSpeed: 0.07
   HorizontalAxis: 1
   VerticalAxis: 2
+--- !u!114 &8373888545427885202
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 192930421289044361}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7eab6b5dccd382542aad6c3b6926f9a3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CostumeMeshRenderers:
+  - {fileID: 4361339804910090898}
+  - {fileID: 5766602182297963095}
+  - {fileID: 5766602182939807658}
+  CostumeMaterials:
+  - {fileID: 2100000, guid: 093567f0dd6952740a9160ff014064c0, type: 2}
+  - {fileID: 2100000, guid: 2156cc3c228170140bfcd45360dd3ba5, type: 2}
 --- !u!1 &406304829872179768
 GameObject:
   m_ObjectHideFlags: 0

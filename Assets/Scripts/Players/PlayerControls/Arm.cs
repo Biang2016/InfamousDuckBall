@@ -3,11 +3,11 @@ using System.Collections;
 
 public class Arm : MonoBehaviour, IPlayerControl
 {
-    private PlayerNumber PlayerNumber;
+    private PlayerControl ParentPlayerControl;
 
-    public void SetPlayerNumber(PlayerNumber playerNumber)
+    public void Initialize(PlayerControl parentPlayerControl)
     {
-        PlayerNumber = playerNumber;
+        ParentPlayerControl = parentPlayerControl;
     }
 
     [SerializeField] private float ArmSpeed;
@@ -22,19 +22,22 @@ public class Arm : MonoBehaviour, IPlayerControl
 
     void FixedUpdate()
     {
-        MoveArm();
+        if (ParentPlayerControl && ParentPlayerControl.Controllable)
+        {
+            MoveArm();
+        }
     }
 
     private void MoveArm()
     {
-        float hor = Input.GetAxis(ArmHorizontalAxis + "_" + PlayerNumber);
+        float hor = Input.GetAxis(ArmHorizontalAxis + "_" + ParentPlayerControl.Player.PlayerNumber);
         Vector3 tarPos = TerminalPivot.position;
         if (Mathf.Abs(hor) > 0.3f)
         {
             tarPos += Vector3.forward * ArmSpeed * hor;
         }
 
-        float ver = Input.GetAxis(ArmVerticalAxis + "_" + PlayerNumber);
+        float ver = Input.GetAxis(ArmVerticalAxis + "_" + ParentPlayerControl.Player.PlayerNumber);
         if (Mathf.Abs(ver) > 0.3f)
         {
             tarPos += Vector3.right * ArmSpeed * ver;

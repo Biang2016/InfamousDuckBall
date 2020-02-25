@@ -17,14 +17,21 @@ public class DebugPanel : BaseUIForm
             uiForm_LucencyType: UIFormLucencyTypes.Penetrable);
     }
 
-    public void SetScore(int player1, int player2)
+    public void RefreshScore()
     {
-        Score1Text.text = player1.ToString();
-        Score2Text.text = player2.ToString();
+        if (GameManager.Instance.PlayerDict.ContainsKey(PlayerNumber.P1))
+        {
+            Score1Text.text = GameManager.Instance.PlayerDict[PlayerNumber.P1].ToString();
+        }
+
+        if (GameManager.Instance.PlayerDict.ContainsKey(PlayerNumber.P2))
+        {
+            Score2Text.text = GameManager.Instance.PlayerDict[PlayerNumber.P2].ToString();
+        }
     }
 
     public void OnReset()
     {
-        GameManager.Instance.ResetBall();
+        GameManager.Instance.Cur_BattleManager.ResetBall();
     }
 }

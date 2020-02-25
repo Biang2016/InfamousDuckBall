@@ -10,13 +10,13 @@ public class GoalBall : MonoBehaviour, IKickable
         Player p = c.GetComponentInParent<Player>();
         if (p)
         {
-            GameManager.Instance.Score(p.PlayerNumber);
+            GameManager.Instance.Score(LastKickPlayerNumber, p.PlayerNumber);
         }
 
         DeadZone dz = c.GetComponentInParent<DeadZone>();
         if (dz)
         {
-            GameManager.Instance.ResetBall();
+            GameManager.Instance.Cur_BattleManager.ResetBall();
         }
     }
 
@@ -29,5 +29,13 @@ public class GoalBall : MonoBehaviour, IKickable
     public Rigidbody GetRigidbody()
     {
         return RigidBody;
+    }
+
+    internal PlayerNumber LastKickPlayerNumber;
+
+    public void Kick(PlayerNumber playerNumber, Vector3 force)
+    {
+        LastKickPlayerNumber = playerNumber;
+        RigidBody.AddForce(force);
     }
 }

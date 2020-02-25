@@ -189,4 +189,29 @@ public static class ClientUtils
 
         return 0F;
     }
+
+    public static Vector3 TryToMove(this Player player, Vector3 destPos, float colliderRadius)
+    {
+        Vector3 dest = destPos;
+        if (Physics.SphereCast(player.transform.position, colliderRadius, destPos - player.transform.position, out RaycastHit hit, (destPos - player.transform.position).magnitude))
+        {
+            dest = hit.point - (destPos - player.transform.position).normalized * colliderRadius;
+        }
+
+        foreach (KeyValuePair<PlayerNumber, Player> kv in GameManager.Instance.PlayerDict)
+        {
+            if (kv.Value != player)
+            {
+                Vector3 diff = Vector3.Scale(new Vector3(1, 0, 1), dest - kv.Value.transform.position);
+                float distance = diff.magnitude;
+                if (distance < 2 * GameManager.Instance.PlayerRadius)
+                {
+                    Vector3 offset = diff.normalized * 2 * GameManager.Instance.PlayerRadius;
+                    dest = kv.Value.transform.position + offset;
+                }
+            }
+        }
+
+        return dest;
+    }
 }

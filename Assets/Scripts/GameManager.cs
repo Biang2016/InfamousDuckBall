@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -6,19 +7,26 @@ public class GameManager : MonoSingleton<GameManager>
 {
     private DebugPanel debugPanel;
 
-    private Vector3 BallDefaultPos = Vector3.zero;
+    internal Dictionary<PlayerNumber, Player> PlayerDict = new Dictionary<PlayerNumber, Player>();
+
     public float PlayerRadius;
+
+    internal int Layer_RangeOfActivity;
+
+    void Awake()
+    {
+        Layer_RangeOfActivity = LayerMask.GetMask("RangeOfActivity");
+    }
 
     void Start()
     {
         debugPanel = UIManager.Instance.ShowUIForms<DebugPanel>();
-        debugPanel.SetScore(0, 0);
+        debugPanel.RefreshScore();
         UIManager.Instance.ShowUIForms<CameraDividePanel>();
 
-        Player1.Initialize();
-        Player2.Initialize();
-
-        BallDefaultPos = Ball.transform.position;
+        SwitchBattle(BattleTypes.PVP);
+        SetUpPlayer(PlayerNumber.P1);
+        SetUpPlayer(PlayerNumber.P2);
         Input.ResetInputAxes();
     }
 
@@ -30,45 +38,118 @@ public class GameManager : MonoSingleton<GameManager>
         }
     }
 
-    public Player Player1;
-    public Player Player2;
+    public bool IsGameStart = true;
 
-    public GoalBall Ball;
-
-    public void Score(PlayerNumber playerNumber)
+    public void Score(PlayerNumber scorePlayer, PlayerNumber hitPlayer)
     {
-        switch (playerNumber)
+        PlayerDict[scorePlayer].Score++;
+        foreach (KeyValuePair<PlayerNumber, Player> kv in PlayerDict)
         {
-            case PlayerNumber.P1:
+            if (kv.Key == scorePlayer)
             {
-                Player2.Score++;
-                Player1.ParticleSystem.Play();
-                break;
+                kv.Value.Score++;
             }
-            case PlayerNumber.P2:
+
+            if (kv.Key == hitPlayer)
             {
-                Player1.Score++;
-                Player2.ParticleSystem.Play();
-                break;
+                kv.Value.ParticleSystem.Play();
             }
         }
 
-        debugPanel.SetScore(Player1.Score, Player2.Score);
-        ResetBall();
+        debugPanel.RefreshScore();
+        Cur_BattleManager.ResetBall();
     }
 
-    public void ResetBall()
+    public List<Vector3> GetAllPlayerPositions()
     {
-        Ball.transform.position = BallDefaultPos;
-        Ball.Reset();
+        List<Vector3> playerPositions = new List<Vector3>();
+        foreach (KeyValuePair<PlayerNumber, Player> kv in PlayerDict)
+        {
+            playerPositions.Add(kv.Value.GetPlayerPosition);
+        }
+
+        return playerPositions;
     }
 
-    [SerializeField] private BoxCollider Boundary;
+    public BattleManager Cur_BattleManager;
+    public bool IsGameEnd;
 
-    public float X_Min => Boundary.bounds.center.x - Boundary.bounds.extents.x;
-    public float X_Max => Boundary.bounds.center.x + Boundary.bounds.extents.x;
-    public float Z_Min => Boundary.bounds.center.z - Boundary.bounds.extents.z;
-    public float Z_Max => Boundary.bounds.center.z + Boundary.bounds.extents.z;
+    public void SwitchBattle(BattleTypes battleType)
+    {
+        List<PlayerNumber> pns = PlayerDict.Keys.ToList();
+        foreach (KeyValuePair<PlayerNumber, Player> kv in PlayerDict)
+        {
+            kv.Value.Reset();
+        }
+
+        IsGameStart = false;
+
+        bool clearPlayer = Cur_BattleManager && Cur_BattleManager.ClearPlayer;
+        if (Cur_BattleManager)
+        {
+            DestroyImmediate(Cur_BattleManager.gameObject);
+            foreach (KeyValuePair<PlayerNumber, Player> kv in PlayerDict)
+            {
+                DestroyImmediate(kv.Value.gameObject);
+            }
+
+            PlayerDict.Clear();
+        }
+
+        if (IsGameEnd)
+        {
+            Cur_BattleManager = null;
+            EndGame();
+            return;
+        }
+
+        GameObject battlePrefab = PrefabManager.Instance.GetPrefab("Battle_" + battleType);
+        GameObject battle_go = Instantiate(battlePrefab);
+        BattleManager battleManager = battle_go.GetComponent<BattleManager>();
+
+        Cur_BattleManager = battleManager;
+        Cur_BattleManager.Initialize();
+        if (!clearPlayer)
+        {
+            foreach (PlayerNumber pn in pns)
+            {
+                SetUpPlayer(pn);
+            }
+        }
+    }
+
+    public Player SetUpPlayer(PlayerNumber playerNumber)
+    {
+        if (Cur_BattleManager.BattleType == BattleTypes.Start)
+        {
+            if (playerNumber != PlayerNumber.P1) return null;
+        }
+
+        if (PlayerDict.ContainsKey(playerNumber))
+        {
+            return null;
+        }
+
+        GameObject playerPrefab = PrefabManager.Instance.GetPrefab("Player");
+        GameObject playerGO = Instantiate(playerPrefab);
+        Player player = playerGO.GetComponent<Player>();
+        player.Initialize(playerNumber);
+        PlayerDict.Add(playerNumber, player);
+        player.PlayerControl.Controllable = IsGameStart;
+
+        Cur_BattleManager.PlayerSpawnPointManager.AddRevivePlayer(playerNumber, 0);
+        Cur_BattleManager.OnSetupPlayer(playerNumber);
+        return player;
+    }
+
+    public void EndGame()
+    {
+        IsGameEnd = true;
+        foreach (KeyValuePair<PlayerNumber, Player> kv in PlayerDict)
+        {
+            kv.Value.PlayerControl.Controllable = false;
+        }
+    }
 }
 
 public enum JoystickAxis
