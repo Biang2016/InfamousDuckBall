@@ -193,25 +193,36 @@ public static class ClientUtils
     public static Vector3 TryToMove(this Player player, Vector3 destPos, float colliderRadius)
     {
         Vector3 dest = destPos;
-        if (Physics.SphereCast(player.transform.position, colliderRadius, destPos - player.transform.position, out RaycastHit hit, (destPos - player.transform.position).magnitude))
+        Vector3 dir = destPos - player.transform.position;
+        if (player.PlayerControl.PlayerCollider.SweepTest(dir, out RaycastHit hit, dir.magnitude))
         {
-            dest = hit.point - (destPos - player.transform.position).normalized * colliderRadius;
+            Vector3 parallel = Quaternion.Euler(0, 90, 0) * hit.normal.PlanerizeVector3(0);
+            float tangentRatio = Mathf.Abs(Vector3.Dot(dir.normalized, parallel.normalized));
+            Vector3 tangentMovement = parallel * Vector3.Dot(hit.normal, dir) / dir.magnitude * tangentRatio;
+            dest = hit.point + hit.normal * colliderRadius + tangentMovement;
         }
 
-        foreach (KeyValuePair<PlayerNumber, Player> kv in GameManager.Instance.PlayerDict)
-        {
-            if (kv.Value != player)
-            {
-                Vector3 diff = Vector3.Scale(new Vector3(1, 0, 1), dest - kv.Value.transform.position);
-                float distance = diff.magnitude;
-                if (distance < 2 * GameManager.Instance.PlayerRadius)
-                {
-                    Vector3 offset = diff.normalized * 2 * GameManager.Instance.PlayerRadius;
-                    dest = kv.Value.transform.position + offset;
-                }
-            }
-        }
+        // foreach (KeyValuePair<PlayerNumber, Player> kv in GameManager.Instance.PlayerDict)
+        // {
+        //     if (kv.Value != player)
+        //     {
+        //         Vector3 diff = Vector3.Scale(new Vector3(1, 0, 1), dest - kv.Value.transform.position);
+        //         float distance = diff.magnitude;
+        //         if (distance < 2 * GameManager.Instance.PlayerRadius)
+        //         {
+        //             Vector3 offset = diff.normalized * 2 * GameManager.Instance.PlayerRadius;
+        //             dest = kv.Value.transform.position + offset;
+        //         }
+        //     }
+        // }
 
-        return dest;
+        return dest.PlanerizeVector3(player.transform.position.y);
+    }
+
+    public static Vector3 PlanerizeVector3(this Vector3 vector3, float y)
+    {
+        Vector3 res = Vector3.Scale(new Vector3(1, 0, 1), vector3);
+        res.y = y;
+        return res;
     }
 }

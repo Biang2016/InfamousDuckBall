@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2177363523261311779}
-  m_Layer: 9
+  m_Layer: 0
   m_Name: Surroundings
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -258,7 +258,7 @@ GameObject:
   - component: {fileID: 4356948720841531337}
   - component: {fileID: 4356948720841531336}
   - component: {fileID: 4356948720841531343}
-  m_Layer: 9
+  m_Layer: 0
   m_Name: Ground
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -781,7 +781,7 @@ GameObject:
   - component: {fileID: 4356948721695946082}
   - component: {fileID: 4356948721695946083}
   - component: {fileID: 5591713558986923869}
-  m_Layer: 9
+  m_Layer: 0
   m_Name: Ceiling
   m_TagString: Untagged
   m_Icon: {fileID: 0}

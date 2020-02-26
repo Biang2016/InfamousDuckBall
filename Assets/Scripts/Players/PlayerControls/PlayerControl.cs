@@ -5,6 +5,7 @@ public class PlayerControl : MonoBehaviour
 {
     public Player Player;
     public PlayerMove PlayerMove;
+    public Rigidbody PlayerCollider;
     public bool Controllable = false;
 
     public void Initialize(Player player)
