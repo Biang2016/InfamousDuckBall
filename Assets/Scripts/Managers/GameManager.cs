@@ -11,11 +11,15 @@ public class GameManager : MonoSingleton<GameManager>
 
     public float PlayerRadius;
 
+    internal int LayerMask_RangeOfActivity;
     internal int Layer_RangeOfActivity;
+    internal int Layer_PlayerCollider;
 
     void Awake()
     {
-        Layer_RangeOfActivity = LayerMask.GetMask("RangeOfActivity");
+        LayerMask_RangeOfActivity = LayerMask.GetMask("RangeOfActivity");
+        Layer_RangeOfActivity = LayerMask.NameToLayer("RangeOfActivity");
+        Layer_PlayerCollider = LayerMask.NameToLayer("PlayerCollider");
     }
 
     void Start()

@@ -84,7 +84,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3cb29db2955f0574bb55bac9a7468716, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MoveSpeed: 0.07
+  MoveSpeed: 0.12
   HorizontalAxis: 1
   VerticalAxis: 2
 --- !u!114 &8373888545427885202
@@ -5294,7 +5294,8 @@ GameObject:
   - component: {fileID: 6773833980657462338}
   - component: {fileID: 105322986053483865}
   - component: {fileID: 3929667351821391372}
-  m_Layer: 9
+  - component: {fileID: 836404794067869405}
+  m_Layer: 11
   m_Name: PlayerCollider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5325,7 +5326,7 @@ CapsuleCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 1
   m_Enabled: 1
-  m_Radius: 0.9786141
+  m_Radius: 0.98
   m_Height: 2.1292295
   m_Direction: 1
   m_Center: {x: -0.0010113716, y: 0.49498463, z: 0}
@@ -5345,6 +5346,18 @@ Rigidbody:
   m_Interpolate: 1
   m_Constraints: 0
   m_CollisionDetection: 3
+--- !u!114 &836404794067869405
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4512465551102229115}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fd3080197dcf6dc4c8fb4d8f3e3eba1b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &4532065187680746067
 GameObject:
   m_ObjectHideFlags: 0
@@ -5555,7 +5568,7 @@ MonoBehaviour:
   Button: 2
   Anim: {fileID: 5656554162088550682}
   KickRadius: 3.7
-  Force: 200
+  Force: 300
 --- !u!1 &5626712514240136425
 GameObject:
   m_ObjectHideFlags: 0

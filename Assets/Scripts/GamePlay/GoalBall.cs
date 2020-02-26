@@ -12,12 +12,6 @@ public class GoalBall : MonoBehaviour, IKickable
         {
             GameManager.Instance.Score(LastKickPlayerNumber, p.PlayerNumber);
         }
-
-        DeadZone dz = c.GetComponentInParent<DeadZone>();
-        if (dz)
-        {
-            GameManager.Instance.Cur_BattleManager.ResetBall();
-        }
     }
 
     public void Reset()

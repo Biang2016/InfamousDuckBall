@@ -38,10 +38,6 @@ public class PlayerMove : MonoBehaviour, IPlayerControl
         }
 
         Vector3 tarPosGlobal = transform.TransformPoint(tarPos);
-
-        //tarPosGlobal.x = Mathf.Clamp(tarPosGlobal.x, GameManager.Instance.Cur_BattleManager.X_Min, GameManager.Instance.Cur_BattleManager.X_Max);
-        //tarPosGlobal.z = Mathf.Clamp(tarPosGlobal.z, GameManager.Instance.Cur_BattleManager.Z_Min, GameManager.Instance.Cur_BattleManager.Z_Max);
-
         tarPosGlobal = ParentPlayerControl.Player.TryToMove(tarPosGlobal, GameManager.Instance.PlayerRadius);
         transform.position = tarPosGlobal;
     }

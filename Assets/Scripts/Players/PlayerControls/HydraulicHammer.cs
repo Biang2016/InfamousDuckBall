@@ -46,7 +46,7 @@ public class HydraulicHammer : MonoBehaviour, IPlayerControl
         float distance = diff.magnitude;
         if (distance < KickRadius)
         {
-            ko.Kick(ParentPlayerControl.Player.PlayerNumber, (diff.normalized + Vector3.up) * Force);
+            ko.Kick(ParentPlayerControl.Player.PlayerNumber, (diff.normalized) * Force);
             FXManager.Instance.PlayFX(FX_Type.BallKickParticleSystem, GameManager.Instance.Cur_BattleManager.Ball.transform.position, Quaternion.FromToRotation(Vector3.back, diff.normalized));
         }
     }
