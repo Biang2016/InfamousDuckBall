@@ -16,12 +16,6 @@ public class BattleManager : MonoBehaviour
     private Vector3 BallDefaultPos = Vector3.zero;
 
     public PlayerSpawnPointManager PlayerSpawnPointManager;
-    [SerializeField] private BoxCollider RangeOfActivity;
-
-    public float X_Min => RangeOfActivity.bounds.center.x - RangeOfActivity.bounds.extents.x;
-    public float X_Max => RangeOfActivity.bounds.center.x + RangeOfActivity.bounds.extents.x;
-    public float Z_Min => RangeOfActivity.bounds.center.z - RangeOfActivity.bounds.extents.z;
-    public float Z_Max => RangeOfActivity.bounds.center.z + RangeOfActivity.bounds.extents.z;
 
     public enum CameraTypes
     {

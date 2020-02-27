@@ -7,10 +7,10 @@ public class GoalBall : MonoBehaviour, IKickable
 
     void OnTriggerEnter(Collider c)
     {
-        Player p = c.GetComponentInParent<Player>();
-        if (p)
+        if (c.gameObject.GetComponent<GoalCollider>())
         {
-            GameManager.Instance.Score(LastKickPlayerNumber, p.PlayerNumber);
+            Player p = c.GetComponentInParent<Player>();
+            GameManager.Instance.Score(LastKickRobotIndex, p.PlayerInfo.RobotIndex);
         }
     }
 
@@ -25,11 +25,11 @@ public class GoalBall : MonoBehaviour, IKickable
         return RigidBody;
     }
 
-    internal PlayerNumber LastKickPlayerNumber;
+    internal int LastKickRobotIndex;
 
-    public void Kick(PlayerNumber playerNumber, Vector3 force)
+    public void Kick(int kickIndex, Vector3 force)
     {
-        LastKickPlayerNumber = playerNumber;
+        LastKickRobotIndex = kickIndex;
         RigidBody.AddForce(force);
     }
 }

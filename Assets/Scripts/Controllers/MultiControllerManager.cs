@@ -13,7 +13,7 @@ public class MultiControllerManager : MonoSingleton<MultiControllerManager>
         foreach (object o in Enum.GetValues(typeof(PlayerNumber)))
         {
             PlayerNumber pn = (PlayerNumber) o;
-            if ((int) pn < 2)
+            if ((int) pn < GameManager.Instance.MaximalPlayerNumber)
             {
                 Controllers.Add(pn, new XBoxController());
                 Controllers[pn].Init((int) pn + 1);
@@ -31,13 +31,13 @@ public class MultiControllerManager : MonoSingleton<MultiControllerManager>
         foreach (object o in Enum.GetValues(typeof(PlayerNumber)))
         {
             PlayerNumber pn = (PlayerNumber) o;
-            if ((int) pn < 3)
+            if ((int) pn < GameManager.Instance.MaximalPlayerNumber)
             {
                 if (Controllers[pn].AnyButtonPressed())
                 {
                     if (!PlayerControlMap.Values.ToList().Contains(pn))
                     {
-                        if (PlayerControlMap.Count < 2)
+                        if (PlayerControlMap.Count < GameManager.Instance.MaximalPlayerNumber)
                         {
                             PlayerControlMap.Add((PlayerNumber) PlayerControlMap.Count, pn);
                         }

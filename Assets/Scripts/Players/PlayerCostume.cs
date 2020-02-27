@@ -5,12 +5,23 @@ public class PlayerCostume : MonoBehaviour
 {
     [SerializeField] private MeshRenderer[] CostumeMeshRenderers;
     [SerializeField] private Material[] CostumeMaterials;
+    [SerializeField] private Material EnemyMaterial;
 
     public void Initialize(PlayerNumber playerNumber)
     {
-        foreach (MeshRenderer mr in CostumeMeshRenderers)
+        if ((int) playerNumber < GameManager.Instance.MaximalPlayerNumber)
         {
-            mr.material = CostumeMaterials[(int) playerNumber];
+            foreach (MeshRenderer mr in CostumeMeshRenderers)
+            {
+                mr.material = CostumeMaterials[(int) playerNumber];
+            }
+        }
+        else if (playerNumber == PlayerNumber.AI)
+        {
+            foreach (MeshRenderer mr in CostumeMeshRenderers)
+            {
+                mr.material = EnemyMaterial;
+            }
         }
     }
 }

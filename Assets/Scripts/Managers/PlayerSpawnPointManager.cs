@@ -8,7 +8,6 @@ using UnityEngine;
 public class PlayerSpawnPointManager : MonoBehaviour
 {
     private Dictionary<PlayerNumber, List<PlayerSpawnPoint>> PlayerSpawnPointDict = new Dictionary<PlayerNumber, List<PlayerSpawnPoint>>();
-    private Dictionary<PlayerNumber, float> PlayerReviveTimeDict = new Dictionary<PlayerNumber, float>();
 
     [SerializeField] private bool ConsiderInCamera = true;
 
@@ -33,35 +32,11 @@ public class PlayerSpawnPointManager : MonoBehaviour
     {
     }
 
-    public void AddRevivePlayer(PlayerNumber playerNumber, float delay)
-    {
-        if (delay.Equals(0))
-        {
-            Spawn(playerNumber);
-        }
-        else
-        {
-            if (!PlayerReviveTimeDict.ContainsKey(playerNumber))
-            {
-                PlayerReviveTimeDict.Add(playerNumber, delay);
-            }
-        }
-    }
-
     void Update()
     {
-        foreach (PlayerNumber pn in PlayerReviveTimeDict.Keys.ToList())
-        {
-            PlayerReviveTimeDict[pn] -= Time.deltaTime;
-            if (PlayerReviveTimeDict[pn] < 0)
-            {
-                PlayerReviveTimeDict.Remove(pn);
-                Spawn(pn);
-            }
-        }
     }
 
-    private void Spawn(PlayerNumber playerNumber)
+    public void Spawn(PlayerInfo playerInfo)
     {
         List<Vector3> notValidPoints = GameManager.Instance.GetAllPlayerPositions();
 
@@ -69,9 +44,9 @@ public class PlayerSpawnPointManager : MonoBehaviour
         List<PlayerSpawnPoint> candidates_any = new List<PlayerSpawnPoint>();
         List<IRevivePlayer> results = new List<IRevivePlayer>();
 
-        if (PlayerSpawnPointDict.ContainsKey(playerNumber))
+        if (PlayerSpawnPointDict.ContainsKey(playerInfo.PlayerNumber))
         {
-            foreach (PlayerSpawnPoint sp in PlayerSpawnPointDict[playerNumber])
+            foreach (PlayerSpawnPoint sp in PlayerSpawnPointDict[playerInfo.PlayerNumber])
             {
                 candidates.Add(sp);
             }
@@ -96,12 +71,12 @@ public class PlayerSpawnPointManager : MonoBehaviour
         if (results.Count > 0)
         {
             int randomIndex = Random.Range(0, results.Count);
-            results[randomIndex].AddRevivePlayer(playerNumber, 0f);
+            results[randomIndex].Spawn(playerInfo);
         }
         else
         {
             int randomIndex = Random.Range(0, candidates.Count);
-            candidates[randomIndex].AddRevivePlayer(playerNumber, 0f);
+            candidates[randomIndex].Spawn(playerInfo);
         }
     }
 

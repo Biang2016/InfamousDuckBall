@@ -28,8 +28,8 @@ public class Arm : MonoBehaviour, IPlayerControl
 
     private void MoveArm()
     {
-        if (!MultiControllerManager.Instance.PlayerControlMap.ContainsKey(ParentPlayerControl.Player.PlayerNumber)) return;
-        PlayerNumber myControllerIndex = MultiControllerManager.Instance.PlayerControlMap[ParentPlayerControl.Player.PlayerNumber];
+        if (!MultiControllerManager.Instance.PlayerControlMap.ContainsKey(ParentPlayerControl.Player.PlayerInfo.PlayerNumber)) return;
+        PlayerNumber myControllerIndex = MultiControllerManager.Instance.PlayerControlMap[ParentPlayerControl.Player.PlayerInfo.PlayerNumber];
 
         Vector3 tarPos = TerminalPivot.position;
 

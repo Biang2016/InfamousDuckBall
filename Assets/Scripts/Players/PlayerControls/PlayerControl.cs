@@ -3,10 +3,16 @@ using System.Collections;
 
 public class PlayerControl : MonoBehaviour
 {
-    public Player Player;
-    public PlayerMove PlayerMove;
-    public Rigidbody PlayerCollider;
+    internal Player Player;
+    internal PlayerMove PlayerMove;
+    public Rigidbody PlayerRigidbody;
     public bool Controllable = false;
+
+    void Awake()
+    {
+        Player = GetComponent<Player>();
+        PlayerMove = GetComponent<PlayerMove>();
+    }
 
     public void Initialize(Player player)
     {

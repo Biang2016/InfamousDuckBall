@@ -1,12 +1,27 @@
-using System;
 using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    public PlayerNumber PlayerNumber;
+    public PlayerInfo PlayerInfo;
 
-    public PlayerControl PlayerControl;
-    public PlayerCostume PlayerCostume;
+    internal PlayerControl PlayerControl;
+    internal PlayerCostume PlayerCostume;
+
+    void Awake()
+    {
+        PlayerControl = GetComponent<PlayerControl>();
+        PlayerCostume = GetComponent<PlayerCostume>();
+    }
+
+
+    public static Player BaseInitialize(PlayerInfo playerInfo)
+    {
+        GameObject playerPrefab = PrefabManager.Instance.GetPrefab("Player_" + playerInfo.PlayerType);
+        GameObject playerGO = Instantiate(playerPrefab);
+        Player player = playerGO.GetComponent<Player>();
+        player.Initialize(playerInfo);
+        return player;
+    }
 
     internal int Score = 0;
 
@@ -15,10 +30,10 @@ public class Player : MonoBehaviour
         transform.position = pos;
     }
 
-    public void Initialize(PlayerNumber playerNumber)
+    public void Initialize(PlayerInfo playerInfo)
     {
-        PlayerNumber = playerNumber;
-        PlayerCostume.Initialize(playerNumber);
+        PlayerInfo = playerInfo;
+        PlayerCostume.Initialize(PlayerInfo.PlayerNumber);
         PlayerControl.Initialize(this);
     }
 
@@ -44,4 +59,11 @@ public enum PlayerNumber
     Player1 = 0,
     Player2 = 1,
     AnyPlayer = 16,
+    AI = 99,
+}
+
+public enum PlayerType
+{
+    ArmSpringHammer = 0,
+    RotatingProtector = 1,
 }

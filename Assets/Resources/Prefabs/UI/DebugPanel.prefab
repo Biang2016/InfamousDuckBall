@@ -578,6 +578,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Score1Text: {fileID: 9115860340839260365}
+  ScoreDotText: {fileID: 6219789572541070218}
   Score2Text: {fileID: 3683076421500195931}
   fpsText: {fileID: 6343754879409220027}
 --- !u!1 &8926374173095864721
@@ -592,7 +593,7 @@ GameObject:
   - component: {fileID: 7797748361617523684}
   - component: {fileID: 6219789572541070218}
   m_Layer: 5
-  m_Name: ScoreC
+  m_Name: ScoreDot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

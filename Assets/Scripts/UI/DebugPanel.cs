@@ -4,6 +4,7 @@ using UnityEngine.UI;
 public class DebugPanel : BaseUIForm
 {
     [SerializeField] private Text Score1Text;
+    [SerializeField] private Text ScoreDotText;
     [SerializeField] private Text Score2Text;
 
     void Awake()
@@ -31,13 +32,28 @@ public class DebugPanel : BaseUIForm
     {
         if (GameManager.Instance.PlayerDict.ContainsKey(PlayerNumber.Player1))
         {
-            Score1Text.text = GameManager.Instance.PlayerDict[PlayerNumber.Player1].ToString();
+            Score1Text.text = GameManager.Instance.PlayerDict[PlayerNumber.Player1].Score.ToString();
+        }
+        else
+        {
+            Score1Text.text = "-";
         }
 
         if (GameManager.Instance.PlayerDict.ContainsKey(PlayerNumber.Player2))
         {
-            Score2Text.text = GameManager.Instance.PlayerDict[PlayerNumber.Player2].ToString();
+            Score2Text.text = GameManager.Instance.PlayerDict[PlayerNumber.Player2].Score.ToString();
         }
+        else
+        {
+            Score2Text.text = "-";
+        }
+    }
+
+    public void SetScoreShown(bool shown)
+    {
+        Score1Text.enabled = shown;
+        Score2Text.enabled = shown;
+        ScoreDotText.enabled = shown;
     }
 
     public void OnReset()

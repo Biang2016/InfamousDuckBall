@@ -154,7 +154,7 @@ Camera:
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 1591
+    m_Bits: 9783
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
@@ -331,7 +331,7 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 7031322463944608617}
+  - {fileID: 615480485195956279}
   - {fileID: 5980882137029398715}
   - {fileID: 5980882138327281475}
   - {fileID: 5980882138589961546}
@@ -354,6 +354,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f1d2bc2845f17f4bb6c3f0bc2e416e6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  MaximalPlayerNumber: 2
   PlayerRadius: 1
   IsGameStart: 1
   Cur_BattleManager: {fileID: 0}
@@ -538,16 +539,16 @@ PrefabInstance:
         type: 3}
       propertyPath: UICanvas
       value: 
-      objectReference: {fileID: 3507463539855278156}
+      objectReference: {fileID: 615480485195956701}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7fcdd2b42846247e781421ef5fc2919e, type: 3}
---- !u!4 &7031322463944608617 stripped
+--- !u!4 &615480485195956279 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7574745312018746254, guid: 7fcdd2b42846247e781421ef5fc2919e,
     type: 3}
   m_PrefabInstance: {fileID: 615480485195956455}
   m_PrefabAsset: {fileID: 0}
---- !u!223 &3507463539855278156 stripped
+--- !u!223 &615480485195956701 stripped
 Canvas:
   m_CorrespondingSourceObject: {fileID: 4046382818433892523, guid: 7fcdd2b42846247e781421ef5fc2919e,
     type: 3}

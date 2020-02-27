@@ -10,22 +10,12 @@ public class GameObjectPoolManager : MonoSingleton<GameObjectPoolManager>
 
     public enum PrefabNames
     {
-        Mecha,
-        BagItem,
-        BagGrid,
-        BagItemGridHitBox,
-        MechaComponentDropSprite,
-        HUDSlider,
+       
     }
 
     public Dictionary<PrefabNames, int> PoolConfigs = new Dictionary<PrefabNames, int>
     {
-        {PrefabNames.Mecha, 4},
-        {PrefabNames.BagItem, 4},
-        {PrefabNames.BagGrid, 50},
-        {PrefabNames.BagItemGridHitBox, 50},
-        {PrefabNames.MechaComponentDropSprite, 5},
-        {PrefabNames.HUDSlider, 3},
+       
     };
 
     public Dictionary<PrefabNames, int> PoolWarmUpDict = new Dictionary<PrefabNames, int>

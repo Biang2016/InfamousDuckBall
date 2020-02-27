@@ -13,9 +13,9 @@ public class HydraulicHammer : MonoBehaviour, IPlayerControl
 
     void FixedUpdate()
     {
-        if (MultiControllerManager.Instance.PlayerControlMap.ContainsKey(ParentPlayerControl.Player.PlayerNumber))
+        if (MultiControllerManager.Instance.PlayerControlMap.ContainsKey(ParentPlayerControl.Player.PlayerInfo.PlayerNumber))
         {
-            PlayerNumber myControllerIndex = MultiControllerManager.Instance.PlayerControlMap[ParentPlayerControl.Player.PlayerNumber];
+            PlayerNumber myControllerIndex = MultiControllerManager.Instance.PlayerControlMap[ParentPlayerControl.Player.PlayerInfo.PlayerNumber];
 
             if (ParentPlayerControl && ParentPlayerControl.Controllable)
             {
@@ -43,7 +43,7 @@ public class HydraulicHammer : MonoBehaviour, IPlayerControl
         float distance = diff.magnitude;
         if (distance < KickRadius)
         {
-            ko.Kick(ParentPlayerControl.Player.PlayerNumber, (diff.normalized) * Force);
+            ko.Kick(ParentPlayerControl.Player.PlayerInfo.RobotIndex, (diff.normalized) * Force);
             FXManager.Instance.PlayFX(FX_Type.BallKickParticleSystem, GameManager.Instance.Cur_BattleManager.Ball.transform.position, Quaternion.FromToRotation(Vector3.back, diff.normalized));
         }
     }

@@ -201,7 +201,7 @@ public static class ClientUtils
         Vector3 dest = destPos.PlanerizeVector3(player.transform.position.y);
         Vector3 dir = destPos - player.transform.position;
 
-        RaycastHit[] hits = player.PlayerControl.PlayerCollider.SweepTestAll(dir, dir.magnitude);
+        RaycastHit[] hits = player.PlayerControl.PlayerRigidbody.SweepTestAll(dir, dir.magnitude);
         //Debug.Log(hits.Length);
 
         List<RaycastHit> validHits = new List<RaycastHit>();

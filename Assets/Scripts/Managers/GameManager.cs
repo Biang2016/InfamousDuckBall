@@ -7,7 +7,10 @@ public class GameManager : MonoSingleton<GameManager>
 {
     private DebugPanel debugPanel;
 
-    internal Dictionary<PlayerNumber, Player> PlayerDict = new Dictionary<PlayerNumber, Player>();
+    internal SortedDictionary<PlayerNumber, Player> PlayerDict = new SortedDictionary<PlayerNumber, Player>();
+    internal SortedDictionary<int, Player> MechaDict = new SortedDictionary<int, Player>();
+
+    public int MaximalPlayerNumber = 2;
 
     public float PlayerRadius;
 
@@ -23,15 +26,15 @@ public class GameManager : MonoSingleton<GameManager>
         Layer_PlayerCollider = LayerMask.NameToLayer("PlayerCollider");
     }
 
+    private static BattleTypes DefaultBattleType = BattleTypes.PVP;
+
     void Start()
     {
         debugPanel = UIManager.Instance.ShowUIForms<DebugPanel>();
         debugPanel.RefreshScore();
         UIManager.Instance.ShowUIForms<CameraDividePanel>();
 
-        SwitchBattle(BattleTypes.PVP);
-        SetUpPlayer(PlayerNumber.Player1);
-        SetUpPlayer(PlayerNumber.Player2);
+        SwitchBattle(DefaultBattleType);
         Input.ResetInputAxes();
     }
 
@@ -41,27 +44,38 @@ public class GameManager : MonoSingleton<GameManager>
         {
             SceneManager.LoadScene("MainScene");
         }
+
+        if (Input.GetKeyUp(KeyCode.F2))
+        {
+            DefaultBattleType = BattleTypes.PVP;
+            SceneManager.LoadScene("MainScene");
+        }
+
+        if (Input.GetKeyUp(KeyCode.F3))
+        {
+            DefaultBattleType = BattleTypes.PVE;
+            SceneManager.LoadScene("MainScene");
+        }
     }
 
     public bool IsGameStart = true;
 
-    public void Score(PlayerNumber scorePlayer, PlayerNumber hitPlayer)
+    public void Score(int kickRobotIndex, int hitRobotIndex)
     {
-        PlayerDict[scorePlayer].Score++;
-        foreach (KeyValuePair<PlayerNumber, Player> kv in PlayerDict)
+        if (Cur_BattleManager.BattleType == BattleTypes.PVP)
         {
-            if (kv.Key == scorePlayer)
+            foreach (KeyValuePair<PlayerNumber, Player> kv in PlayerDict)
             {
-                kv.Value.Score++;
+                if (kv.Value.PlayerInfo.RobotIndex != hitRobotIndex)
+                {
+                    kv.Value.Score++;
+                }
             }
 
-            if (kv.Key == hitPlayer)
-            {
-                kv.Value.ParticleSystem.Play();
-            }
+            debugPanel.RefreshScore();
         }
 
-        debugPanel.RefreshScore();
+        MechaDict[hitRobotIndex].ParticleSystem.Play();
         Cur_BattleManager.ResetBall();
     }
 
@@ -81,8 +95,16 @@ public class GameManager : MonoSingleton<GameManager>
 
     public void SwitchBattle(BattleTypes battleType)
     {
-        List<PlayerNumber> pns = PlayerDict.Keys.ToList();
-        foreach (KeyValuePair<PlayerNumber, Player> kv in PlayerDict)
+        List<PlayerInfo> pis = new List<PlayerInfo>();
+        foreach (KeyValuePair<int, Player> kv in MechaDict)
+        {
+            if (kv.Value.PlayerInfo.PlayerNumber != PlayerNumber.AI)
+            {
+                pis.Add(kv.Value.PlayerInfo.Clone());
+            }
+        }
+
+        foreach (KeyValuePair<int, Player> kv in MechaDict)
         {
             kv.Value.Reset();
         }
@@ -116,29 +138,37 @@ public class GameManager : MonoSingleton<GameManager>
         Cur_BattleManager.Initialize();
         if (!clearPlayer)
         {
-            foreach (PlayerNumber pn in pns)
+            foreach (PlayerInfo pi in pis)
             {
-                SetUpPlayer(pn);
+                SetUpPlayer(pi);
             }
         }
+
+        debugPanel.SetScoreShown(Cur_BattleManager.BattleType == BattleTypes.PVP);
+        debugPanel.RefreshScore();
     }
 
-    public Player SetUpPlayer(PlayerNumber playerNumber)
+    public Player SetUpPlayer(PlayerInfo playerInfo)
     {
-        if (PlayerDict.ContainsKey(playerNumber))
+        if (playerInfo.PlayerNumber != PlayerNumber.AI)
         {
-            return null;
+            if (PlayerDict.ContainsKey(playerInfo.PlayerNumber))
+            {
+                return null;
+            }
         }
 
-        GameObject playerPrefab = PrefabManager.Instance.GetPrefab("Player");
-        GameObject playerGO = Instantiate(playerPrefab);
-        Player player = playerGO.GetComponent<Player>();
-        player.Initialize(playerNumber);
-        PlayerDict.Add(playerNumber, player);
-        player.PlayerControl.Controllable = IsGameStart;
+        Player player = Player.BaseInitialize(playerInfo);
+        MechaDict.Add(playerInfo.RobotIndex, player);
 
-        Cur_BattleManager.PlayerSpawnPointManager.AddRevivePlayer(playerNumber, 0);
-        Cur_BattleManager.OnSetupPlayer(playerNumber);
+        if (playerInfo.PlayerNumber != PlayerNumber.AI)
+        {
+            PlayerDict.Add(playerInfo.PlayerNumber, player);
+        }
+
+        player.PlayerControl.Controllable = IsGameStart;
+        Cur_BattleManager.PlayerSpawnPointManager.Spawn(playerInfo);
+        Cur_BattleManager.OnSetupPlayer(playerInfo.PlayerNumber);
         return player;
     }
 
