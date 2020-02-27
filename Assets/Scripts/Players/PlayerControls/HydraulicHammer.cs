@@ -14,6 +14,7 @@ public class HydraulicHammer : MonoBehaviour, IPlayerControl
     }
 
     [SerializeField] private JoystickButton Button = JoystickButton.None;
+    [SerializeField] private JoystickAxis Axis = JoystickAxis.Trigger;
     public Animator Anim;
 
     void FixedUpdate()
@@ -22,7 +23,16 @@ public class HydraulicHammer : MonoBehaviour, IPlayerControl
         {
             if (Button != JoystickButton.None)
             {
-                if (Input.GetButtonDown(Button + "_" + ParentPlayerControl.Player.PlayerNumber))
+                // if (Input.GetButtonDown(Button + "_" + ParentPlayerControl.Player.PlayerNumber))
+                // {
+                //     Bump();
+                // }
+
+                if (Input.GetAxis(Axis + "_" + ParentPlayerControl.Player.PlayerNumber) > 0.3f)
+                {
+                    Bump();
+                }
+                else if (Input.GetKeyDown(KeyCode.Space))
                 {
                     Bump();
                 }
