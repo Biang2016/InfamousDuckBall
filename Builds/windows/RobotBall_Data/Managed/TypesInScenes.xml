@@ -60,6 +60,7 @@
 	<assembly fullname="Assembly-CSharp">
 		<type fullname="Arm" preserve="nothing"/>
 		<type fullname="BallValidZone" preserve="nothing"/>
+		<type fullname="BattleManager_PVE" preserve="nothing"/>
 		<type fullname="BattleManager_PVP" preserve="nothing"/>
 		<type fullname="CameraDividePanel" preserve="nothing"/>
 		<type fullname="DebugPanel" preserve="nothing"/>
@@ -68,6 +69,7 @@
 		<type fullname="GameManager" preserve="nothing"/>
 		<type fullname="GameObjectPoolManager" preserve="nothing"/>
 		<type fullname="GoalBall" preserve="nothing"/>
+		<type fullname="GoalCollider" preserve="nothing"/>
 		<type fullname="HydraulicHammer" preserve="nothing"/>
 		<type fullname="MouseForce" preserve="nothing"/>
 		<type fullname="MouseGUI" preserve="nothing"/>
@@ -84,7 +86,9 @@
 		<type fullname="PlayerSpawnPointManager" preserve="nothing"/>
 		<type fullname="PrefabManager" preserve="nothing"/>
 		<type fullname="RotateArmSection" preserve="nothing"/>
+		<type fullname="RotatingBody" preserve="nothing"/>
 		<type fullname="ShatterTool" preserve="nothing"/>
+		<type fullname="SpringPanel" preserve="nothing"/>
 		<type fullname="UIManager" preserve="nothing"/>
 		<type fullname="UIMaskMgr" preserve="nothing"/>
 	</assembly>
