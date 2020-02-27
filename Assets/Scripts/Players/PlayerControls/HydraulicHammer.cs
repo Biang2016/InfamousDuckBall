@@ -18,7 +18,7 @@ public class HydraulicHammer : Controllable
 
     protected override void Operate_Manual(PlayerNumber controllerIndex)
     {
-        if (MultiControllerManager.Instance.Controllers[controllerIndex].ButtonDown[ControlButtons.RightBumper])
+        if (MultiControllerManager.Instance.Controllers[controllerIndex].ButtonDown[ControlButtons.RightTrigger])
         {
             Bump();
         }

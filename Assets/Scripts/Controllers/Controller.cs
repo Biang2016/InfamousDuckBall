@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using UnityEngine;
 
 public class Controller
 {
@@ -35,6 +36,11 @@ public class Controller
         {
             ButtonDown[kv.Key] = ButtonPressed[kv.Key] && !ButtonPressedLastFrame[kv.Key];
             ButtonUp[kv.Key] = !ButtonPressed[kv.Key] && ButtonPressedLastFrame[kv.Key];
+
+            if (ButtonDown[kv.Key])
+            {
+                Debug.Log("down " + kv.Key);
+            }
         }
 
         foreach (KeyValuePair<ControlButtons, bool> kv in ButtonPressed)
