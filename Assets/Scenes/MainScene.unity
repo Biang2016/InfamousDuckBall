@@ -193,29 +193,5 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 5980882138566427481, guid: 776f29a684a9a412eb9b5171aa4742bd,
-        type: 3}
-      propertyPath: Player1
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 5980882138566427481, guid: 776f29a684a9a412eb9b5171aa4742bd,
-        type: 3}
-      propertyPath: Player2
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 5980882138566427481, guid: 776f29a684a9a412eb9b5171aa4742bd,
-        type: 3}
-      propertyPath: Ball
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 5980882138566427481, guid: 776f29a684a9a412eb9b5171aa4742bd,
-        type: 3}
-      propertyPath: Boundary
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 963194227, guid: 776f29a684a9a412eb9b5171aa4742bd, type: 3}
-      propertyPath: m_CullingMask.m_Bits
-      value: 1591
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 776f29a684a9a412eb9b5171aa4742bd, type: 3}

@@ -29,8 +29,8 @@ public class GameManager : MonoSingleton<GameManager>
         UIManager.Instance.ShowUIForms<CameraDividePanel>();
 
         SwitchBattle(BattleTypes.PVP);
-        SetUpPlayer(PlayerNumber.P1);
-        SetUpPlayer(PlayerNumber.P2);
+        SetUpPlayer(PlayerNumber.Player1);
+        SetUpPlayer(PlayerNumber.Player2);
         Input.ResetInputAxes();
     }
 
@@ -124,11 +124,6 @@ public class GameManager : MonoSingleton<GameManager>
 
     public Player SetUpPlayer(PlayerNumber playerNumber)
     {
-        if (Cur_BattleManager.BattleType == BattleTypes.Start)
-        {
-            if (playerNumber != PlayerNumber.P1) return null;
-        }
-
         if (PlayerDict.ContainsKey(playerNumber))
         {
             return null;

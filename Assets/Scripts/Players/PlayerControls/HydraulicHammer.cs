@@ -19,20 +19,14 @@ public class HydraulicHammer : MonoBehaviour, IPlayerControl
 
     void FixedUpdate()
     {
+        if (!MultiControllerManager.Instance.PlayerControlMap.ContainsKey(ParentPlayerControl.Player.PlayerNumber)) return;
+        PlayerNumber myControllerIndex = MultiControllerManager.Instance.PlayerControlMap[ParentPlayerControl.Player.PlayerNumber];
+
         if (ParentPlayerControl && ParentPlayerControl.Controllable)
         {
             if (Button != JoystickButton.None)
             {
-                // if (Input.GetButtonDown(Button + "_" + ParentPlayerControl.Player.PlayerNumber))
-                // {
-                //     Bump();
-                // }
-
-                if (Input.GetAxis(Axis + "_" + ParentPlayerControl.Player.PlayerNumber) > 0.3f)
-                {
-                    Bump();
-                }
-                else if (Input.GetKeyDown(KeyCode.Space))
+                if (MultiControllerManager.Instance.Controllers[myControllerIndex].ButtonDown[ControlButtons.RightTrigger])
                 {
                     Bump();
                 }

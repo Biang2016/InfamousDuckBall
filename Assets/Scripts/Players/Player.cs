@@ -41,7 +41,7 @@ public class Player : MonoBehaviour
 
 public enum PlayerNumber
 {
-    P1 = 0,
-    P2 = 1,
+    Player1 = 0,
+    Player2 = 1,
     AnyPlayer = 16,
 }

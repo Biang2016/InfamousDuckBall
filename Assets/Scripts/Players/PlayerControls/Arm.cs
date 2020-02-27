@@ -30,18 +30,13 @@ public class Arm : MonoBehaviour, IPlayerControl
 
     private void MoveArm()
     {
-        float hor = Input.GetAxis(ArmHorizontalAxis + "_" + ParentPlayerControl.Player.PlayerNumber);
-        Vector3 tarPos = TerminalPivot.position;
-        if (Mathf.Abs(hor) > 0.3f)
-        {
-            tarPos += Vector3.forward * ArmSpeed * hor;
-        }
+        if (!MultiControllerManager.Instance.PlayerControlMap.ContainsKey(ParentPlayerControl.Player.PlayerNumber)) return;
+        PlayerNumber myControllerIndex = MultiControllerManager.Instance.PlayerControlMap[ParentPlayerControl.Player.PlayerNumber];
 
-        float ver = Input.GetAxis(ArmVerticalAxis + "_" + ParentPlayerControl.Player.PlayerNumber);
-        if (Mathf.Abs(ver) > 0.3f)
-        {
-            tarPos += Vector3.right * ArmSpeed * ver;
-        }
+        Vector3 tarPos = TerminalPivot.position;
+
+        tarPos += Vector3.forward * ArmSpeed * MultiControllerManager.Instance.Controllers[myControllerIndex].Axises[ControlAxis.RightStick_H];
+        tarPos += Vector3.right * ArmSpeed * MultiControllerManager.Instance.Controllers[myControllerIndex].Axises[ControlAxis.RightStick_V];
 
         MoveArmTo(tarPos);
     }

@@ -25,21 +25,16 @@ public class PlayerMove : MonoBehaviour, IPlayerControl
 
     private void Move()
     {
-        float hor = Input.GetAxis(HorizontalAxis + "_" + ParentPlayerControl.Player.PlayerNumber);
-        Vector3 tarPos = Vector3.zero;
-        if (Mathf.Abs(hor) > 0.3f)
-        {
-            tarPos += Vector3.forward * MoveSpeed * hor;
-        }
+        if (!MultiControllerManager.Instance.PlayerControlMap.ContainsKey(ParentPlayerControl.Player.PlayerNumber)) return;
+        PlayerNumber myControllerIndex = MultiControllerManager.Instance.PlayerControlMap[ParentPlayerControl.Player.PlayerNumber];
 
-        float ver = Input.GetAxis(VerticalAxis + "_" + ParentPlayerControl.Player.PlayerNumber);
-        if (Mathf.Abs(ver) > 0.3f)
-        {
-            tarPos += Vector3.right * MoveSpeed * ver;
-        }
+        Vector3 diff = Vector3.zero;
+        diff += Vector3.forward *  MultiControllerManager.Instance.Controllers[myControllerIndex].Axises[ControlAxis.LeftStick_H];
+        diff += Vector3.right * MultiControllerManager.Instance.Controllers[myControllerIndex].Axises[ControlAxis.LeftStick_V];
+        diff = diff.normalized * MoveSpeed;
+        Vector3 tarPos = transform.position + diff;
 
-        Vector3 tarPosGlobal = transform.TransformPoint(tarPos);
-        tarPosGlobal = ParentPlayerControl.Player.TryToMove(tarPosGlobal, GameManager.Instance.PlayerRadius);
-        transform.position = tarPosGlobal;
+        tarPos = ParentPlayerControl.Player.TryToMove(tarPos, GameManager.Instance.PlayerRadius);
+        transform.position = tarPos;
     }
 }

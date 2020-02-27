@@ -19,14 +19,14 @@ public class DebugPanel : BaseUIForm
 
     public void RefreshScore()
     {
-        if (GameManager.Instance.PlayerDict.ContainsKey(PlayerNumber.P1))
+        if (GameManager.Instance.PlayerDict.ContainsKey(PlayerNumber.Player1))
         {
-            Score1Text.text = GameManager.Instance.PlayerDict[PlayerNumber.P1].ToString();
+            Score1Text.text = GameManager.Instance.PlayerDict[PlayerNumber.Player1].ToString();
         }
 
-        if (GameManager.Instance.PlayerDict.ContainsKey(PlayerNumber.P2))
+        if (GameManager.Instance.PlayerDict.ContainsKey(PlayerNumber.Player2))
         {
-            Score2Text.text = GameManager.Instance.PlayerDict[PlayerNumber.P2].ToString();
+            Score2Text.text = GameManager.Instance.PlayerDict[PlayerNumber.Player2].ToString();
         }
     }
 
