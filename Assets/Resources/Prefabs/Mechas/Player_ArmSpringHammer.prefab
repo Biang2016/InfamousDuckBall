@@ -77,8 +77,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MoveSpeed: 0.12
-  HorizontalAxis: 1
-  VerticalAxis: 2
 --- !u!114 &8373888545427885202
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -176,7 +174,8 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 3bbc8a35fc7f2024ba4fa480d93f9eac, type: 2}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 860638922243701425, guid: 430287f45a6ad0345ad42cd057f3457e, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 430287f45a6ad0345ad42cd057f3457e, type: 3}
 --- !u!4 &5492306312758128705 stripped
 Transform:
@@ -203,11 +202,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 3381610416113576982}
     m_Modifications:
-    - target: {fileID: 5544720149932681787, guid: 2175d8f235e2fca429dae68ebb1ae856,
-        type: 3}
-      propertyPath: m_Name
-      value: Core
-      objectReference: {fileID: 0}
     - target: {fileID: 1355885697394095149, guid: 2175d8f235e2fca429dae68ebb1ae856,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -262,6 +256,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5544720149932681787, guid: 2175d8f235e2fca429dae68ebb1ae856,
+        type: 3}
+      propertyPath: m_Name
+      value: Core
       objectReference: {fileID: 0}
     - target: {fileID: 3405014170047085932, guid: 2175d8f235e2fca429dae68ebb1ae856,
         type: 3}

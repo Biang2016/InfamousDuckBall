@@ -17,10 +17,10 @@ public class PlayerControl : MonoBehaviour
     public void Initialize(Player player)
     {
         Player = player;
-        IPlayerControl[] ipcs = GetComponentsInChildren<IPlayerControl>();
-        foreach (IPlayerControl ipc in ipcs)
+        Controllable[] controllables = GetComponentsInChildren<Controllable>();
+        foreach (Controllable c in controllables)
         {
-            ipc.Initialize(this);
+            c.Initialize(this);
         }
     }
 }

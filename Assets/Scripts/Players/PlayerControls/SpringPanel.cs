@@ -1,25 +1,30 @@
 ﻿using System.Collections;
 using UnityEngine;
 
-public class SpringPanel : MonoBehaviour, IPlayerControl
+public class SpringPanel : Controllable
 {
-    private PlayerControl ParentPlayerControl;
     [SerializeField] private Animator Anim;
     [SerializeField] private float Force;
     [SerializeField] private float LogicKickDelay = 0.2f;
 
-    public void Initialize(PlayerControl parentPlayerControl)
+    protected override void Operate_Manual(PlayerNumber controllerIndex)
     {
-        ParentPlayerControl = parentPlayerControl;
+    }
+
+    protected override void Operate_AI()
+    {
     }
 
     void OnTriggerEnter(Collider c)
     {
-        GoalBall ball = c.gameObject.GetComponent<GoalBall>();
-        if (ball)
+        if (IsAI)
         {
-            Anim.SetTrigger("Bump");
-            StartCoroutine(Co_Bump(ball));
+            GoalBall ball = c.gameObject.GetComponent<GoalBall>();
+            if (ball)
+            {
+                Anim.SetTrigger("Bump");
+                StartCoroutine(Co_Bump(ball));
+            }
         }
     }
 

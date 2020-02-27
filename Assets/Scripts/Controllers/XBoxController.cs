@@ -18,8 +18,8 @@ public class XBoxController : Controller
         float rightTrigger = Input.GetAxis("RT_" + ControllerIndex);
 
 #if UNITY_EDITOR_OSX || UNITY_STANDALONE_OSX
-        leftTrigger = (leftTrigger + 1) / 2f;
-        rightTrigger = (rightTrigger + 1) / 2f;
+        // leftTrigger = (leftTrigger + 1) / 2f;
+        // rightTrigger = (rightTrigger + 1) / 2f;
 #endif
         ButtonPressed[ControlButtons.LeftTrigger] = leftTrigger > JoyStickThreshold || leftTrigger < -JoyStickThreshold;
         ButtonPressed[ControlButtons.RightTrigger] = rightTrigger > JoyStickThreshold || rightTrigger < -JoyStickThreshold;
@@ -29,8 +29,8 @@ public class XBoxController : Controller
         float leftVertical = Input.GetAxis("LV_" + ControllerIndex);
         float rightVertical = Input.GetAxis("RV_" + ControllerIndex);
 
-        Axises[ControlAxis.LeftStick_H] = Mathf.Abs(leftHorizontal) > JoyStickThreshold ? leftHorizontal:0;
-        Axises[ControlAxis.RightStick_H] = Mathf.Abs(rightHorizontal) > JoyStickThreshold ? rightHorizontal:0;
+        Axises[ControlAxis.LeftStick_H] = Mathf.Abs(leftHorizontal) > JoyStickThreshold ? leftHorizontal : 0;
+        Axises[ControlAxis.RightStick_H] = Mathf.Abs(rightHorizontal) > JoyStickThreshold ? rightHorizontal : 0;
         Axises[ControlAxis.LeftStick_V] = Mathf.Abs(leftVertical) > JoyStickThreshold ? leftVertical : 0;
         Axises[ControlAxis.RightStick_V] = Mathf.Abs(rightVertical) > JoyStickThreshold ? rightVertical : 0;
 

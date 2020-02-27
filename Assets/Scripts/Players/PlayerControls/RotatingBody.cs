@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class RotatingBody : MonoBehaviour
+public class RotatingBody : Controllable
 {
     [SerializeField] private float ReactionTime = 1;
     [SerializeField] private float IdleRotateSpeed = 2;
@@ -15,7 +15,11 @@ public class RotatingBody : MonoBehaviour
         idleRotateTick = idleRotateInterval;
     }
 
-    void Update()
+    protected override void Operate_Manual(PlayerNumber controllerIndex)
+    {
+    }
+
+    protected override void Operate_AI()
     {
         Vector3 distanceToBall = GameManager.Instance.Cur_BattleManager.Ball.transform.position - transform.position;
 
@@ -39,7 +43,7 @@ public class RotatingBody : MonoBehaviour
         }
     }
 
-    public void RotateToAngle(float angle, float reactionTime)
+    private void RotateToAngle(float angle, float reactionTime)
     {
         transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.Euler(Vector3.up * angle), Time.deltaTime * reactionTime);
     }
