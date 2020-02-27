@@ -10,10 +10,6 @@ public class Arm : MonoBehaviour, IPlayerControl
         ParentPlayerControl = parentPlayerControl;
     }
 
-    [SerializeField] private float ArmSpeed;
-    [SerializeField] private JoystickAxis ArmHorizontalAxis = JoystickAxis.None;
-    [SerializeField] private JoystickAxis ArmVerticalAxis = JoystickAxis.None;
-
     public RotateArmSection ArmRotate;
     public RotateArmSection Arm1;
     public RotateArmSection Arm2;
@@ -27,6 +23,8 @@ public class Arm : MonoBehaviour, IPlayerControl
             MoveArm();
         }
     }
+
+    [SerializeField] private float ArmSpeed;
 
     private void MoveArm()
     {

@@ -9,22 +9,15 @@ public class HydraulicHammer : MonoBehaviour, IPlayerControl
         ParentPlayerControl = parentPlayerControl;
     }
 
-    public void SetPlayerNumber(PlayerNumber playerNumber)
-    {
-    }
-
-    [SerializeField] private JoystickButton Button = JoystickButton.None;
-    [SerializeField] private JoystickAxis Axis = JoystickAxis.Trigger;
     public Animator Anim;
 
     void FixedUpdate()
     {
-        if (!MultiControllerManager.Instance.PlayerControlMap.ContainsKey(ParentPlayerControl.Player.PlayerNumber)) return;
-        PlayerNumber myControllerIndex = MultiControllerManager.Instance.PlayerControlMap[ParentPlayerControl.Player.PlayerNumber];
-
-        if (ParentPlayerControl && ParentPlayerControl.Controllable)
+        if (MultiControllerManager.Instance.PlayerControlMap.ContainsKey(ParentPlayerControl.Player.PlayerNumber))
         {
-            if (Button != JoystickButton.None)
+            PlayerNumber myControllerIndex = MultiControllerManager.Instance.PlayerControlMap[ParentPlayerControl.Player.PlayerNumber];
+
+            if (ParentPlayerControl && ParentPlayerControl.Controllable)
             {
                 if (MultiControllerManager.Instance.Controllers[myControllerIndex].ButtonDown[ControlButtons.RightTrigger])
                 {

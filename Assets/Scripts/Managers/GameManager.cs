@@ -17,6 +17,7 @@ public class GameManager : MonoSingleton<GameManager>
 
     void Awake()
     {
+        Application.targetFrameRate = 60;
         LayerMask_RangeOfActivity = LayerMask.GetMask("RangeOfActivity");
         Layer_RangeOfActivity = LayerMask.NameToLayer("RangeOfActivity");
         Layer_PlayerCollider = LayerMask.NameToLayer("PlayerCollider");

@@ -5480,14 +5480,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6d05d4b1b6e89664eb2e000227567c82, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ArmSpeed: 0.2
-  ArmHorizontalAxis: 3
-  ArmVerticalAxis: 4
   ArmRotate: {fileID: 5008018469216585823}
   Arm1: {fileID: 5766602183002742349}
   Arm2: {fileID: 5766602182235036592}
   StartPivot: {fileID: 3809849607135538306}
   TerminalPivot: {fileID: 4960020000315560724}
+  ArmSpeed: 0.15
 --- !u!1 &4960020000315560725
 GameObject:
   m_ObjectHideFlags: 0
@@ -5565,7 +5563,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 12951b967b405674fa1f06891297d5fa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Button: 2
   Anim: {fileID: 5656554162088550682}
   KickRadius: 3.7
   Force: 300
