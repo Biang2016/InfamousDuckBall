@@ -2,19 +2,25 @@
 using System.Collections;
 using UnityEngine.Timeline;
 
-public class Arm : Controllable
+public class Arm : PlayerUpperPart
 {
     public RotateArmSection ArmRotate;
     public RotateArmSection Arm1;
     public RotateArmSection Arm2;
     public Transform StartPivot;
-    public Transform TerminalPivot;
+    public Transform ArmEndPivot;
+    public ArmEnd ArmEnd;
 
     [SerializeField] private float ArmSpeed;
 
+    void Awake()
+    {
+        ArmEnd = GetComponentInChildren<ArmEnd>();
+    }
+
     protected override void Operate_Manual(PlayerNumber controllerIndex)
     {
-        Vector3 tarPos = TerminalPivot.position;
+        Vector3 tarPos = ArmEndPivot.position;
 
         tarPos += Vector3.forward * ArmSpeed * MultiControllerManager.Instance.Controllers[controllerIndex].Axises[ControlAxis.RightStick_H];
         tarPos += Vector3.right * ArmSpeed * MultiControllerManager.Instance.Controllers[controllerIndex].Axises[ControlAxis.RightStick_V];
@@ -24,7 +30,6 @@ public class Arm : Controllable
 
     protected override void Operate_AI()
     {
-        throw new System.NotImplementedException();
     }
 
     private void MoveArmTo(Vector3 targetPos)
@@ -40,5 +45,11 @@ public class Arm : Controllable
 
         float angle_Arm2 = 180 - Mathf.Rad2Deg * Mathf.Acos((Arm1.Length * Arm1.Length + Arm2.Length * Arm2.Length - distance * distance) / (2 * Arm1.Length * Arm2.Length));
         Arm2.SetRotation(angle_Arm2);
+    }
+
+    protected override void LateUpdate()
+    {
+        base.LateUpdate();
+        ArmEnd.transform.position = ArmEndPivot.position;
     }
 }

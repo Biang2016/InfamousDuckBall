@@ -37,10 +37,7 @@ public class Controller
             ButtonDown[kv.Key] = ButtonPressed[kv.Key] && !ButtonPressedLastFrame[kv.Key];
             ButtonUp[kv.Key] = !ButtonPressed[kv.Key] && ButtonPressedLastFrame[kv.Key];
 
-            if (ButtonDown[kv.Key])
-            {
-                Debug.Log("down " + kv.Key);
-            }
+            //if (ButtonPressed[kv.Key]) Debug.Log(kv.Key);
         }
 
         foreach (KeyValuePair<ControlButtons, bool> kv in ButtonPressed)

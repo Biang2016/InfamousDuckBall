@@ -6,6 +6,7 @@
     public PlayerType PlayerType;
     public int RobotIndex = -1;
 
+
     public PlayerInfo(PlayerNumber playerNumber, PlayerType playerType)
     {
         PlayerNumber = playerNumber;

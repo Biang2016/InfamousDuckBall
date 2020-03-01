@@ -7,12 +7,15 @@ public class Player : MonoBehaviour
     internal PlayerControl PlayerControl;
     internal PlayerCostume PlayerCostume;
 
+    public float Radius = 1f;
+    public float MaxSpeed = 2f;
+    public float Accelerate = 2f;
+
     void Awake()
     {
         PlayerControl = GetComponent<PlayerControl>();
         PlayerCostume = GetComponent<PlayerCostume>();
     }
-
 
     public static Player BaseInitialize(PlayerInfo playerInfo)
     {
@@ -24,11 +27,6 @@ public class Player : MonoBehaviour
     }
 
     internal int Score = 0;
-
-    public void SetPlayerPosition(Vector3 pos)
-    {
-        transform.position = pos;
-    }
 
     public void Initialize(PlayerInfo playerInfo)
     {
@@ -45,7 +43,12 @@ public class Player : MonoBehaviour
         PlayerControl.Controllable = true;
     }
 
-    public Vector3 GetPlayerPosition => transform.position;
+    public Vector3 GetPlayerPosition => PlayerControl.PlayerMove.transform.position;
+
+    public void SetPlayerPosition(Vector3 pos)
+    {
+        PlayerControl.PlayerMove.transform.position = pos;
+    }
 
     public ParticleSystem ParticleSystem;
 
@@ -66,4 +69,5 @@ public enum PlayerType
 {
     ArmSpringHammer = 0,
     RotatingProtector = 1,
+    ForkLift = 2,
 }

@@ -12,7 +12,7 @@ public class GameManager : MonoSingleton<GameManager>
 
     public int MaximalPlayerNumber = 2;
 
-    public float PlayerRadius;
+    public float PlayerOverlapResolveSpeed = 0.5f;
 
     internal int LayerMask_RangeOfActivity;
     internal int Layer_RangeOfActivity;
@@ -32,7 +32,6 @@ public class GameManager : MonoSingleton<GameManager>
     {
         debugPanel = UIManager.Instance.ShowUIForms<DebugPanel>();
         debugPanel.RefreshScore();
-        UIManager.Instance.ShowUIForms<CameraDividePanel>();
 
         SwitchBattle(DefaultBattleType);
         Input.ResetInputAxes();
@@ -91,6 +90,17 @@ public class GameManager : MonoSingleton<GameManager>
     }
 
     public BattleManager Cur_BattleManager;
+
+    public Camera GetCamera()
+    {
+        if (Cur_BattleManager)
+        {
+            return Cur_BattleManager.LocalCamera;
+        }
+
+        return UIManager.Instance.UICamera;
+    }
+
     public bool IsGameEnd;
 
     public void SwitchBattle(BattleTypes battleType)

@@ -17,14 +17,6 @@ public class BattleManager : MonoBehaviour
 
     public PlayerSpawnPointManager PlayerSpawnPointManager;
 
-    public enum CameraTypes
-    {
-        GlobalMultiplayerFollowCamera,
-        LocalCamera,
-        PlayerPrivateFollowCamera,
-    }
-
-    public CameraTypes CameraType = CameraTypes.GlobalMultiplayerFollowCamera;
     public Camera LocalCamera;
 
     public bool ClearPlayer = false;
@@ -61,8 +53,16 @@ public class BattleManager : MonoBehaviour
 
     public void ResetBall()
     {
+        StartCoroutine(Co_ResetBall(1f));
+    }
+
+    IEnumerator Co_ResetBall(float suspendingTime)
+    {
         Ball.transform.position = BallDefaultPos;
         Ball.Reset();
+        Ball.GetRigidbody().useGravity = false;
+        yield return new WaitForSeconds(suspendingTime);
+        Ball.GetRigidbody().useGravity = true;
     }
 
     protected virtual void Child_Initialize()

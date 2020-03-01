@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class GoalBall : MonoBehaviour, IKickable
 {
-    [SerializeField] private Rigidbody RigidBody;
+    [SerializeField] public Rigidbody RigidBody;
 
     void OnTriggerEnter(Collider c)
     {

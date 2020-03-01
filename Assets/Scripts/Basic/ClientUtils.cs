@@ -190,65 +190,12 @@ public static class ClientUtils
         return 0F;
     }
 
-    public static Vector3 TryToMove(this Player player, Vector3 destPos, float colliderRadius, int invokeCount = 0)
+    public static Vector3 TryToMove(this Player player, Vector3 destPos, int invokeCount = 0)
     {
-        if (invokeCount >= 100)
-        {
-            Debug.Log("GiveUp");
-            return player.transform.position;
-        }
+        Vector3 dest = destPos.PlanerizeVector3(player.GetPlayerPosition.y);
+        Vector3 dir = destPos - player.GetPlayerPosition;
 
-        Vector3 dest = destPos.PlanerizeVector3(player.transform.position.y);
-        Vector3 dir = destPos - player.transform.position;
-
-        RaycastHit[] hits = player.PlayerControl.PlayerRigidbody.SweepTestAll(dir, dir.magnitude);
-        //Debug.Log(hits.Length);
-
-        List<RaycastHit> validHits = new List<RaycastHit>();
-        List<Vector3> normalDirs = new List<Vector3>();
-
-        for (int i = 0; i < hits.Length; i++)
-        {
-            RaycastHit hit = hits[i];
-            int layer = hit.collider.gameObject.layer;
-            if (layer == GameManager.Instance.Layer_RangeOfActivity)
-            {
-                validHits.Add(hit);
-                normalDirs.Add(hit.normal);
-            }
-        }
-
-        // Cross异号且Dot全部小于0 则无法移动
-
-        if (validHits.Count > 0)
-        {
-            if (validHits.Count == 1)
-            {
-                RaycastHit hit = validHits[0];
-                Vector3 parallel = Quaternion.Euler(0, 90, 0) * hit.normal.PlanerizeVector3(0);
-                Vector3 tangentMovement = Vector3.Dot(parallel, dir) / parallel.magnitude * parallel.normalized * 0.8f;
-                dest = hit.point + hit.normal * colliderRadius + tangentMovement;
-                return player.TryToMove(dest, colliderRadius, invokeCount + 1);
-            }
-            else
-            {
-                return player.transform.position;
-                for (int i = 0; i < validHits.Count; i++)
-                {
-                    for (int j = i + 1; j < validHits.Count; j++)
-                    {
-                        if ((-dir).InBetweenTwoVectors(normalDirs[i], normalDirs[j]))
-                        {
-                            return player.transform.position;
-                        }
-                    }
-                }
-            }
-
-            return player.transform.position;
-        }
-
-        return dest.PlanerizeVector3(player.transform.position.y);
+        return dest.PlanerizeVector3(player.GetPlayerPosition.y);
     }
 
     private static bool InBetweenTwoVectors(this Vector3 me, Vector3 v1, Vector3 v2)
