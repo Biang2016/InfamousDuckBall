@@ -57,8 +57,9 @@
 	</assembly>
 	<assembly fullname="Assembly-CSharp">
 		<type fullname="Arm" preserve="nothing"/>
-		<type fullname="ArmEnd_ForkLift" preserve="nothing"/>
+		<type fullname="ArmEnd_Clamp" preserve="nothing"/>
 		<type fullname="ArmEnd_SpringHammer" preserve="nothing"/>
+		<type fullname="BallInsideCheckTrigger" preserve="nothing"/>
 		<type fullname="BallValidZone" preserve="nothing"/>
 		<type fullname="BattleManager_PVP" preserve="nothing"/>
 		<type fullname="DebugPanel" preserve="nothing"/>

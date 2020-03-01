@@ -70,5 +70,5 @@ public enum PlayerType
 {
     ArmSpringHammer = 0,
     RotatingProtector = 1,
-    ForkLift = 2,
+    ArmClamp = 2,
 }

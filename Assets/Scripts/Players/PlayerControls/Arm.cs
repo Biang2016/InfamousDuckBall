@@ -18,7 +18,7 @@ public class Arm : PlayerUpperPart
     {
         Vector3 tarPos = ArmEndPivot.position;
 
-        float currentRadius = Mathf.Max(5f, (transform.position - ArmEndPivot.position).magnitude);
+        float currentRadius = Mathf.Max(6f, (transform.position - ArmEndPivot.position).magnitude);
 
         tarPos += Vector3.forward * ParentPlayerControl.Player.ArmSpeed * currentRadius * MultiControllerManager.Instance.Controllers[controllerIndex].Axises[ControlAxis.RightStick_H];
         tarPos += Vector3.right * ParentPlayerControl.Player.ArmSpeed * currentRadius * MultiControllerManager.Instance.Controllers[controllerIndex].Axises[ControlAxis.RightStick_V];

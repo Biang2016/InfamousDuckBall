@@ -573,7 +573,7 @@
         {
             "managedAssemblyName": "Assembly-CSharp.dll",
             "nativeClass": "",
-            "fullManagedTypeName": "ArmEnd_ForkLift",
+            "fullManagedTypeName": "ArmEnd_Clamp",
             "moduleName": "",
             "usedInScenes": []
         },
@@ -581,6 +581,13 @@
             "managedAssemblyName": "Assembly-CSharp.dll",
             "nativeClass": "",
             "fullManagedTypeName": "ArmEnd_SpringHammer",
+            "moduleName": "",
+            "usedInScenes": []
+        },
+        {
+            "managedAssemblyName": "Assembly-CSharp.dll",
+            "nativeClass": "",
+            "fullManagedTypeName": "BallInsideCheckTrigger",
             "moduleName": "",
             "usedInScenes": []
         },
