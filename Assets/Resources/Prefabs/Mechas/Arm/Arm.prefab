@@ -268,7 +268,7 @@ MonoBehaviour:
   Arm2: {fileID: 5993798765025417236}
   StartPivot: {fileID: 4032436981633314598}
   ArmEndPivot: {fileID: 7839921659810613928}
-  ArmSpeed: 0.15
+  ArmEnd: {fileID: 0}
 --- !u!1 &5993798764870082027
 GameObject:
   m_ObjectHideFlags: 0
@@ -524,7 +524,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   RotateDir: {x: 1, y: 0, z: 0}
   UseLimit: 0
-  UpperLimit: 150
+  UpperLimit: 100
   LowerLimit: 0
   Model: {fileID: 5993798764924619784}
 --- !u!1 &8039580671322181932

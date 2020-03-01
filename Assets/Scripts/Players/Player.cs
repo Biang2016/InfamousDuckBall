@@ -9,6 +9,7 @@ public class Player : MonoBehaviour
 
     public float Radius = 1f;
     public float MaxSpeed = 2f;
+    public float ArmSpeed = 2f;
     public float Accelerate = 2f;
 
     void Awake()

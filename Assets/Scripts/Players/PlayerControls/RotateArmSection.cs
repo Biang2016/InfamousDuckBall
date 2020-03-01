@@ -4,10 +4,6 @@ public class RotateArmSection : MonoBehaviour
 {
     [SerializeField] private Vector3 RotateDir;
 
-    [SerializeField] private bool UseLimit = true;
-    [SerializeField] private float UpperLimit = 10f;
-    [SerializeField] private float LowerLimit = -10f;
-
     [SerializeField] private Transform Model;
 
     internal float Length
@@ -29,11 +25,6 @@ public class RotateArmSection : MonoBehaviour
 
     public void SetRotation(float angle)
     {
-        if (UseLimit)
-        {
-            angle = Mathf.Clamp(angle, UpperLimit, LowerLimit);
-        }
-
         transform.localRotation = Quaternion.Euler(RotateDir * angle);
     }
 }

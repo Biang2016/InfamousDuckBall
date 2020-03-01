@@ -1,6 +1,4 @@
 ﻿using UnityEngine;
-using System.Collections;
-using UnityEngine.Timeline;
 
 public class Arm : PlayerUpperPart
 {
@@ -11,8 +9,6 @@ public class Arm : PlayerUpperPart
     public Transform ArmEndPivot;
     public ArmEnd ArmEnd;
 
-    [SerializeField] private float ArmSpeed;
-
     void Awake()
     {
         ArmEnd = GetComponentInChildren<ArmEnd>();
@@ -22,8 +18,16 @@ public class Arm : PlayerUpperPart
     {
         Vector3 tarPos = ArmEndPivot.position;
 
-        tarPos += Vector3.forward * ArmSpeed * MultiControllerManager.Instance.Controllers[controllerIndex].Axises[ControlAxis.RightStick_H];
-        tarPos += Vector3.right * ArmSpeed * MultiControllerManager.Instance.Controllers[controllerIndex].Axises[ControlAxis.RightStick_V];
+        float currentRadius = Mathf.Max(5f, (transform.position - ArmEndPivot.position).magnitude);
+
+        tarPos += Vector3.forward * ParentPlayerControl.Player.ArmSpeed * currentRadius * MultiControllerManager.Instance.Controllers[controllerIndex].Axises[ControlAxis.RightStick_H];
+        tarPos += Vector3.right * ParentPlayerControl.Player.ArmSpeed * currentRadius * MultiControllerManager.Instance.Controllers[controllerIndex].Axises[ControlAxis.RightStick_V];
+
+        float targetRadius = (tarPos - transform.position).magnitude;
+        if (targetRadius < ParentPlayerControl.Player.Radius * 2)
+        {
+            tarPos = (tarPos - transform.position).normalized * ParentPlayerControl.Player.Radius * 2 + transform.position;
+        }
 
         MoveArmTo(tarPos);
     }
