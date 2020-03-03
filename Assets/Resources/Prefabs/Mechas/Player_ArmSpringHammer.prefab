@@ -87,6 +87,8 @@ MonoBehaviour:
   CostumeMaterials:
   - {fileID: 2100000, guid: 093567f0dd6952740a9160ff014064c0, type: 2}
   - {fileID: 2100000, guid: 2156cc3c228170140bfcd45360dd3ba5, type: 2}
+  - {fileID: 2100000, guid: 82ed7c163b80f43bdb605e9b9e27c716, type: 2}
+  - {fileID: 2100000, guid: bbcb5f0a2296b426f9686e552bf47ce8, type: 2}
   EnemyMaterial: {fileID: 2100000, guid: 3bbc8a35fc7f2024ba4fa480d93f9eac, type: 2}
 --- !u!114 &5049394397734021343
 MonoBehaviour:
@@ -296,11 +298,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 3381610416113576982}
     m_Modifications:
-    - target: {fileID: 5544720149932681787, guid: 2175d8f235e2fca429dae68ebb1ae856,
-        type: 3}
-      propertyPath: m_Name
-      value: Core
-      objectReference: {fileID: 0}
     - target: {fileID: 1355885697394095149, guid: 2175d8f235e2fca429dae68ebb1ae856,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -355,6 +352,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5544720149932681787, guid: 2175d8f235e2fca429dae68ebb1ae856,
+        type: 3}
+      propertyPath: m_Name
+      value: Core
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2175d8f235e2fca429dae68ebb1ae856, type: 3}

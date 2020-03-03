@@ -6,6 +6,8 @@ public class DebugPanel : BaseUIForm
     [SerializeField] private Text Score1Text;
     [SerializeField] private Text ScoreDotText;
     [SerializeField] private Text Score2Text;
+    [SerializeField] private Text Score3Text;
+    [SerializeField] private Text Score4Text;
 
     void Awake()
     {
@@ -46,6 +48,24 @@ public class DebugPanel : BaseUIForm
         else
         {
             Score2Text.text = "-";
+        }
+
+        if (GameManager.Instance.PlayerDict.ContainsKey(PlayerNumber.Player3))
+        {
+            Score3Text.text = GameManager.Instance.PlayerDict[PlayerNumber.Player3].Score.ToString();
+        }
+        else
+        {
+            Score3Text.text = "-";
+        }
+
+        if (GameManager.Instance.PlayerDict.ContainsKey(PlayerNumber.Player4))
+        {
+            Score4Text.text = GameManager.Instance.PlayerDict[PlayerNumber.Player4].Score.ToString();
+        }
+        else
+        {
+            Score4Text.text = "-";
         }
     }
 

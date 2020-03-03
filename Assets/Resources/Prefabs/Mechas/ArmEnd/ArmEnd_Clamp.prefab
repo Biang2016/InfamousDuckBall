@@ -116,7 +116,7 @@ MonoBehaviour:
   HoldColor: {r: 1, g: 0.6396222, b: 0, a: 1}
   CoolDownColor: {r: 0, g: 0.9582815, b: 1, a: 1}
   ResponseSpeed: 0.1
-  KickForce: 1000
+  KickForce: 0
   HoldMaxDuration: 2
   CoolDownTick: 0
   CoolDownDuration: 0.5
@@ -267,11 +267,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 5090987586730761322}
     m_Modifications:
-    - target: {fileID: 1079970613129799024, guid: 08928bddd9488034282837b12388d128,
-        type: 3}
-      propertyPath: m_Name
-      value: Claw
-      objectReference: {fileID: 0}
     - target: {fileID: 2715092339660606544, guid: 08928bddd9488034282837b12388d128,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -327,6 +322,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1079970613129799024, guid: 08928bddd9488034282837b12388d128,
+        type: 3}
+      propertyPath: m_Name
+      value: Claw
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 08928bddd9488034282837b12388d128, type: 3}
 --- !u!4 &1733155541644079016 stripped
@@ -342,11 +342,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 5090987586730761322}
     m_Modifications:
-    - target: {fileID: 1079970613129799024, guid: 08928bddd9488034282837b12388d128,
-        type: 3}
-      propertyPath: m_Name
-      value: Claw (3)
-      objectReference: {fileID: 0}
     - target: {fileID: 2715092339660606544, guid: 08928bddd9488034282837b12388d128,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -402,6 +397,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 90
       objectReference: {fileID: 0}
+    - target: {fileID: 1079970613129799024, guid: 08928bddd9488034282837b12388d128,
+        type: 3}
+      propertyPath: m_Name
+      value: Claw (3)
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 08928bddd9488034282837b12388d128, type: 3}
 --- !u!4 &1889944928639192467 stripped
@@ -417,11 +417,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 5090987586730761322}
     m_Modifications:
-    - target: {fileID: 1079970613129799024, guid: 08928bddd9488034282837b12388d128,
-        type: 3}
-      propertyPath: m_Name
-      value: Claw (1)
-      objectReference: {fileID: 0}
     - target: {fileID: 2715092339660606544, guid: 08928bddd9488034282837b12388d128,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -476,6 +471,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 180
+      objectReference: {fileID: 0}
+    - target: {fileID: 1079970613129799024, guid: 08928bddd9488034282837b12388d128,
+        type: 3}
+      propertyPath: m_Name
+      value: Claw (1)
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 08928bddd9488034282837b12388d128, type: 3}
