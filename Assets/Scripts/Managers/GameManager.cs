@@ -70,6 +70,10 @@ public class GameManager : MonoSingleton<GameManager>
                 {
                     kv.Value.Score++;
                 }
+                else
+                {
+                    kv.Value.Score--;
+                }
             }
 
             debugPanel.RefreshScore();
