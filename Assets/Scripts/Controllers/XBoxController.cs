@@ -4,7 +4,7 @@ public class XBoxController : Controller
 {
     public const float JoyStickThreshold = 0.8f;
 
-    public override void Update()
+    public override void FixedUpdate()
     {
         ButtonPressed[ControlButtons.StartButton] = Input.GetButtonDown("Start_" + ControllerIndex);
         ButtonPressed[ControlButtons.A] = Input.GetButtonDown("A_" + ControllerIndex);
@@ -60,6 +60,6 @@ public class XBoxController : Controller
         ButtonPressed[ControlButtons.DPAD_Right] = Input.GetButton("DPAD_Right_" + ControllerIndex);
 #endif
 
-        base.Update();
+        base.FixedUpdate();
     }
 }

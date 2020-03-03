@@ -7,7 +7,17 @@ public abstract class CameraFaceUI : PoolObject
 
     void LateUpdate()
     {
-        Vector3 objectScreenPosition = GameManager.Instance.GetCamera().WorldToScreenPoint(FollowObject.position);
-        ((RectTransform) transform).position = objectScreenPosition;
+        if (!IsRecycled)
+        {
+            if (FollowObject == null)
+            {
+                PoolRecycle();
+            }
+            else
+            {
+                Vector3 objectScreenPosition = GameManager.Instance.GetCamera().WorldToScreenPoint(FollowObject.position);
+                ((RectTransform) transform).position = objectScreenPosition;
+            }
+        }
     }
 }

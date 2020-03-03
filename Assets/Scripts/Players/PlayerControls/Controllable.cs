@@ -12,7 +12,7 @@ public abstract class Controllable : MonoBehaviour
         ParentPlayerControl = parentPlayerControl;
     }
 
-    private void FixedUpdate()
+    protected virtual void FixedUpdate()
     {
         if (ParentPlayerControl.Controllable)
         {

@@ -19,7 +19,7 @@ public class PlayerSpawnPoint : MonoBehaviour, IRevivePlayer
 
     public void Spawn(PlayerInfo playerInfo)
     {
-        Player player = GameManager.Instance.MechaDict[playerInfo.RobotIndex];
+        Player player = GameManager.Instance.RobotDict[playerInfo.RobotIndex];
         player.SetPlayerPosition(transform.position);
         player.Reviving(ConsiderInCamera);
     }

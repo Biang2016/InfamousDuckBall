@@ -7,11 +7,9 @@ public class GameManager : MonoSingleton<GameManager>
     private DebugPanel debugPanel;
 
     internal SortedDictionary<PlayerNumber, Player> PlayerDict = new SortedDictionary<PlayerNumber, Player>();
-    internal SortedDictionary<int, Player> MechaDict = new SortedDictionary<int, Player>();
+    internal SortedDictionary<int, Player> RobotDict = new SortedDictionary<int, Player>();
 
-    public int MaximalPlayerNumber = 2;
-
-    public float PlayerOverlapResolveSpeed = 0.5f;
+    public const int MaximalPlayerNumber = 4;
 
     internal int LayerMask_RangeOfActivity;
     internal int Layer_RangeOfActivity;
@@ -77,7 +75,7 @@ public class GameManager : MonoSingleton<GameManager>
             debugPanel.RefreshScore();
         }
 
-        MechaDict[hitRobotIndex].ParticleSystem.Play();
+        RobotDict[hitRobotIndex].ParticleSystem.Play();
         Cur_BattleManager.ResetBall();
     }
 
@@ -109,7 +107,7 @@ public class GameManager : MonoSingleton<GameManager>
     public void SwitchBattle(BattleTypes battleType)
     {
         List<PlayerInfo> pis = new List<PlayerInfo>();
-        foreach (KeyValuePair<int, Player> kv in MechaDict)
+        foreach (KeyValuePair<int, Player> kv in RobotDict)
         {
             if (kv.Value.PlayerInfo.PlayerNumber != PlayerNumber.AI)
             {
@@ -117,7 +115,7 @@ public class GameManager : MonoSingleton<GameManager>
             }
         }
 
-        foreach (KeyValuePair<int, Player> kv in MechaDict)
+        foreach (KeyValuePair<int, Player> kv in RobotDict)
         {
             kv.Value.Reset();
         }
@@ -172,7 +170,7 @@ public class GameManager : MonoSingleton<GameManager>
         }
 
         Player player = Player.BaseInitialize(playerInfo);
-        MechaDict.Add(playerInfo.RobotIndex, player);
+        RobotDict.Add(playerInfo.RobotIndex, player);
 
         if (playerInfo.PlayerNumber != PlayerNumber.AI)
         {
@@ -183,6 +181,24 @@ public class GameManager : MonoSingleton<GameManager>
         Cur_BattleManager.PlayerSpawnPointManager.Spawn(playerInfo);
         Cur_BattleManager.OnSetupPlayer(playerInfo.PlayerNumber);
         return player;
+    }
+
+    public void ReplacePlayer(Player player, PlayerInfo newPlayerInfo)
+    {
+        Vector3 playerPos = player.GetPlayerPosition;
+        newPlayerInfo.RobotIndex = player.PlayerInfo.RobotIndex;
+        PlayerDict.Remove(player.PlayerInfo.PlayerNumber);
+        RobotDict.Remove(newPlayerInfo.RobotIndex);
+        Destroy(player.gameObject);
+
+        Player newPlayer = SetUpPlayer(newPlayerInfo);
+        newPlayer.SetPlayerPosition(playerPos);
+    }
+
+    public void ResetPlayer(Player player)
+    {
+        player.Reset();
+        Cur_BattleManager.PlayerSpawnPointManager.Spawn(player.PlayerInfo);
     }
 
     public void EndGame()

@@ -5,16 +5,22 @@ public class ArmEnd_Clamp : ArmEnd
     [SerializeField] private float LookAtMinDistance = 3f;
     [SerializeField] private Animator Anim;
     [SerializeField] private BallInsideCheckTrigger BallInsideCheckTrigger;
-    [SerializeField] private GeneralSliderAttached GeneralSliderAttached;
+    [SerializeField] private RingSliderAttached RingSliderAttached;
+    [SerializeField] private Color HoldColor;
+    [SerializeField] private Color CoolDownColor;
 
     public float ResponseSpeed = 0.5f;
     public float KickForce = 200f;
+
+    void Start()
+    {
+    }
 
     protected override void Operate_Manual(PlayerNumber controllerIndex)
     {
         if (MultiControllerManager.Instance.Controllers[controllerIndex].ButtonDown[ControlButtons.RightTrigger])
         {
-            if (!Hold)
+            if (!Hold && !InCoolDown)
             {
                 Clamp();
             }
@@ -32,7 +38,6 @@ public class ArmEnd_Clamp : ArmEnd
 
     private void Clamp()
     {
-        GeneralSliderAttached.GeneralSlider.gameObject.SetActive(true);
         Anim.SetTrigger("Clamp");
         Anim.ResetTrigger("Release");
         BallInsideCheckTrigger.enabled = true;
@@ -41,13 +46,13 @@ public class ArmEnd_Clamp : ArmEnd
 
     private void Release()
     {
-        GeneralSliderAttached.GeneralSlider.gameObject.SetActive(false);
         Anim.SetTrigger("Release");
         Anim.ResetTrigger("Clamp");
         Hold = false;
         HoldTick = 0;
     }
 
+    private bool InCoolDown = false;
     private bool Hold = false;
     private bool ReleaseByDuration = false;
 
@@ -57,17 +62,31 @@ public class ArmEnd_Clamp : ArmEnd
 
     private float HoldTick = 0f;
     [SerializeField] private float HoldMaxDuration = 2f;
+    [SerializeField] private float CoolDownTick = 0;
+    [SerializeField] private float CoolDownDuration = 0.5f;
 
     void Update()
     {
         if (Hold)
         {
             HoldTick += Time.deltaTime;
-            GeneralSliderAttached.GeneralSlider.RefreshValue((HoldMaxDuration - HoldTick) / HoldMaxDuration);
+            RingSliderAttached.CameraFaceSlider.SetColor(HoldColor);
+            RingSliderAttached.CameraFaceSlider.RefreshValue((HoldMaxDuration - HoldTick) / HoldMaxDuration);
             if (HoldTick > HoldMaxDuration)
             {
                 ReleaseByDuration = true;
                 Release();
+            }
+        }
+
+        if (InCoolDown)
+        {
+            CoolDownTick += Time.deltaTime;
+            RingSliderAttached.CameraFaceSlider.SetColor(CoolDownColor);
+            RingSliderAttached.CameraFaceSlider.RefreshValue((CoolDownDuration - CoolDownTick) / CoolDownDuration);
+            if (CoolDownTick > CoolDownDuration)
+            {
+                InCoolDown = false;
             }
         }
     }
@@ -111,6 +130,8 @@ public class ArmEnd_Clamp : ArmEnd
             }
         }
 
+        InCoolDown = true;
+        CoolDownTick = 0;
         BallInsideCheckTrigger.enabled = false;
     }
 }

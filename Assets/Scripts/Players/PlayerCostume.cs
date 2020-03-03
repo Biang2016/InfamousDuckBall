@@ -9,7 +9,7 @@ public class PlayerCostume : MonoBehaviour
 
     public void Initialize(PlayerNumber playerNumber)
     {
-        if ((int) playerNumber < GameManager.Instance.MaximalPlayerNumber)
+        if ((int) playerNumber < GameManager.MaximalPlayerNumber)
         {
             foreach (MeshRenderer mr in CostumeMeshRenderers)
             {

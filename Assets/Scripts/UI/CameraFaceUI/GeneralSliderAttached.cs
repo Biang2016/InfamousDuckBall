@@ -1,13 +1,5 @@
-﻿using UnityEngine;
-using System.Collections;
-
-public class GeneralSliderAttached : MonoBehaviour
+﻿
+public class GeneralSliderAttached : CameraFaceSliderAttached<GeneralSlider>
 {
-    internal GeneralSlider GeneralSlider;
 
-    void Awake()
-    {
-        GeneralSlider = GameObjectPoolManager.Instance.PoolDict[GameObjectPoolManager.PrefabNames.GeneralSlider].AllocateGameObject<GeneralSlider>(WorldUIManager.Instance.Canvas.transform);
-        GeneralSlider.FollowObject = transform;
-    }
 }

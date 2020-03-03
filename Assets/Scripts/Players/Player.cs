@@ -55,6 +55,8 @@ public class Player : MonoBehaviour
 
     public void Reset()
     {
+        PlayerControl.PlayerRigidbody.velocity = Vector3.zero;
+        PlayerControl.PlayerRigidbody.angularVelocity = Vector3.zero;
     }
 }
 
@@ -62,6 +64,8 @@ public enum PlayerNumber
 {
     Player1 = 0,
     Player2 = 1,
+    Player3 = 2,
+    Player4 = 3,
     AnyPlayer = 16,
     AI = 99,
 }
@@ -69,6 +73,7 @@ public enum PlayerNumber
 public enum PlayerType
 {
     ArmSpringHammer = 0,
-    RotatingProtector = 1,
-    ArmClamp = 2,
+
+    //RotatingProtector = 1,
+    ArmClamp = 1,
 }

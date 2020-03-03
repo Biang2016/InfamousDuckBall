@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 5900611319221739257}
   - component: {fileID: 6518347232321813004}
   - component: {fileID: 8373888545427885202}
+  - component: {fileID: 5049394397734021343}
   m_Layer: 0
   m_Name: Player_ArmSpringHammer
   m_TagString: Untagged
@@ -87,6 +88,18 @@ MonoBehaviour:
   - {fileID: 2100000, guid: 093567f0dd6952740a9160ff014064c0, type: 2}
   - {fileID: 2100000, guid: 2156cc3c228170140bfcd45360dd3ba5, type: 2}
   EnemyMaterial: {fileID: 2100000, guid: 3bbc8a35fc7f2024ba4fa480d93f9eac, type: 2}
+--- !u!114 &5049394397734021343
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 192930421289044361}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1a8ab7150c5160549ba27e6cd4e6128c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &227807924445987748
 PrefabInstance:
   m_ObjectHideFlags: 0

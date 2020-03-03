@@ -67,6 +67,7 @@
 		<type fullname="FXManager" preserve="nothing"/>
 		<type fullname="GameManager" preserve="nothing"/>
 		<type fullname="GameObjectPoolManager" preserve="nothing"/>
+		<type fullname="GeneralSlider" preserve="nothing"/>
 		<type fullname="GoalBall" preserve="nothing"/>
 		<type fullname="GoalCollider" preserve="nothing"/>
 		<type fullname="MultiControllerManager" preserve="nothing"/>
@@ -78,12 +79,17 @@
 		<type fullname="PlayerMove" preserve="nothing"/>
 		<type fullname="PlayerSpawnPoint" preserve="nothing"/>
 		<type fullname="PlayerSpawnPointManager" preserve="nothing"/>
+		<type fullname="PlayerSwitcher" preserve="nothing"/>
+		<type fullname="PlayerValidZone" preserve="nothing"/>
 		<type fullname="PrefabManager" preserve="nothing"/>
+		<type fullname="RingSlider" preserve="nothing"/>
+		<type fullname="RingSliderAttached" preserve="nothing"/>
 		<type fullname="RotateArmSection" preserve="nothing"/>
 		<type fullname="RotatingBody" preserve="nothing"/>
 		<type fullname="SpringPanel" preserve="nothing"/>
 		<type fullname="UIManager" preserve="nothing"/>
 		<type fullname="UIMaskMgr" preserve="nothing"/>
+		<type fullname="WorldUIManager" preserve="nothing"/>
 	</assembly>
 	<assembly fullname="Unity.TextMeshPro">
 		<type fullname="TMPro.TMP_FontAsset" preserve="nothing"/>
@@ -98,6 +104,7 @@
 		<type fullname="UnityEngine.UI.CanvasScaler" preserve="nothing"/>
 		<type fullname="UnityEngine.UI.GraphicRaycaster" preserve="nothing"/>
 		<type fullname="UnityEngine.UI.Image" preserve="nothing"/>
+		<type fullname="UnityEngine.UI.Slider" preserve="nothing"/>
 		<type fullname="UnityEngine.UI.Text" preserve="nothing"/>
 	</assembly>
 </linker>
