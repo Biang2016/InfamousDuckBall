@@ -594,4 +594,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Anim: {fileID: 8498262591959938731}
   KickRadius: 3.7
-  Force: 300
+  Force: 500
