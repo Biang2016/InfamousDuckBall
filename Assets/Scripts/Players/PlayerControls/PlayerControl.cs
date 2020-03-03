@@ -5,6 +5,7 @@ public class PlayerControl : MonoBehaviour
 {
     internal Player Player;
     internal PlayerMove PlayerMove;
+    internal PlayerCollider PlayerCollider;
     internal PlayerUpperPart PlayerUpperPart;
     public Rigidbody PlayerRigidbody;
     public bool Controllable = false;
@@ -13,6 +14,7 @@ public class PlayerControl : MonoBehaviour
     {
         Player = GetComponent<Player>();
         PlayerMove = GetComponentInChildren<PlayerMove>();
+        PlayerCollider = GetComponentInChildren<PlayerCollider>();
         PlayerUpperPart = GetComponentInChildren<PlayerUpperPart>();
         PlayerUpperPart.PlayerBase = PlayerMove.transform;
     }
@@ -26,9 +28,10 @@ public class PlayerControl : MonoBehaviour
             c.Initialize(this);
         }
 
+        PlayerCollider.Initialize(player);
+
         PlayerMove.transform.localScale = new Vector3(player.Radius, 1, player.Radius);
     }
-
 
     void FixedUpdate()
     {

@@ -10,12 +10,12 @@ public class GameObjectPoolManager : MonoSingleton<GameObjectPoolManager>
 
     public enum PrefabNames
     {
-       
+        GeneralSlider,
     }
 
     public Dictionary<PrefabNames, int> PoolConfigs = new Dictionary<PrefabNames, int>
     {
-       
+        {PrefabNames.GeneralSlider, 10},
     };
 
     public Dictionary<PrefabNames, int> PoolWarmUpDict = new Dictionary<PrefabNames, int>
@@ -46,7 +46,7 @@ public class GameObjectPoolManager : MonoSingleton<GameObjectPoolManager>
 
         foreach (string s in Enum.GetNames(typeof(FX_Type)))
         {
-            FX_Type fx_Type = (FX_Type)Enum.Parse(typeof(FX_Type), s);
+            FX_Type fx_Type = (FX_Type) Enum.Parse(typeof(FX_Type), s);
             GameObject go_Prefab = PrefabManager.Instance.GetPrefab(s);
             if (go_Prefab)
             {

@@ -3,10 +3,17 @@ using System.Collections;
 
 public class PlayerCollider : MonoBehaviour
 {
-    private Player Player;
+    internal Player Player;
+    [SerializeField] private Collider Collider;
 
     void Awake()
     {
-        Player = GetComponentInParent<Player>();
+    }
+
+    public void Initialize(Player player)
+    {
+        Player = player;
+        string layerName = "PlayerCollider" + ((int) (Player.PlayerInfo.PlayerNumber) + 1);
+        Collider.gameObject.layer = LayerMask.NameToLayer(layerName);
     }
 }

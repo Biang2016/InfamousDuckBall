@@ -7,7 +7,7 @@ public abstract class Controllable : MonoBehaviour
 
     protected bool IsAI => ParentPlayerControl.Player.PlayerInfo.PlayerNumber == PlayerNumber.AI;
 
-    public void Initialize(PlayerControl parentPlayerControl)
+    public virtual void Initialize(PlayerControl parentPlayerControl)
     {
         ParentPlayerControl = parentPlayerControl;
     }

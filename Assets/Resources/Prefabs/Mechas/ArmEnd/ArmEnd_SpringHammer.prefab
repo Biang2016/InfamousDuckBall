@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 1681794089502390342}
   - component: {fileID: 8804128847540695154}
   - component: {fileID: 3161136361372782171}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Mesh3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -140,7 +140,7 @@ GameObject:
   - component: {fileID: 3554358103553963566}
   - component: {fileID: 6147467936006678746}
   - component: {fileID: 3445869272757796384}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Mesh2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -220,7 +220,7 @@ GameObject:
   - component: {fileID: 6837672640244919016}
   - component: {fileID: 2709213836505092044}
   - component: {fileID: 8498262591959938731}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Bumper
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -320,7 +320,7 @@ GameObject:
   - component: {fileID: 1655506447035387349}
   - component: {fileID: 5770472852483350960}
   - component: {fileID: 3128192859091436692}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Mesh1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -399,7 +399,7 @@ GameObject:
   - component: {fileID: 3422058282840058894}
   - component: {fileID: 5851890311426799268}
   - component: {fileID: 5396547336259428192}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Mesh4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -479,7 +479,7 @@ GameObject:
   - component: {fileID: 3436356183058562433}
   - component: {fileID: 8965049693118629953}
   - component: {fileID: 8562676309402748775}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: JointModel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -556,7 +556,7 @@ GameObject:
   m_Component:
   - component: {fileID: 9203806426624738469}
   - component: {fileID: 1621033033762408217}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: ArmEnd_SpringHammer
   m_TagString: Untagged
   m_Icon: {fileID: 0}

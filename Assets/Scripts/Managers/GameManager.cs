@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -17,6 +16,7 @@ public class GameManager : MonoSingleton<GameManager>
     internal int LayerMask_RangeOfActivity;
     internal int Layer_RangeOfActivity;
     internal int Layer_PlayerCollider;
+    internal int Layer_BallKicker;
     internal int Layer_Ball;
 
     void Awake()
@@ -25,6 +25,7 @@ public class GameManager : MonoSingleton<GameManager>
         LayerMask_RangeOfActivity = LayerMask.GetMask("RangeOfActivity");
         Layer_RangeOfActivity = LayerMask.NameToLayer("RangeOfActivity");
         Layer_PlayerCollider = LayerMask.NameToLayer("PlayerCollider");
+        Layer_BallKicker = LayerMask.NameToLayer("BallKicker");
         Layer_Ball = LayerMask.NameToLayer("Ball");
     }
 

@@ -16,17 +16,17 @@ TagManager:
   - TipText
   - RangeOfActivity
   - Ball
-  - PlayerCollider
+  - Player
   - DeadZone
   - BallKicker
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
+  - PlayerCollider1
+  - PlayerCollider2
+  - PlayerCollider3
+  - PlayerCollider4
+  - BallKicker1
+  - BallKicker2
+  - BallKicker3
+  - BallKicker4
   - 
   - 
   - 

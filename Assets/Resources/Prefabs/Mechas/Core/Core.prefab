@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2073829902033651585}
   - component: {fileID: 3532317501739804730}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: CoverCollider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -25,7 +25,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 854058011584841680}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.051, z: 0}
+  m_LocalPosition: {x: 0, y: 1.182, z: 0}
   m_LocalScale: {x: 2, y: 0.03, z: 2}
   m_Children: []
   m_Father: {fileID: 1355885697394095149}
@@ -70,7 +70,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 875057839171246067}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.44, z: 0}
+  m_LocalPosition: {x: 0, y: 0.571, z: 0}
   m_LocalScale: {x: 2, y: 0.5, z: 2}
   m_Children: []
   m_Father: {fileID: 1355885697394095149}
@@ -101,7 +101,7 @@ GameObject:
   - component: {fileID: 8259000732031500191}
   - component: {fileID: 3366464648638144964}
   - component: {fileID: 9109709826925790561}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: GoalParticleSystem
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -116,7 +116,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3075829723353098869}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0.131, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1355885697394095149}
@@ -4912,7 +4912,7 @@ GameObject:
   - component: {fileID: 5715360620675604886}
   - component: {fileID: 2784140831543583263}
   - component: {fileID: 823375501572368235}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Model
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4990,7 +4990,7 @@ GameObject:
   - component: {fileID: 1194652193189907701}
   - component: {fileID: 2343180086772927718}
   - component: {fileID: 2029484996871109482}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: CoreModel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5005,7 +5005,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3605783728642739345}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0.131, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 5715360620675604886}
@@ -5137,6 +5137,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fd3080197dcf6dc4c8fb4d8f3e3eba1b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Collider: {fileID: 5737042605112893874}
 --- !u!1 &8219535479833059357
 GameObject:
   m_ObjectHideFlags: 0
@@ -5148,7 +5149,7 @@ GameObject:
   - component: {fileID: 1377148663391361807}
   - component: {fileID: 6681045787657315812}
   - component: {fileID: 7797936230634241891}
-  m_Layer: 0
+  m_Layer: 22
   m_Name: GoalCollider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5163,7 +5164,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8219535479833059357}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.425, z: 0}
+  m_LocalPosition: {x: 0, y: 0.556, z: 0}
   m_LocalScale: {x: 1.8, y: 0.4, z: 1.8}
   m_Children: []
   m_Father: {fileID: 1355885697394095149}
@@ -5206,7 +5207,7 @@ GameObject:
   - component: {fileID: 3731032464975519370}
   - component: {fileID: 732480621173554791}
   - component: {fileID: 7822360571642134605}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: GoalAreaShadow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5221,7 +5222,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8721054354811396696}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.457, z: 0}
+  m_LocalPosition: {x: 0, y: 0.588, z: 0}
   m_LocalScale: {x: 2, y: 0.5, z: 2}
   m_Children: []
   m_Father: {fileID: 1355885697394095149}
