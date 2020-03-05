@@ -28,8 +28,8 @@ TagManager:
   - BallKicker3
   - BallKicker4
   - PlayerGoal
-  - 
-  - 
+  - BallKickerIgnorePlayer
+  - SurroundingCollider
   - 
   - 
   - 

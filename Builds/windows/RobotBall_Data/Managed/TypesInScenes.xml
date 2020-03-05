@@ -59,7 +59,6 @@
 		<type fullname="Arm" preserve="nothing"/>
 		<type fullname="ArmEnd_Clamp" preserve="nothing"/>
 		<type fullname="ArmEnd_SpringHammer" preserve="nothing"/>
-		<type fullname="BallInsideCheckTrigger" preserve="nothing"/>
 		<type fullname="BallValidZone" preserve="nothing"/>
 		<type fullname="BattleManager_PVP" preserve="nothing"/>
 		<type fullname="DebugPanel" preserve="nothing"/>
@@ -70,6 +69,7 @@
 		<type fullname="GeneralSlider" preserve="nothing"/>
 		<type fullname="GoalBall" preserve="nothing"/>
 		<type fullname="GoalCollider" preserve="nothing"/>
+		<type fullname="InsideClampCheckTrigger" preserve="nothing"/>
 		<type fullname="MultiControllerManager" preserve="nothing"/>
 		<type fullname="OnMouseClick" preserve="nothing"/>
 		<type fullname="Player" preserve="nothing"/>
