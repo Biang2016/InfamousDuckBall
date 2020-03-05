@@ -2,6 +2,8 @@
 
 public class PlayerMove : Controllable
 {
+    [SerializeField] private float BrakeVelocityThreshold = 0.1f;
+
     protected override void Operate_Manual(PlayerNumber controllerIndex)
     {
         Vector3 diff = Vector3.zero;
@@ -11,13 +13,21 @@ public class PlayerMove : Controllable
 
         ParentPlayerControl.Player.PlayerControl.PlayerRigidbody.AddForce(diff);
 
-        if (diff == Vector3.zero)
+        if (diff.magnitude < BrakeVelocityThreshold)
         {
-            ParentPlayerControl.Player.PlayerControl.PlayerRigidbody.velocity *= 0.9f;
         }
     }
 
     protected override void Operate_AI()
     {
+    }
+
+    protected override void FixedUpdate()
+    {
+        base.FixedUpdate();
+        if (ParentPlayerControl.Player.PlayerControl.PlayerRigidbody.velocity.magnitude < BrakeVelocityThreshold)
+        {
+            ParentPlayerControl.Player.PlayerControl.PlayerRigidbody.velocity *= 0.9f;
+        }
     }
 }

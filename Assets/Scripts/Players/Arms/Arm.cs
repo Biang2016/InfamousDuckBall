@@ -9,6 +9,8 @@ public class Arm : PlayerUpperPart
     public Transform ArmEndPivot;
     public ArmEnd ArmEnd;
 
+    internal float SpeedModifier = 1f;
+
     void Awake()
     {
         ArmEnd = GetComponentInChildren<ArmEnd>();
@@ -18,10 +20,8 @@ public class Arm : PlayerUpperPart
     {
         Vector3 tarPos = ArmEndPivot.position;
 
-        float currentRadius = Mathf.Max(6f, (transform.position - ArmEndPivot.position).magnitude);
-
-        tarPos += Vector3.forward * ParentPlayerControl.Player.ArmSpeed * currentRadius * MultiControllerManager.Instance.Controllers[controllerIndex].Axises[ControlAxis.RightStick_H];
-        tarPos += Vector3.right * ParentPlayerControl.Player.ArmSpeed * currentRadius * MultiControllerManager.Instance.Controllers[controllerIndex].Axises[ControlAxis.RightStick_V];
+        tarPos += Vector3.forward * ParentPlayerControl.Player.ArmSpeed * SpeedModifier * MultiControllerManager.Instance.Controllers[controllerIndex].Axises[ControlAxis.RightStick_H];
+        tarPos += Vector3.right * ParentPlayerControl.Player.ArmSpeed * SpeedModifier * MultiControllerManager.Instance.Controllers[controllerIndex].Axises[ControlAxis.RightStick_V];
 
         float targetRadius = (tarPos - transform.position).magnitude;
         if (targetRadius < ParentPlayerControl.Player.Radius * 2)

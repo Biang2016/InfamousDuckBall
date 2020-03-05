@@ -50,7 +50,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Radius: 1
   MaxSpeed: 5
-  ArmSpeed: 0.01
+  ArmSpeed: 0.06
   Accelerate: 250
   ConsiderPlayerInCamera: 0
   ParticleSystem: {fileID: 4431411104983328314}
@@ -298,6 +298,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 3381610416113576982}
     m_Modifications:
+    - target: {fileID: 5544720149932681787, guid: 2175d8f235e2fca429dae68ebb1ae856,
+        type: 3}
+      propertyPath: m_Name
+      value: Core
+      objectReference: {fileID: 0}
     - target: {fileID: 1355885697394095149, guid: 2175d8f235e2fca429dae68ebb1ae856,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -352,11 +357,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5544720149932681787, guid: 2175d8f235e2fca429dae68ebb1ae856,
-        type: 3}
-      propertyPath: m_Name
-      value: Core
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2175d8f235e2fca429dae68ebb1ae856, type: 3}

@@ -13,7 +13,10 @@ public class GameManager : MonoSingleton<GameManager>
 
     internal int LayerMask_RangeOfActivity;
     internal int Layer_RangeOfActivity;
-    internal int Layer_PlayerCollider;
+    internal int Layer_PlayerCollider1;
+    internal int Layer_PlayerCollider2;
+    internal int Layer_PlayerCollider3;
+    internal int Layer_PlayerCollider4;
     internal int Layer_BallKicker;
     internal int Layer_Ball;
 
@@ -22,9 +25,17 @@ public class GameManager : MonoSingleton<GameManager>
         Application.targetFrameRate = 60;
         LayerMask_RangeOfActivity = LayerMask.GetMask("RangeOfActivity");
         Layer_RangeOfActivity = LayerMask.NameToLayer("RangeOfActivity");
-        Layer_PlayerCollider = LayerMask.NameToLayer("PlayerCollider");
+        Layer_PlayerCollider1 = LayerMask.NameToLayer("PlayerCollider1");
+        Layer_PlayerCollider2 = LayerMask.NameToLayer("PlayerCollider2");
+        Layer_PlayerCollider3 = LayerMask.NameToLayer("PlayerCollider3");
+        Layer_PlayerCollider4 = LayerMask.NameToLayer("PlayerCollider4");
         Layer_BallKicker = LayerMask.NameToLayer("BallKicker");
         Layer_Ball = LayerMask.NameToLayer("Ball");
+    }
+
+    public bool IsPlayerColliderLayer(int layerIndex)
+    {
+        return layerIndex == Layer_PlayerCollider1 || layerIndex == Layer_PlayerCollider2 || layerIndex == Layer_PlayerCollider3 || layerIndex == Layer_PlayerCollider4;
     }
 
     private static BattleTypes DefaultBattleType = BattleTypes.PVP;

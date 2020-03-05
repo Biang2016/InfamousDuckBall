@@ -2,6 +2,13 @@
 
 public abstract class ArmEnd : Controllable
 {
+    protected Arm Arm;
+
+    protected virtual void Awake()
+    {
+        Arm = GetComponentInParent<Arm>();
+    }
+
     public override void Initialize(PlayerControl parentPlayerControl)
     {
         base.Initialize(parentPlayerControl);

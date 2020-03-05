@@ -5109,6 +5109,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3cb29db2955f0574bb55bac9a7468716, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  BrakeVelocityThreshold: 0.3
 --- !u!54 &5660467096551722203
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -5118,7 +5119,7 @@ Rigidbody:
   m_GameObject: {fileID: 5544720149932681787}
   serializedVersion: 2
   m_Mass: 1
-  m_Drag: 0
+  m_Drag: 5
   m_AngularDrag: 0
   m_UseGravity: 0
   m_IsKinematic: 0

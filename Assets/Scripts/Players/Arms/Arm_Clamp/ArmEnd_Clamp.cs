@@ -3,8 +3,8 @@
 public class ArmEnd_Clamp : ArmEnd
 {
     [SerializeField] private float LookAtMinDistance = 3f;
+    [SerializeField] private InsideClampCheckTrigger InsideClampCheckTrigger;
     [SerializeField] private Animator Anim;
-    [SerializeField] private BallInsideCheckTrigger BallInsideCheckTrigger;
     [SerializeField] private RingSliderAttached RingSliderAttached;
     [SerializeField] private Color HoldColor;
     [SerializeField] private Color CoolDownColor;
@@ -40,7 +40,6 @@ public class ArmEnd_Clamp : ArmEnd
     {
         Anim.SetTrigger("Clamp");
         Anim.ResetTrigger("Release");
-        BallInsideCheckTrigger.enabled = true;
         Hold = true;
     }
 
@@ -69,6 +68,15 @@ public class ArmEnd_Clamp : ArmEnd
     {
         if (Hold)
         {
+            if (InsideClampCheckTrigger.PlayerInside)
+            {
+                Arm.SpeedModifier = 0.4f;
+            }
+            else
+            {
+                Arm.SpeedModifier = 1f;
+            }
+
             HoldTick += Time.deltaTime;
             RingSliderAttached.CameraFaceSlider.SetColor(HoldColor);
             RingSliderAttached.CameraFaceSlider.RefreshValue((HoldMaxDuration - HoldTick) / HoldMaxDuration);
@@ -122,7 +130,7 @@ public class ArmEnd_Clamp : ArmEnd
         {
             GoalBall ball = GameManager.Instance.Cur_BattleManager.Ball;
             Vector3 diff = ball.transform.position - ParentPlayerControl.Player.GetPlayerPosition;
-            if (BallInsideCheckTrigger.BallInside)
+            if (InsideClampCheckTrigger.BallInside)
             {
                 Vector3 force = Vector3.Scale(new Vector3(1, 0, 1), diff).normalized * KickForce;
                 ball.Kick(ParentPlayerControl.Player.PlayerInfo.RobotIndex, force);
@@ -132,6 +140,6 @@ public class ArmEnd_Clamp : ArmEnd
 
         InCoolDown = true;
         CoolDownTick = 0;
-        BallInsideCheckTrigger.enabled = false;
+        InsideClampCheckTrigger.enabled = false;
     }
 }
