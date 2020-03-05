@@ -230,7 +230,8 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "Left Stick: Move\t\t\tRight Stick: Move Arms\t\t\tRB: Kick"
+  m_Text: "Left Stick: Move\t\tRight Stick: Move Arms\t\tLT: Switch Weapon\t\tRT:
+    Kick"
 --- !u!1 &4264474842034419369
 GameObject:
   m_ObjectHideFlags: 0

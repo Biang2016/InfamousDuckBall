@@ -57,6 +57,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 47928857f5e9ae343b443dab92a10aa4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ArmEnd_Clamp: {fileID: -350864674083661954}
   Collider: {fileID: 2203091476139583390}
 --- !u!1 &1466046077186764447
 GameObject:
@@ -90,9 +91,9 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 8872303539631676011}
-  - {fileID: 1733155541644079016}
-  - {fileID: 7361970449751276593}
-  - {fileID: 1889944928639192467}
+  - {fileID: 4440713958909485505}
+  - {fileID: 4865870048792818264}
+  - {fileID: 4582303765730542586}
   - {fileID: 394939887281359459}
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -110,18 +111,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   LookAtMinDistance: 0
-  Arm: {fileID: 0}
-  Anim: {fileID: 6543156649152402353}
   InsideClampCheckTrigger: {fileID: 6068622273424766193}
+  Anim: {fileID: 6543156649152402353}
   RingSliderAttached: {fileID: 4264107418998833234}
   HoldColor: {r: 1, g: 0.6396222, b: 0, a: 1}
   CoolDownColor: {r: 0, g: 0.9582815, b: 1, a: 1}
+  FaceBallPriorityRatio: 0.7
   ResponseSpeed: 0.1
-  KickForce: 0
+  ResponseSpeedRestore: 0.15
+  KickBallForce: 3000
+  KickPlayerForce: 200
   HoldMaxDuration: 2
   CoolDownTick: 0
   CoolDownDuration: 0.5
-  IsClamping: 0
+  IsClamped: 0
 --- !u!54 &8217222329967398944
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -136,7 +139,7 @@ Rigidbody:
   m_UseGravity: 0
   m_IsKinematic: 1
   m_Interpolate: 1
-  m_Constraints: 0
+  m_Constraints: 80
   m_CollisionDetection: 3
 --- !u!95 &6543156649152402353
 Animator:
@@ -330,7 +333,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 08928bddd9488034282837b12388d128, type: 3}
---- !u!4 &1733155541644079016 stripped
+--- !u!4 &4440713958909485505 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2715092339660606544, guid: 08928bddd9488034282837b12388d128,
     type: 3}
@@ -405,7 +408,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 08928bddd9488034282837b12388d128, type: 3}
---- !u!4 &1889944928639192467 stripped
+--- !u!4 &4582303765730542586 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2715092339660606544, guid: 08928bddd9488034282837b12388d128,
     type: 3}
@@ -480,7 +483,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 08928bddd9488034282837b12388d128, type: 3}
---- !u!4 &7361970449751276593 stripped
+--- !u!4 &4865870048792818264 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2715092339660606544, guid: 08928bddd9488034282837b12388d128,
     type: 3}

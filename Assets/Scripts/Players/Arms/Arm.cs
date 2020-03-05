@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 public class Arm : PlayerUpperPart
 {
@@ -49,6 +50,22 @@ public class Arm : PlayerUpperPart
 
         float angle_Arm2 = 180 - Mathf.Rad2Deg * Mathf.Acos((Arm1.Length * Arm1.Length + Arm2.Length * Arm2.Length - distance * distance) / (2 * Arm1.Length * Arm2.Length));
         Arm2.SetRotation(angle_Arm2);
+    }
+
+    public List<float> GetAllSectionRotateAngle()
+    {
+        List<float> res = new List<float>();
+        res.Add(ArmRotate.RotateAngle);
+        res.Add(Arm1.RotateAngle);
+        res.Add(Arm2.RotateAngle);
+        return res;
+    }
+
+    public void ApplyRotateAngles(List<float> ras)
+    {
+        ArmRotate.SetRotation(ras[0]);
+        Arm1.SetRotation(ras[1]);
+        Arm2.SetRotation(ras[2]);
     }
 
     protected override void LateUpdate()

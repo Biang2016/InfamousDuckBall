@@ -13,7 +13,7 @@ public class PlayerSwitcher : Controllable
 
     protected override void Operate_Manual(PlayerNumber controllerIndex)
     {
-        if (MultiControllerManager.Instance.Controllers[controllerIndex].ButtonUp[ControlButtons.DPAD_Left])
+        if (MultiControllerManager.Instance.Controllers[controllerIndex].ButtonUp[ControlButtons.LeftTrigger])
         {
             PlayerType newPlayerType = (PlayerType) (((int) (ParentPlayerControl.Player.PlayerInfo.PlayerType) + 1) % PlayerTypesCount);
             PlayerInfo newPlayerInfo = new PlayerInfo(ParentPlayerControl.Player.PlayerInfo.PlayerNumber, newPlayerType);

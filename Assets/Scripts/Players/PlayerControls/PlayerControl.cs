@@ -6,6 +6,7 @@ public class PlayerControl : MonoBehaviour
     internal Player Player;
     internal PlayerMove PlayerMove;
     internal PlayerCollider PlayerCollider;
+    internal Arm Arm;
     internal PlayerUpperPart PlayerUpperPart;
     public Rigidbody PlayerRigidbody;
     public bool Controllable = false;
@@ -15,6 +16,7 @@ public class PlayerControl : MonoBehaviour
         Player = GetComponent<Player>();
         PlayerMove = GetComponentInChildren<PlayerMove>();
         PlayerCollider = GetComponentInChildren<PlayerCollider>();
+        Arm = GetComponentInChildren<Arm>();
         PlayerUpperPart = GetComponentInChildren<PlayerUpperPart>();
         PlayerUpperPart.PlayerBase = PlayerMove.transform;
     }

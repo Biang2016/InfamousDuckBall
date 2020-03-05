@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -19,6 +20,7 @@ public class GameManager : MonoSingleton<GameManager>
     internal int Layer_PlayerCollider4;
     internal int Layer_BallKicker;
     internal int Layer_Ball;
+    internal SortedDictionary<PlayerNumber, int> Layer_PlayerBall = new SortedDictionary<PlayerNumber, int>();
 
     void Awake()
     {
@@ -31,6 +33,10 @@ public class GameManager : MonoSingleton<GameManager>
         Layer_PlayerCollider4 = LayerMask.NameToLayer("PlayerCollider4");
         Layer_BallKicker = LayerMask.NameToLayer("BallKicker");
         Layer_Ball = LayerMask.NameToLayer("Ball");
+        Layer_PlayerBall.Add(PlayerNumber.Player1, LayerMask.NameToLayer("Ball1"));
+        Layer_PlayerBall.Add(PlayerNumber.Player2, LayerMask.NameToLayer("Ball2"));
+        Layer_PlayerBall.Add(PlayerNumber.Player3, LayerMask.NameToLayer("Ball3"));
+        Layer_PlayerBall.Add(PlayerNumber.Player4, LayerMask.NameToLayer("Ball4"));
     }
 
     public bool IsPlayerColliderLayer(int layerIndex)
@@ -38,7 +44,12 @@ public class GameManager : MonoSingleton<GameManager>
         return layerIndex == Layer_PlayerCollider1 || layerIndex == Layer_PlayerCollider2 || layerIndex == Layer_PlayerCollider3 || layerIndex == Layer_PlayerCollider4;
     }
 
-    private static BattleTypes DefaultBattleType = BattleTypes.PVP;
+    public bool IsBallLayer(int layerIndex)
+    {
+        return layerIndex == Layer_Ball || Layer_PlayerBall.Values.ToList().Contains(layerIndex);
+    }
+
+    private static BattleTypes DefaultBattleType = BattleTypes.PVP4;
 
     void Start()
     {
@@ -58,13 +69,13 @@ public class GameManager : MonoSingleton<GameManager>
 
         if (Input.GetKeyUp(KeyCode.F2))
         {
-            DefaultBattleType = BattleTypes.PVP;
+            DefaultBattleType = BattleTypes.PVP4;
             SceneManager.LoadScene("MainScene");
         }
 
         if (Input.GetKeyUp(KeyCode.F3))
         {
-            DefaultBattleType = BattleTypes.PVE;
+            DefaultBattleType = BattleTypes.PVP2;
             SceneManager.LoadScene("MainScene");
         }
     }
@@ -73,22 +84,19 @@ public class GameManager : MonoSingleton<GameManager>
 
     public void Score(int kickRobotIndex, int hitRobotIndex)
     {
-        if (Cur_BattleManager.BattleType == BattleTypes.PVP)
+        foreach (KeyValuePair<PlayerNumber, Player> kv in PlayerDict)
         {
-            foreach (KeyValuePair<PlayerNumber, Player> kv in PlayerDict)
+            if (kv.Value.PlayerInfo.RobotIndex != hitRobotIndex)
             {
-                if (kv.Value.PlayerInfo.RobotIndex != hitRobotIndex)
-                {
-                    kv.Value.Score++;
-                }
-                else
-                {
-                    kv.Value.Score--;
-                }
+                kv.Value.Score++;
             }
-
-            debugPanel.RefreshScore();
+            else
+            {
+                kv.Value.Score--;
+            }
         }
+
+        debugPanel.RefreshScore();
 
         RobotDict[hitRobotIndex].ParticleSystem.Play();
         Cur_BattleManager.ResetBall();
@@ -170,7 +178,7 @@ public class GameManager : MonoSingleton<GameManager>
             }
         }
 
-        debugPanel.SetScoreShown(Cur_BattleManager.BattleType == BattleTypes.PVP);
+        debugPanel.SetScoreShown(true);
         debugPanel.RefreshScore();
     }
 
@@ -201,6 +209,7 @@ public class GameManager : MonoSingleton<GameManager>
     public void ReplacePlayer(Player player, PlayerInfo newPlayerInfo)
     {
         Vector3 playerPos = player.GetPlayerPosition;
+        List<float> playerArmData = player.PlayerControl.Arm.GetAllSectionRotateAngle();
         newPlayerInfo.RobotIndex = player.PlayerInfo.RobotIndex;
         PlayerDict.Remove(player.PlayerInfo.PlayerNumber);
         RobotDict.Remove(newPlayerInfo.RobotIndex);
@@ -208,6 +217,7 @@ public class GameManager : MonoSingleton<GameManager>
 
         Player newPlayer = SetUpPlayer(newPlayerInfo);
         newPlayer.SetPlayerPosition(playerPos);
+        newPlayer.PlayerControl.Arm.ApplyRotateAngles(playerArmData);
     }
 
     public void ResetPlayer(Player player)

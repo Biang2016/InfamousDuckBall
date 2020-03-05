@@ -23,8 +23,11 @@ public class RotateArmSection : MonoBehaviour
     {
     }
 
+    internal float RotateAngle;
+
     public void SetRotation(float angle)
     {
+        RotateAngle = angle;
         transform.localRotation = Quaternion.Euler(RotateDir * angle);
     }
 }

@@ -3,7 +3,7 @@ using UnityEngine;
 
 public abstract class Controllable : MonoBehaviour
 {
-    protected PlayerControl ParentPlayerControl;
+    internal PlayerControl ParentPlayerControl;
 
     protected bool IsAI => ParentPlayerControl.Player.PlayerInfo.PlayerNumber == PlayerNumber.AI;
 

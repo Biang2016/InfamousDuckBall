@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 public class ArmEnd_Clamp : ArmEnd
 {
@@ -8,19 +9,23 @@ public class ArmEnd_Clamp : ArmEnd
     [SerializeField] private RingSliderAttached RingSliderAttached;
     [SerializeField] private Color HoldColor;
     [SerializeField] private Color CoolDownColor;
+    [SerializeField] private float FaceBallPriorityRatio = 0.7f;
 
     public float ResponseSpeed = 0.5f;
-    public float KickForce = 200f;
+    public float ResponseSpeedRestore = 0.2f;
+    public float KickBallForce = 200f;
+    public float KickPlayerForce = 200f;
 
     void Start()
     {
+        RingSliderAttached.CameraFaceSlider.SetColor(Color.clear);
     }
 
     protected override void Operate_Manual(PlayerNumber controllerIndex)
     {
         if (MultiControllerManager.Instance.Controllers[controllerIndex].ButtonDown[ControlButtons.RightTrigger])
         {
-            if (!Hold && !InCoolDown)
+            if (!IsHoldingButton && !InCoolDown)
             {
                 Clamp();
             }
@@ -28,7 +33,7 @@ public class ArmEnd_Clamp : ArmEnd
 
         if (MultiControllerManager.Instance.Controllers[controllerIndex].ButtonUp[ControlButtons.RightTrigger])
         {
-            if (Hold)
+            if (IsHoldingButton)
             {
                 ReleaseByDuration = false;
                 Release();
@@ -40,19 +45,20 @@ public class ArmEnd_Clamp : ArmEnd
     {
         Anim.SetTrigger("Clamp");
         Anim.ResetTrigger("Release");
-        Hold = true;
+        IsHoldingButton = true;
     }
 
     private void Release()
     {
         Anim.SetTrigger("Release");
         Anim.ResetTrigger("Clamp");
-        Hold = false;
+        IsHoldingButton = false;
+        RemainForceRatio = (HoldMaxDuration - HoldTick) / HoldMaxDuration;
         HoldTick = 0;
     }
 
     private bool InCoolDown = false;
-    private bool Hold = false;
+    private bool IsHoldingButton = false;
     private bool ReleaseByDuration = false;
 
     protected override void Operate_AI()
@@ -63,18 +69,21 @@ public class ArmEnd_Clamp : ArmEnd
     [SerializeField] private float HoldMaxDuration = 2f;
     [SerializeField] private float CoolDownTick = 0;
     [SerializeField] private float CoolDownDuration = 0.5f;
+    private float RemainForceRatio;
 
     void Update()
     {
-        if (Hold)
+        if (IsHoldingButton)
         {
-            if (InsideClampCheckTrigger.PlayerInside)
+            if (InsideClampCheckTrigger.IsPlayerInside)
             {
                 Arm.SpeedModifier = 0.4f;
+                ParentPlayerControl.PlayerMove.MoveSpeedModifier = 0.1f;
             }
             else
             {
                 Arm.SpeedModifier = 1f;
+                ParentPlayerControl.PlayerMove.MoveSpeedModifier = 1f;
             }
 
             HoldTick += Time.deltaTime;
@@ -85,6 +94,11 @@ public class ArmEnd_Clamp : ArmEnd
                 ReleaseByDuration = true;
                 Release();
             }
+        }
+        else
+        {
+            Arm.SpeedModifier = 1f;
+            ParentPlayerControl.PlayerMove.MoveSpeedModifier = 1f;
         }
 
         if (InCoolDown)
@@ -99,42 +113,73 @@ public class ArmEnd_Clamp : ArmEnd
         }
     }
 
-    public bool IsClamping = false;
+    public bool IsClamped = false;
 
     void LateUpdate()
     {
         Quaternion targetRot = new Quaternion();
 
-        if (IsClamping)
+        Vector3 lookAtTarget = Vector3.zero;
+
+        float minDist = 9999f;
+
+        foreach (KeyValuePair<PlayerNumber, Player> kv in GameManager.Instance.PlayerDict)
         {
-            targetRot = Quaternion.LookRotation(transform.position - ParentPlayerControl.Player.GetPlayerPosition);
-        }
-        else
-        {
-            targetRot = Quaternion.LookRotation(GameManager.Instance.Cur_BattleManager.Ball.transform.position - transform.position);
+            if (kv.Key != ParentPlayerControl.Player.PlayerInfo.PlayerNumber)
+            {
+                float dist = (transform.position - kv.Value.GetPlayerPosition).magnitude;
+                if (dist < minDist)
+                {
+                    minDist = dist;
+                    lookAtTarget = kv.Value.GetPlayerPosition;
+                }
+            }
         }
 
-        Quaternion r = Quaternion.Lerp(transform.rotation, targetRot, ResponseSpeed);
-        transform.rotation = Quaternion.Euler(Vector3.Scale(new Vector3(0, 1, 1), r.eulerAngles));
+        if (!InsideClampCheckTrigger.IsBallInside)
+        {
+            float _dist = (transform.position - GameManager.Instance.Cur_BattleManager.Ball.transform.position).magnitude * FaceBallPriorityRatio;
+            if (_dist < minDist)
+            {
+                minDist = _dist;
+                lookAtTarget = GameManager.Instance.Cur_BattleManager.Ball.transform.position;
+            }
+        }
+
+        targetRot = Quaternion.LookRotation(lookAtTarget - transform.position);
+        Quaternion r = Quaternion.Lerp(transform.rotation, targetRot, IsClamped ? ResponseSpeed : ResponseSpeedRestore);
+        transform.rotation = Quaternion.Euler(Vector3.Scale(new Vector3(0, 1, 0), r.eulerAngles));
     }
 
     public void OnHold()
     {
-        IsClamping = true;
+        IsClamped = true;
     }
 
     public void OnRelease()
     {
-        IsClamping = false;
+        IsClamped = false;
         if (!ReleaseByDuration)
         {
-            GoalBall ball = GameManager.Instance.Cur_BattleManager.Ball;
-            Vector3 diff = ball.transform.position - ParentPlayerControl.Player.GetPlayerPosition;
-            if (InsideClampCheckTrigger.BallInside)
+            if (InsideClampCheckTrigger.IsBallInside)
             {
-                Vector3 force = Vector3.Scale(new Vector3(1, 0, 1), diff).normalized * KickForce;
-                ball.Kick(ParentPlayerControl.Player.PlayerInfo.RobotIndex, force);
-                FXManager.Instance.PlayFX(FX_Type.BallKickParticleSystem, GameManager.Instance.Cur_BattleManager.Ball.transform.position, Quaternion.FromToRotation(Vector3.back, diff.normalized));
+                GoalBall ball = InsideClampCheckTrigger.InsideBall;
+                if (ball)
+                {
+                    Vector3 force = transform.forward * KickBallForce * RemainForceRatio;
+                    ball.Kick(ParentPlayerControl.Player.PlayerInfo.RobotIndex, force);
+                    FXManager.Instance.PlayFX(FX_Type.BallKickParticleSystem, ball.transform.position, Quaternion.FromToRotation(Vector3.back, transform.forward));
+                }
+            }
+
+            if (InsideClampCheckTrigger.IsPlayerInside)
+            {
+                Player player = InsideClampCheckTrigger.InsidePlayer;
+                if (player)
+                {
+                    Vector3 force = transform.forward * KickPlayerForce * RemainForceRatio;
+                    player.PlayerControl.PlayerRigidbody.AddForce(force, ForceMode.Impulse);
+                }
             }
         }
 

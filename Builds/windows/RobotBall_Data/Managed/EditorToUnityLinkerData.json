@@ -594,7 +594,14 @@
         {
             "managedAssemblyName": "Assembly-CSharp.dll",
             "nativeClass": "",
-            "fullManagedTypeName": "BattleManager_PVP",
+            "fullManagedTypeName": "BattleManager_PVP2",
+            "moduleName": "",
+            "usedInScenes": []
+        },
+        {
+            "managedAssemblyName": "Assembly-CSharp.dll",
+            "nativeClass": "",
+            "fullManagedTypeName": "BattleManager_PVP4",
             "moduleName": "",
             "usedInScenes": []
         },
