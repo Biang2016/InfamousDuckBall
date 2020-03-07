@@ -73,7 +73,4 @@ public enum PlayerNumber
 public enum PlayerType
 {
     ArmSpringHammer = 0,
-
-    //RotatingProtector = 1,
-    ArmClamp = 1,
 }

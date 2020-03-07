@@ -70,6 +70,7 @@
 		<type fullname="GeneralSlider" preserve="nothing"/>
 		<type fullname="GoalBall" preserve="nothing"/>
 		<type fullname="GoalCollider" preserve="nothing"/>
+		<type fullname="Head" preserve="nothing"/>
 		<type fullname="InsideClampCheckTrigger" preserve="nothing"/>
 		<type fullname="MultiControllerManager" preserve="nothing"/>
 		<type fullname="OnMouseClick" preserve="nothing"/>

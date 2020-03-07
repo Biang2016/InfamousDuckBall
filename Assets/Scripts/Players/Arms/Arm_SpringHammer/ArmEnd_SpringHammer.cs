@@ -3,9 +3,13 @@
 public class ArmEnd_SpringHammer : ArmEnd
 {
     public Animator Anim;
+    public Animator PullAnim;
 
     public float KickRadius = 1.5f;
-    public float Force = 100f;
+    public float KickForce = 3000f;
+
+    public float PullRadius = 10f;
+    public float PullForce = 3000f;
 
     protected override void Operate_AI()
     {
@@ -16,6 +20,13 @@ public class ArmEnd_SpringHammer : ArmEnd
         if (MultiControllerManager.Instance.Controllers[controllerIndex].ButtonDown[ControlButtons.RightTrigger])
         {
             Bump();
+        }
+        else
+        {
+            if (MultiControllerManager.Instance.Controllers[controllerIndex].ButtonDown[ControlButtons.LeftTrigger])
+            {
+                Pull();
+            }
         }
     }
 
@@ -28,22 +39,14 @@ public class ArmEnd_SpringHammer : ArmEnd
         float distance = diff.magnitude;
         if (distance < KickRadius)
         {
-            ko.Kick(ParentPlayerControl.Player.PlayerInfo.RobotIndex, (diff.normalized) * Force);
+            ko.Kick(ParentPlayerControl.Player.PlayerInfo.RobotIndex, (diff.normalized) * KickForce);
             FXManager.Instance.PlayFX(FX_Type.BallKickParticleSystem, GameManager.Instance.Cur_BattleManager.Ball.transform.position, Quaternion.FromToRotation(Vector3.back, diff.normalized));
         }
     }
 
-    private void ChargeBump()
+    private void Pull()
     {
-        IKickable ko = GameManager.Instance.Cur_BattleManager.Ball;
-        Vector3 diff = GameManager.Instance.Cur_BattleManager.Ball.transform.position - transform.position;
-
-        float distance = diff.magnitude;
-        if (distance < KickRadius)
-        {
-            ko.Kick(ParentPlayerControl.Player.PlayerInfo.RobotIndex, (diff.normalized) * Force);
-            FXManager.Instance.PlayFX(FX_Type.BallKickParticleSystem, GameManager.Instance.Cur_BattleManager.Ball.transform.position, Quaternion.FromToRotation(Vector3.back, diff.normalized));
-        }
+        PullAnim.SetTrigger("Pull");
     }
 
     void LateUpdate()
