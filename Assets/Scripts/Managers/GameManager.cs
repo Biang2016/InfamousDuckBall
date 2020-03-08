@@ -206,20 +206,6 @@ public class GameManager : MonoSingleton<GameManager>
         return player;
     }
 
-    public void ReplacePlayer(Player player, PlayerInfo newPlayerInfo)
-    {
-        Vector3 playerPos = player.GetPlayerPosition;
-        List<float> playerArmData = player.PlayerControl.Arm.GetAllSectionRotateAngle();
-        newPlayerInfo.RobotIndex = player.PlayerInfo.RobotIndex;
-        PlayerDict.Remove(player.PlayerInfo.PlayerNumber);
-        RobotDict.Remove(newPlayerInfo.RobotIndex);
-        Destroy(player.gameObject);
-
-        Player newPlayer = SetUpPlayer(newPlayerInfo);
-        newPlayer.SetPlayerPosition(playerPos);
-        newPlayer.PlayerControl.Arm.ApplyRotateAngles(playerArmData);
-    }
-
     public void ResetPlayer(Player player)
     {
         player.Reset();

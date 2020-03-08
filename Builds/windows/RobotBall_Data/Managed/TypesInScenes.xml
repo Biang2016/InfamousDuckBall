@@ -23,6 +23,7 @@
 		<type fullname="UnityEngine.Renderer" preserve="nothing"/>
 		<type fullname="UnityEngine.Light" preserve="nothing"/>
 		<type fullname="UnityEngine.MeshFilter" preserve="nothing"/>
+		<type fullname="UnityEngine.SkinnedMeshRenderer" preserve="nothing"/>
 		<type fullname="UnityEngine.MeshRenderer" preserve="nothing"/>
 		<type fullname="UnityEngine.AnimationClip" preserve="nothing"/>
 		<type fullname="UnityEngine.AudioBehaviour" preserve="nothing"/>
@@ -56,39 +57,33 @@
 		<type fullname="UnityEngine.LightProbes" preserve="nothing"/>
 	</assembly>
 	<assembly fullname="Assembly-CSharp">
-		<type fullname="Arm" preserve="nothing"/>
-		<type fullname="ArmEnd_Clamp" preserve="nothing"/>
-		<type fullname="ArmEnd_SpringHammer" preserve="nothing"/>
 		<type fullname="BallValidZone" preserve="nothing"/>
 		<type fullname="BattleManager_PVP2" preserve="nothing"/>
 		<type fullname="BattleManager_PVP4" preserve="nothing"/>
+		<type fullname="Body" preserve="nothing"/>
 		<type fullname="DebugPanel" preserve="nothing"/>
 		<type fullname="FX" preserve="nothing"/>
 		<type fullname="FXManager" preserve="nothing"/>
+		<type fullname="Feet" preserve="nothing"/>
 		<type fullname="GameManager" preserve="nothing"/>
 		<type fullname="GameObjectPoolManager" preserve="nothing"/>
 		<type fullname="GeneralSlider" preserve="nothing"/>
 		<type fullname="GoalBall" preserve="nothing"/>
 		<type fullname="GoalCollider" preserve="nothing"/>
+		<type fullname="Goose" preserve="nothing"/>
 		<type fullname="Head" preserve="nothing"/>
-		<type fullname="InsideClampCheckTrigger" preserve="nothing"/>
+		<type fullname="HeadPull" preserve="nothing"/>
 		<type fullname="MultiControllerManager" preserve="nothing"/>
+		<type fullname="Neck" preserve="nothing"/>
 		<type fullname="OnMouseClick" preserve="nothing"/>
 		<type fullname="Player" preserve="nothing"/>
 		<type fullname="PlayerCollider" preserve="nothing"/>
 		<type fullname="PlayerControl" preserve="nothing"/>
 		<type fullname="PlayerCostume" preserve="nothing"/>
-		<type fullname="PlayerMove" preserve="nothing"/>
 		<type fullname="PlayerSpawnPoint" preserve="nothing"/>
 		<type fullname="PlayerSpawnPointManager" preserve="nothing"/>
-		<type fullname="PlayerSwitcher" preserve="nothing"/>
 		<type fullname="PlayerValidZone" preserve="nothing"/>
 		<type fullname="PrefabManager" preserve="nothing"/>
-		<type fullname="RingSlider" preserve="nothing"/>
-		<type fullname="RingSliderAttached" preserve="nothing"/>
-		<type fullname="RotateArmSection" preserve="nothing"/>
-		<type fullname="RotatingBody" preserve="nothing"/>
-		<type fullname="SpringPanel" preserve="nothing"/>
 		<type fullname="UIManager" preserve="nothing"/>
 		<type fullname="UIMaskMgr" preserve="nothing"/>
 		<type fullname="WorldUIManager" preserve="nothing"/>

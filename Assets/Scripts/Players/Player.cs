@@ -7,11 +7,6 @@ public class Player : MonoBehaviour
     internal PlayerControl PlayerControl;
     internal PlayerCostume PlayerCostume;
 
-    public float Radius = 1f;
-    public float MaxSpeed = 2f;
-    public float ArmSpeed = 2f;
-    public float Accelerate = 2f;
-
     void Awake()
     {
         PlayerControl = GetComponent<PlayerControl>();
@@ -20,7 +15,7 @@ public class Player : MonoBehaviour
 
     public static Player BaseInitialize(PlayerInfo playerInfo)
     {
-        GameObject playerPrefab = PrefabManager.Instance.GetPrefab("Player_" + playerInfo.PlayerType);
+        GameObject playerPrefab = PrefabManager.Instance.GetPrefab("Goose");
         GameObject playerGO = Instantiate(playerPrefab);
         Player player = playerGO.GetComponent<Player>();
         player.Initialize(playerInfo);
@@ -44,11 +39,11 @@ public class Player : MonoBehaviour
         PlayerControl.Controllable = true;
     }
 
-    public Vector3 GetPlayerPosition => PlayerControl.PlayerMove.transform.position;
+    public Vector3 GetPlayerPosition => PlayerControl.Goose.transform.position;
 
     public void SetPlayerPosition(Vector3 pos)
     {
-        PlayerControl.PlayerMove.transform.position = pos;
+        PlayerControl.Goose.transform.position = pos;
     }
 
     public ParticleSystem ParticleSystem;
@@ -68,9 +63,4 @@ public enum PlayerNumber
     Player4 = 3,
     AnyPlayer = 16,
     AI = 99,
-}
-
-public enum PlayerType
-{
-    ArmSpringHammer = 0,
 }

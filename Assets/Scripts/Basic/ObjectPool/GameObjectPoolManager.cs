@@ -20,7 +20,7 @@ public class GameObjectPoolManager : MonoSingleton<GameObjectPoolManager>
         {PrefabNames.RingSlider, 10},
     };
 
-    public Dictionary<PrefabNames, int> PoolWarmUpDict = new Dictionary<PrefabNames, int>
+    public Dictionary<PrefabNames, int> PoolWneckUpDict = new Dictionary<PrefabNames, int>
     {
     };
 
