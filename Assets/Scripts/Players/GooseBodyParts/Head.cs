@@ -57,9 +57,27 @@ public class Head : GooseBodyPart
         PullAnim.SetTrigger("Pull");
     }
 
+    private Vector3 targetLookAtPos = Vector3.zero;
+
     void LateUpdate()
     {
         transform.position = Goose.Neck.HeadPosPivot.position;
-        transform.LookAt(GameManager.Instance.Cur_BattleManager.Ball.transform);
+
+        Vector3 diff_BodyToHead = Goose.Feet.transform.position - transform.position;
+        Vector3 diff_BallToHead = GameManager.Instance.Cur_BattleManager.Ball.transform.position - transform.position;
+
+        float angle = Mathf.Abs(Vector3.SignedAngle(diff_BodyToHead, diff_BallToHead, Vector3.down));
+
+        if (angle > Goose.LookBallAngleThreshold)
+        {
+            targetLookAtPos = Vector3.Lerp(targetLookAtPos, GameManager.Instance.Cur_BattleManager.Ball.transform.position, Time.deltaTime * Goose.HeadRotateSpeed);
+        }
+        else
+        {
+            targetLookAtPos = Vector3.Lerp(targetLookAtPos, transform.position - diff_BodyToHead.normalized * 10f, Time.deltaTime * Goose.HeadRotateSpeed);
+        }
+
+        transform.LookAt(targetLookAtPos);
+        Debug.DrawRay(transform.position, -diff_BodyToHead.normalized, Color.red, Time.deltaTime);
     }
 }

@@ -147,12 +147,17 @@ MonoBehaviour:
   Head: {fileID: 298442278393637812}
   Radius: 1
   MaxSpeed: 5
-  NeckSpeed: 0.1
+  NeckSpeed: 0.05
   Accelerate: 150
   KickRadius: 6
   KickForce: 3000
   PullRadius: 8
   PullForce: 3000
+  HeadRotateSpeed: 5
+  NeckStartTangent: 0.54
+  NeckEndTangent: 0.57
+  LookBallAngleThreshold: 45
+  MaxNeckLength: 4.81
 --- !u!114 &6518347232321813004
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5595,7 +5600,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8242487256487291612}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: -0, z: -0.114}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 6299789840216363943}
@@ -5701,6 +5706,21 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7506133526499007653, guid: aec44e7f08e7c424890607b6472184db,
+        type: 3}
+      propertyPath: color.r
+      value: 0.15827703
+      objectReference: {fileID: 0}
+    - target: {fileID: 7506133526499007653, guid: aec44e7f08e7c424890607b6472184db,
+        type: 3}
+      propertyPath: color.g
+      value: 0.9675491
+      objectReference: {fileID: 0}
+    - target: {fileID: 7506133526499007653, guid: aec44e7f08e7c424890607b6472184db,
+        type: 3}
+      propertyPath: color.b
+      value: 0.69597936
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: aec44e7f08e7c424890607b6472184db, type: 3}

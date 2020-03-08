@@ -19,4 +19,9 @@ public class Goose : MonoBehaviour
 
     public float PullRadius = 10f;
     public float PullForce = 3000f;
+    public float HeadRotateSpeed = 5f;
+    public float NeckStartTangent = 1f;
+    public float NeckEndTangent = 1f;
+    public float LookBallAngleThreshold = 45f;
+    public float MaxNeckLength = 5f;
 }

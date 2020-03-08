@@ -186,6 +186,80 @@ Transform:
   m_Father: {fileID: 9020587036898173741}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &3516169697311444614
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1358067242899565181}
+  - component: {fileID: 563943516742841125}
+  - component: {fileID: 7506133526499007653}
+  m_Layer: 0
+  m_Name: NeckCurve
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1358067242899565181
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3516169697311444614}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 5098423952586606670}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &563943516742841125
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3516169697311444614}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a9001f396538f6944819b6ffbf55c1ce, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  DefaultCurveLength: 10
+  CurveWidth: 4
+  ShowHandles: 1
+  ShowWhiteLines: 1
+  ShowMarkers: 1
+  MarkerNumber: 5
+  MarkerSize: 0.3
+  curveList:
+  - {fileID: 7506133526499007653}
+--- !u!114 &7506133526499007653
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3516169697311444614}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 617cf63b301949a88bf5a011c4c3b9b0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  BezierPath: {fileID: 563943516742841125}
+  BezierInfo:
+    LastBezier: {fileID: 0}
+    NextBezier: {fileID: 0}
+    startPoint: {x: 0, y: 0, z: 0}
+    endPoint: {x: 0, y: 0, z: 5.564884}
+    startTangent: {x: -3.2297623, y: 3.2059717, z: 3.3333333}
+    endTangent: {x: 2.5546143, y: -2.6084623, z: -3.333333}
+  color: {r: 0.9196149, g: 0.3805676, b: 0.5971071, a: 1}
 --- !u!1 &4801493649930122050
 GameObject:
   m_ObjectHideFlags: 0
@@ -432,6 +506,7 @@ Transform:
   m_Children:
   - {fileID: 8516627877520214060}
   - {fileID: 7688867279260049164}
+  - {fileID: 1358067242899565181}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
@@ -449,6 +524,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   HeadPosPivot: {fileID: 7006556767359814219}
   RootBone: {fileID: 8516627877520214060}
+  NeckCurve: {fileID: 7506133526499007653}
 --- !u!1 &8906722030565889721
 GameObject:
   m_ObjectHideFlags: 0

@@ -20,6 +20,11 @@ public class Body : GooseBodyPart
             neckTargetPos = (neckTargetPos - transform.position).normalized * Goose.Radius * 2 + transform.position;
         }
 
+        neckTargetPos.y = GameManager.Instance.Cur_BattleManager.Ball.transform.position.y;
+
+        Vector3 diff = neckTargetPos - Goose.Feet.transform.position;
+        diff = diff.magnitude > Goose.MaxNeckLength ? diff.normalized * Goose.MaxNeckLength : diff;
+        neckTargetPos = diff + Goose.Feet.transform.position;
         MoveNeckTo(neckTargetPos);
     }
 
@@ -27,11 +32,14 @@ public class Body : GooseBodyPart
     {
     }
 
+    private Quaternion BodyTargetRot;
+
     private void MoveNeckTo(Vector3 targetPos)
     {
         Vector3 diff = Vector3.Scale(targetPos - StartPivot.position, new Vector3(1, 0, 1));
         float angleOffset = Vector3.SignedAngle(transform.forward, diff, Vector3.up);
-        BodyRotate.rotation = Quaternion.Euler(new Vector3(0, angleOffset, 0));
+        BodyTargetRot = Quaternion.Euler(new Vector3(0, angleOffset, 0));
+        BodyRotate.rotation = BodyTargetRot;
         Goose.Neck.MoveNeckTo(targetPos);
     }
 
@@ -39,5 +47,9 @@ public class Body : GooseBodyPart
     {
         transform.position = Goose.Feet.transform.position;
         Goose.Head.transform.position = Goose.Neck.HeadPosPivot.position;
+
+        float diffAngle = Mathf.Abs(BodyTargetRot.eulerAngles.y - BodyRotate.rotation.y);
+        //BodyRotate.rotation = Quaternion.Lerp(BodyRotate.rotation, BodyTargetRot, Time.deltaTime * diffAngle / 360f * Goose.BodyRotateRatio);
+        //BodyRotate.rotation = BodyTargetRot;
     }
 }

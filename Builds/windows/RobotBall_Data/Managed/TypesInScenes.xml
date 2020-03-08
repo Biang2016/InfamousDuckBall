@@ -60,6 +60,8 @@
 		<type fullname="BallValidZone" preserve="nothing"/>
 		<type fullname="BattleManager_PVP2" preserve="nothing"/>
 		<type fullname="BattleManager_PVP4" preserve="nothing"/>
+		<type fullname="BezierCurve" preserve="nothing"/>
+		<type fullname="BezierPath" preserve="nothing"/>
 		<type fullname="Body" preserve="nothing"/>
 		<type fullname="DebugPanel" preserve="nothing"/>
 		<type fullname="FX" preserve="nothing"/>

@@ -5,7 +5,7 @@ public abstract class GooseBodyPart : Controllable
 {
     internal Goose Goose;
 
-    void Awake()
+    protected virtual void Awake()
     {
         Goose = GetComponentInParent<Goose>();
     }
