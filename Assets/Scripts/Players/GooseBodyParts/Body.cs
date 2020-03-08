@@ -47,9 +47,5 @@ public class Body : GooseBodyPart
     {
         transform.position = Goose.Feet.transform.position;
         Goose.Head.transform.position = Goose.Neck.HeadPosPivot.position;
-
-        float diffAngle = Mathf.Abs(BodyTargetRot.eulerAngles.y - BodyRotate.rotation.y);
-        //BodyRotate.rotation = Quaternion.Lerp(BodyRotate.rotation, BodyTargetRot, Time.deltaTime * diffAngle / 360f * Goose.BodyRotateRatio);
-        //BodyRotate.rotation = BodyTargetRot;
     }
 }
