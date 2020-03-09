@@ -45,6 +45,7 @@
 		<type fullname="UnityEngine.Component" preserve="nothing"/>
 		<type fullname="UnityEngine.MonoBehaviour" preserve="nothing"/>
 		<type fullname="UnityEditor.Animations.AnimatorController" preserve="nothing"/>
+		<type fullname="UnityEngine.Avatar" preserve="nothing"/>
 		<type fullname="UnityEngine.GameObject" preserve="nothing"/>
 		<type fullname="UnityEngine.LightmapSettings" preserve="nothing"/>
 		<type fullname="UnityEngine.Font" preserve="nothing"/>
@@ -73,8 +74,9 @@
 		<type fullname="GoalBall" preserve="nothing"/>
 		<type fullname="GoalCollider" preserve="nothing"/>
 		<type fullname="Goose" preserve="nothing"/>
+		<type fullname="GooseConfig" preserve="nothing"/>
 		<type fullname="Head" preserve="nothing"/>
-		<type fullname="HeadPull" preserve="nothing"/>
+		<type fullname="HeadModel" preserve="nothing"/>
 		<type fullname="MultiControllerManager" preserve="nothing"/>
 		<type fullname="Neck" preserve="nothing"/>
 		<type fullname="OnMouseClick" preserve="nothing"/>
@@ -88,6 +90,7 @@
 		<type fullname="PrefabManager" preserve="nothing"/>
 		<type fullname="UIManager" preserve="nothing"/>
 		<type fullname="UIMaskMgr" preserve="nothing"/>
+		<type fullname="Wings" preserve="nothing"/>
 		<type fullname="WorldUIManager" preserve="nothing"/>
 	</assembly>
 	<assembly fullname="Unity.TextMeshPro">

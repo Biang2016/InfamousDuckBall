@@ -23,16 +23,16 @@ public class Neck : GooseBodyPart
 
         float neckLength = (RootBone.position - targetPos).magnitude;
 
-        NeckCurve.BezierInfo.StartTangent = Goose.Body.BodyRotate.transform.forward * Goose.NeckStartTangent * neckLength;
-        NeckCurve.BezierInfo.EndTangent = -Goose.Head.transform.forward * Goose.NeckEndTangent * neckLength;
+        NeckCurve.BezierInfo.StartTangent = Goose.Body.BodyRotate.transform.forward * GooseConfig.NeckStartTangent * neckLength;
+        NeckCurve.BezierInfo.EndTangent = -Goose.Head.transform.forward * GooseConfig.NeckEndTangent * neckLength;
         List<Vector3> pathPoses = NeckCurve.BezierPath.GetPathPoints(Bones.Length);
 
-        for (int i = 0; i < Bones.Length; i++)
+        for (int i = 1; i < Bones.Length; i++)
         {
             Bones[i].position = pathPoses[i];
         }
 
-        for (int i = 0; i < Bones.Length - 1; i++)
+        for (int i = 1; i < Bones.Length - 1; i++)
         {
             Vector3 right = pathPoses[i] - pathPoses[i + 1];
             Quaternion rot = Quaternion.FromToRotation(Bones[i].right, right);

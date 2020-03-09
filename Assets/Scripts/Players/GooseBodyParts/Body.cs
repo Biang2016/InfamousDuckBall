@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 
 public class Body : GooseBodyPart
 {
@@ -9,23 +10,96 @@ public class Body : GooseBodyPart
 
     protected override void Operate_Manual(PlayerNumber controllerIndex)
     {
+        if (IsPushingNeck) return;
+
+        // Move Neck
+        {
+            Vector3 neckTargetPos = Goose.Neck.HeadPosPivot.position;
+
+            neckTargetPos += Vector3.forward * GooseConfig.NeckSpeed * SpeedModifier * MultiControllerManager.Instance.Controllers[controllerIndex].Axises[ControlAxis.RightStick_H];
+            neckTargetPos += Vector3.right * GooseConfig.NeckSpeed * SpeedModifier * MultiControllerManager.Instance.Controllers[controllerIndex].Axises[ControlAxis.RightStick_V];
+
+            float targetRadius = (neckTargetPos - transform.position).magnitude;
+            if (targetRadius < GooseConfig.Radius * 2)
+            {
+                neckTargetPos = (neckTargetPos - transform.position).normalized * GooseConfig.Radius * 2 + transform.position;
+            }
+
+            neckTargetPos.y = GameManager.Instance.Cur_BattleManager.Ball.transform.position.y;
+
+            Vector3 diff = neckTargetPos - Goose.Feet.transform.position;
+            diff = diff.magnitude > GooseConfig.MaxNeckLength ? diff.normalized * GooseConfig.MaxNeckLength : diff;
+            neckTargetPos = diff + Goose.Feet.transform.position;
+            MoveNeckTo(neckTargetPos);
+        }
+    }
+
+    public void PullNeck()
+    {
+        if (!IsPushingNeck)
+        {
+            StartCoroutine(Co_PullNeck(Goose.Head.transform.forward));
+        }
+    }
+
+    public void PushNeck()
+    {
+        if (!IsPushingNeck)
+        {
+            StartCoroutine(Co_PushNeck(Goose.Head.transform.forward));
+        }
+    }
+
+    internal bool IsPushingNeck = false;
+
+    IEnumerator Co_PullNeck(Vector3 dir)
+    {
+        IsPushingNeck = true;
         Vector3 neckTargetPos = Goose.Neck.HeadPosPivot.position;
 
-        neckTargetPos += Vector3.forward * Goose.NeckSpeed * SpeedModifier * MultiControllerManager.Instance.Controllers[controllerIndex].Axises[ControlAxis.RightStick_H];
-        neckTargetPos += Vector3.right * Goose.NeckSpeed * SpeedModifier * MultiControllerManager.Instance.Controllers[controllerIndex].Axises[ControlAxis.RightStick_V];
+        float dist = (Goose.Head.transform.position - GameManager.Instance.Cur_BattleManager.Ball.transform.position).magnitude;
+        dist = Mathf.Min(GooseConfig.PullNeckDistance, dist);
 
-        float targetRadius = (neckTargetPos - transform.position).magnitude;
-        if (targetRadius < Goose.Radius * 2)
+        for (int i = 0; i < GooseConfig.PullNeckFrame; i++)
         {
-            neckTargetPos = (neckTargetPos - transform.position).normalized * Goose.Radius * 2 + transform.position;
+            neckTargetPos += dir * dist / GooseConfig.PullNeckFrame;
+            MoveNeckTo(neckTargetPos);
+            yield return null;
         }
 
-        neckTargetPos.y = GameManager.Instance.Cur_BattleManager.Ball.transform.position.y;
+        for (int i = 0; i < GooseConfig.PullNeckFrame; i++)
+        {
+            neckTargetPos -= dir * dist / GooseConfig.PullNeckFrame;
+            MoveNeckTo(neckTargetPos);
+            yield return null;
+        }
 
-        Vector3 diff = neckTargetPos - Goose.Feet.transform.position;
-        diff = diff.magnitude > Goose.MaxNeckLength ? diff.normalized * Goose.MaxNeckLength : diff;
-        neckTargetPos = diff + Goose.Feet.transform.position;
-        MoveNeckTo(neckTargetPos);
+        IsPushingNeck = false;
+    }
+
+    IEnumerator Co_PushNeck(Vector3 dir)
+    {
+        IsPushingNeck = true;
+        Vector3 neckTargetPos = Goose.Neck.HeadPosPivot.position;
+
+        float dist = (Goose.Head.transform.position - GameManager.Instance.Cur_BattleManager.Ball.transform.position).magnitude;
+        dist = Mathf.Min(GooseConfig.PushNeckDistance, dist);
+
+        for (int i = 0; i < GooseConfig.PushNeckFrame; i++)
+        {
+            neckTargetPos += dir * dist / GooseConfig.PushNeckFrame;
+            MoveNeckTo(neckTargetPos);
+            yield return null;
+        }
+
+        for (int i = 0; i < GooseConfig.PushNeckFrame; i++)
+        {
+            neckTargetPos -= dir * dist / GooseConfig.PushNeckFrame;
+            MoveNeckTo(neckTargetPos);
+            yield return null;
+        }
+
+        IsPushingNeck = false;
     }
 
     protected override void Operate_AI()

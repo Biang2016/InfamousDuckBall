@@ -4,6 +4,7 @@ using System.Collections;
 public class PlayerCostume : MonoBehaviour
 {
     [SerializeField] private MeshRenderer[] CostumeMeshRenderers;
+    [SerializeField] private SkinnedMeshRenderer[] SkinnedMeshRenderers;
     [SerializeField] private Material[] CostumeMaterials;
     [SerializeField] private Material EnemyMaterial;
 
@@ -15,12 +16,22 @@ public class PlayerCostume : MonoBehaviour
             {
                 mr.material = CostumeMaterials[(int) playerNumber];
             }
+
+            foreach (SkinnedMeshRenderer smr in SkinnedMeshRenderers)
+            {
+                smr.material = CostumeMaterials[(int) playerNumber];
+            }
         }
         else if (playerNumber == PlayerNumber.AI)
         {
             foreach (MeshRenderer mr in CostumeMeshRenderers)
             {
                 mr.material = EnemyMaterial;
+            }
+
+            foreach (SkinnedMeshRenderer smr in SkinnedMeshRenderers)
+            {
+                smr.material = CostumeMaterials[(int) playerNumber];
             }
         }
     }

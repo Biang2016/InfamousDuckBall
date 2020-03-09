@@ -10,7 +10,7 @@ public class Feet : GooseBodyPart
         Vector3 diff = Vector3.zero;
         diff += Vector3.forward * MultiControllerManager.Instance.Controllers[controllerIndex].Axises[ControlAxis.LeftStick_H];
         diff += Vector3.right * MultiControllerManager.Instance.Controllers[controllerIndex].Axises[ControlAxis.LeftStick_V];
-        diff = diff.normalized * Goose.Accelerate * MoveSpeedModifier;
+        diff = diff.normalized * GooseConfig.Accelerate * MoveSpeedModifier;
 
         ParentPlayerControl.Player.PlayerControl.PlayerRigidbody.AddForce(diff);
 

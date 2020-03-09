@@ -5,6 +5,7 @@ public class PlayerControl : MonoBehaviour
 {
     internal Player Player;
     internal Goose Goose;
+    internal GooseConfig GooseConfig;
     internal PlayerCollider PlayerCollider;
    
     public Rigidbody PlayerRigidbody;
@@ -14,6 +15,7 @@ public class PlayerControl : MonoBehaviour
     {
         Player = GetComponent<Player>();
         Goose = GetComponent<Goose>();
+        GooseConfig = GetComponent<GooseConfig>();
         PlayerCollider = GetComponentInChildren<PlayerCollider>();
     }
 
@@ -31,9 +33,9 @@ public class PlayerControl : MonoBehaviour
 
     void FixedUpdate()
     {
-        if (PlayerRigidbody.velocity.magnitude > Goose.MaxSpeed)
+        if (PlayerRigidbody.velocity.magnitude > GooseConfig.MaxSpeed)
         {
-            PlayerRigidbody.velocity = PlayerRigidbody.velocity.normalized * Goose.MaxSpeed;
+            PlayerRigidbody.velocity = PlayerRigidbody.velocity.normalized * GooseConfig.MaxSpeed;
         }
     }
 }
