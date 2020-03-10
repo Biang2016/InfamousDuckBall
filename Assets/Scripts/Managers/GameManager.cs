@@ -70,15 +70,57 @@ public class GameManager : MonoSingleton<GameManager>
             SceneManager.LoadScene("MainScene");
         }
 
-        if (Input.GetKeyUp(KeyCode.F2))
+        if (Input.GetKeyUp(KeyCode.F1))
         {
             DefaultBattleType = BattleTypes.PVP4;
             SceneManager.LoadScene("MainScene");
         }
 
+        if (Input.GetKeyUp(KeyCode.F2))
+        {
+            DefaultBattleType = BattleTypes.PVP4_Bigger;
+            SceneManager.LoadScene("MainScene");
+        }
+
         if (Input.GetKeyUp(KeyCode.F3))
         {
+            DefaultBattleType = BattleTypes.PVP4_Wall1;
+            SceneManager.LoadScene("MainScene");
+        }
+
+        if (Input.GetKeyUp(KeyCode.F4))
+        {
+            DefaultBattleType = BattleTypes.PVP4_Wall2;
+            SceneManager.LoadScene("MainScene");
+        }
+
+        if (Input.GetKeyUp(KeyCode.F5))
+        {
+            DefaultBattleType = BattleTypes.PVP4_Wall3;
+            SceneManager.LoadScene("MainScene");
+        }
+
+        if (Input.GetKeyUp(KeyCode.F6))
+        {
+            DefaultBattleType = BattleTypes.PVP4_Wall4;
+            SceneManager.LoadScene("MainScene");
+        }
+
+        if (Input.GetKeyUp(KeyCode.F7))
+        {
             DefaultBattleType = BattleTypes.PVP2;
+            SceneManager.LoadScene("MainScene");
+        }
+
+        if (Input.GetKeyUp(KeyCode.F8))
+        {
+            DefaultBattleType = BattleTypes.PVP2_Bigger;
+            SceneManager.LoadScene("MainScene");
+        }
+
+        if (Input.GetKeyUp(KeyCode.F9))
+        {
+            DefaultBattleType = BattleTypes.PVP2_Wall;
             SceneManager.LoadScene("MainScene");
         }
     }
@@ -102,6 +144,16 @@ public class GameManager : MonoSingleton<GameManager>
         debugPanel.RefreshScore();
 
         Cur_BattleManager.ResetBall();
+    }
+
+    public Vector3 GetBallPosition()
+    {
+        if (Cur_BattleManager)
+        {
+            return Cur_BattleManager.Ball.transform.position;
+        }
+
+        return Vector3.zero;
     }
 
     public List<Vector3> GetAllPlayerPositions()
@@ -194,6 +246,7 @@ public class GameManager : MonoSingleton<GameManager>
         RefreshAllTeamGoal();
         debugPanel.SetScoreShown(true);
         debugPanel.RefreshScore();
+        debugPanel.RefreshLevelName();
     }
 
     public Player SetUpPlayer(PlayerInfo playerInfo)

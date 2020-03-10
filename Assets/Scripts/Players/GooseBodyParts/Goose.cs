@@ -8,4 +8,7 @@ public class Goose : MonoBehaviour
     public Neck Neck;
     public Head Head;
     public Wings Wings;
+
+    public Vector3 GetHeadPosition => Head.transform.position;
+
 }

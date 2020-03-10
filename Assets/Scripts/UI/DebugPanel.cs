@@ -9,6 +9,8 @@ public class DebugPanel : BaseUIForm
     [SerializeField] private Text Score3Text;
     [SerializeField] private Text Score4Text;
 
+    [SerializeField] private Text LevelNameText;
+
     private SortedDictionary<TeamNumber, Text> TeamScoreTextDict = new SortedDictionary<TeamNumber, Text>();
 
     void Awake()
@@ -50,6 +52,11 @@ public class DebugPanel : BaseUIForm
                 TeamScoreTextDict[kv.Key].text = "-";
             }
         }
+    }
+
+    public void RefreshLevelName()
+    {
+        LevelNameText.text = GameManager.Instance.Cur_BattleManager.BattleType.ToString();
     }
 
     public void SetScoreShown(bool shown)

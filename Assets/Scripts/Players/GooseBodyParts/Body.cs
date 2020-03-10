@@ -14,23 +14,30 @@ public class Body : GooseBodyPart
 
         // Move Neck
         {
-            Vector3 neckTargetPos = Goose.Neck.HeadPosPivot.position;
+            float h = MultiControllerManager.Instance.Controllers[controllerIndex].Axises[ControlAxis.RightStick_H];
+            float v = MultiControllerManager.Instance.Controllers[controllerIndex].Axises[ControlAxis.RightStick_V];
 
-            neckTargetPos += Vector3.forward * GooseConfig.NeckSpeed * SpeedModifier * MultiControllerManager.Instance.Controllers[controllerIndex].Axises[ControlAxis.RightStick_H];
-            neckTargetPos += Vector3.right * GooseConfig.NeckSpeed * SpeedModifier * MultiControllerManager.Instance.Controllers[controllerIndex].Axises[ControlAxis.RightStick_V];
-
-            float targetRadius = (neckTargetPos - transform.position).magnitude;
-            if (targetRadius < GooseConfig.Radius * 2)
+            if (!h.Equals(0) || !v.Equals(0))
             {
-                neckTargetPos = (neckTargetPos - transform.position).normalized * GooseConfig.Radius * 2 + transform.position;
+                Vector3 neckTargetPos = Goose.Neck.HeadPosPivot.position;
+
+                neckTargetPos += Vector3.forward * GooseConfig.NeckSpeed * SpeedModifier * h;
+                neckTargetPos += Vector3.right * GooseConfig.NeckSpeed * SpeedModifier * v;
+
+                float targetRadius = (neckTargetPos - transform.position).magnitude;
+                if (targetRadius < GooseConfig.Radius * 2)
+                {
+                    neckTargetPos = (neckTargetPos - transform.position).normalized * GooseConfig.Radius * 2 + transform.position;
+                    Debug.Log("gaga");
+                }
+
+                neckTargetPos.y = GameManager.Instance.GetBallPosition().y;
+
+                Vector3 diff = neckTargetPos - ParentPlayerControl.Player.GetPlayerPosition;
+                diff = diff.magnitude > GooseConfig.MaxNeckLength ? diff.normalized * GooseConfig.MaxNeckLength : diff;
+                neckTargetPos = diff + ParentPlayerControl.Player.GetPlayerPosition;
+                MoveNeckTo(neckTargetPos);
             }
-
-            neckTargetPos.y = GameManager.Instance.Cur_BattleManager.Ball.transform.position.y;
-
-            Vector3 diff = neckTargetPos - Goose.Feet.transform.position;
-            diff = diff.magnitude > GooseConfig.MaxNeckLength ? diff.normalized * GooseConfig.MaxNeckLength : diff;
-            neckTargetPos = diff + Goose.Feet.transform.position;
-            MoveNeckTo(neckTargetPos);
         }
     }
 
@@ -57,7 +64,7 @@ public class Body : GooseBodyPart
         IsPushingNeck = true;
         Vector3 neckTargetPos = Goose.Neck.HeadPosPivot.position;
 
-        float dist = (Goose.Head.transform.position + Goose.Head.transform.forward * GooseConfig.PullBallStopFromHead - GameManager.Instance.Cur_BattleManager.Ball.transform.position).magnitude;
+        float dist = (Goose.Head.transform.position + Goose.Head.transform.forward * GooseConfig.PullBallStopFromHead - GameManager.Instance.GetBallPosition()).magnitude;
         dist = Mathf.Min(GooseConfig.PullNeckDistance, dist);
 
         for (int i = 0; i < GooseConfig.PullNeckFrame; i++)
@@ -82,7 +89,7 @@ public class Body : GooseBodyPart
         IsPushingNeck = true;
         Vector3 neckTargetPos = Goose.Neck.HeadPosPivot.position;
 
-        float dist = (Goose.Head.transform.position - GameManager.Instance.Cur_BattleManager.Ball.transform.position).magnitude;
+        float dist = (Goose.GetHeadPosition - GameManager.Instance.GetBallPosition()).magnitude;
         dist = Mathf.Min(GooseConfig.PushNeckDistance, dist);
 
         for (int i = 0; i < GooseConfig.PushNeckFrame; i++)
@@ -119,7 +126,6 @@ public class Body : GooseBodyPart
 
     protected void LateUpdate()
     {
-        transform.position = Goose.Feet.transform.position;
-        Goose.Head.transform.position = Goose.Neck.HeadPosPivot.position;
+        transform.position = ParentPlayerControl.Player.GetPlayerPosition;
     }
 }

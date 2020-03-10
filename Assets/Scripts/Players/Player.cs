@@ -41,11 +41,11 @@ public class Player : MonoBehaviour
         PlayerControl.Controllable = true;
     }
 
-    public Vector3 GetPlayerPosition => PlayerControl.Goose.transform.position;
+    public Vector3 GetPlayerPosition => PlayerControl.Goose.Feet.transform.position;
 
     public void SetPlayerPosition(Vector3 pos)
     {
-        PlayerControl.Goose.transform.position = pos;
+        PlayerControl.Goose.Feet.transform.position = pos;
     }
 
     public ParticleSystem ParticleSystem;
@@ -62,6 +62,7 @@ public class Player : MonoBehaviour
         PlayerInfo.TeamNumber = (TeamNumber) ((((int) PlayerInfo.TeamNumber) + increase + GameManager.TeamNumberCount) % GameManager.TeamNumberCount);
         PlayerCostume.Initialize(PlayerInfo.PlayerNumber, PlayerInfo.TeamNumber);
         GameManager.Instance.TeamDict[PlayerInfo.TeamNumber].TeamPlayers.Add(this);
+        GameManager.Instance.RefreshAllTeamGoal();
         UIManager.Instance.GetBaseUIForm<DebugPanel>().RefreshScore();
     }
 

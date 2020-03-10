@@ -26,16 +26,17 @@ public class Head : GooseBodyPart
 
     protected override void Operate_Manual(PlayerNumber controllerIndex)
     {
-        if (MultiControllerManager.Instance.Controllers[controllerIndex].ButtonDown[ControlButtons.RightTrigger])
+        bool right = MultiControllerManager.Instance.Controllers[controllerIndex].ButtonDown[ControlButtons.RightTrigger];
+        bool left = MultiControllerManager.Instance.Controllers[controllerIndex].ButtonDown[ControlButtons.LeftTrigger];
+
+        if (!left && right)
         {
             Push();
         }
-        else
+
+        if (left && !right)
         {
-            if (MultiControllerManager.Instance.Controllers[controllerIndex].ButtonDown[ControlButtons.LeftTrigger])
-            {
-                Pull();
-            }
+            Pull();
         }
     }
 
@@ -53,29 +54,32 @@ public class Head : GooseBodyPart
         Goose.Wings.Fly();
     }
 
-    private Vector3 targetLookAtPos = Vector3.zero;
-
     void LateUpdate()
     {
+        float diff = (transform.position - Goose.Neck.HeadPosPivot.position).magnitude;
+        if (diff > 0.5f)
+        {
+            //Debug.Log(diff);
+            //Debug.LogError("st");
+        }
+
         transform.position = Goose.Neck.HeadPosPivot.position;
 
         if (!Goose.Body.IsPushingNeck)
         {
-            Vector3 diff_BodyToHead = Goose.Feet.transform.position - transform.position;
-            Vector3 diff_BallToHead = GameManager.Instance.Cur_BattleManager.Ball.transform.position - transform.position;
+            Vector3 diff_BodyToHead = ParentPlayerControl.Player.GetPlayerPosition - transform.position;
+            Vector3 diff_BallToHead = GameManager.Instance.GetBallPosition() - transform.position;
 
             float angle = Mathf.Abs(Vector3.SignedAngle(diff_BodyToHead, diff_BallToHead, Vector3.down));
+
             if (angle > GooseConfig.LookBallAngleThreshold)
             {
-                targetLookAtPos = Vector3.LerpUnclamped(targetLookAtPos, GameManager.Instance.Cur_BattleManager.Ball.transform.position, Time.deltaTime * GooseConfig.HeadRotateSpeed);
+                transform.LookAt(GameManager.Instance.GetBallPosition());
             }
             else
             {
-                targetLookAtPos = Vector3.LerpUnclamped(targetLookAtPos, transform.position - diff_BodyToHead.normalized * 10f, Time.deltaTime * GooseConfig.HeadRotateSpeed);
+                transform.LookAt(transform.position - diff_BodyToHead.normalized * 10f);
             }
-
-            transform.LookAt(targetLookAtPos);
-            Debug.DrawRay(transform.position, -diff_BodyToHead.normalized, Color.red, Time.deltaTime);
         }
     }
 }
