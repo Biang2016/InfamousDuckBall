@@ -9,8 +9,11 @@ public class GameManager : MonoSingleton<GameManager>
 
     internal SortedDictionary<PlayerNumber, Player> PlayerDict = new SortedDictionary<PlayerNumber, Player>();
     internal SortedDictionary<int, Player> RobotDict = new SortedDictionary<int, Player>();
+    internal SortedDictionary<TeamNumber, Team> TeamDict = new SortedDictionary<TeamNumber, Team>();
 
     public const int MaximalPlayerNumber = 4;
+    public const int PlayerNumberCount = 4;
+    public const int TeamNumberCount = 4;
 
     internal int LayerMask_RangeOfActivity;
     internal int Layer_RangeOfActivity;
@@ -82,23 +85,22 @@ public class GameManager : MonoSingleton<GameManager>
 
     public bool IsGameStart = true;
 
-    public void Score(int kickRobotIndex, int hitRobotIndex)
+    public void Score(TeamNumber kickTeamNumber, TeamNumber hitTeamNumber)
     {
-        foreach (KeyValuePair<PlayerNumber, Player> kv in PlayerDict)
+        if (kickTeamNumber == hitTeamNumber)
         {
-            if (kv.Value.PlayerInfo.RobotIndex != hitRobotIndex)
-            {
-                kv.Value.Score++;
-            }
-            else
-            {
-                kv.Value.Score--;
-            }
+            TeamDict[kickTeamNumber].Score--;
+            RefreshTeamGoal(kickTeamNumber);
+        }
+        else
+        {
+            TeamDict[kickTeamNumber].Score++;
+            RefreshTeamGoal(hitTeamNumber);
         }
 
+        AudioManager.Instance.SoundPlay("sfx/Sound_Score");
         debugPanel.RefreshScore();
 
-        RobotDict[hitRobotIndex].ParticleSystem.Play();
         Cur_BattleManager.ResetBall();
     }
 
@@ -178,6 +180,18 @@ public class GameManager : MonoSingleton<GameManager>
             }
         }
 
+        TeamDict.Clear();
+        TeamDict.Add(TeamNumber.Team1, new Team(TeamNumber.Team1, 0));
+        TeamDict.Add(TeamNumber.Team2, new Team(TeamNumber.Team2, 0));
+        TeamDict.Add(TeamNumber.Team3, new Team(TeamNumber.Team3, 0));
+        TeamDict.Add(TeamNumber.Team4, new Team(TeamNumber.Team4, 0));
+
+        foreach (KeyValuePair<PlayerNumber, Player> kv in PlayerDict)
+        {
+            TeamDict[kv.Value.PlayerInfo.TeamNumber].TeamPlayers.Add(kv.Value);
+        }
+
+        RefreshAllTeamGoal();
         debugPanel.SetScoreShown(true);
         debugPanel.RefreshScore();
     }
@@ -204,6 +218,43 @@ public class GameManager : MonoSingleton<GameManager>
         Cur_BattleManager.PlayerSpawnPointManager.Spawn(playerInfo);
         Cur_BattleManager.OnSetupPlayer(playerInfo.PlayerNumber);
         return player;
+    }
+
+    public void RefreshAllTeamGoal()
+    {
+        foreach (KeyValuePair<TeamNumber, Team> kv in TeamDict)
+        {
+            RefreshTeamGoal(kv.Key);
+        }
+    }
+
+    public void RefreshTeamGoal(TeamNumber teamNumber)
+    {
+        if (TeamDict[teamNumber].TeamPlayers.Count != 0)
+        {
+            List<Player> currentGoalPlayer = new List<Player>();
+
+            foreach (Player p in TeamDict[teamNumber].TeamPlayers)
+            {
+                if (p.IsAGoal)
+                {
+                    currentGoalPlayer.Add(p);
+                    p.IsAGoal = false;
+                }
+            }
+
+            List<Player> validPlayers = ClientUtils.GetRandomFromList(TeamDict[teamNumber].TeamPlayers, 1, currentGoalPlayer);
+            if (validPlayers.Count == 0)
+            {
+                Player goalPlayer = ClientUtils.GetRandomFromList(TeamDict[teamNumber].TeamPlayers, 1)[0];
+                goalPlayer.IsAGoal = true;
+            }
+            else
+            {
+                Player goalPlayer = validPlayers[0];
+                goalPlayer.IsAGoal = true;
+            }
+        }
     }
 
     public void ResetPlayer(Player player)

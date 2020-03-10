@@ -3,5 +3,5 @@
 public interface IKickable
 {
     Rigidbody GetRigidbody();
-    void Kick(int kickIndex, Vector3 force);
+    void Kick(TeamNumber teamNumber, Vector3 force);
 }

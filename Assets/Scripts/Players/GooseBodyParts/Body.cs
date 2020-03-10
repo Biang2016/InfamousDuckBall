@@ -57,7 +57,7 @@ public class Body : GooseBodyPart
         IsPushingNeck = true;
         Vector3 neckTargetPos = Goose.Neck.HeadPosPivot.position;
 
-        float dist = (Goose.Head.transform.position - GameManager.Instance.Cur_BattleManager.Ball.transform.position).magnitude;
+        float dist = (Goose.Head.transform.position + Goose.Head.transform.forward * GooseConfig.PullBallStopFromHead - GameManager.Instance.Cur_BattleManager.Ball.transform.position).magnitude;
         dist = Mathf.Min(GooseConfig.PullNeckDistance, dist);
 
         for (int i = 0; i < GooseConfig.PullNeckFrame; i++)

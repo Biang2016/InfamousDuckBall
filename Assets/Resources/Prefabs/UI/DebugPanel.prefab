@@ -230,8 +230,8 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "Left Stick: Move\t\tRight Stick: Move Arms\t\tLT: Switch Weapon\t\tRT:
-    Kick"
+  m_Text: "Left Stick: Move\t\tRight Stick: Move Head\t\tLT: Grab\t\tRT: Kick\t\tLeft:
+    Switch Team"
 --- !u!1 &4264474842034419369
 GameObject:
   m_ObjectHideFlags: 0
@@ -814,7 +814,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Score1Text: {fileID: 9115860340839260365}
-  ScoreDotText: {fileID: 6219789572541070218}
   Score2Text: {fileID: 3683076421500195931}
   Score3Text: {fileID: 5980628481384638974}
   Score4Text: {fileID: 6341415426894885183}

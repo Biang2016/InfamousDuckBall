@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class Player : MonoBehaviour
@@ -6,6 +7,8 @@ public class Player : MonoBehaviour
 
     internal PlayerControl PlayerControl;
     internal PlayerCostume PlayerCostume;
+    public GameObject GoalIndicator;
+    public Collider GoalCollider;
 
     void Awake()
     {
@@ -22,13 +25,12 @@ public class Player : MonoBehaviour
         return player;
     }
 
-    internal int Score = 0;
-
     public void Initialize(PlayerInfo playerInfo)
     {
         PlayerInfo = playerInfo;
-        PlayerCostume.Initialize(PlayerInfo.PlayerNumber);
+        PlayerCostume.Initialize(PlayerInfo.PlayerNumber, playerInfo.TeamNumber);
         PlayerControl.Initialize(this);
+        GoalIndicator.SetActive(false);
     }
 
     public bool ConsiderPlayerInCamera;
@@ -52,6 +54,28 @@ public class Player : MonoBehaviour
     {
         PlayerControl.PlayerRigidbody.velocity = Vector3.zero;
         PlayerControl.PlayerRigidbody.angularVelocity = Vector3.zero;
+    }
+
+    public void SwitchTeam(int increase)
+    {
+        GameManager.Instance.TeamDict[PlayerInfo.TeamNumber].TeamPlayers.Remove(this);
+        PlayerInfo.TeamNumber = (TeamNumber) ((((int) PlayerInfo.TeamNumber) + increase + GameManager.TeamNumberCount) % GameManager.TeamNumberCount);
+        PlayerCostume.Initialize(PlayerInfo.PlayerNumber, PlayerInfo.TeamNumber);
+        GameManager.Instance.TeamDict[PlayerInfo.TeamNumber].TeamPlayers.Add(this);
+        UIManager.Instance.GetBaseUIForm<DebugPanel>().RefreshScore();
+    }
+
+    private bool isAGoal = false;
+
+    public bool IsAGoal
+    {
+        get { return isAGoal; }
+        set
+        {
+            isAGoal = value;
+            GoalIndicator.SetActive(value);
+            GoalCollider.isTrigger = value;
+        }
     }
 }
 

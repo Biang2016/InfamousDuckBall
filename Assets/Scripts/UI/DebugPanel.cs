@@ -1,13 +1,15 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 using UnityEngine.UI;
 
 public class DebugPanel : BaseUIForm
 {
     [SerializeField] private Text Score1Text;
-    [SerializeField] private Text ScoreDotText;
     [SerializeField] private Text Score2Text;
     [SerializeField] private Text Score3Text;
     [SerializeField] private Text Score4Text;
+
+    private SortedDictionary<TeamNumber, Text> TeamScoreTextDict = new SortedDictionary<TeamNumber, Text>();
 
     void Awake()
     {
@@ -18,6 +20,11 @@ public class DebugPanel : BaseUIForm
             uiForms_Type: UIFormTypes.Fixed,
             uiForms_ShowMode: UIFormShowModes.Normal,
             uiForm_LucencyType: UIFormLucencyTypes.Penetrable);
+
+        TeamScoreTextDict.Add(TeamNumber.Team1, Score1Text);
+        TeamScoreTextDict.Add(TeamNumber.Team2, Score2Text);
+        TeamScoreTextDict.Add(TeamNumber.Team3, Score3Text);
+        TeamScoreTextDict.Add(TeamNumber.Team4, Score4Text);
     }
 
     public Text fpsText;
@@ -32,40 +39,16 @@ public class DebugPanel : BaseUIForm
 
     public void RefreshScore()
     {
-        if (GameManager.Instance.PlayerDict.ContainsKey(PlayerNumber.Player1))
+        foreach (KeyValuePair<TeamNumber, Team> kv in GameManager.Instance.TeamDict)
         {
-            Score1Text.text = GameManager.Instance.PlayerDict[PlayerNumber.Player1].Score.ToString();
-        }
-        else
-        {
-            Score1Text.text = "-";
-        }
-
-        if (GameManager.Instance.PlayerDict.ContainsKey(PlayerNumber.Player2))
-        {
-            Score2Text.text = GameManager.Instance.PlayerDict[PlayerNumber.Player2].Score.ToString();
-        }
-        else
-        {
-            Score2Text.text = "-";
-        }
-
-        if (GameManager.Instance.PlayerDict.ContainsKey(PlayerNumber.Player3))
-        {
-            Score3Text.text = GameManager.Instance.PlayerDict[PlayerNumber.Player3].Score.ToString();
-        }
-        else
-        {
-            Score3Text.text = "-";
-        }
-
-        if (GameManager.Instance.PlayerDict.ContainsKey(PlayerNumber.Player4))
-        {
-            Score4Text.text = GameManager.Instance.PlayerDict[PlayerNumber.Player4].Score.ToString();
-        }
-        else
-        {
-            Score4Text.text = "-";
+            if (kv.Value.TeamPlayers.Count != 0)
+            {
+                TeamScoreTextDict[kv.Key].text = kv.Value.Score.ToString();
+            }
+            else
+            {
+                TeamScoreTextDict[kv.Key].text = "-";
+            }
         }
     }
 
@@ -73,7 +56,8 @@ public class DebugPanel : BaseUIForm
     {
         Score1Text.enabled = shown;
         Score2Text.enabled = shown;
-        ScoreDotText.enabled = shown;
+        Score3Text.enabled = shown;
+        Score4Text.enabled = shown;
     }
 
     public void OnReset()

@@ -65,14 +65,13 @@ public class Head : GooseBodyPart
             Vector3 diff_BallToHead = GameManager.Instance.Cur_BattleManager.Ball.transform.position - transform.position;
 
             float angle = Mathf.Abs(Vector3.SignedAngle(diff_BodyToHead, diff_BallToHead, Vector3.down));
-
             if (angle > GooseConfig.LookBallAngleThreshold)
             {
-                targetLookAtPos = Vector3.Lerp(targetLookAtPos, GameManager.Instance.Cur_BattleManager.Ball.transform.position, Time.deltaTime * GooseConfig.HeadRotateSpeed);
+                targetLookAtPos = Vector3.LerpUnclamped(targetLookAtPos, GameManager.Instance.Cur_BattleManager.Ball.transform.position, Time.deltaTime * GooseConfig.HeadRotateSpeed);
             }
             else
             {
-                targetLookAtPos = Vector3.Lerp(targetLookAtPos, transform.position - diff_BodyToHead.normalized * 10f, Time.deltaTime * GooseConfig.HeadRotateSpeed);
+                targetLookAtPos = Vector3.LerpUnclamped(targetLookAtPos, transform.position - diff_BodyToHead.normalized * 10f, Time.deltaTime * GooseConfig.HeadRotateSpeed);
             }
 
             transform.LookAt(targetLookAtPos);

@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using DG.Tweening;
 
 public class HeadModel : MonoBehaviour
 {
@@ -7,28 +8,31 @@ public class HeadModel : MonoBehaviour
 
     public void OnPull()
     {
+        AudioManager.Instance.SoundPlay("sfx/Sound_Pull");
         Head.Goose.Body.PullNeck();
-        IKickable ko = GameManager.Instance.Cur_BattleManager.Ball;
+        GoalBall ball = GameManager.Instance.Cur_BattleManager.Ball;
         Vector3 diff = GameManager.Instance.Cur_BattleManager.Ball.transform.position - transform.position;
 
         float distance = diff.magnitude;
         if (distance < Head.GooseConfig.PullRadius)
         {
-            ko.Kick(Head.ParentPlayerControl.Player.PlayerInfo.RobotIndex, (-diff.normalized) * Head.GooseConfig.PullForce);
+            ball.RigidBody.DOMove(Head.transform.position + Head.transform.forward * Head.GooseConfig.PullBallStopFromHead, Head.GooseConfig.PullDuration);
+            ball.Kick(Head.ParentPlayerControl.Player.PlayerInfo.TeamNumber, (-diff.normalized) * 0);
             FXManager.Instance.PlayFX(FX_Type.BallKickParticleSystem, GameManager.Instance.Cur_BattleManager.Ball.transform.position, Quaternion.FromToRotation(Vector3.back, diff.normalized));
         }
     }
 
     public void OnPush()
     {
+        AudioManager.Instance.SoundPlay("sfx/Sound_Push");
         Head.Goose.Body.PushNeck();
-        IKickable ko = GameManager.Instance.Cur_BattleManager.Ball;
+        GoalBall ball = GameManager.Instance.Cur_BattleManager.Ball;
         Vector3 diff = GameManager.Instance.Cur_BattleManager.Ball.transform.position - transform.position;
 
         float distance = diff.magnitude;
         if (distance < Head.GooseConfig.PushRadius)
         {
-            ko.Kick(Head.ParentPlayerControl.Player.PlayerInfo.RobotIndex, (diff.normalized) * Head.GooseConfig.PushForce);
+            ball.Kick(Head.ParentPlayerControl.Player.PlayerInfo.TeamNumber, (diff.normalized) * Head.GooseConfig.PushForce);
             FXManager.Instance.PlayFX(FX_Type.BallKickParticleSystem, GameManager.Instance.Cur_BattleManager.Ball.transform.position, Quaternion.FromToRotation(Vector3.back, diff.normalized));
         }
     }
@@ -36,10 +40,14 @@ public class HeadModel : MonoBehaviour
     public void OnPushOver()
     {
         Head.HeadCollider.enabled = true;
+        Head.Anim.ResetTrigger("Push");
+        Head.Anim.ResetTrigger("Pull");
     }
 
     public void OnPullOver()
     {
         Head.HeadCollider.enabled = true;
+        Head.Anim.ResetTrigger("Push");
+        Head.Anim.ResetTrigger("Pull");
     }
 }

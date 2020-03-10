@@ -16,7 +16,8 @@ public class GooseConfig : MonoBehaviour
     [Space] public int PullNeckFrame = 5;
     public float PullRadius = 10f;
     public float PullNeckDistance = 3f;
-    public float PullForce = 3000f;
+    public float PullBallStopFromHead = 2.5f;
+    public float PullDuration = 0.2f;
 
     [Space] public float HeadRotateSpeed = 5f;
     public float NeckStartTangent = 1f;
