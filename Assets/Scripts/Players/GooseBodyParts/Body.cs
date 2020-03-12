@@ -17,9 +17,14 @@ public class Body : GooseBodyPart
             float h = MultiControllerManager.Instance.Controllers[controllerIndex].Axises[ControlAxis.RightStick_H];
             float v = MultiControllerManager.Instance.Controllers[controllerIndex].Axises[ControlAxis.RightStick_V];
 
-            if (!h.Equals(0) || !v.Equals(0))
+            if (!h.Equals(0) || !v.Equals(0) || Goose.Head.HeadStatus == Head.HeadStatusTypes.PushCharging)
             {
                 Vector3 neckTargetPos = Goose.Neck.HeadPosPivot.position;
+
+                if (Goose.Head.HeadStatus == Head.HeadStatusTypes.PushCharging)
+                {
+                    neckTargetPos += -Goose.Head.transform.forward * 0.1f;
+                }
 
                 neckTargetPos += Vector3.forward * GooseConfig.NeckSpeed * SpeedModifier * h;
                 neckTargetPos += Vector3.right * GooseConfig.NeckSpeed * SpeedModifier * v;
@@ -28,7 +33,6 @@ public class Body : GooseBodyPart
                 if (targetRadius < GooseConfig.Radius * 2)
                 {
                     neckTargetPos = (neckTargetPos - transform.position).normalized * GooseConfig.Radius * 2 + transform.position;
-                    Debug.Log("gaga");
                 }
 
                 neckTargetPos.y = GameManager.Instance.GetBallPosition().y;

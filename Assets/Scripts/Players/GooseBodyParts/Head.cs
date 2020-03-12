@@ -24,24 +24,64 @@ public class Head : GooseBodyPart
     {
     }
 
+    private float PushChargeTimeMaxDuration = 1.5f;
+    private float PushChargeTimeTick = 0;
+    public HeadStatusTypes HeadStatus = HeadStatusTypes.Idle;
+
+    public enum HeadStatusTypes
+    {
+        Idle = 0,
+        PushCharging = 1,
+        Pushing = 2,
+        Pulling = 3,
+    }
+
     protected override void Operate_Manual(PlayerNumber controllerIndex)
     {
-        bool right = MultiControllerManager.Instance.Controllers[controllerIndex].ButtonDown[ControlButtons.RightTrigger];
-        bool left = MultiControllerManager.Instance.Controllers[controllerIndex].ButtonDown[ControlButtons.LeftTrigger];
-
-        if (!left && right)
+        bool rightDown = MultiControllerManager.Instance.Controllers[controllerIndex].ButtonDown[ControlButtons.RightTrigger];
+        bool rightUp = MultiControllerManager.Instance.Controllers[controllerIndex].ButtonUp[ControlButtons.RightTrigger];
+        bool rightPressed = MultiControllerManager.Instance.Controllers[controllerIndex].ButtonPressed[ControlButtons.RightTrigger];
+        bool leftDown = MultiControllerManager.Instance.Controllers[controllerIndex].ButtonDown[ControlButtons.LeftTrigger];
+        
+        switch (HeadStatus)
         {
-            Push();
-        }
+            case HeadStatusTypes.Idle:
+            {
+                if (leftDown)
+                {
+                    Pull();
+                }
+                else if (rightDown)
+                {
+                    Push();
+                }
 
-        if (left && !right)
-        {
-            Pull();
+                break;
+            }
+            case HeadStatusTypes.PushCharging:
+            {
+                if (rightUp)
+                {
+                    Push();
+                }
+                else if (rightPressed)
+                {
+                    PushChargeTimeTick += Time.deltaTime;
+                    if (PushChargeTimeTick > PushChargeTimeMaxDuration)
+                    {
+                        PushChargeTimeTick = 0;
+                        Push();
+                    }
+                }
+
+                break;
+            }
         }
     }
 
     private void Push()
     {
+        HeadStatus = HeadStatusTypes.Pushing;
         HeadCollider.enabled = false;
         Anim.SetTrigger("Push");
         Goose.Wings.Fly();
@@ -49,6 +89,7 @@ public class Head : GooseBodyPart
 
     private void Pull()
     {
+        HeadStatus = HeadStatusTypes.Pulling;
         HeadCollider.enabled = false;
         Anim.SetTrigger("Pull");
         Goose.Wings.Fly();

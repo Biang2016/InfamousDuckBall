@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using DG.Tweening;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -57,6 +58,7 @@ public class BattleManager : MonoBehaviour
 
     IEnumerator Co_ResetBall(float suspendingTime)
     {
+        Ball.RigidBody.DOPause();
         Ball.transform.position = BallDefaultPos;
         Ball.Reset();
         Ball.GetRigidbody().useGravity = false;

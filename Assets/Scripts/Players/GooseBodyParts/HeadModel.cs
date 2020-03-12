@@ -39,6 +39,7 @@ public class HeadModel : MonoBehaviour
 
     public void OnPushOver()
     {
+        Head.HeadStatus = Head.HeadStatusTypes.Idle;
         Head.HeadCollider.enabled = true;
         Head.Anim.ResetTrigger("Push");
         Head.Anim.ResetTrigger("Pull");
@@ -46,6 +47,7 @@ public class HeadModel : MonoBehaviour
 
     public void OnPullOver()
     {
+        Head.HeadStatus = Head.HeadStatusTypes.Idle;
         Head.HeadCollider.enabled = true;
         Head.Anim.ResetTrigger("Push");
         Head.Anim.ResetTrigger("Pull");
