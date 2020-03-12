@@ -23,7 +23,12 @@ public class Body : GooseBodyPart
 
                 if (Goose.Head.HeadStatus == Head.HeadStatusTypes.PushCharging)
                 {
-                    neckTargetPos += -Goose.Head.transform.forward * 0.1f;
+                    neckTargetPos += -Goose.Head.transform.forward * 0.01f;
+                    ChargeDistance += 0.01f;
+                }
+                else
+                {
+                    ChargeDistance = 0f;
                 }
 
                 neckTargetPos += Vector3.forward * GooseConfig.NeckSpeed * SpeedModifier * h;
@@ -45,6 +50,8 @@ public class Body : GooseBodyPart
         }
     }
 
+    internal float ChargeDistance = 0f;
+
     public void PullNeck()
     {
         if (!IsPushingNeck)
@@ -57,7 +64,7 @@ public class Body : GooseBodyPart
     {
         if (!IsPushingNeck)
         {
-            StartCoroutine(Co_PushNeck(Goose.Head.transform.forward));
+            StartCoroutine(Co_PushNeck(Goose.Head.transform.forward, ChargeDistance));
         }
     }
 
@@ -88,29 +95,31 @@ public class Body : GooseBodyPart
         IsPushingNeck = false;
     }
 
-    IEnumerator Co_PushNeck(Vector3 dir)
+    IEnumerator Co_PushNeck(Vector3 dir,float chargeDistance)
     {
         IsPushingNeck = true;
         Vector3 neckTargetPos = Goose.Neck.HeadPosPivot.position;
 
         float dist = (Goose.GetHeadPosition - GameManager.Instance.GetBallPosition()).magnitude;
-        dist = Mathf.Min(GooseConfig.PushNeckDistance, dist);
+       float dist_forward = Mathf.Min(GooseConfig.PushNeckDistance + chargeDistance, dist);
+       float dist_backward = Mathf.Min(GooseConfig.PushNeckDistance , dist);
 
         for (int i = 0; i < GooseConfig.PushNeckFrame; i++)
         {
-            neckTargetPos += dir * dist / GooseConfig.PushNeckFrame;
+            neckTargetPos += dir * dist_forward / GooseConfig.PushNeckFrame;
             MoveNeckTo(neckTargetPos);
             yield return null;
         }
 
         for (int i = 0; i < GooseConfig.PushNeckFrame; i++)
         {
-            neckTargetPos -= dir * dist / GooseConfig.PushNeckFrame;
+            neckTargetPos -= dir * dist_backward / GooseConfig.PushNeckFrame;
             MoveNeckTo(neckTargetPos);
             yield return null;
         }
 
         IsPushingNeck = false;
+        ChargeDistance = 0f;
     }
 
     protected override void Operate_AI()

@@ -129,16 +129,31 @@ public class GameManager : MonoSingleton<GameManager>
 
     public void Score(TeamNumber kickTeamNumber, TeamNumber hitTeamNumber)
     {
-        if (kickTeamNumber == hitTeamNumber)
+        if (Cur_BattleManager.BattleType.ToString().Contains("PVP4"))
         {
-            TeamDict[kickTeamNumber].Score--;
-            RefreshTeamGoal(kickTeamNumber);
+            if (kickTeamNumber == hitTeamNumber)
+            {
+                TeamDict[kickTeamNumber].Score--;
+                RefreshTeamGoal(kickTeamNumber);
+            }
+            else
+            {
+                TeamDict[kickTeamNumber].Score++;
+                RefreshTeamGoal(hitTeamNumber);
+            }
         }
-        else
+
+        if(Cur_BattleManager.BattleType.ToString().Contains("PVP2"))
         {
-            TeamDict[kickTeamNumber].Score++;
-            RefreshTeamGoal(hitTeamNumber);
-        }
+                foreach (KeyValuePair<TeamNumber, Team> kv in TeamDict)
+                {
+                    if (kv.Key != hitTeamNumber)
+                    {
+                        kv.Value.Score++;
+                        RefreshTeamGoal(hitTeamNumber);
+                    }
+                }
+            }
 
         AudioManager.Instance.SoundPlay("sfx/Sound_Score");
         debugPanel.RefreshScore();

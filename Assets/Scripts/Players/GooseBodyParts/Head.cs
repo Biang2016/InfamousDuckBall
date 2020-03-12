@@ -24,7 +24,6 @@ public class Head : GooseBodyPart
     {
     }
 
-    private float PushChargeTimeMaxDuration = 1.5f;
     private float PushChargeTimeTick = 0;
     public HeadStatusTypes HeadStatus = HeadStatusTypes.Idle;
 
@@ -38,6 +37,7 @@ public class Head : GooseBodyPart
 
     protected override void Operate_Manual(PlayerNumber controllerIndex)
     {
+        bool rightBumperDown = MultiControllerManager.Instance.Controllers[controllerIndex].ButtonDown[ControlButtons.RightBumper];
         bool rightDown = MultiControllerManager.Instance.Controllers[controllerIndex].ButtonDown[ControlButtons.RightTrigger];
         bool rightUp = MultiControllerManager.Instance.Controllers[controllerIndex].ButtonUp[ControlButtons.RightTrigger];
         bool rightPressed = MultiControllerManager.Instance.Controllers[controllerIndex].ButtonPressed[ControlButtons.RightTrigger];
@@ -53,23 +53,35 @@ public class Head : GooseBodyPart
                 }
                 else if (rightDown)
                 {
-                    Push();
-                }
+                    HeadStatus = HeadStatusTypes.PushCharging;
+                }else if (rightPressed)
+                    {
+                        HeadStatus = HeadStatusTypes.PushCharging;
 
-                break;
+                    }
+                    else if(rightBumperDown)
+                    {
+                        PushChargeForceRatio = 0f;
+                        Push();
+                    }
+
+                    break;
             }
             case HeadStatusTypes.PushCharging:
             {
                 if (rightUp)
                 {
-                    Push();
+                        PushChargeForceRatio = PushChargeTimeTick / GooseConfig.PushChargeTimeMaxDuration;
+                        PushChargeTimeTick = 0;
+                        Push();
                 }
                 else if (rightPressed)
                 {
                     PushChargeTimeTick += Time.deltaTime;
-                    if (PushChargeTimeTick > PushChargeTimeMaxDuration)
+                    if (PushChargeTimeTick > GooseConfig.PushChargeTimeMaxDuration)
                     {
-                        PushChargeTimeTick = 0;
+                        PushChargeForceRatio = PushChargeTimeTick / GooseConfig.PushChargeTimeMaxDuration;
+                            PushChargeTimeTick = 0;
                         Push();
                     }
                 }
@@ -78,6 +90,9 @@ public class Head : GooseBodyPart
             }
         }
     }
+
+    internal float PushChargeForceRatio = 1.0f;
+
 
     private void Push()
     {

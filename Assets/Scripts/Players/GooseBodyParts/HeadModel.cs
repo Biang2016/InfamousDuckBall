@@ -30,9 +30,9 @@ public class HeadModel : MonoBehaviour
         Vector3 diff = GameManager.Instance.GetBallPosition() - transform.position;
 
         float distance = diff.magnitude;
-        if (distance < Head.GooseConfig.PushRadius)
+        if (distance < Head.GooseConfig.PushRadius + Head.Goose.Body.ChargeDistance)
         {
-            ball.Kick(Head.ParentPlayerControl.Player.PlayerInfo.TeamNumber, (Head.transform.forward) * Head.GooseConfig.PushForce);
+            ball.Kick(Head.ParentPlayerControl.Player.PlayerInfo.TeamNumber, (Head.transform.forward) * (Head.GooseConfig.PushForce  + Head.PushChargeForceRatio *Head.GooseConfig.PushChargingExtraForce));
             FXManager.Instance.PlayFX(FX_Type.BallKickParticleSystem, GameManager.Instance.GetBallPosition(), Quaternion.FromToRotation(Vector3.back, diff.normalized));
         }
     }

@@ -12,6 +12,9 @@ public class GooseConfig : MonoBehaviour
     public float PushRadius = 6f;
     public float PushNeckDistance = 3f;
     public float PushForce = 3000f;
+    public float PushChargingExtraForce = 3000f;
+    public float PushChargeTimeMaxDuration = 1f;
+
 
     [Space] public int PullNeckFrame = 5;
     public float PullRadius = 10f;
