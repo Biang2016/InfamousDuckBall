@@ -13,6 +13,7 @@ public class Body : GooseBodyPart
         if (IsPushingNeck) return;
 
         // Move Neck
+        if (controllerIndex != PlayerNumber.Player5) // xbox one controller input
         {
             float h = MultiControllerManager.Instance.Controllers[controllerIndex].Axises[ControlAxis.RightStick_H];
             float v = MultiControllerManager.Instance.Controllers[controllerIndex].Axises[ControlAxis.RightStick_V];
@@ -31,13 +32,49 @@ public class Body : GooseBodyPart
                     ChargeDistance = 0f;
                 }
 
-                neckTargetPos += Vector3.forward * GooseConfig.NeckSpeed * SpeedModifier * h;
-                neckTargetPos += Vector3.right * GooseConfig.NeckSpeed * SpeedModifier * v;
+                neckTargetPos += Vector3.forward * (GooseConfig.NeckSpeed * SpeedModifier * h);
+                neckTargetPos += Vector3.right * (GooseConfig.NeckSpeed * SpeedModifier * v);
 
                 float targetRadius = (neckTargetPos - transform.position).magnitude;
                 if (targetRadius < GooseConfig.Radius * 2)
                 {
-                    neckTargetPos = (neckTargetPos - transform.position).normalized * GooseConfig.Radius * 2 + transform.position;
+                    neckTargetPos = (neckTargetPos - transform.position).normalized * (GooseConfig.Radius * 2) + transform.position;
+                }
+
+                neckTargetPos.y = GameManager.Instance.GetBallPosition().y;
+
+                Vector3 diff = neckTargetPos - ParentPlayerControl.Player.GetPlayerPosition;
+                diff = diff.magnitude > GooseConfig.MaxNeckLength ? diff.normalized * GooseConfig.MaxNeckLength : diff;
+                neckTargetPos = diff + ParentPlayerControl.Player.GetPlayerPosition;
+                MoveNeckTo(neckTargetPos);
+            }
+        }
+        else // if keyboard input
+        {
+            Vector3 neckTargetPos = Goose.Neck.HeadPosPivot.position;
+
+            if (Goose.Head.HeadStatus == Head.HeadStatusTypes.PushCharging)
+            {
+                neckTargetPos += -Goose.Head.transform.forward * 0.01f;
+                ChargeDistance += 0.01f;
+            }
+            else
+            {
+                ChargeDistance = 0f;
+            }
+
+            Ray ray = GameManager.Instance.GetCamera().ScreenPointToRay(Input.mousePosition);
+            if (GameManager.Instance.FloorPlane.Raycast(ray, out float enter))
+            {
+                Vector3 mousePos = ray.GetPoint(enter);
+                Vector3 dir = (mousePos - neckTargetPos).normalized;
+
+                neckTargetPos += dir * (GooseConfig.NeckSpeed * SpeedModifier);
+
+                float targetRadius = (neckTargetPos - transform.position).magnitude;
+                if (targetRadius < GooseConfig.Radius * 2)
+                {
+                    neckTargetPos = (neckTargetPos - transform.position).normalized * (GooseConfig.Radius * 2) + transform.position;
                 }
 
                 neckTargetPos.y = GameManager.Instance.GetBallPosition().y;
@@ -95,14 +132,14 @@ public class Body : GooseBodyPart
         IsPushingNeck = false;
     }
 
-    IEnumerator Co_PushNeck(Vector3 dir,float chargeDistance)
+    IEnumerator Co_PushNeck(Vector3 dir, float chargeDistance)
     {
         IsPushingNeck = true;
         Vector3 neckTargetPos = Goose.Neck.HeadPosPivot.position;
 
         float dist = (Goose.GetHeadPosition - GameManager.Instance.GetBallPosition()).magnitude;
-       float dist_forward = Mathf.Min(GooseConfig.PushNeckDistance + chargeDistance, dist);
-       float dist_backward = Mathf.Min(GooseConfig.PushNeckDistance , dist);
+        float dist_forward = Mathf.Min(GooseConfig.PushNeckDistance + chargeDistance, dist);
+        float dist_backward = Mathf.Min(GooseConfig.PushNeckDistance, dist);
 
         for (int i = 0; i < GooseConfig.PushNeckFrame; i++)
         {

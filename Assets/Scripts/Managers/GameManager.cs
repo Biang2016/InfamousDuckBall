@@ -25,6 +25,8 @@ public class GameManager : MonoSingleton<GameManager>
     internal int Layer_Ball;
     internal SortedDictionary<PlayerNumber, int> Layer_PlayerBall = new SortedDictionary<PlayerNumber, int>();
 
+    internal Plane FloorPlane = new Plane(Vector3.up, new Vector3(0, 0, 0));
+
     void Awake()
     {
         Application.targetFrameRate = 60;
@@ -143,17 +145,17 @@ public class GameManager : MonoSingleton<GameManager>
             }
         }
 
-        if(Cur_BattleManager.BattleType.ToString().Contains("PVP2"))
+        if (Cur_BattleManager.BattleType.ToString().Contains("PVP2"))
         {
-                foreach (KeyValuePair<TeamNumber, Team> kv in TeamDict)
+            foreach (KeyValuePair<TeamNumber, Team> kv in TeamDict)
+            {
+                if (kv.Key != hitTeamNumber)
                 {
-                    if (kv.Key != hitTeamNumber)
-                    {
-                        kv.Value.Score++;
-                        RefreshTeamGoal(hitTeamNumber);
-                    }
+                    kv.Value.Score++;
+                    RefreshTeamGoal(hitTeamNumber);
                 }
             }
+        }
 
         AudioManager.Instance.SoundPlay("sfx/Sound_Score");
         debugPanel.RefreshScore();
