@@ -7,6 +7,8 @@ public class Body : GooseBodyPart
     public Transform StartPivot;
 
     internal float SpeedModifier = 1f;
+    public float TailSwagDuration = 1f;
+    public float BreathRecoverDuration = 1f;
 
     protected override void Operate_Manual(PlayerNumber controllerIndex)
     {
@@ -177,5 +179,33 @@ public class Body : GooseBodyPart
     protected void LateUpdate()
     {
         transform.position = ParentPlayerControl.Player.GetPlayerPosition;
+        float tail = BodyAnimator.GetFloat("Tail");
+        tail = Mathf.Clamp(tail - 0.1f / (TailSwagDuration * Application.targetFrameRate), 0, 1);
+        if (tail < 0.9f)
+        {
+            tail = 0;
+        }
+
+        BodyAnimator.SetFloat("Tail", tail);
+
+        float breath = BodyAnimator.GetFloat("Breath");
+        breath = Mathf.Clamp(breath + 0.1f / (BreathRecoverDuration * Application.targetFrameRate), 0.0f, 0.1f);
+        if (breath >= 0.1f)
+        {
+            breath = 0.35f;
+        }
+
+        BodyAnimator.SetFloat("Breath", breath);
+
+        float gasp = BodyAnimator.GetFloat("Gasp");
+        gasp = Mathf.Clamp(gasp - 0.1f / (BreathRecoverDuration * Application.targetFrameRate), 0, 1);
+        if (gasp < 0.9f)
+        {
+            gasp = 0;
+        }
+
+        BodyAnimator.SetFloat("Gasp", gasp);
     }
+
+    public Animator BodyAnimator;
 }

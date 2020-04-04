@@ -10,7 +10,7 @@ public class Feet : GooseBodyPart
         Vector3 diff = Vector3.zero;
         diff += Vector3.forward * MultiControllerManager.Instance.Controllers[controllerIndex].Axises[ControlAxis.LeftStick_H];
         diff += Vector3.right * MultiControllerManager.Instance.Controllers[controllerIndex].Axises[ControlAxis.LeftStick_V];
-        diff = diff.normalized * GooseConfig.Accelerate * MoveSpeedModifier;
+        diff = diff.normalized * (GooseConfig.Accelerate * MoveSpeedModifier);
 
         ParentPlayerControl.Player.PlayerControl.PlayerRigidbody.AddForce(diff);
 
@@ -23,6 +23,8 @@ public class Feet : GooseBodyPart
     {
     }
 
+    [SerializeField] private Transform LeftFeet;
+    [SerializeField] private Transform RightFeet;
     [SerializeField] private Animator FeetAnimator;
     [SerializeField] private float feetMoveThreshold = 1f;
 
@@ -46,16 +48,20 @@ public class Feet : GooseBodyPart
                 {
                     case MoveStates.Static:
                     {
+                        Goose.Body.BodyAnimator.SetFloat("Gasp", 1.0f);
                         FeetAnimator.SetTrigger("Static");
                         break;
                     }
                     case MoveStates.Forward:
                     {
+                        Goose.Body.BodyAnimator.SetFloat("Gasp", 0f);
+
                         FeetAnimator.SetTrigger("Forward");
                         break;
                     }
                     case MoveStates.Backward:
                     {
+                        Goose.Body.BodyAnimator.SetFloat("Gasp", 0f);
                         FeetAnimator.SetTrigger("Backward");
                         break;
                     }
@@ -74,17 +80,27 @@ public class Feet : GooseBodyPart
             ParentPlayerControl.Player.PlayerControl.PlayerRigidbody.velocity *= 0.9f;
         }
 
-        float forward = Vector3.Dot(ParentPlayerControl.Player.PlayerControl.PlayerRigidbody.velocity, Goose.Body.BodyRotate.transform.forward);
+        Vector3 vel = ParentPlayerControl.Player.PlayerControl.PlayerRigidbody.velocity;
+        float forward = Vector3.Dot(vel, Goose.Body.BodyRotate.transform.forward);
         if (forward > feetMoveThreshold)
         {
+            Goose.Body.BodyAnimator.SetFloat("Breath", 0.1f);
+            Goose.Body.BodyAnimator.SetFloat("Walk", 1.0f);
             MoveState = MoveStates.Forward;
+            LeftFeet.right = vel;
+            RightFeet.right = vel;
         }
         else if (forward < -feetMoveThreshold)
         {
+            Goose.Body.BodyAnimator.SetFloat("Breath", 0.1f);
+            Goose.Body.BodyAnimator.SetFloat("Walk", 1.0f);
             MoveState = MoveStates.Backward;
+            LeftFeet.right = -vel;
+            RightFeet.right = -vel;
         }
         else
         {
+            Goose.Body.BodyAnimator.SetFloat("Walk", 0f);
             MoveState = MoveStates.Static;
         }
     }
