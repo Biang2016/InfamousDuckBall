@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Controller
 {
+    public PlayerNumber ControllerNumber = PlayerNumber.None;
     public int ControllerIndex = 0;
     public Dictionary<ControlAxis, float> Axises = new Dictionary<ControlAxis, float>();
     public Dictionary<ControlButtons, bool> ButtonPressedLastFrame = new Dictionary<ControlButtons, bool>();
@@ -11,9 +12,10 @@ public class Controller
     public Dictionary<ControlButtons, bool> ButtonDown = new Dictionary<ControlButtons, bool>();
     public Dictionary<ControlButtons, bool> ButtonUp = new Dictionary<ControlButtons, bool>();
 
-    public void Init(int controllerIndex)
+    public void Init(PlayerNumber controllerNumber)
     {
-        ControllerIndex = controllerIndex;
+        ControllerIndex = (int) controllerNumber + 1;
+        ControllerNumber = controllerNumber;
         foreach (object b in Enum.GetValues(typeof(ControlButtons)))
         {
             ControlButtons btn = (ControlButtons) b;

@@ -15,7 +15,7 @@ public abstract class CameraFaceUI : PoolObject
             }
             else
             {
-                Vector3 objectScreenPosition = GameManager.Instance.GetCamera().WorldToScreenPoint(FollowObject.position);
+                Vector3 objectScreenPosition = GameManager.Cur_BattleManager.BattleCamera.WorldToScreenPoint(FollowObject.position);
                 ((RectTransform) transform).position = objectScreenPosition;
             }
         }

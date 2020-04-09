@@ -16,13 +16,13 @@ public class MultiControllerManager : MonoSingleton<MultiControllerManager>
             if ((int) pn < GameManager.MaximalPlayerNumber)
             {
                 Controllers.Add(pn, new XBoxController());
-                Controllers[pn].Init((int) pn + 1);
+                Controllers[pn].Init(pn);
             }
 
             if ((int) pn == 4)
             {
                 Controllers.Add(pn, new KeyBoardController());
-                Controllers[pn].Init((int) pn + 1);
+                Controllers[pn].Init(pn);
             }
         }
     }
@@ -41,11 +41,11 @@ public class MultiControllerManager : MonoSingleton<MultiControllerManager>
             {
                 if (Controllers[pn].AnyButtonPressed())
                 {
-                    if (!PlayerControlMap.Values.ToList().Contains(pn))
+                    if (PlayerObjectRegistry.MyPlayer)
                     {
-                        if (PlayerControlMap.Count < GameManager.MaximalPlayerNumber)
+                        if (!PlayerControlMap.ContainsKey(PlayerObjectRegistry.MyPlayer.PlayerNumber))
                         {
-                            PlayerControlMap.Add((PlayerNumber) PlayerControlMap.Count, pn);
+                            PlayerControlMap.Add(PlayerObjectRegistry.MyPlayer.PlayerNumber, pn);
                         }
                     }
                 }

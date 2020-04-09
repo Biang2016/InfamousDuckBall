@@ -41,7 +41,7 @@ public class DebugPanel : BaseUIForm
 
     public void RefreshScore()
     {
-        foreach (KeyValuePair<TeamNumber, Team> kv in GameManager.Instance.TeamDict)
+        foreach (KeyValuePair<TeamNumber, Team> kv in GameManager.Cur_BattleManager.TeamDict)
         {
             if (kv.Value.TeamPlayers.Count != 0)
             {
@@ -56,7 +56,7 @@ public class DebugPanel : BaseUIForm
 
     public void RefreshLevelName()
     {
-        LevelNameText.text = GameManager.Instance.Cur_BattleManager.BattleType.ToString();
+        LevelNameText.text = GameManager.Cur_BattleManager.BattleType.ToString();
     }
 
     public void SetScoreShown(bool shown)
@@ -69,6 +69,6 @@ public class DebugPanel : BaseUIForm
 
     public void OnReset()
     {
-        GameManager.Instance.Cur_BattleManager.ResetBall();
+        GameManager.Cur_BattleManager.ResetBall();
     }
 }

@@ -7,7 +7,7 @@ public class PlayerValidZone : MonoBehaviour
         Player p = c.GetComponentInParent<Player>();
         if (p)
         {
-            GameManager.Instance.ResetPlayer(p);
+            GameManager.Cur_BattleManager.ResetPlayer(p);
         }
     }
 }

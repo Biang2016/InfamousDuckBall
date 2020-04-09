@@ -4,10 +4,10 @@ public class BallValidZone : MonoBehaviour
 {
     void OnTriggerExit(Collider c)
     {
-        GoalBall ball = c.GetComponent<GoalBall>();
+        Ball ball = c.GetComponent<Ball>();
         if (ball)
         {
-            GameManager.Instance.Cur_BattleManager.ResetBall();
+            GameManager.Cur_BattleManager.ResetBall();
         }
     }
 }

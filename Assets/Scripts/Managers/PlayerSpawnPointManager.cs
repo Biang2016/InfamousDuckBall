@@ -38,15 +38,15 @@ public class PlayerSpawnPointManager : MonoBehaviour
 
     public void Spawn(PlayerInfo playerInfo)
     {
-        List<Vector3> notValidPoints = GameManager.Instance.GetAllPlayerPositions();
+        List<Vector3> notValidPoints = GameManager.Cur_BattleManager.GetAllPlayerPositions();
 
         List<PlayerSpawnPoint> candidates = new List<PlayerSpawnPoint>();
         List<PlayerSpawnPoint> candidates_any = new List<PlayerSpawnPoint>();
         List<IRevivePlayer> results = new List<IRevivePlayer>();
 
-        if (PlayerSpawnPointDict.ContainsKey(playerInfo.PlayerNumber))
+        if (PlayerSpawnPointDict.ContainsKey((PlayerNumber) playerInfo.PlayerNumber))
         {
-            foreach (PlayerSpawnPoint sp in PlayerSpawnPointDict[playerInfo.PlayerNumber])
+            foreach (PlayerSpawnPoint sp in PlayerSpawnPointDict[(PlayerNumber) playerInfo.PlayerNumber])
             {
                 candidates.Add(sp);
             }

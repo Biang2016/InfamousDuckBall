@@ -1,92 +1,96 @@
 using System;
+using Bolt;
 using UnityEngine;
 
-public class Player : MonoBehaviour
+public class Player : EntityBehaviour<IPlayerState>
 {
-    public PlayerInfo PlayerInfo;
+    public PlayerNumber PlayerNumber => (PlayerNumber) state.PlayerInfo.PlayerNumber;
+    public TeamNumber TeamNumber => (TeamNumber) state.PlayerInfo.TeamNumber;
 
-    internal PlayerControl PlayerControl;
-    internal PlayerCostume PlayerCostume;
-    public GameObject GoalIndicator;
-    public Collider GoalCollider;
+    public PlayerController PlayerController;
+    public PlayerCostume PlayerCostume;
 
-    void Awake()
+    public Controller Controller
     {
-        PlayerControl = GetComponent<PlayerControl>();
-        PlayerCostume = GetComponent<PlayerCostume>();
+        get => PlayerController.Controller;
+        set => PlayerController.Controller = value;
     }
 
-    public static Player BaseInitialize(PlayerInfo playerInfo)
+    public Duck Duck;
+    public Goalie Goalie;
+    public DuckConfig DuckConfig;
+    public PlayerCollider PlayerCollider;
+
+    public override void Attached()
     {
-        GameObject playerPrefab = PrefabManager.Instance.GetPrefab("Goose");
-        GameObject playerGO = Instantiate(playerPrefab);
-        Player player = playerGO.GetComponent<Player>();
-        player.Initialize(playerInfo);
-        return player;
+        PlayerController.Attached();
+        Duck.Attached();
     }
 
-    public void Initialize(PlayerInfo playerInfo)
+    public void Initialize(PlayerNumber playerNumber, TeamNumber teamNumber)
     {
-        PlayerInfo = playerInfo;
-        PlayerCostume.Initialize(PlayerInfo.PlayerNumber, playerInfo.TeamNumber);
-        PlayerControl.Initialize(this);
-        GoalIndicator.SetActive(false);
+        state.PlayerInfo.PlayerNumber = (int) playerNumber;
+        state.PlayerInfo.TeamNumber = (int) teamNumber;
+        if (entity.IsOwner)
+        {
+            PlayerCostume.Initialize(playerNumber, teamNumber);
+            Goalie.GoalIndicator.SetActive(false);
+            PlayerCollider.Initialize(this);
+            Duck.Initialize();
+        }
     }
 
-    public bool ConsiderPlayerInCamera;
-
-    public void Reviving(bool considerInCamera)
+    public override void ControlGained()
     {
-        ConsiderPlayerInCamera = considerInCamera;
-        PlayerControl.Controllable = true;
+        if (!entity.IsOwner)
+        {
+            PlayerCostume.Initialize(PlayerNumber, TeamNumber);
+            Goalie.GoalIndicator.SetActive(false);
+            PlayerCollider.Initialize(this);
+            Duck.Initialize();
+        }
     }
 
-    public Vector3 GetPlayerPosition => PlayerControl.Goose.Feet.transform.position;
+    public void Reviving()
+    {
+    }
+
+    public override void SimulateOwner()
+    {
+    }
+
+    public override void SimulateController()
+    {
+        PlayerController.SimulateController();
+        Duck.Body.SimulateController();
+    }
+
+    public override void ExecuteCommand(Command command, bool resetState)
+    {
+        PlayerController.ExecuteCommand(command, resetState);
+    }
+
+    private void LateUpdate()
+    {
+        if (entity.HasControl && Controller == null)
+        {
+            if (MultiControllerManager.Instance.PlayerControlMap.ContainsKey(PlayerNumber))
+            {
+                Controller = MultiControllerManager.Instance.Controllers[MultiControllerManager.Instance.PlayerControlMap[PlayerNumber]];
+            }
+        }
+    }
+
+    public Vector3 GetPlayerPosition => Duck.Feet.transform.position;
 
     public void SetPlayerPosition(Vector3 pos)
     {
-        PlayerControl.Goose.Feet.transform.position = pos;
+        Duck.Feet.transform.position = pos;
     }
-
-    public ParticleSystem ParticleSystem;
 
     public void Reset()
     {
-        PlayerControl.PlayerRigidbody.velocity = Vector3.zero;
-        PlayerControl.PlayerRigidbody.angularVelocity = Vector3.zero;
+        Duck.DuckRigidbody.velocity = Vector3.zero;
+        Duck.DuckRigidbody.angularVelocity = Vector3.zero;
     }
-
-    public void SwitchTeam(int increase)
-    {
-        GameManager.Instance.TeamDict[PlayerInfo.TeamNumber].TeamPlayers.Remove(this);
-        PlayerInfo.TeamNumber = (TeamNumber) ((((int) PlayerInfo.TeamNumber) + increase + GameManager.TeamNumberCount) % GameManager.TeamNumberCount);
-        PlayerCostume.Initialize(PlayerInfo.PlayerNumber, PlayerInfo.TeamNumber);
-        GameManager.Instance.TeamDict[PlayerInfo.TeamNumber].TeamPlayers.Add(this);
-        GameManager.Instance.RefreshAllTeamGoal();
-        UIManager.Instance.GetBaseUIForm<DebugPanel>().RefreshScore();
-    }
-
-    private bool isAGoal = false;
-
-    public bool IsAGoal
-    {
-        get { return isAGoal; }
-        set
-        {
-            isAGoal = value;
-            GoalIndicator.SetActive(value);
-            GoalCollider.isTrigger = value;
-        }
-    }
-}
-
-public enum PlayerNumber
-{
-    Player1 = 0,
-    Player2 = 1,
-    Player3 = 2,
-    Player4 = 3,
-    Player5 = 4,
-    AnyPlayer = 16,
-    AI = 99,
 }
