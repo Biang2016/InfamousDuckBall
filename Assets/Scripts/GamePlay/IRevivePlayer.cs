@@ -2,5 +2,5 @@
 {
     PlayerNumber AllowedPlayerNumber { get; }
     void Init();
-    void Spawn(PlayerInfo playerInfo);
+    void Spawn(PlayerNumber playerNumber);
 }

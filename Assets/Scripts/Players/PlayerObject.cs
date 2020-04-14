@@ -4,6 +4,7 @@ public class PlayerObject
 {
     public PlayerNumber PlayerNumber;
     public TeamNumber TeamNumber;
+    public CostumeType CostumeType;
     public Player Player;
     public BoltEntity Character;
     public BoltConnection Connection;
@@ -22,9 +23,19 @@ public class PlayerObject
     {
         if (!Character)
         {
-            Character = BoltNetwork.Instantiate(BoltPrefabs.Player, new Vector3(0, 2, 0), Quaternion.identity);
+            Character = BoltNetwork.Instantiate(BoltPrefabs.Player, Vector3.zero, Quaternion.identity);
             Player = Character.GetComponent<Player>();
-            Player.Initialize(PlayerNumber, TeamNumber);
+            Player.Initialize(PlayerNumber, TeamNumber, CostumeType);
+            if (GameManager.Cur_BattleManager.PlayerDict.ContainsKey(PlayerNumber))
+            {
+                GameManager.Cur_BattleManager.PlayerDict[PlayerNumber] = Player;
+            }
+            else
+            {
+                GameManager.Cur_BattleManager.PlayerDict.Add(PlayerNumber, Player);
+            }
+
+            GameManager.Cur_BattleManager.PlayerSpawnPointManager.Spawn(PlayerNumber);
 
             if (IsServer)
             {

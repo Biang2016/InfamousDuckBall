@@ -1,34 +1,38 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class PlayerCostume : MonoBehaviour
 {
-    [SerializeField] private Renderer BodyRenderer;
     [SerializeField] private Renderer[] CostumeMeshRenderers;
-    [SerializeField] private Renderer[] TeamMeshRenderers;
-    [SerializeField] private Material[] CostumeMaterials;
-    [SerializeField] private Material[] TeamCostumeMaterials;
+    [SerializeField] private Material[] Team1CostumeMaterials;
+    [SerializeField] private Material[] Team2CostumeMaterials;
 
-    public void Initialize(PlayerNumber playerNumber, TeamNumber teamNumber)
+    private SortedDictionary<TeamNumber, Material[]> TeamCostumeMatDict = new SortedDictionary<TeamNumber, Material[]>();
+
+    void Awake()
     {
-        Material[] mats = BodyRenderer.materials;
+        TeamCostumeMatDict.Add(TeamNumber.Team1, Team1CostumeMaterials);
+        TeamCostumeMatDict.Add(TeamNumber.Team2, Team2CostumeMaterials);
+    }
+
+    public void Initialize(PlayerNumber playerNumber, TeamNumber teamNumber, CostumeType costumeType)
+    {
+        Material mat = TeamCostumeMatDict[teamNumber][(int) costumeType];
 
         if ((int) playerNumber < GameManager.MaximalPlayerNumber)
         {
-            mats[0] = CostumeMaterials[(int) playerNumber];
-
             foreach (Renderer mr in CostumeMeshRenderers)
             {
-                mr.material = CostumeMaterials[(int) playerNumber];
+                mr.material = mat;
             }
         }
-
-        foreach (Renderer mr in TeamMeshRenderers)
-        {
-            mr.material = TeamCostumeMaterials[(int) teamNumber];
-        }
-
-        mats[0] = TeamCostumeMaterials[(int) teamNumber];
-        BodyRenderer.materials = mats;
     }
+}
+
+public enum CostumeType
+{
+    Costume1 = 0,
+    Costume2 = 1,
+    Costume3 = 2,
 }

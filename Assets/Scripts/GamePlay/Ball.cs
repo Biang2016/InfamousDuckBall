@@ -6,7 +6,6 @@ public class Ball : EntityEventListener<IBallState>
 {
     public Collider Collider;
     public Rigidbody RigidBody;
-    [SerializeField] public MeshRenderer MeshRenderer;
 
     void OnTriggerEnter(Collider c)
     {
@@ -15,6 +14,9 @@ public class Ball : EntityEventListener<IBallState>
             Player p = c.GetComponentInParent<Player>();
             GameManager.Cur_BattleManager.Score(LastKickTeam, (TeamNumber) p.state.PlayerInfo.TeamNumber);
             p.Goalie.ParticleSystem.Play();
+            p.Duck.Wings.Hit();
+            p.Duck.Ring.LoseRing();
+            p.Duck.Wings.LoseRing();
         }
     }
 

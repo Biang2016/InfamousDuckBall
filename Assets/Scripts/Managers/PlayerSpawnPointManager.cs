@@ -36,7 +36,7 @@ public class PlayerSpawnPointManager : MonoBehaviour
     {
     }
 
-    public void Spawn(PlayerInfo playerInfo)
+    public void Spawn(PlayerNumber playerNumber)
     {
         List<Vector3> notValidPoints = GameManager.Cur_BattleManager.GetAllPlayerPositions();
 
@@ -44,9 +44,9 @@ public class PlayerSpawnPointManager : MonoBehaviour
         List<PlayerSpawnPoint> candidates_any = new List<PlayerSpawnPoint>();
         List<IRevivePlayer> results = new List<IRevivePlayer>();
 
-        if (PlayerSpawnPointDict.ContainsKey((PlayerNumber) playerInfo.PlayerNumber))
+        if (PlayerSpawnPointDict.ContainsKey(playerNumber))
         {
-            foreach (PlayerSpawnPoint sp in PlayerSpawnPointDict[(PlayerNumber) playerInfo.PlayerNumber])
+            foreach (PlayerSpawnPoint sp in PlayerSpawnPointDict[playerNumber])
             {
                 candidates.Add(sp);
             }
@@ -71,12 +71,12 @@ public class PlayerSpawnPointManager : MonoBehaviour
         if (results.Count > 0)
         {
             int randomIndex = Random.Range(0, results.Count);
-            results[randomIndex].Spawn(playerInfo);
+            results[randomIndex].Spawn(playerNumber);
         }
         else
         {
             int randomIndex = Random.Range(0, candidates.Count);
-            candidates[randomIndex].Spawn(playerInfo);
+            candidates[randomIndex].Spawn(playerNumber);
         }
     }
 

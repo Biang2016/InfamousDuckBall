@@ -12,16 +12,13 @@ public class Feet : MonoBehaviour
         Duck = GetComponentInParent<Duck>();
     }
 
-    public Transform LeftFeet;
-    public Transform RightFeet;
-    [SerializeField] private Animator FeetAnimator;
+    [SerializeField] private Animator Anim;
     public float FeetMoveThreshold = 1f;
 
     public enum MoveStates
     {
         Static,
-        Forward,
-        Backward,
+        Moving
     }
 
     private MoveStates _moveState;
@@ -38,20 +35,11 @@ public class Feet : MonoBehaviour
                     case MoveStates.Static:
                     {
                         Duck.Body.BodyAnimator.SetFloat("Gasp", 1.0f);
-                        FeetAnimator.SetTrigger("Static");
                         break;
                     }
-                    case MoveStates.Forward:
+                    case MoveStates.Moving:
                     {
                         Duck.Body.BodyAnimator.SetFloat("Gasp", 0f);
-
-                        FeetAnimator.SetTrigger("Forward");
-                        break;
-                    }
-                    case MoveStates.Backward:
-                    {
-                        Duck.Body.BodyAnimator.SetFloat("Gasp", 0f);
-                        FeetAnimator.SetTrigger("Backward");
                         break;
                     }
                 }
@@ -69,27 +57,26 @@ public class Feet : MonoBehaviour
         }
 
         Vector3 vel = Duck.DuckRigidbody.velocity;
-        float forward = Vector3.Dot(vel, Duck.Body.BodyRotate.transform.forward);
-        if (forward > FeetMoveThreshold)
+        float backForth = Vector3.Dot(vel, Duck.Body.BodyRotate.transform.forward);
+        float leftRight = Vector3.Dot(vel, Duck.Body.BodyRotate.transform.right);
+
+        Anim.SetFloat("LeftRight", leftRight);
+        Anim.SetFloat("BackForth", backForth);
+
+        // Walk
+        if (Mathf.Abs(vel.magnitude) > FeetMoveThreshold)
         {
             Duck.Body.BodyAnimator.SetFloat("Breath", 0.1f);
             Duck.Body.BodyAnimator.SetFloat("Walk", 1.0f);
-            MoveState = MoveStates.Forward;
-            LeftFeet.right = -vel;
-            RightFeet.right = -vel;
+            Duck.Ring.Walking();
+            Duck.Wings.Walking();
         }
-        else if (forward < -FeetMoveThreshold)
-        {
-            Duck.Body.BodyAnimator.SetFloat("Breath", 0.1f);
-            Duck.Body.BodyAnimator.SetFloat("Walk", 1.0f);
-            MoveState = MoveStates.Backward;
-            LeftFeet.right = vel;
-            RightFeet.right = vel;
-        }
-        else
+        else // Stop
         {
             Duck.Body.BodyAnimator.SetFloat("Walk", 0f);
             MoveState = MoveStates.Static;
+            Duck.Ring.NotWalking();
+            Duck.Wings.NotWalking();
         }
     }
 }

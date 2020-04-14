@@ -63,6 +63,10 @@ public class GameManager : Bolt.GlobalEventListener
 
     public void Update()
     {
+        if (Input.GetKeyUp(KeyCode.F10))
+        {
+            SceneManager.LoadScene("Menu");
+        }
     }
 
     public static BattleManager Cur_BattleManager;
@@ -75,6 +79,10 @@ public class GameManager : Bolt.GlobalEventListener
 
         Cur_BattleManager = battleManager;
         Cur_BattleManager.Initialize();
-      
+    }
+
+    public override void OnEvent(BattleStartEvent evnt)
+    {
+        Cur_BattleManager.IsStart = true;
     }
 }

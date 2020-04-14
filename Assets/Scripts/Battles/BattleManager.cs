@@ -45,10 +45,14 @@ public class BattleManager : MonoBehaviour
         StartGame();
     }
 
+    public bool IsStart = false;
+
     public void StartGame()
     {
         if (BoltNetwork.IsServer)
         {
+            IsStart = true;
+            BattleStartEvent.Create().Send();
             GameObject ball_go = BoltNetwork.Instantiate(BoltPrefabs.Ball, BallPivot.position, BallPivot.rotation);
             Ball = ball_go.GetComponent<Ball>();
             Ball.Collider.enabled = true;
@@ -96,7 +100,7 @@ public class BattleManager : MonoBehaviour
     public void ResetPlayer(Player player)
     {
         player.Reset();
-        PlayerSpawnPointManager.Spawn(player.state.PlayerInfo);
+        PlayerSpawnPointManager.Spawn(player.PlayerNumber);
     }
 
     public void EndBattle()

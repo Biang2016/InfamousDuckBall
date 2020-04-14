@@ -25,6 +25,8 @@ public class Head : MonoBehaviour
                 else if (rightTriggerDown)
                 {
                     HeadStatus = HeadStatusTypes.PushCharging;
+                    Duck.Ring.Charge();
+                    Duck.Wings.Charge();
                 }
                 else if (rightTriggerPressed)
                 {
@@ -97,15 +99,18 @@ public class Head : MonoBehaviour
         HeadStatus = HeadStatusTypes.Pushing;
         HeadCollider.enabled = false;
         Anim.SetTrigger("Push");
-        Duck.Wings.Fly();
+        Duck.Wings.Kick();
+        Duck.Ring.Kick();
     }
 
     private void Pull()
     {
         HeadStatus = HeadStatusTypes.Pulling;
         HeadCollider.enabled = false;
-        Anim.SetTrigger("Pull");
-        Duck.Wings.Fly();
+        string postfix = Random.Range(0, 2) == 1 ? "" : "2";
+        Anim.SetTrigger("Pull" + postfix);
+        Duck.Wings.Kick();
+        Duck.Ring.Kick();
     }
 
     void LateUpdate()

@@ -6,6 +6,7 @@ public class Player : EntityBehaviour<IPlayerState>
 {
     public PlayerNumber PlayerNumber => (PlayerNumber) state.PlayerInfo.PlayerNumber;
     public TeamNumber TeamNumber => (TeamNumber) state.PlayerInfo.TeamNumber;
+    public CostumeType CostumeType => (CostumeType) state.PlayerInfo.CostumeType;
 
     public PlayerController PlayerController;
     public PlayerCostume PlayerCostume;
@@ -25,15 +26,23 @@ public class Player : EntityBehaviour<IPlayerState>
     {
         PlayerController.Attached();
         Duck.Attached();
+
+        if (!entity.IsOwner)
+        {
+            PlayerCostume.Initialize(PlayerNumber, TeamNumber, CostumeType);
+            Goalie.GoalIndicator.SetActive(false);
+            PlayerCollider.Initialize(this);
+            Duck.Initialize();
+        }
     }
 
-    public void Initialize(PlayerNumber playerNumber, TeamNumber teamNumber)
+    public void Initialize(PlayerNumber playerNumber, TeamNumber teamNumber, CostumeType costumeType)
     {
         state.PlayerInfo.PlayerNumber = (int) playerNumber;
         state.PlayerInfo.TeamNumber = (int) teamNumber;
         if (entity.IsOwner)
         {
-            PlayerCostume.Initialize(playerNumber, teamNumber);
+            PlayerCostume.Initialize(playerNumber, teamNumber, costumeType);
             Goalie.GoalIndicator.SetActive(false);
             PlayerCollider.Initialize(this);
             Duck.Initialize();
@@ -44,10 +53,7 @@ public class Player : EntityBehaviour<IPlayerState>
     {
         if (!entity.IsOwner)
         {
-            PlayerCostume.Initialize(PlayerNumber, TeamNumber);
-            Goalie.GoalIndicator.SetActive(false);
-            PlayerCollider.Initialize(this);
-            Duck.Initialize();
+           
         }
     }
 

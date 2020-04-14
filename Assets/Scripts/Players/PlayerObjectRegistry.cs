@@ -28,6 +28,7 @@ public static class PlayerObjectRegistry
 
         player.PlayerNumber = playerNumber;
         player.TeamNumber = TeamNumber.Team1;
+        player.CostumeType = CostumeType.Costume1;
 
         // add to list of all players
         playerDict.Add(playerNumber, player);

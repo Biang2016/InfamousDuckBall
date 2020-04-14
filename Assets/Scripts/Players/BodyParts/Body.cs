@@ -19,9 +19,17 @@ public class Body : MonoBehaviour
     public float TailSwagDuration = 1f;
     public float BreathRecoverDuration = 1f;
 
+    private Vector3 chargingBackward_mouse = Vector3.zero;
+
     public void SimulateController()
     {
         if (IsPushingNeck) return;
+        Cur_HeadTargetPosition = Duck.Neck.HeadPosPivot.position;
+        if (GameManager.Cur_BattleManager.IsStart)
+        {
+            Cur_HeadTargetPosition.y = GameManager.Cur_BattleManager.Ball.transform.position.y;
+        }
+
         if (Player.Controller != null)
         {
             // Move Neck
@@ -36,8 +44,8 @@ public class Body : MonoBehaviour
 
                     if (Duck.Head.HeadStatus == Head.HeadStatusTypes.PushCharging)
                     {
-                        neckTargetPos += -Duck.Head.transform.forward * 0.01f;
-                        ChargeDistance += 0.01f;
+                        neckTargetPos += -Duck.Head.transform.forward * DuckConfig.PullChargeBackward;
+                        ChargeDistance += DuckConfig.PullChargeBackward;
                     }
                     else
                     {
@@ -56,7 +64,8 @@ public class Body : MonoBehaviour
                     neckTargetPos.y = GameManager.Cur_BattleManager.Ball.transform.position.y;
 
                     Vector3 diff = neckTargetPos - Duck.Player.GetPlayerPosition;
-                    diff = diff.magnitude > DuckConfig.MaxNeckLength ? diff.normalized * DuckConfig.MaxNeckLength : diff;
+                    diff = Vector3.ClampMagnitude(diff, DuckConfig.MaxNeckLength);
+                    diff = diff.magnitude < DuckConfig.MinNeckLength ? diff.normalized * DuckConfig.MinNeckLength : diff;
                     neckTargetPos = diff + Duck.Player.GetPlayerPosition;
                     MoveNeckTo(neckTargetPos);
                 }
@@ -67,11 +76,12 @@ public class Body : MonoBehaviour
 
                 if (Duck.Head.HeadStatus == Head.HeadStatusTypes.PushCharging)
                 {
-                    neckTargetPos += -Duck.Head.transform.forward * 0.01f;
-                    ChargeDistance += 0.01f;
+                    chargingBackward_mouse += Duck.Head.transform.forward * DuckConfig.PullChargeBackward;
+                    ChargeDistance += DuckConfig.PullChargeBackward;
                 }
                 else
                 {
+                    chargingBackward_mouse = Vector3.zero;
                     ChargeDistance = 0f;
                 }
 
@@ -79,7 +89,7 @@ public class Body : MonoBehaviour
                 if (GameManager.Cur_BattleManager.FloorPlane.Raycast(ray, out float enter))
                 {
                     Vector3 mousePos = ray.GetPoint(enter);
-                    Vector3 dir = (mousePos - neckTargetPos).normalized;
+                    Vector3 dir = (mousePos - (neckTargetPos + chargingBackward_mouse)).normalized;
 
                     neckTargetPos += dir * (DuckConfig.NeckSpeed * SpeedModifier);
 
@@ -92,8 +102,10 @@ public class Body : MonoBehaviour
                     neckTargetPos.y = GameManager.Cur_BattleManager.Ball.transform.position.y;
 
                     Vector3 diff = neckTargetPos - Duck.Player.GetPlayerPosition;
-                    diff = diff.magnitude > DuckConfig.MaxNeckLength ? diff.normalized * DuckConfig.MaxNeckLength : diff;
+                    diff = Vector3.ClampMagnitude(diff, DuckConfig.MaxNeckLength);
+                    diff = diff.magnitude < DuckConfig.MinNeckLength ? diff.normalized * DuckConfig.MinNeckLength : diff;
                     neckTargetPos = diff + Duck.Player.GetPlayerPosition;
+                    neckTargetPos -= chargingBackward_mouse / 10f;
                     MoveNeckTo(neckTargetPos);
                 }
             }
@@ -195,6 +207,11 @@ public class Body : MonoBehaviour
         if (!Player.entity.HasControl)
         {
             MoveNeckTo(Player.state.HeadTargetPosition);
+        }
+        else
+        {
+            Duck.Neck.NeckTargetPos = Cur_HeadTargetPosition;
+            Duck.Neck.NeckDeform();
         }
 
         transform.position = Duck.Player.GetPlayerPosition;

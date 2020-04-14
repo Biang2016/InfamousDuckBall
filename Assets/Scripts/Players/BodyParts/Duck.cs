@@ -11,6 +11,7 @@ public class Duck : MonoBehaviour
     public Neck Neck;
     public Head Head;
     public Wings Wings;
+    public Ring Ring;
 
     public Rigidbody DuckRigidbody;
 
@@ -30,6 +31,8 @@ public class Duck : MonoBehaviour
         // Body.Initialize();
         // Neck.Initialize();
         Head.Initialize();
+        Ring.GetRing();
+        Wings.GetRing();
     }
 
     void FixedUpdate()

@@ -9,7 +9,7 @@ public class DuckConfig : MonoBehaviour
     public float Accelerate = 2f;
     public float BrakeVelocityThreshold = 0.3f;
     internal float MoveSpeedModifier = 1f;
-    
+
     [Space] public int PushNeckFrame = 5;
     public float PushRadius = 6f;
     public float PushNeckDistance = 3f;
@@ -22,12 +22,12 @@ public class DuckConfig : MonoBehaviour
     public float PullNeckDistance = 3f;
     public float PullBallStopFromHead = 2.5f;
     public float PullDuration = 0.2f;
+    public float PullChargeBackward = 0.1f;
 
     [Space] public float HeadRotateSpeed = 5f;
     public float NeckStartTangent = 1f;
     public float NeckEndTangent = 1f;
     public float LookBallAngleThreshold = 45f;
+    public float MinNeckLength = 1f;
     public float MaxNeckLength = 5f;
-    
-
 }
