@@ -68,6 +68,7 @@
 		<type fullname="BattleManager_PVP4" preserve="nothing"/>
 		<type fullname="BezierCurve" preserve="nothing"/>
 		<type fullname="BezierPath" preserve="nothing"/>
+		<type fullname="Boat" preserve="nothing"/>
 		<type fullname="Body" preserve="nothing"/>
 		<type fullname="DebugPanel" preserve="nothing"/>
 		<type fullname="Duck" preserve="nothing"/>
@@ -93,9 +94,14 @@
 		<type fullname="PlayerSpawnPointManager" preserve="nothing"/>
 		<type fullname="PlayerValidZone" preserve="nothing"/>
 		<type fullname="PrefabManager" preserve="nothing"/>
+		<type fullname="Ring" preserve="nothing"/>
+		<type fullname="RingContainer" preserve="nothing"/>
+		<type fullname="ScoreRingManager" preserve="nothing"/>
 		<type fullname="UIManager" preserve="nothing"/>
 		<type fullname="UIMaskMgr" preserve="nothing"/>
+		<type fullname="Wheel" preserve="nothing"/>
 		<type fullname="Wings" preserve="nothing"/>
+		<type fullname="WingsContainer" preserve="nothing"/>
 		<type fullname="WorldUIManager" preserve="nothing"/>
 	</assembly>
 	<assembly fullname="Unity.TextMeshPro">
@@ -118,8 +124,5 @@
 		<type fullname="Bolt.PrefabDatabase" preserve="nothing"/>
 		<type fullname="BoltEntity" preserve="nothing"/>
 		<type fullname="BoltRuntimeSettings" preserve="nothing"/>
-	</assembly>
-	<assembly fullname="com.unity.multiplayer-hlapi.Runtime">
-		<type fullname="UnityEngine.Networking.NetworkCallbacks" preserve="nothing"/>
 	</assembly>
 </linker>
