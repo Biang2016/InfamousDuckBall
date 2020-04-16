@@ -44,6 +44,7 @@
 		<type fullname="UnityEngine.AudioClip" preserve="nothing"/>
 		<type fullname="UnityEngine.MeshFilter" preserve="nothing"/>
 		<type fullname="UnityEngine.Mesh" preserve="nothing"/>
+		<type fullname="UnityEngine.SpriteRenderer" preserve="nothing"/>
 		<type fullname="UnityEngine.MonoBehaviour" preserve="nothing"/>
 		<type fullname="UnityEngine.LightProbes" preserve="nothing"/>
 		<type fullname="UnityEditor.Animations.AnimatorController" preserve="nothing"/>
@@ -70,6 +71,9 @@
 		<type fullname="BezierPath" preserve="nothing"/>
 		<type fullname="Boat" preserve="nothing"/>
 		<type fullname="Body" preserve="nothing"/>
+		<type fullname="CameraDepthTextureMode" preserve="nothing"/>
+		<type fullname="ConfigManager" preserve="nothing"/>
+		<type fullname="CostumeManager" preserve="nothing"/>
 		<type fullname="DebugPanel" preserve="nothing"/>
 		<type fullname="Duck" preserve="nothing"/>
 		<type fullname="DuckConfig" preserve="nothing"/>
@@ -85,6 +89,7 @@
 		<type fullname="Menu" preserve="nothing"/>
 		<type fullname="MultiControllerManager" preserve="nothing"/>
 		<type fullname="Neck" preserve="nothing"/>
+		<type fullname="NormalsReplacementShader" preserve="nothing"/>
 		<type fullname="OnMouseClick" preserve="nothing"/>
 		<type fullname="Player" preserve="nothing"/>
 		<type fullname="PlayerCollider" preserve="nothing"/>
@@ -96,9 +101,12 @@
 		<type fullname="PrefabManager" preserve="nothing"/>
 		<type fullname="Ring" preserve="nothing"/>
 		<type fullname="RingContainer" preserve="nothing"/>
+		<type fullname="ScoreRing" preserve="nothing"/>
 		<type fullname="ScoreRingManager" preserve="nothing"/>
+		<type fullname="SunGlasses" preserve="nothing"/>
 		<type fullname="UIManager" preserve="nothing"/>
 		<type fullname="UIMaskMgr" preserve="nothing"/>
+		<type fullname="WaterBob" preserve="nothing"/>
 		<type fullname="Wheel" preserve="nothing"/>
 		<type fullname="Wings" preserve="nothing"/>
 		<type fullname="WingsContainer" preserve="nothing"/>
@@ -116,6 +124,7 @@
 		<type fullname="UnityEngine.UI.Button" preserve="nothing"/>
 		<type fullname="UnityEngine.UI.CanvasScaler" preserve="nothing"/>
 		<type fullname="UnityEngine.UI.GraphicRaycaster" preserve="nothing"/>
+		<type fullname="UnityEngine.UI.HorizontalLayoutGroup" preserve="nothing"/>
 		<type fullname="UnityEngine.UI.Image" preserve="nothing"/>
 		<type fullname="UnityEngine.UI.Slider" preserve="nothing"/>
 		<type fullname="UnityEngine.UI.Text" preserve="nothing"/>
@@ -124,5 +133,8 @@
 		<type fullname="Bolt.PrefabDatabase" preserve="nothing"/>
 		<type fullname="BoltEntity" preserve="nothing"/>
 		<type fullname="BoltRuntimeSettings" preserve="nothing"/>
+	</assembly>
+	<assembly fullname="com.unity.multiplayer-hlapi.Runtime">
+		<type fullname="UnityEngine.Networking.NetworkCallbacks" preserve="nothing"/>
 	</assembly>
 </linker>
