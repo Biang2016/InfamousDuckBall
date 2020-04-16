@@ -4,29 +4,25 @@ using System.Collections.Generic;
 
 public class PlayerCostume : MonoBehaviour
 {
-    [SerializeField] private Renderer[] CostumeMeshRenderers;
-    [SerializeField] private Material[] Team1CostumeMaterials;
-    [SerializeField] private Material[] Team2CostumeMaterials;
+    internal Duck Duck;
+    internal Player Player => Duck.Player;
+    internal DuckConfig DuckConfig => Duck.DuckConfig;
 
-    private SortedDictionary<TeamNumber, Material[]> TeamCostumeMatDict = new SortedDictionary<TeamNumber, Material[]>();
-
-    void Awake()
+    public void Attached()
     {
-        TeamCostumeMatDict.Add(TeamNumber.Team1, Team1CostumeMaterials);
-        TeamCostumeMatDict.Add(TeamNumber.Team2, Team2CostumeMaterials);
+        Duck = GetComponent<Duck>();
     }
+
+    [SerializeField] private Renderer[] CostumeMeshRenderers;
 
     public void Initialize(PlayerNumber playerNumber, TeamNumber teamNumber, CostumeType costumeType)
     {
-        Material mat = TeamCostumeMatDict[teamNumber][(int) costumeType];
-
-        if ((int) playerNumber < GameManager.MaximalPlayerNumber)
+        foreach (Renderer renderer in CostumeMeshRenderers)
         {
-            foreach (Renderer mr in CostumeMeshRenderers)
-            {
-                mr.material = mat;
-            }
+            CostumeManager.Instance.ChangeCostume(renderer, teamNumber, costumeType);
         }
+
+        Duck.SunGlasses.Initialize(teamNumber);
     }
 }
 

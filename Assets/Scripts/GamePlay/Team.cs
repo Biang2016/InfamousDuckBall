@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Bolt;
 
 public class Team
 {
@@ -16,8 +17,8 @@ public class Team
 
 public enum TeamNumber
 {
-    Team1 = 0,
-    Team2 = 1,
+    Team1 = 0, // Red Team
+    Team2 = 1, // Blue Team
     Team3 = 2,
     Team4 = 3,
 }

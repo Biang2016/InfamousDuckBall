@@ -5,13 +5,14 @@ public class Duck : MonoBehaviour
 {
     public Player Player;
     public DuckConfig DuckConfig => Player.DuckConfig;
-    public Goalie Goalie => Player.Goalie;
     public Feet Feet;
     public Body Body;
     public Neck Neck;
     public Head Head;
     public Wings Wings;
     public Ring Ring;
+    public SunGlasses SunGlasses;
+    public PlayerCostume PlayerCostume => Player.PlayerCostume;
 
     public Rigidbody DuckRigidbody;
 
@@ -23,16 +24,15 @@ public class Duck : MonoBehaviour
         Body.Attached();
         Neck.Attached();
         Head.Attached();
+        Ring.Attached();
+        SunGlasses.Attached();
+        PlayerCostume.Attached();
     }
 
     public void Initialize()
     {
-        // Feet.Initialize();
-        // Body.Initialize();
-        // Neck.Initialize();
         Head.Initialize();
-        Ring.GetRing();
-        Wings.GetRing();
+        Feet.ReleaseChargingCircle();
     }
 
     void FixedUpdate()

@@ -25,16 +25,8 @@ public class PlayerObject
         {
             Character = BoltNetwork.Instantiate(BoltPrefabs.Player, Vector3.zero, Quaternion.identity);
             Player = Character.GetComponent<Player>();
-            Player.Initialize(PlayerNumber, TeamNumber, CostumeType);
-            if (GameManager.Cur_BattleManager.PlayerDict.ContainsKey(PlayerNumber))
-            {
-                GameManager.Cur_BattleManager.PlayerDict[PlayerNumber] = Player;
-            }
-            else
-            {
-                GameManager.Cur_BattleManager.PlayerDict.Add(PlayerNumber, Player);
-            }
-
+            Player.Initialize_Server(PlayerNumber, TeamNumber, CostumeType);
+            GameManager.Cur_BattleManager.AddPlayer(Player);
             GameManager.Cur_BattleManager.PlayerSpawnPointManager.Spawn(PlayerNumber);
 
             if (IsServer)

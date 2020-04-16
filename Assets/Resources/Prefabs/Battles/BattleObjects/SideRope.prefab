@@ -4129,7 +4129,7 @@ GameObject:
   - component: {fileID: 897960470692639394}
   - component: {fileID: 7132630387010740184}
   m_Layer: 0
-  m_Name: SideRope_Clip
+  m_Name: SideRope
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4142,9 +4142,9 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4192125105954668721}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 70, y: 70, z: 70}
   m_Children:
   - {fileID: 4592318838163034324}
   - {fileID: 2006968819906179262}
@@ -4170,7 +4170,7 @@ Animator:
   m_GameObject: {fileID: 4192125105954668721}
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: 4ead10d8df28cf447bc5f8955d0d3a10, type: 3}
-  m_Controller: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 07b313d65e392c043b10bfb60423b6bc, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0

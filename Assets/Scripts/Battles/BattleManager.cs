@@ -8,115 +8,106 @@ public class BattleManager : MonoBehaviour
 {
     public BattleTypes BattleType;
 
+    internal Ball Ball
+    {
+        get
+        {
+            if (!ball)
+            {
+                ball = FindObjectOfType<Ball>();
+            }
+
+            return ball;
+        }
+    }
+
+    private Ball ball;
+
     internal Vector3 BallDefaultPos = Vector3.zero;
     public Transform BallPivot;
-    internal Ball Ball;
+    public float DefaultHeadHeight = 5f;
 
     public Camera BattleCamera;
 
-    public PlayerSpawnPointManager PlayerSpawnPointManager;
-
-    internal SortedDictionary<PlayerNumber, Player> PlayerDict = new SortedDictionary<PlayerNumber, Player>();
-    internal SortedDictionary<TeamNumber, Team> TeamDict = new SortedDictionary<TeamNumber, Team>();
-
-    private DebugPanel debugPanel;
+    public ScoreRingManager ScoreRingManager;
 
     public Plane FloorPlane = new Plane(Vector3.up, new Vector3(0, 0, 0));
 
     public void Initialize()
     {
-        debugPanel = UIManager.Instance.ShowUIForms<DebugPanel>();
-        debugPanel.RefreshScore();
-
         PlayerSpawnPointManager.Init();
 
         TeamDict.Clear();
-        TeamDict.Add(TeamNumber.Team1, new Team(TeamNumber.Team1, 0));
-        TeamDict.Add(TeamNumber.Team2, new Team(TeamNumber.Team2, 0));
-        TeamDict.Add(TeamNumber.Team3, new Team(TeamNumber.Team3, 0));
-        TeamDict.Add(TeamNumber.Team4, new Team(TeamNumber.Team4, 0));
+        TeamDict.Add(TeamNumber.Team1, new Team(TeamNumber.Team1, ConfigManager.TeamStartScore));
+        TeamDict.Add(TeamNumber.Team2, new Team(TeamNumber.Team2, ConfigManager.TeamStartScore));
+        TeamDict.Add(TeamNumber.Team3, new Team(TeamNumber.Team3, ConfigManager.TeamStartScore));
+        TeamDict.Add(TeamNumber.Team4, new Team(TeamNumber.Team4, ConfigManager.TeamStartScore));
 
-        foreach (KeyValuePair<PlayerNumber, Player> kv in PlayerDict)
+        GameManager.DebugPanel.RefreshScore();
+        GameManager.DebugPanel.SetStartTipShown(true);
+    }
+
+    void Update()
+    {
+        if (Input.GetKeyUp(KeyCode.F10))
         {
-            TeamDict[kv.Value.TeamNumber].TeamPlayers.Add(kv.Value);
+            StartGame_Server();
         }
 
-        RefreshAllTeamGoal();
-        StartGame();
+        if (Input.GetKeyUp(KeyCode.F11))
+        {
+            EndBattle_Server();
+        }
     }
 
     public bool IsStart = false;
 
-    public void StartGame()
+    public void StartGame_Server()
     {
         if (BoltNetwork.IsServer)
         {
-            IsStart = true;
             BattleStartEvent.Create().Send();
-            GameObject ball_go = BoltNetwork.Instantiate(BoltPrefabs.Ball, BallPivot.position, BallPivot.rotation);
-            Ball = ball_go.GetComponent<Ball>();
-            Ball.Collider.enabled = true;
-            BallDefaultPos = Ball.transform.position;
-        }
-    }
-
-    public void RefreshAllTeamGoal()
-    {
-        foreach (KeyValuePair<TeamNumber, Team> kv in TeamDict)
-        {
-            RefreshTeamGoal(kv.Key);
-        }
-    }
-
-    public void RefreshTeamGoal(TeamNumber teamNumber)
-    {
-        if (TeamDict[teamNumber].TeamPlayers.Count != 0)
-        {
-            List<Player> currentGoalPlayer = new List<Player>();
-
-            foreach (Player p in TeamDict[teamNumber].TeamPlayers)
+            if (!ball)
             {
-                if (p.Goalie.IsAGoalie)
-                {
-                    currentGoalPlayer.Add(p);
-                    p.Goalie.IsAGoalie = false;
-                }
-            }
-
-            List<Player> validPlayers = ClientUtils.GetRandomFromList(TeamDict[teamNumber].TeamPlayers, 1, currentGoalPlayer);
-            if (validPlayers.Count == 0)
-            {
-                Player goalPlayer = ClientUtils.GetRandomFromList(TeamDict[teamNumber].TeamPlayers, 1)[0];
-                goalPlayer.Goalie.IsAGoalie = true;
+                BoltNetwork.Instantiate(BoltPrefabs.Ball, BallPivot.position, BallPivot.rotation);
+                BallDefaultPos = Ball.transform.position;
             }
             else
             {
-                Player goalPlayer = validPlayers[0];
-                goalPlayer.Goalie.IsAGoalie = true;
+                ResetBall();
+            }
+
+            ResetAllPlayers();
+
+            foreach (KeyValuePair<TeamNumber, Team> kv in TeamDict)
+            {
+                kv.Value.Score = ConfigManager.TeamStartScore;
+                List<Player> goalies = ClientUtils.GetRandomFromList(kv.Value.TeamPlayers, 1);
+                if (goalies.Count > 0)
+                {
+                    CostumeType ct = GameManager.Cur_BattleManager.ScoreRingManager.GetRingCostumeType(kv.Key);
+                    StartCoroutine(Co_PlayerRingRecover(goalies[0], ct));
+
+                    ScoreChangeEvent sce = ScoreChangeEvent.Create();
+                    sce.TeamNumber = (int) kv.Key;
+                    sce.Score = kv.Value.Score - 1;
+                    sce.Send();
+                }
             }
         }
+    }
+
+    public void StartGame()
+    {
+        IsStart = true;
+        ScoreRingManager.Reset();
+        GameManager.DebugPanel.SetStartTipShown(false);
     }
 
     public void ResetPlayer(Player player)
     {
         player.Reset();
         PlayerSpawnPointManager.Spawn(player.PlayerNumber);
-    }
-
-    public void EndBattle()
-    {
-        foreach (KeyValuePair<PlayerNumber, Player> kv in PlayerDict)
-        {
-            DestroyImmediate(kv.Value.gameObject);
-        }
-
-        PlayerDict.Clear();
-
-        debugPanel.SetScoreShown(true);
-        debugPanel.RefreshScore();
-        debugPanel.RefreshLevelName();
-
-        DestroyImmediate(gameObject);
     }
 
     public void ResetBall()
@@ -129,45 +120,117 @@ public class BattleManager : MonoBehaviour
 
     IEnumerator Co_ResetBall(float suspendingTime)
     {
-        Ball.RigidBody.DOPause();
-        Ball.transform.position = BallDefaultPos;
-        Ball.Reset();
-        Ball.RigidBody.useGravity = false;
-        yield return new WaitForSeconds(suspendingTime);
-        Ball.RigidBody.useGravity = true;
+        if (Ball)
+        {
+            Ball.RigidBody.DOPause();
+            Ball.transform.position = BallDefaultPos;
+            Ball.Reset();
+            Ball.RigidBody.useGravity = false;
+            yield return new WaitForSeconds(suspendingTime);
+            if (Ball) Ball.RigidBody.useGravity = true;
+        }
     }
 
-    public void Score(TeamNumber kickTeamNumber, TeamNumber hitTeamNumber)
+    public void Score_Server(Player hitPlayer, TeamNumber hitTeamNumber)
     {
         if (BattleType.ToString().Contains("PVP4"))
         {
-            if (kickTeamNumber == hitTeamNumber)
+            PlayerRingEvent pre = PlayerRingEvent.Create();
+            pre.HasRing = false;
+            pre.PlayerNumber = (int) hitPlayer.PlayerNumber;
+            pre.Send();
+
+            Team hitTeam = TeamDict[hitTeamNumber];
+
+            if (hitTeam.Score == 0)
             {
-                TeamDict[kickTeamNumber].Score--;
-                RefreshTeamGoal(kickTeamNumber);
+                EndBattle_Server();
             }
             else
             {
-                TeamDict[kickTeamNumber].Score++;
-                RefreshTeamGoal(hitTeamNumber);
-            }
-        }
-
-        if (BattleType.ToString().Contains("PVP2"))
-        {
-            foreach (KeyValuePair<TeamNumber, Team> kv in TeamDict)
-            {
-                if (kv.Key != hitTeamNumber)
+                CostumeType ct = GameManager.Cur_BattleManager.ScoreRingManager.GetRingCostumeType(hitPlayer.TeamNumber);
+                Player otherPlayer = null;
+                if (TeamDict[hitTeamNumber].TeamPlayers.Count == 1)
                 {
-                    kv.Value.Score++;
-                    RefreshTeamGoal(hitTeamNumber);
+                    otherPlayer = hitPlayer;
                 }
+                else
+                {
+                    List<Player> ps = ClientUtils.GetRandomFromList(TeamDict[hitTeamNumber].TeamPlayers, 1, new List<Player> {hitPlayer});
+                    otherPlayer = ps[0];
+                }
+
+                StartCoroutine(Co_PlayerRingRecover(otherPlayer, ct));
             }
+
+            ScoreChangeEvent sce = ScoreChangeEvent.Create();
+            sce.TeamNumber = (int) hitTeamNumber;
+            sce.Score = hitTeam.Score - 1;
+            sce.Send();
         }
 
-        AudioManager.Instance.SoundPlay("sfx/Sound_Score");
-        debugPanel.RefreshScore();
         ResetBall();
+    }
+
+    IEnumerator Co_PlayerRingRecover(Player player, CostumeType costumeType)
+    {
+        yield return new WaitForSeconds(ConfigManager.Instance.RingRecoverTime);
+        PlayerRingEvent pre = PlayerRingEvent.Create();
+        pre.HasRing = true;
+        pre.PlayerNumber = (int) player.PlayerNumber;
+        pre.CostumeType = (int) costumeType;
+        pre.Send();
+    }
+
+    public void EndBattle_Server()
+    {
+        if (BoltNetwork.IsServer)
+        {
+            BattleEndEvent.Create().Send();
+            if (ball)
+            {
+                BoltNetwork.Destroy(ball.gameObject);
+            }
+
+            ResetAllPlayers();
+        }
+    }
+
+    public void EndBattle()
+    {
+        ball = null;
+        IsStart = false;
+        GameManager.DebugPanel.SetStartTipShown(true);
+    }
+
+    #region Players
+
+    public PlayerSpawnPointManager PlayerSpawnPointManager;
+    private SortedDictionary<PlayerNumber, Player> PlayerDict = new SortedDictionary<PlayerNumber, Player>();
+    internal SortedDictionary<TeamNumber, Team> TeamDict = new SortedDictionary<TeamNumber, Team>();
+
+    public void AddPlayer(Player player)
+    {
+        if (!PlayerDict.ContainsKey(player.PlayerNumber))
+        {
+            PlayerDict.Add(player.PlayerNumber, player);
+        }
+        else
+        {
+            PlayerDict[player.PlayerNumber] = player;
+        }
+
+        if (!TeamDict[player.TeamNumber].TeamPlayers.Contains(player))
+        {
+            TeamDict[player.TeamNumber].TeamPlayers.Add(player);
+            GameManager.DebugPanel.RefreshScore();
+        }
+    }
+
+    public Player GetPlayer(PlayerNumber playerNumber)
+    {
+        PlayerDict.TryGetValue(playerNumber, out Player player);
+        return player;
     }
 
     public List<Vector3> GetAllPlayerPositions()
@@ -180,4 +243,18 @@ public class BattleManager : MonoBehaviour
 
         return res;
     }
+
+    public void ResetAllPlayers()
+    {
+        foreach (KeyValuePair<PlayerNumber, Player> kv in PlayerDict)
+        {
+            ResetPlayer(kv.Value);
+            PlayerRingEvent pre = PlayerRingEvent.Create();
+            pre.PlayerNumber = (int) kv.Key;
+            pre.HasRing = false;
+            pre.Send();
+        }
+    }
+
+    #endregion
 }

@@ -39,7 +39,7 @@ public class Controller
             ButtonDown[kv.Key] = ButtonPressed[kv.Key] && !ButtonPressedLastFrame[kv.Key];
             ButtonUp[kv.Key] = !ButtonPressed[kv.Key] && ButtonPressedLastFrame[kv.Key];
 
-            // if (ButtonUp[kv.Key]) Debug.Log(kv.Key);
+            if (ButtonUp[kv.Key]) Debug.Log(kv.Key);
         }
 
         foreach (KeyValuePair<ControlButtons, bool> kv in ButtonPressed)

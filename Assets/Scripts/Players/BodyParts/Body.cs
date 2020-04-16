@@ -25,7 +25,7 @@ public class Body : MonoBehaviour
     {
         if (IsPushingNeck) return;
         Cur_HeadTargetPosition = Duck.Neck.HeadPosPivot.position;
-        if (GameManager.Cur_BattleManager.IsStart)
+        if (GameManager.Cur_BattleManager.IsStart && GameManager.Cur_BattleManager.Ball)
         {
             Cur_HeadTargetPosition.y = GameManager.Cur_BattleManager.Ball.transform.position.y;
         }
@@ -61,7 +61,14 @@ public class Body : MonoBehaviour
                         neckTargetPos = (neckTargetPos - transform.position).normalized * (DuckConfig.Radius * 2) + transform.position;
                     }
 
-                    neckTargetPos.y = GameManager.Cur_BattleManager.Ball.transform.position.y;
+                    if (GameManager.Cur_BattleManager.IsStart && GameManager.Cur_BattleManager.Ball)
+                    {
+                        neckTargetPos.y = GameManager.Cur_BattleManager.Ball.transform.position.y;
+                    }
+                    else
+                    {
+                        neckTargetPos.y = GameManager.Cur_BattleManager.DefaultHeadHeight;
+                    }
 
                     Vector3 diff = neckTargetPos - Duck.Player.GetPlayerPosition;
                     diff = Vector3.ClampMagnitude(diff, DuckConfig.MaxNeckLength);
@@ -99,7 +106,14 @@ public class Body : MonoBehaviour
                         neckTargetPos = (neckTargetPos - transform.position).normalized * (DuckConfig.Radius * 2) + transform.position;
                     }
 
-                    neckTargetPos.y = GameManager.Cur_BattleManager.Ball.transform.position.y;
+                    if (GameManager.Cur_BattleManager.IsStart && GameManager.Cur_BattleManager.Ball)
+                    {
+                        neckTargetPos.y = GameManager.Cur_BattleManager.Ball.transform.position.y;
+                    }
+                    else
+                    {
+                        neckTargetPos.y = GameManager.Cur_BattleManager.DefaultHeadHeight;
+                    }
 
                     Vector3 diff = neckTargetPos - Duck.Player.GetPlayerPosition;
                     diff = Vector3.ClampMagnitude(diff, DuckConfig.MaxNeckLength);
@@ -137,7 +151,17 @@ public class Body : MonoBehaviour
         IsPushingNeck = true;
         Vector3 neckTargetPos = Duck.Neck.HeadPosPivot.position;
 
-        float dist = (Duck.Head.transform.position + Duck.Head.transform.forward * DuckConfig.PullBallStopFromHead - GameManager.Cur_BattleManager.Ball.transform.position).magnitude;
+        Vector3 targetPos = Vector3.zero;
+        if (GameManager.Cur_BattleManager.Ball)
+        {
+            targetPos = GameManager.Cur_BattleManager.Ball.transform.position;
+        }
+        else
+        {
+            targetPos = Duck.Head.transform.position + Duck.Head.transform.forward * DuckConfig.PullNeckDistance;
+        }
+
+        float dist = (Duck.Head.transform.position + Duck.Head.transform.forward * DuckConfig.PullBallStopFromHead - targetPos).magnitude;
         dist = Mathf.Min(DuckConfig.PullNeckDistance, dist);
 
         for (int i = 0; i < DuckConfig.PullNeckFrame; i++)
@@ -162,7 +186,17 @@ public class Body : MonoBehaviour
         IsPushingNeck = true;
         Vector3 neckTargetPos = Duck.Neck.HeadPosPivot.position;
 
-        float dist = (Duck.GetHeadPosition - GameManager.Cur_BattleManager.Ball.transform.position).magnitude;
+        Vector3 targetPos = Vector3.zero;
+        if (GameManager.Cur_BattleManager.Ball)
+        {
+            targetPos = GameManager.Cur_BattleManager.Ball.transform.position;
+        }
+        else
+        {
+            targetPos = Duck.GetHeadPosition + Duck.Head.transform.forward * DuckConfig.PushNeckDistance;
+        }
+
+        float dist = (Duck.GetHeadPosition - targetPos).magnitude;
         float dist_forward = Mathf.Min(DuckConfig.PushNeckDistance + chargeDistance, dist);
         float dist_backward = Mathf.Min(DuckConfig.PushNeckDistance, dist);
 

@@ -7,6 +7,9 @@ public class Feet : MonoBehaviour
     internal Player Player => Duck.Player;
     internal DuckConfig DuckConfig => Duck.DuckConfig;
 
+    [SerializeField] private SpriteRenderer MyPlayerCircle;
+    [SerializeField] private SpriteRenderer ChargingCircle;
+
     public void Attached()
     {
         Duck = GetComponentInParent<Duck>();
@@ -51,6 +54,8 @@ public class Feet : MonoBehaviour
 
     void LateUpdate()
     {
+        MyPlayerCircle.enabled = Player.entity.HasControl;
+
         if (Duck.DuckRigidbody.velocity.magnitude < DuckConfig.BrakeVelocityThreshold)
         {
             Duck.DuckRigidbody.velocity *= 0.9f;
@@ -78,5 +83,27 @@ public class Feet : MonoBehaviour
             Duck.Ring.NotWalking();
             Duck.Wings.NotWalking();
         }
+
+        if (startCharge)
+        {
+            ChargingCircle.color = new Color(1, 1, 1, ChargingCircle.color.a + 0.5f / (DuckConfig.PushChargeTimeMaxDuration * Application.targetFrameRate));
+            ChargingCircle.transform.localScale -= Vector3.one * (1.5f / (DuckConfig.PushChargeTimeMaxDuration * Application.targetFrameRate));
+        }
+    }
+
+    private bool startCharge = false;
+
+    public void StartCharge()
+    {
+        startCharge = true;
+        ChargingCircle.color = new Color(1, 1, 1, 0.1f);
+        ChargingCircle.transform.localScale = Vector3.one * 2f;
+    }
+
+    public void ReleaseChargingCircle()
+    {
+        startCharge = false;
+        ChargingCircle.transform.localScale = Vector3.one * 2f;
+        ChargingCircle.color = new Color(1, 1, 1, 0);
     }
 }

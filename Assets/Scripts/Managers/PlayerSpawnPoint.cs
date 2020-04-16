@@ -19,7 +19,7 @@ public class PlayerSpawnPoint : MonoBehaviour, IRevivePlayer
 
     public void Spawn(PlayerNumber playerNumber)
     {
-        Player player = GameManager.Cur_BattleManager.PlayerDict[playerNumber];
+        Player player = GameManager.Cur_BattleManager.GetPlayer(playerNumber);
         player.SetPlayerPosition(transform.position);
         player.Reviving();
     }

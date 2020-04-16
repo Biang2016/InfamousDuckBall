@@ -33,12 +33,14 @@ public class Wings : MonoBehaviour
     public void GetRing()
     {
         Anim.SetTrigger("GetRing");
+        Anim.ResetTrigger("LoseRing");
         Anim.SetBool("HasRing", true);
     }
 
     public void LoseRing()
     {
         Anim.SetTrigger("LoseRing");
+        Anim.ResetTrigger("GetRing");
         Anim.SetBool("HasRing", false);
     }
 }

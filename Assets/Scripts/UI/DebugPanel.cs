@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -8,10 +9,15 @@ public class DebugPanel : BaseUIForm
     [SerializeField] private Text Score2Text;
     [SerializeField] private Text Score3Text;
     [SerializeField] private Text Score4Text;
+    [SerializeField] private Text Score2Dot;
+    [SerializeField] private Text Score3Dot;
+    [SerializeField] private Text Score4Dot;
 
     [SerializeField] private Text LevelNameText;
+    [SerializeField] private Text StartTipText;
 
     private SortedDictionary<TeamNumber, Text> TeamScoreTextDict = new SortedDictionary<TeamNumber, Text>();
+    private SortedDictionary<TeamNumber, Text> TeamScoreDotDict = new SortedDictionary<TeamNumber, Text>();
 
     void Awake()
     {
@@ -27,6 +33,9 @@ public class DebugPanel : BaseUIForm
         TeamScoreTextDict.Add(TeamNumber.Team2, Score2Text);
         TeamScoreTextDict.Add(TeamNumber.Team3, Score3Text);
         TeamScoreTextDict.Add(TeamNumber.Team4, Score4Text);
+        TeamScoreDotDict.Add(TeamNumber.Team2, Score2Dot);
+        TeamScoreDotDict.Add(TeamNumber.Team3, Score3Dot);
+        TeamScoreDotDict.Add(TeamNumber.Team4, Score4Dot);
     }
 
     public Text fpsText;
@@ -47,10 +56,9 @@ public class DebugPanel : BaseUIForm
             {
                 TeamScoreTextDict[kv.Key].text = kv.Value.Score.ToString();
             }
-            else
-            {
-                TeamScoreTextDict[kv.Key].text = "-";
-            }
+
+            TeamScoreTextDict[kv.Key].gameObject.SetActive(kv.Value.TeamPlayers.Count != 0);
+            if (kv.Key != TeamNumber.Team1) TeamScoreDotDict[kv.Key].gameObject.SetActive(kv.Value.TeamPlayers.Count != 0);
         }
     }
 
@@ -59,16 +67,8 @@ public class DebugPanel : BaseUIForm
         LevelNameText.text = GameManager.Cur_BattleManager.BattleType.ToString();
     }
 
-    public void SetScoreShown(bool shown)
+    public void SetStartTipShown(bool shown)
     {
-        Score1Text.enabled = shown;
-        Score2Text.enabled = shown;
-        Score3Text.enabled = shown;
-        Score4Text.enabled = shown;
-    }
-
-    public void OnReset()
-    {
-        GameManager.Cur_BattleManager.ResetBall();
+        StartTipText.enabled = shown;
     }
 }

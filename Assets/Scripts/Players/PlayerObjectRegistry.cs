@@ -27,7 +27,7 @@ public static class PlayerObjectRegistry
         }
 
         player.PlayerNumber = playerNumber;
-        player.TeamNumber = TeamNumber.Team1;
+        player.TeamNumber = (TeamNumber)(playerDict.Count % 2);
         player.CostumeType = CostumeType.Costume1;
 
         // add to list of all players
@@ -85,7 +85,7 @@ public static class PlayerObjectRegistry
 
     static PlayerNumber FindUnusedPlayerNumber()
     {
-        for (int i = 0; i < GameManager.MaximalPlayerNumber; i++)
+        for (int i = 0; i < ConfigManager.MaximalPlayerNumber; i++)
         {
             PlayerNumber pn = (PlayerNumber) i;
             if (!playerDict.ContainsKey(pn))

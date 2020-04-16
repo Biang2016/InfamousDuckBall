@@ -8,6 +8,8 @@ public class Player : EntityBehaviour<IPlayerState>
     public TeamNumber TeamNumber => (TeamNumber) state.PlayerInfo.TeamNumber;
     public CostumeType CostumeType => (CostumeType) state.PlayerInfo.CostumeType;
 
+    public bool HasRing => state.HasRing;
+
     public PlayerController PlayerController;
     public PlayerCostume PlayerCostume;
 
@@ -26,35 +28,37 @@ public class Player : EntityBehaviour<IPlayerState>
     {
         PlayerController.Attached();
         Duck.Attached();
+        state.OnUpdateState += OnStateChanged;
+    }
 
-        if (!entity.IsOwner)
+    public void OnStateChanged()
+    {
+        if (!entity.IsOwner && !IsInitialized)
         {
-            PlayerCostume.Initialize(PlayerNumber, TeamNumber, CostumeType);
-            Goalie.GoalIndicator.SetActive(false);
-            PlayerCollider.Initialize(this);
-            Duck.Initialize();
+            Initialize();
         }
     }
 
-    public void Initialize(PlayerNumber playerNumber, TeamNumber teamNumber, CostumeType costumeType)
+    private bool IsInitialized = false;
+
+    public void Initialize_Server(PlayerNumber playerNumber, TeamNumber teamNumber, CostumeType costumeType)
     {
         state.PlayerInfo.PlayerNumber = (int) playerNumber;
         state.PlayerInfo.TeamNumber = (int) teamNumber;
-        if (entity.IsOwner)
+        if (entity.IsOwner && !IsInitialized)
         {
-            PlayerCostume.Initialize(playerNumber, teamNumber, costumeType);
-            Goalie.GoalIndicator.SetActive(false);
-            PlayerCollider.Initialize(this);
-            Duck.Initialize();
+            Initialize();
         }
     }
 
-    public override void ControlGained()
+    public void Initialize()
     {
-        if (!entity.IsOwner)
-        {
-           
-        }
+        IsInitialized = true;
+        GameManager.Cur_BattleManager.AddPlayer(this);
+        PlayerCostume.Initialize(PlayerNumber, TeamNumber, CostumeType);
+        PlayerCollider.Initialize(this);
+        Duck.Initialize();
+        Goalie.IsGoalie = false;
     }
 
     public void Reviving()
@@ -63,6 +67,7 @@ public class Player : EntityBehaviour<IPlayerState>
 
     public override void SimulateOwner()
     {
+        state.UpdateState();
     }
 
     public override void SimulateController()
@@ -85,6 +90,22 @@ public class Player : EntityBehaviour<IPlayerState>
                 Controller = MultiControllerManager.Instance.Controllers[MultiControllerManager.Instance.PlayerControlMap[PlayerNumber]];
             }
         }
+    }
+
+    public void GetRing(CostumeType costumeType)
+    {
+        Duck.Ring.Initialize(TeamNumber, costumeType);
+        Duck.Ring.GetRing();
+        Duck.Wings.GetRing();
+    }
+
+    public void LoseRing()
+    {
+        Goalie.ParticleRelease();
+        Duck.Wings.Hit();
+        Duck.Ring.LoseRing();
+        Duck.Wings.LoseRing();
+        Goalie.IsGoalie = false;
     }
 
     public Vector3 GetPlayerPosition => Duck.Feet.transform.position;

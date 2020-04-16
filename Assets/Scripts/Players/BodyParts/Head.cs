@@ -27,15 +27,19 @@ public class Head : MonoBehaviour
                     HeadStatus = HeadStatusTypes.PushCharging;
                     Duck.Ring.Charge();
                     Duck.Wings.Charge();
+                    Duck.Feet.StartCharge();
+                    PushChargeTimeTick = Time.time;
                 }
                 else if (rightTriggerPressed)
                 {
-                    HeadStatus = HeadStatusTypes.PushCharging;
+                    //HeadStatus = HeadStatusTypes.PushCharging;
+                    //Duck.Feet.ShrinkChargingCircle();
                 }
                 else if (rightBumperDown)
                 {
                     PushChargeForceRatio = 0f;
                     Push();
+                    Duck.Feet.ReleaseChargingCircle();
                 }
 
                 break;
@@ -44,18 +48,19 @@ public class Head : MonoBehaviour
             {
                 if (rightTriggerUp)
                 {
-                    PushChargeForceRatio = PushChargeTimeTick / DuckConfig.PushChargeTimeMaxDuration;
-                    PushChargeTimeTick = 0;
+                    PushChargeForceRatio = (Time.time - PushChargeTimeTick) / DuckConfig.PushChargeTimeMaxDuration;
+                    PushChargeTimeTick = Time.time;
                     Push();
+                    Duck.Feet.ReleaseChargingCircle();
                 }
                 else if (rightTriggerPressed)
                 {
-                    PushChargeTimeTick += Time.deltaTime;
-                    if (PushChargeTimeTick > DuckConfig.PushChargeTimeMaxDuration)
+                    if (Time.time - PushChargeTimeTick > DuckConfig.PushChargeTimeMaxDuration)
                     {
-                        PushChargeForceRatio = PushChargeTimeTick / DuckConfig.PushChargeTimeMaxDuration;
-                        PushChargeTimeTick = 0;
+                        PushChargeForceRatio = 1;
+                        PushChargeTimeTick = Time.time;
                         Push();
+                        Duck.Feet.ReleaseChargingCircle();
                     }
                 }
 
@@ -63,8 +68,6 @@ public class Head : MonoBehaviour
             }
         }
     }
-
-    public Collider HeadCollider;
 
     public void Initialize()
     {
@@ -97,21 +100,19 @@ public class Head : MonoBehaviour
     private void Push()
     {
         HeadStatus = HeadStatusTypes.Pushing;
-        HeadCollider.enabled = false;
         Anim.SetTrigger("Push");
-        Duck.Wings.Kick();
         Duck.Ring.Kick();
     }
 
     private void Pull()
     {
         HeadStatus = HeadStatusTypes.Pulling;
-        HeadCollider.enabled = false;
         string postfix = Random.Range(0, 2) == 1 ? "" : "2";
         Anim.SetTrigger("Pull" + postfix);
-        Duck.Wings.Kick();
         Duck.Ring.Kick();
     }
+
+    internal Vector3 Cur_HeadLookAtPosition;
 
     void LateUpdate()
     {
@@ -126,21 +127,70 @@ public class Head : MonoBehaviour
         }
 
         transform.position = Duck.Neck.HeadPosPivot.position;
-        if (!Duck.Body.IsPushingNeck && GameManager.Cur_BattleManager.Ball)
+        if (!Duck.Body.IsPushingNeck)
         {
-            Vector3 diff_BodyToHead = Player.GetPlayerPosition - transform.position;
-            Vector3 diff_BallToHead = GameManager.Cur_BattleManager.Ball.transform.position - transform.position;
-
-            float angle = Mathf.Abs(Vector3.SignedAngle(diff_BodyToHead, diff_BallToHead, Vector3.down));
-
-            if (angle > DuckConfig.LookBallAngleThreshold)
+            if (GameManager.Cur_BattleManager.Ball)
             {
-                transform.LookAt(GameManager.Cur_BattleManager.Ball.transform.position);
+                Vector3 diff_HeadToBody = Player.GetPlayerPosition - transform.position;
+                Vector3 diff_HeadToBall = GameManager.Cur_BattleManager.Ball.transform.position - transform.position;
+
+                float angle = Mathf.Abs(Vector3.SignedAngle(diff_HeadToBody, diff_HeadToBall, Vector3.down));
+
+                if (angle > DuckConfig.LookBallAngleThreshold)
+                {
+                    transform.LookAt(GameManager.Cur_BattleManager.Ball.transform.position);
+                }
+                else
+                {
+                    transform.LookAt(transform.position - diff_HeadToBody.normalized * 10f);
+                }
+
+                HeadVerticalOffsetManual = 0f;
             }
             else
             {
-                transform.LookAt(transform.position - diff_BodyToHead.normalized * 10f);
+                if (Duck.Player.entity.HasControl)
+                {
+                    if (Input.GetAxis("Mouse ScrollWheel") > 0f || (Duck.Player.Controller != null && Duck.Player.Controller.ButtonPressed[ControlButtons.DPAD_Up]))
+                    {
+                        HeadVerticalOffsetManual += 0.5f;
+                        HeadVerticalOffsetManual = Mathf.Clamp(HeadVerticalOffsetManual, -1f, 8f);
+                    }
+                    else if (Input.GetAxis("Mouse ScrollWheel") < 0f || (Duck.Player.Controller != null && Duck.Player.Controller.ButtonPressed[ControlButtons.DPAD_Down]))
+                    {
+                        HeadVerticalOffsetManual -= 0.5f;
+                        HeadVerticalOffsetManual = Mathf.Clamp(HeadVerticalOffsetManual, -1f, 8f);
+                    }
+
+                    if (Duck.Player.Controller != null)
+                    {
+                        if (Duck.Player.Controller is KeyBoardController)
+                        {
+                            Ray ray = GameManager.Cur_BattleManager.BattleCamera.ScreenPointToRay(Input.mousePosition);
+                            if (GameManager.Cur_BattleManager.FloorPlane.Raycast(ray, out float enter))
+                            {
+                                Vector3 mousePos = ray.GetPoint(enter);
+                                mousePos.y = HeadVerticalOffsetManual + 2f;
+                                Cur_HeadLookAtPosition = mousePos;
+                                transform.LookAt(Cur_HeadLookAtPosition);
+                            }
+                        }
+                        else if (Duck.Player.Controller is XBoxController)
+                        {
+                            Vector3 diff_HeadToBody = Player.GetPlayerPosition - transform.position;
+                            Cur_HeadLookAtPosition = transform.position - diff_HeadToBody.normalized * 3f;
+                            Cur_HeadLookAtPosition.y = HeadVerticalOffsetManual + 2f;
+                            transform.LookAt(Cur_HeadLookAtPosition);
+                        }
+                    }
+                }
+                else
+                {
+                    transform.LookAt(Duck.Player.state.HeadLookAtPosition);
+                }
             }
         }
     }
+
+    private float HeadVerticalOffsetManual = 0f;
 }

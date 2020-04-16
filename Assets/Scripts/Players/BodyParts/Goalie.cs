@@ -2,20 +2,23 @@ using UnityEngine;
 
 public class Goalie : MonoBehaviour
 {
-    public GameObject GoalIndicator;
-    public Collider GoalCollider;
-    public ParticleSystem ParticleSystem;
+    [SerializeField] private Collider GoalCollider;
+    [SerializeField] private ParticleSystem ParticleSystem;
 
-    private bool isAGoalie = false;
+    [SerializeField] private bool isGoalie = false;
 
-    public bool IsAGoalie
+    public bool IsGoalie
     {
-        get { return isAGoalie; }
+        get { return isGoalie; }
         set
         {
-            isAGoalie = value;
-            GoalIndicator.SetActive(value);
+            isGoalie = value;
             GoalCollider.isTrigger = value;
         }
+    }
+
+    public void ParticleRelease()
+    {
+        ParticleSystem.Play();
     }
 }

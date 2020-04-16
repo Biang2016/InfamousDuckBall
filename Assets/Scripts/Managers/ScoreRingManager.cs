@@ -4,52 +4,44 @@ using System.Collections.Generic;
 
 public class ScoreRingManager : MonoBehaviour
 {
-    [SerializeField] private MeshRenderer[] Team1ScoreRings;
-    [SerializeField] private MeshRenderer[] Team2ScoreRings;
+    [SerializeField] private ScoreRing[] Team1ScoreRings;
+    [SerializeField] private ScoreRing[] Team2ScoreRings;
 
     public const int MaxRingNumber = 5;
 
-    private SortedDictionary<TeamNumber, MeshRenderer[]> TeamScoreRings = new SortedDictionary<TeamNumber, MeshRenderer[]>();
-    private SortedDictionary<TeamNumber, int> TeamScoreDict = new SortedDictionary<TeamNumber, int>();
+    private SortedDictionary<TeamNumber, ScoreRing[]> TeamScoreRings = new SortedDictionary<TeamNumber, ScoreRing[]>();
 
     void Awake()
     {
         TeamScoreRings.Add(TeamNumber.Team1, Team1ScoreRings);
         TeamScoreRings.Add(TeamNumber.Team2, Team2ScoreRings);
+        Reset();
     }
 
     public void Reset()
     {
-        foreach (KeyValuePair<TeamNumber, MeshRenderer[]> kv in TeamScoreRings)
+        foreach (KeyValuePair<TeamNumber, ScoreRing[]> kv in TeamScoreRings)
         {
             SetTeamRingNumber(kv.Key, MaxRingNumber);
+            for (int i = 0; i < kv.Value.Length; i++)
+            {
+                ScoreRing sr = kv.Value[i];
+                sr.Initialize(kv.Key, (CostumeType) (i % ConfigManager.CostumeTypeCount));
+            }
         }
     }
 
-    public bool GetRing(TeamNumber teamNumber, out Material ringMaterial)
+    public CostumeType GetRingCostumeType(TeamNumber teamNumber)
     {
-        if (TeamScoreDict[teamNumber] == 0)
-        {
-            // Todo lost
-            ringMaterial = null;
-            return false;
-        }
-        else
-        {
-            SetTeamRingNumber(teamNumber, TeamScoreDict[teamNumber] - 1);
-            ringMaterial = TeamScoreRings[teamNumber][TeamScoreDict[teamNumber]].material;
-            return true;
-        }
+        return TeamScoreRings[teamNumber][GameManager.Cur_BattleManager.TeamDict[teamNumber].Score - 1].CostumeType;
     }
 
-    private void SetTeamRingNumber(TeamNumber teamNumber, int ringNumber)
+    public void SetTeamRingNumber(TeamNumber teamNumber, int ringNumber)
     {
-        MeshRenderer[] mrs = TeamScoreRings[teamNumber];
-        for (int i = 0; i < mrs.Length; i++)
+        ScoreRing[] srs = TeamScoreRings[teamNumber];
+        for (int i = 0; i < srs.Length; i++)
         {
-            mrs[i].enabled = i < ringNumber;
+            srs[i].Renderer.gameObject.SetActive(i < ringNumber);
         }
-
-        TeamScoreDict[teamNumber] = ringNumber;
     }
 }

@@ -23,6 +23,17 @@ public class KeyBoardController : Controller
         ButtonPressed[ControlButtons.LeftStickUp] = leftVertical < -KeyboardThreshold;
         ButtonPressed[ControlButtons.LeftStickDown] = leftVertical > KeyboardThreshold;
 
+#if UNITY_STANDALONE_OSX
+#elif UNITY_STANDALONE_WIN
+        float dpad_horizontal = Input.GetAxis("DPAD_H_" + ControllerIndex);
+        float dpad_vertical = Input.GetAxis("DPAD_V_" + ControllerIndex);
+
+        ButtonPressed[ControlButtons.DPAD_Left] = dpad_horizontal < 0;
+        ButtonPressed[ControlButtons.DPAD_Right] = dpad_horizontal > 0;
+        ButtonPressed[ControlButtons.DPAD_Up] = dpad_vertical > 0;
+        ButtonPressed[ControlButtons.DPAD_Down] = dpad_vertical < 0;
+#endif
+
         base.FixedUpdate();
     }
 }

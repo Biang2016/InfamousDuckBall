@@ -1,14 +1,53 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Assertions;
 using UnityEngine.SceneManagement;
 
 [BoltGlobalBehaviour("MainScene")]
 public class GameManager : Bolt.GlobalEventListener
 {
-    public const int MaximalPlayerNumber = 4;
-    public const int TeamNumberCount = 4;
+    void Awake()
+    {
+        //DontDestroyOnLoad(this);
+        Application.targetFrameRate = 60;
+        AssignLayers();
+    }
+
+    public override void SceneLoadLocalDone(string scene)
+    {
+        Input.ResetInputAxes();
+        DebugPanel = UIManager.Instance.ShowUIForms<DebugPanel>();
+        SwitchBattle(BattleTypes.PVP4);
+    }
+
+    public void Update()
+    {
+        if (Input.GetKeyUp(KeyCode.F10))
+        {
+        }
+    }
+
+    public static BattleManager Cur_BattleManager;
+    public static DebugPanel DebugPanel;
+
+    public void SwitchBattle(BattleTypes battleType)
+    {
+        GameObject battle_prefab = PrefabManager.Instance.GetPrefab("Battle_" + battleType);
+        GameObject battle_go = Instantiate(battle_prefab);
+        BattleManager battleManager = battle_go.GetComponent<BattleManager>();
+
+        Cur_BattleManager = battleManager;
+        Cur_BattleManager.Initialize();
+    }
+
+    #region Events
+
+    #endregion
+
+    #region Utils
 
     internal static int LayerMask_RangeOfActivity;
     internal static int Layer_RangeOfActivity;
@@ -20,9 +59,8 @@ public class GameManager : Bolt.GlobalEventListener
     internal static int Layer_Ball;
     internal SortedDictionary<PlayerNumber, int> Layer_PlayerBall = new SortedDictionary<PlayerNumber, int>();
 
-    void Awake()
+    private void AssignLayers()
     {
-        Application.targetFrameRate = 60;
         LayerMask_RangeOfActivity = LayerMask.GetMask("RangeOfActivity");
         Layer_RangeOfActivity = LayerMask.NameToLayer("RangeOfActivity");
         Layer_PlayerCollider1 = LayerMask.NameToLayer("PlayerCollider1");
@@ -47,42 +85,5 @@ public class GameManager : Bolt.GlobalEventListener
         return layerIndex == Layer_Ball || Layer_PlayerBall.Values.ToList().Contains(layerIndex);
     }
 
-    void Start()
-    {
-    }
-
-    public override void SceneLoadLocalDone(string scene)
-    {
-        SwitchBattle();
-        Input.ResetInputAxes();
-    }
-
-    public override void SceneLoadRemoteDone(BoltConnection connection)
-    {
-    }
-
-    public void Update()
-    {
-        if (Input.GetKeyUp(KeyCode.F10))
-        {
-            SceneManager.LoadScene("Menu");
-        }
-    }
-
-    public static BattleManager Cur_BattleManager;
-
-    public void SwitchBattle()
-    {
-        GameObject battle_prefab = PrefabManager.Instance.GetPrefab("Battle_PVP4");
-        GameObject battle_go = Instantiate(battle_prefab);
-        BattleManager battleManager = battle_go.GetComponent<BattleManager>();
-
-        Cur_BattleManager = battleManager;
-        Cur_BattleManager.Initialize();
-    }
-
-    public override void OnEvent(BattleStartEvent evnt)
-    {
-        Cur_BattleManager.IsStart = true;
-    }
+    #endregion
 }

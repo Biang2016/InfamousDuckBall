@@ -9,20 +9,19 @@ public class Ball : EntityEventListener<IBallState>
 
     void OnTriggerEnter(Collider c)
     {
-        if (c.gameObject.GetComponent<GoalCollider>())
+        if (BoltNetwork.IsServer)
         {
-            Player p = c.GetComponentInParent<Player>();
-            GameManager.Cur_BattleManager.Score(LastKickTeam, (TeamNumber) p.state.PlayerInfo.TeamNumber);
-            p.Goalie.ParticleSystem.Play();
-            p.Duck.Wings.Hit();
-            p.Duck.Ring.LoseRing();
-            p.Duck.Wings.LoseRing();
+            if (c.gameObject.GetComponent<GoalCollider>())
+            {
+                Player p = c.GetComponentInParent<Player>();
+                GameManager.Cur_BattleManager.Score_Server(p, (TeamNumber) p.state.PlayerInfo.TeamNumber);
+            }
         }
     }
 
     public override void Attached()
     {
-        state.SetTransforms(state.Transform,transform);
+        state.SetTransforms(state.Transform, transform);
     }
 
     public override void SimulateOwner()
@@ -40,13 +39,10 @@ public class Ball : EntityEventListener<IBallState>
         }
     }
 
-    internal TeamNumber LastKickTeam;
-
     public void Kick(TeamNumber teamNumber, Vector3 force)
     {
         if (BoltNetwork.IsServer)
         {
-            LastKickTeam = teamNumber;
             RigidBody.AddForce(force);
         }
     }

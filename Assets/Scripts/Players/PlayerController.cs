@@ -10,6 +10,7 @@ public class PlayerController : MonoBehaviour
     private float leftHorizontal;
     private float leftVertical;
     private Vector3 headTargetPos;
+    private Vector3 headLookAtPos;
 
     bool leftTriggerDown = false;
 
@@ -17,6 +18,9 @@ public class PlayerController : MonoBehaviour
     bool rightTriggerDown = false;
     bool rightTriggerUp = false;
     bool rightTriggerPressed = false;
+
+    bool dpad_LeftUp = false;
+    bool dpad_RightUp = false;
 
     public void Attached()
     {
@@ -29,6 +33,7 @@ public class PlayerController : MonoBehaviour
             leftHorizontal = Player.Controller.Axises[ControlAxis.LeftStick_H];
             leftVertical = Player.Controller.Axises[ControlAxis.LeftStick_V];
             headTargetPos = Player.Duck.Body.Cur_HeadTargetPosition;
+            headLookAtPos = Player.Duck.Head.Cur_HeadLookAtPosition;
 
             leftTriggerDown = Player.Controller.ButtonDown[ControlButtons.LeftTrigger];
 
@@ -37,9 +42,8 @@ public class PlayerController : MonoBehaviour
             rightTriggerUp = Player.Controller.ButtonUp[ControlButtons.RightTrigger];
             rightTriggerPressed = Player.Controller.ButtonPressed[ControlButtons.RightTrigger];
 
-            if (mouse)
-            {
-            }
+            dpad_LeftUp = Player.Controller.ButtonUp[ControlButtons.DPAD_Left];
+            dpad_RightUp = Player.Controller.ButtonUp[ControlButtons.DPAD_Right];
         }
     }
 
@@ -57,12 +61,16 @@ public class PlayerController : MonoBehaviour
         input.LeftHorizontal = leftHorizontal;
         input.LeftVertical = leftVertical;
         input.HeadTargetPos = headTargetPos;
+        input.HeadLookAtPos = headLookAtPos;
 
         input.LeftTriggerDown = leftTriggerDown;
         input.RightBumperDown = rightBumperDown;
         input.RightTriggerDown = rightTriggerDown;
         input.RightTriggerUp = rightTriggerUp;
         input.RightTrigger = rightTriggerPressed;
+
+        input.DPAD_LeftUp = dpad_LeftUp;
+        input.DPAD_RightUp = dpad_RightUp;
 
         Player.entity.QueueInput(input);
     }
@@ -95,11 +103,27 @@ public class PlayerController : MonoBehaviour
 
             cmd.Result.FeetPosition = Player.GetPlayerPosition;
             Player.state.FeetPosition = cmd.Result.FeetPosition;
-            
+
             if (Player.entity.IsOwner)
             {
+                if (!GameManager.Cur_BattleManager.IsStart)
+                {
+                    if (cmd.Input.DPAD_RightUp || cmd.Input.DPAD_LeftUp)
+                    {
+                        TeamNumber oldTeamNumber = Player.TeamNumber;
+                        TeamNumber newTeamNumber = Player.TeamNumber == TeamNumber.Team1 ? TeamNumber.Team2 : TeamNumber.Team1;
+                        Player.state.PlayerInfo.TeamNumber = (int) newTeamNumber;
+                        PlayerTeamChangeEvent evnt = PlayerTeamChangeEvent.Create();
+                        evnt.PlayerNumber = (int) Player.PlayerNumber;
+                        evnt.TeamNumber = (int) newTeamNumber;
+                        evnt.OriTeamNumber = (int) oldTeamNumber;
+                        evnt.Send();
+                    }
+                }
+
                 Player.state.HeadTargetPosition = cmd.Input.HeadTargetPos;
-                
+                Player.state.HeadLookAtPosition = cmd.Input.HeadLookAtPos;
+
                 Player.state.Input.LeftTriggerDown = cmd.Input.LeftTriggerDown;
                 Player.state.Input.RightBumperDown = cmd.Input.RightBumperDown;
                 Player.state.Input.RightTriggerDown = cmd.Input.RightTriggerDown;
