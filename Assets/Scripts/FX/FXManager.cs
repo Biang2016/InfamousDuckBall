@@ -15,4 +15,5 @@ public class FXManager : MonoSingleton<FXManager>
 public enum FX_Type
 {
     BallKickParticleSystem = 1,
+    ScoreRingExplosion = 2,
 }

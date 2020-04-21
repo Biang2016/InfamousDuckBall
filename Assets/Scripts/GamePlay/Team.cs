@@ -5,13 +5,13 @@ public class Team
 {
     public TeamNumber TeamNumber;
     public int Score;
+    public int MegaScore;
 
     public List<Player> TeamPlayers = new List<Player>();
 
-    public Team(TeamNumber teamNumber, int score)
+    public Team(TeamNumber teamNumber)
     {
         TeamNumber = teamNumber;
-        Score = score;
     }
 }
 
@@ -21,4 +21,5 @@ public enum TeamNumber
     Team2 = 1, // Blue Team
     Team3 = 2,
     Team4 = 3,
+    None = -1,
 }

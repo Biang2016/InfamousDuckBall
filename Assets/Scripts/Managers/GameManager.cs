@@ -3,44 +3,108 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using UnityEngine.Assertions;
 using UnityEngine.SceneManagement;
 
-[BoltGlobalBehaviour("MainScene")]
-public class GameManager : Bolt.GlobalEventListener
+public class GameManager : MonoSingleton<GameManager>
 {
-    void Awake()
+    private GameState gameState;
+
+    public GameState GameState
     {
-        //DontDestroyOnLoad(this);
-        Application.targetFrameRate = 60;
-        AssignLayers();
+        get
+        {
+            if (!gameState)
+            {
+                gameState = FindObjectOfType<GameState>();
+            }
+
+            return gameState;
+        }
     }
 
-    public override void SceneLoadLocalDone(string scene)
+    void Awake()
     {
+        DontDestroyOnLoad(gameObject);
+        Application.targetFrameRate = 60;
+        AssignLayers();
         Input.ResetInputAxes();
+    }
+
+    public void Start()
+    {
         DebugPanel = UIManager.Instance.ShowUIForms<DebugPanel>();
-        SwitchBattle(BattleTypes.PVP4);
+        DebugPanel.CloseUIForm();
     }
 
     public void Update()
     {
-        if (Input.GetKeyUp(KeyCode.F10))
+        if (BoltNetwork.IsClient && !BoltNetwork.IsConnected && Cur_BattleManager != null)
         {
+            SceneManager.LoadScene("BoltMenu");
+        }
+
+        if (BoltNetwork.IsServer)
+        {
+            if (Input.GetKeyUp(KeyCode.O))
+            {
+                GameState.state.DuckConfig.NeckMaxLengthMulti = GameState.state.DuckConfig.NeckMaxLengthMulti + 0.1f;
+            }
+
+            if (Input.GetKeyUp(KeyCode.P))
+            {
+                GameState.state.DuckConfig.NeckMaxLengthMulti = GameState.state.DuckConfig.NeckMaxLengthMulti - 0.1f;
+            }
+
+            if (Input.GetKeyUp(KeyCode.K))
+            {
+                GameState.state.DuckConfig.MoveSpeedMulti = GameState.state.DuckConfig.MoveSpeedMulti + 0.1f;
+            }
+
+            if (Input.GetKeyUp(KeyCode.L))
+            {
+                GameState.state.DuckConfig.MoveSpeedMulti = GameState.state.DuckConfig.MoveSpeedMulti - 0.1f;
+            }
         }
     }
 
-    public static BattleManager Cur_BattleManager;
-    public static DebugPanel DebugPanel;
+    public Ball Ball
+    {
+        get
+        {
+            if (Cur_BallBattleManager)
+            {
+                return Cur_BallBattleManager.Ball;
+            }
+            else
+            {
+                return null;
+            }
+        }
+    }
+
+    public BattleManager Cur_BattleManager;
+
+    public BattleManager_BallGame Cur_BallBattleManager
+    {
+        get
+        {
+            if (Cur_BattleManager is BattleManager_BallGame)
+            {
+                return (BattleManager_BallGame) Cur_BattleManager;
+            }
+            else
+            {
+                return null;
+            }
+        }
+    }
+
+    public DebugPanel DebugPanel;
 
     public void SwitchBattle(BattleTypes battleType)
     {
-        GameObject battle_prefab = PrefabManager.Instance.GetPrefab("Battle_" + battleType);
-        GameObject battle_go = Instantiate(battle_prefab);
-        BattleManager battleManager = battle_go.GetComponent<BattleManager>();
-
-        Cur_BattleManager = battleManager;
-        Cur_BattleManager.Initialize();
+        Cur_BallBattleManager?.EndBattle_Server();
+        Menu.SwitchScene("Battle_" + battleType);
     }
 
     #region Events
@@ -49,14 +113,14 @@ public class GameManager : Bolt.GlobalEventListener
 
     #region Utils
 
-    internal static int LayerMask_RangeOfActivity;
-    internal static int Layer_RangeOfActivity;
-    internal static int Layer_PlayerCollider1;
-    internal static int Layer_PlayerCollider2;
-    internal static int Layer_PlayerCollider3;
-    internal static int Layer_PlayerCollider4;
-    internal static int Layer_BallKicker;
-    internal static int Layer_Ball;
+    internal int LayerMask_RangeOfActivity;
+    internal int Layer_RangeOfActivity;
+    internal int Layer_PlayerCollider1;
+    internal int Layer_PlayerCollider2;
+    internal int Layer_PlayerCollider3;
+    internal int Layer_PlayerCollider4;
+    internal int Layer_BallKicker;
+    internal int Layer_Ball;
     internal SortedDictionary<PlayerNumber, int> Layer_PlayerBall = new SortedDictionary<PlayerNumber, int>();
 
     private void AssignLayers()

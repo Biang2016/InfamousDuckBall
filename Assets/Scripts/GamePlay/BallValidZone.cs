@@ -7,7 +7,7 @@ public class BallValidZone : MonoBehaviour
         Ball ball = c.GetComponent<Ball>();
         if (ball)
         {
-            GameManager.Cur_BattleManager.ResetBall();
+            GameManager.Instance.Cur_BallBattleManager.ResetBall();
         }
     }
 }

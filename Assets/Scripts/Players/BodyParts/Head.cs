@@ -28,6 +28,7 @@ public class Head : MonoBehaviour
                     Duck.Ring.Charge();
                     Duck.Wings.Charge();
                     Duck.Feet.StartCharge();
+                    Duck.SunGlasses.Charging();
                     PushChargeTimeTick = Time.time;
                 }
                 else if (rightTriggerPressed)
@@ -52,6 +53,7 @@ public class Head : MonoBehaviour
                     PushChargeTimeTick = Time.time;
                     Push();
                     Duck.Feet.ReleaseChargingCircle();
+                    Duck.SunGlasses.Normal();
                 }
                 else if (rightTriggerPressed)
                 {
@@ -61,6 +63,7 @@ public class Head : MonoBehaviour
                         PushChargeTimeTick = Time.time;
                         Push();
                         Duck.Feet.ReleaseChargingCircle();
+                        Duck.SunGlasses.Normal();
                     }
                 }
 
@@ -73,7 +76,7 @@ public class Head : MonoBehaviour
     {
         foreach (Collider c in transform.GetComponentsInChildren<Collider>())
         {
-            if (c.gameObject.layer == GameManager.Layer_BallKicker)
+            if (c.gameObject.layer == GameManager.Instance.Layer_BallKicker)
             {
                 string layerName = "BallKicker" + ((int) (Player.PlayerNumber) + 1);
                 int layer = LayerMask.NameToLayer(layerName);
@@ -129,16 +132,16 @@ public class Head : MonoBehaviour
         transform.position = Duck.Neck.HeadPosPivot.position;
         if (!Duck.Body.IsPushingNeck)
         {
-            if (GameManager.Cur_BattleManager.Ball)
+            if (GameManager.Instance.Ball)
             {
                 Vector3 diff_HeadToBody = Player.GetPlayerPosition - transform.position;
-                Vector3 diff_HeadToBall = GameManager.Cur_BattleManager.Ball.transform.position - transform.position;
+                Vector3 diff_HeadToBall = GameManager.Instance.Ball.transform.position - transform.position;
 
                 float angle = Mathf.Abs(Vector3.SignedAngle(diff_HeadToBody, diff_HeadToBall, Vector3.down));
 
                 if (angle > DuckConfig.LookBallAngleThreshold)
                 {
-                    transform.LookAt(GameManager.Cur_BattleManager.Ball.transform.position);
+                    transform.LookAt(GameManager.Instance.Ball.transform.position);
                 }
                 else
                 {
@@ -166,8 +169,8 @@ public class Head : MonoBehaviour
                     {
                         if (Duck.Player.Controller is KeyBoardController)
                         {
-                            Ray ray = GameManager.Cur_BattleManager.BattleCamera.ScreenPointToRay(Input.mousePosition);
-                            if (GameManager.Cur_BattleManager.FloorPlane.Raycast(ray, out float enter))
+                            Ray ray = GameManager.Instance.Cur_BattleManager.BattleCamera.ScreenPointToRay(Input.mousePosition);
+                            if (GameManager.Instance.Cur_BattleManager.FloorPlane.Raycast(ray, out float enter))
                             {
                                 Vector3 mousePos = ray.GetPoint(enter);
                                 mousePos.y = HeadVerticalOffsetManual + 2f;

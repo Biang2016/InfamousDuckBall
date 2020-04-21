@@ -8,7 +8,6 @@ public class DuckConfig : MonoBehaviour
     public float NeckSpeed = 2f;
     public float Accelerate = 2f;
     public float BrakeVelocityThreshold = 0.3f;
-    internal float MoveSpeedModifier = 1f;
 
     [Space] public int PushNeckFrame = 5;
     public float PushRadius = 6f;

@@ -10,14 +10,12 @@ public class GameObjectPoolManager : MonoSingleton<GameObjectPoolManager>
 
     public enum PrefabNames
     {
-        GeneralSlider,
-        RingSlider,
+        ConfigRow,
     }
 
     public Dictionary<PrefabNames, int> PoolConfigs = new Dictionary<PrefabNames, int>
     {
-        {PrefabNames.GeneralSlider, 10},
-        {PrefabNames.RingSlider, 10},
+        {PrefabNames.ConfigRow, 10},
     };
 
     public Dictionary<PrefabNames, int> PoolWneckUpDict = new Dictionary<PrefabNames, int>

@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using Bolt;
+﻿using Bolt;
 using UnityEngine;
 
 public class Ball : EntityEventListener<IBallState>
@@ -14,7 +13,18 @@ public class Ball : EntityEventListener<IBallState>
             if (c.gameObject.GetComponent<GoalCollider>())
             {
                 Player p = c.GetComponentInParent<Player>();
-                GameManager.Cur_BattleManager.Score_Server(p, (TeamNumber) p.state.PlayerInfo.TeamNumber);
+                if (PlayerObjectRegistry.MyPlayer == p)
+                {
+                    //Todo Vibrate
+                }
+
+                GameManager.Instance.Cur_BallBattleManager.BallHit_Server(p, (TeamNumber) p.state.PlayerInfo.TeamNumber);
+            }
+
+            ScoreRingSingle srs = c.gameObject.GetComponentInParent<ScoreRingSingle>();
+            if (srs)
+            {
+                srs.Explode();
             }
         }
     }

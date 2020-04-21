@@ -3,6 +3,7 @@ using UnityEngine;
 using Bolt;
 using Bolt.Matchmaking;
 using UdpKit;
+using UnityEngine.SceneManagement;
 
 public class Menu : GlobalEventListener
 {
@@ -29,23 +30,31 @@ public class Menu : GlobalEventListener
     {
         if (BoltNetwork.IsServer)
         {
+            SwitchScene("Battle_Prepare");
+        }
+    }
+
+    public static void SwitchScene(string sceneName)
+    {
+        if (BoltNetwork.IsServer)
+        {
             string matchName = Guid.NewGuid().ToString();
-    
+
             BoltMatchmaking.CreateSession(
                 sessionID: matchName,
-                sceneToLoad: "MainScene"
+                sceneToLoad: sceneName
             );
         }
     }
-    
+
     public override void SessionListUpdated(Map<Guid, UdpSession> sessionList)
     {
         Debug.LogFormat("Session list updated: {0} total sessions", sessionList.Count);
-    
+
         foreach (var session in sessionList)
         {
             UdpSession photonSession = session.Value as UdpSession;
-    
+
             if (photonSession.Source == UdpSessionSource.Photon)
             {
                 BoltMatchmaking.JoinSession(photonSession);

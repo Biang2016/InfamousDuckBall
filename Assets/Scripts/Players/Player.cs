@@ -54,7 +54,7 @@ public class Player : EntityBehaviour<IPlayerState>
     public void Initialize()
     {
         IsInitialized = true;
-        GameManager.Cur_BattleManager.AddPlayer(this);
+        GameManager.Instance.Cur_BattleManager.AddPlayer(this);
         PlayerCostume.Initialize(PlayerNumber, TeamNumber, CostumeType);
         PlayerCollider.Initialize(this);
         Duck.Initialize();
@@ -94,6 +94,7 @@ public class Player : EntityBehaviour<IPlayerState>
 
     public void GetRing(CostumeType costumeType)
     {
+        PlayerCostume.Initialize(PlayerNumber,TeamNumber,CostumeType);
         Duck.Ring.Initialize(TeamNumber, costumeType);
         Duck.Ring.GetRing();
         Duck.Wings.GetRing();
@@ -119,5 +120,15 @@ public class Player : EntityBehaviour<IPlayerState>
     {
         Duck.DuckRigidbody.velocity = Vector3.zero;
         Duck.DuckRigidbody.angularVelocity = Vector3.zero;
+        Goalie.ParticleRelease();
+        Duck.Wings.Hit();
+        Duck.Ring.LoseRing();
+        Duck.Wings.LoseRing();
+        Goalie.IsGoalie = false;
+    }
+
+    public PlayerInfoData GetPlayerInfoDate()
+    {
+        return new PlayerInfoData(PlayerNumber, TeamNumber, CostumeType);
     }
 }

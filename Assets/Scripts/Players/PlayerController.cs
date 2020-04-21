@@ -88,11 +88,17 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
+            Quaternion moveRot = new Quaternion();
+            if (GameManager.Instance.Cur_BattleManager)
+            {
+                moveRot = GameManager.Instance.Cur_BattleManager.PlayerControllerMoveDirectionQuaternion;
+            }
+
             // apply movement (this runs on both server and client)
             Vector3 diff = Vector3.zero;
-            diff += Vector3.forward * cmd.Input.LeftHorizontal;
-            diff += Vector3.right * cmd.Input.LeftVertical;
-            diff = Vector3.ClampMagnitude(diff, 1) * (Player.DuckConfig.Accelerate * Player.DuckConfig.MoveSpeedModifier);
+            diff += moveRot * Vector3.forward * cmd.Input.LeftHorizontal;
+            diff += moveRot * Vector3.right * cmd.Input.LeftVertical;
+            diff = Vector3.ClampMagnitude(diff, 1) * (Player.DuckConfig.Accelerate * GameManager.Instance.GameState.state.DuckConfig.MoveSpeedMulti);
 
             Player.Duck.DuckRigidbody.AddForce(diff);
             Player.Duck.Head.ExecuteCommand(cmd.Input.LeftTriggerDown, cmd.Input.RightBumperDown, cmd.Input.RightTriggerDown, cmd.Input.RightTriggerUp, cmd.Input.RightTrigger);
@@ -106,7 +112,7 @@ public class PlayerController : MonoBehaviour
 
             if (Player.entity.IsOwner)
             {
-                if (!GameManager.Cur_BattleManager.IsStart)
+                if (!GameManager.Instance.Cur_BattleManager.IsStart)
                 {
                     if (cmd.Input.DPAD_RightUp || cmd.Input.DPAD_LeftUp)
                     {

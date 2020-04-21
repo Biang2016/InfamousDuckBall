@@ -14,6 +14,11 @@ public class Ring : ScoreRing
 
     [SerializeField] private Animator Anim;
 
+    public void Update()
+    {
+        Anim.SetBool("IsCharging", Duck.Head.HeadStatus==Head.HeadStatusTypes.PushCharging);
+    }
+
     public void Kick()
     {
         Anim.SetTrigger("Kick");

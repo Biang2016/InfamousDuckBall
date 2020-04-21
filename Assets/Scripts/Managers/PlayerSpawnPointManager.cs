@@ -38,7 +38,7 @@ public class PlayerSpawnPointManager : MonoBehaviour
 
     public void Spawn(PlayerNumber playerNumber)
     {
-        List<Vector3> notValidPoints = GameManager.Cur_BattleManager.GetAllPlayerPositions();
+        List<Vector3> notValidPoints = GameManager.Instance.Cur_BattleManager.GetAllPlayerPositions();
 
         List<PlayerSpawnPoint> candidates = new List<PlayerSpawnPoint>();
         List<PlayerSpawnPoint> candidates_any = new List<PlayerSpawnPoint>();

@@ -140,12 +140,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _sceneGuid: 
   _serializerGuid: a6a08f19-2c02-4936-b80e-175cb1fc988d
-  _prefabId: 2
+  _prefabId: 5
   _updateRate: 1
   _autoFreezeProxyFrames: 0
   _clientPredicted: 0
   _allowInstantiateOnClient: 0
-  _persistThroughSceneLoads: 0
+  _persistThroughSceneLoads: 1
   _sceneObjectDestroyOnDetach: 1
   _sceneObjectAutoAttach: 1
   _alwaysProxy: 0
@@ -620,8 +620,8 @@ MonoBehaviour:
   PushChargingExtraForce: 5000
   PushChargeTimeMaxDuration: 1.6
   PullNeckFrame: 5
-  PullRadius: 8
-  PullNeckDistance: 6
+  PullRadius: 12
+  PullNeckDistance: 10
   PullBallStopFromHead: 2.5
   PullDuration: 0.2
   PullChargeBackward: 0.05
@@ -1438,6 +1438,7 @@ GameObject:
   m_Component:
   - component: {fileID: 27425263689497297}
   - component: {fileID: 7476264305474450181}
+  - component: {fileID: 3900204200322904088}
   m_Layer: 0
   m_Name: Sunglasses
   m_TagString: Untagged
@@ -1474,12 +1475,32 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 30c92fd6349b8aa4aac0e48b7e483300, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Anim: {fileID: 3900204200322904088}
   Renderers:
   - {fileID: 4688887991095986630}
   - {fileID: 5218021770499475168}
   - {fileID: 7645192704633098942}
   Team1_Mat: {fileID: 2100000, guid: fc028064259473f4ab6489512088fede, type: 2}
   Team2_Mat: {fileID: 2100000, guid: e277dea7620089844a077f91a6686c20, type: 2}
+--- !u!95 &3900204200322904088
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3907496070367905986}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: fd7ed97a774e6e743827b1b9274c2dc5, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &4136582643446754699
 GameObject:
   m_ObjectHideFlags: 0
@@ -6443,7 +6464,7 @@ MonoBehaviour:
     endPoint: {x: 0, y: 0, z: 5.564884}
     startTangent: {x: -3.2297623, y: 3.2059717, z: 3.3333333}
     endTangent: {x: 2.5546143, y: -2.6084623, z: -3.333333}
-  color: {r: 0.39195424, g: 0.5502973, b: 0.96628, a: 1}
+  color: {r: 0.21757138, g: 0.3748209, b: 0.8028556, a: 1}
 --- !u!1 &5140734676041664689
 GameObject:
   m_ObjectHideFlags: 0

@@ -8,8 +8,9 @@ public static class PlayerObjectRegistry
 
     // create a player for a connection
     // note: connection can be null
-    static PlayerObject CreatePlayer(BoltConnection connection, PlayerNumber playerNumber)
+    static void CreatePlayer(BoltConnection connection, PlayerInfoData playerInfoData)
     {
+        if (playerDict.ContainsKey(playerInfoData.PlayerNumber)) return;
         PlayerObject player;
 
         // create a new player object, assign the connection property
@@ -26,14 +27,12 @@ public static class PlayerObjectRegistry
             player.Connection.UserData = player;
         }
 
-        player.PlayerNumber = playerNumber;
-        player.TeamNumber = (TeamNumber)(playerDict.Count % 2);
-        player.CostumeType = CostumeType.Costume1;
+        player.PlayerNumber = playerInfoData.PlayerNumber;
+        player.TeamNumber = playerInfoData.TeamNumber;
+        player.CostumeType = playerInfoData.CostumeType;
 
         // add to list of all players
-        playerDict.Add(playerNumber, player);
-
-        return player;
+        playerDict.Add(playerInfoData.PlayerNumber, player);
     }
 
     // this simply returns the 'players' list cast to
@@ -63,24 +62,28 @@ public static class PlayerObjectRegistry
 
     public static Player MyPlayer;
 
-    // utility function which creates a server player
-    public static PlayerObject CreateServerPlayer()
+    public static void CreateServerPlayer()
     {
-        return CreatePlayer(null, PlayerNumber.Player1);
+        CreatePlayer(null, new PlayerInfoData(PlayerNumber.Player1, (TeamNumber) (playerDict.Count % 2), CostumeType.Costume1));
     }
 
-    // utility that creates a client player object.
-    public static PlayerObject CreateClientPlayer(BoltConnection connection)
+    public static void CreateServerPlayer(PlayerInfoData playerInfoData)
+    {
+        CreatePlayer(null, playerInfoData);
+    }
+
+    public static void CreateClientPlayer(BoltConnection connection)
     {
         PlayerNumber pn = FindUnusedPlayerNumber();
         if (pn != PlayerNumber.None && pn != PlayerNumber.Player1)
         {
-            return CreatePlayer(connection, pn);
+            CreatePlayer(connection, new PlayerInfoData(pn, (TeamNumber) (playerDict.Count % 2), CostumeType.Costume1));
         }
-        else
-        {
-            return null;
-        }
+    }
+
+    public static void CreateClientPlayer(BoltConnection connection, PlayerInfoData playerInfoData)
+    {
+        CreatePlayer(connection, playerInfoData);
     }
 
     static PlayerNumber FindUnusedPlayerNumber()

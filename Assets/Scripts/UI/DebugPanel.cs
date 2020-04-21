@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -15,6 +16,8 @@ public class DebugPanel : BaseUIForm
 
     [SerializeField] private Text LevelNameText;
     [SerializeField] private Text StartTipText;
+
+    public ConfigRows ConfigRows;
 
     private SortedDictionary<TeamNumber, Text> TeamScoreTextDict = new SortedDictionary<TeamNumber, Text>();
     private SortedDictionary<TeamNumber, Text> TeamScoreDotDict = new SortedDictionary<TeamNumber, Text>();
@@ -48,13 +51,20 @@ public class DebugPanel : BaseUIForm
         fpsText.text = Mathf.Ceil(fps).ToString();
     }
 
-    public void RefreshScore()
+    public void RefreshScore(bool useMegaScore)
     {
-        foreach (KeyValuePair<TeamNumber, Team> kv in GameManager.Cur_BattleManager.TeamDict)
+        foreach (KeyValuePair<TeamNumber, Team> kv in GameManager.Instance.Cur_BattleManager.TeamDict)
         {
             if (kv.Value.TeamPlayers.Count != 0)
             {
-                TeamScoreTextDict[kv.Key].text = kv.Value.Score.ToString();
+                if (useMegaScore)
+                {
+                    TeamScoreTextDict[kv.Key].text = kv.Value.MegaScore.ToString();
+                }
+                else
+                {
+                    TeamScoreTextDict[kv.Key].text = kv.Value.Score.ToString();
+                }
             }
 
             TeamScoreTextDict[kv.Key].gameObject.SetActive(kv.Value.TeamPlayers.Count != 0);
@@ -64,11 +74,44 @@ public class DebugPanel : BaseUIForm
 
     public void RefreshLevelName()
     {
-        LevelNameText.text = GameManager.Cur_BattleManager.BattleType.ToString();
+        LevelNameText.text = GameManager.Instance.Cur_BattleManager.BattleType.ToString();
     }
 
-    public void SetStartTipShown(bool shown)
+    public void SetStartTipShown(bool shown,string text)
     {
         StartTipText.enabled = shown;
+        StartTipText.text = text;
+    }
+
+    [SerializeField] private Text WinText;
+    [SerializeField] private Animator WinTextAnim;
+
+    public void Wins(TeamNumber teamNumber)
+    {
+        switch (teamNumber)
+        {
+            case TeamNumber.Team1:
+            {
+                WinText.text = "RED WINS";
+                WinText.color = Color.red;
+                WinTextAnim.SetTrigger("Show");
+                StartCoroutine(Co_HideWinText());
+                break;
+            }
+            case TeamNumber.Team2:
+            {
+                WinText.text = "BLUE WINS";
+                WinText.color = Color.blue;
+                WinTextAnim.SetTrigger("Show");
+                StartCoroutine(Co_HideWinText());
+                break;
+            }
+        }
+    }
+
+    IEnumerator Co_HideWinText()
+    {
+        yield return new WaitForSeconds(3f);
+        WinTextAnim.SetTrigger("Hide");
     }
 }

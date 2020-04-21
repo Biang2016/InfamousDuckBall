@@ -8,6 +8,8 @@ public class SunGlasses : MonoBehaviour
     internal Player Player => Duck.Player;
     internal DuckConfig DuckConfig => Duck.DuckConfig;
 
+    [SerializeField] private Animator Anim;
+
     public void Attached()
     {
         Duck = GetComponentInParent<Duck>();
@@ -31,5 +33,15 @@ public class SunGlasses : MonoBehaviour
         {
             r.material = TeamMatDict[teamNumber];
         }
+    }
+
+    public void Charging()
+    {
+        Anim.SetTrigger("SwitchDown");
+    }
+
+    public void Normal()
+    {
+        Anim.SetTrigger("SwitchUp");
     }
 }

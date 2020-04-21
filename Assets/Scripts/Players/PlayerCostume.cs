@@ -31,4 +31,5 @@ public enum CostumeType
     Costume1 = 0,
     Costume2 = 1,
     Costume3 = 2,
+    None = -1,
 }

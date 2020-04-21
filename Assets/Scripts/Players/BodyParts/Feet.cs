@@ -52,6 +52,8 @@ public class Feet : MonoBehaviour
         }
     }
 
+    private Vector3 lastPos = Vector3.zero;
+
     void LateUpdate()
     {
         MyPlayerCircle.enabled = Player.entity.HasControl;
@@ -61,7 +63,9 @@ public class Feet : MonoBehaviour
             Duck.DuckRigidbody.velocity *= 0.9f;
         }
 
-        Vector3 vel = Duck.DuckRigidbody.velocity;
+        Vector3 vel = (transform.position - lastPos) * Application.targetFrameRate;
+        lastPos = transform.position;
+
         float backForth = Vector3.Dot(vel, Duck.Body.BodyRotate.transform.forward);
         float leftRight = Vector3.Dot(vel, Duck.Body.BodyRotate.transform.right);
 
@@ -87,7 +91,9 @@ public class Feet : MonoBehaviour
         if (startCharge)
         {
             ChargingCircle.color = new Color(1, 1, 1, ChargingCircle.color.a + 0.5f / (DuckConfig.PushChargeTimeMaxDuration * Application.targetFrameRate));
-            ChargingCircle.transform.localScale -= Vector3.one * (1.5f / (DuckConfig.PushChargeTimeMaxDuration * Application.targetFrameRate));
+            float scale = ChargingCircle.transform.localScale.x - (1.5f / (DuckConfig.PushChargeTimeMaxDuration * Application.targetFrameRate));
+            scale = Mathf.Clamp(scale, 0, 2);
+            ChargingCircle.transform.localScale = Vector3.one * scale;
         }
     }
 
