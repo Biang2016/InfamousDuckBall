@@ -14,7 +14,7 @@ public class AudioDuck : MonoBehaviour
     [Header("BGM")] [FMODUnity.EventRef] public string BGM;
 
     [Header("Characters")]
-    [FMODUnity.EventRef] public string DuckCharge, DuckFootsteps, DuckGenerateBuoy, DuckQuack;
+    [FMODUnity.EventRef] public string DuckCharge, DuckFootsteps, DuckGenerateBuoy, DuckQuack, DuckTouchBuoy;
     [FMODUnity.EventRef] public string FishBreath, FishFlapping;
 
     [Header("SFX")]
@@ -109,7 +109,7 @@ public class AudioDuck : MonoBehaviour
     }
 
 
-    public void StartPlayerQuackSound(PlayerNumber playernumber,float teamnumber, Transform playerTransform, Rigidbody playerRB)
+    public void StartPlayerQuackSound(PlayerNumber playernumber,float teamnumber, float action, Transform playerTransform, Rigidbody playerRB)
     {
 
         //check to see if we already have a player move sound running (in which case we just update the parameter)
@@ -126,6 +126,8 @@ public class AudioDuck : MonoBehaviour
             
         }
         playerQuackSoundInstance[(int)playernumber].setParameterByName("Team", teamnumber);
+        //action == 0 PUSH, action == 1 PULL
+        playerQuackSoundInstance[(int)playernumber].setParameterByName("Action", action);
     }
 
 

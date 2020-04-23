@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Boat_Team1
+  m_Name: Boat_Shared
   m_Shader: {fileID: 4800000, guid: 273873a89ee343b45a1471ba4c363d79, type: 3}
   m_ShaderKeywords: OUTLINES
   m_LightmapFlags: 4
@@ -86,7 +86,7 @@ Material:
     - _ZSmooth: -0.5
     - _ZWrite: 1
     m_Colors:
-    - _Color: {r: 0.745283, g: 0.27733067, b: 0.24256852, a: 1}
+    - _Color: {r: 0.8207547, g: 0.70109063, b: 0.49167854, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _HColor: {r: 0.785, g: 0.785, b: 0.785, a: 1}
     - _OutlineColor: {r: 0.2, g: 0.2, b: 0.2, a: 1}
