@@ -213,6 +213,7 @@
 	<object class="MixerBusEffectChain" id="{a4310ade-55fd-4650-af8c-0b6ec7c8a1ca}">
 		<relationship name="effects">
 			<destination>{5101c973-9b4f-4e60-85c2-00a84a7ab651}</destination>
+			<destination>{d8a94440-6260-4693-8ce1-083b41dca1a6}</destination>
 		</relationship>
 	</object>
 	<object class="MixerBusPanner" id="{0de28f30-b086-475c-a45b-a2b38feacb4c}" />
@@ -227,6 +228,7 @@
 	<object class="MixerBusEffectChain" id="{7034b6f9-9cf9-4730-a86c-f2fce8bab143}">
 		<relationship name="effects">
 			<destination>{e73457e8-c92b-4d8d-a22c-2481abb05e9b}</destination>
+			<destination>{b71763b2-8bdd-48bb-8ae4-b2713b1b8198}</destination>
 		</relationship>
 	</object>
 	<object class="MixerBusPanner" id="{55949844-47b3-4890-a0a6-12f1166c4b41}" />
@@ -242,6 +244,14 @@
 		</relationship>
 	</object>
 	<object class="MixerBusFader" id="{5101c973-9b4f-4e60-85c2-00a84a7ab651}" />
+	<object class="ObjectSpatialiserEffect" id="{d8a94440-6260-4693-8ce1-083b41dca1a6}">
+		<property name="distanceRolloffType">
+			<value>4</value>
+		</property>
+		<property name="maximumDistance">
+			<value>150</value>
+		</property>
+	</object>
 	<object class="AutomationCurve" id="{9b816ddc-4378-4de8-ae3e-7b03363a35c9}">
 		<relationship name="parameter">
 			<destination>{580aeb4d-7e71-4fdb-bab2-4cb7e4e03321}</destination>
@@ -252,12 +262,23 @@
 		</relationship>
 	</object>
 	<object class="MixerBusFader" id="{e73457e8-c92b-4d8d-a22c-2481abb05e9b}" />
+	<object class="ObjectSpatialiserEffect" id="{b71763b2-8bdd-48bb-8ae4-b2713b1b8198}">
+		<property name="distanceRolloffType">
+			<value>2</value>
+		</property>
+		<property name="minimumDistance">
+			<value>26</value>
+		</property>
+		<property name="maximumDistance">
+			<value>2400</value>
+		</property>
+	</object>
 	<object class="AutomationPoint" id="{1a899805-e771-4dfa-97b5-341c340a644c}">
 		<property name="position">
 			<value>0</value>
 		</property>
 		<property name="value">
-			<value>-9</value>
+			<value>-10</value>
 		</property>
 	</object>
 	<object class="AutomationPoint" id="{3fc5207f-3dea-49d4-8c37-7007d89e28ec}">
@@ -281,7 +302,7 @@
 			<value>1</value>
 		</property>
 		<property name="value">
-			<value>-8</value>
+			<value>-15</value>
 		</property>
 	</object>
 </objects>
