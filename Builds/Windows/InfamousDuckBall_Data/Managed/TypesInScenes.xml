@@ -58,11 +58,15 @@
 		<type fullname="UnityEngine.Texture2D" preserve="nothing"/>
 		<type fullname="UnityEngine.Sprite" preserve="nothing"/>
 		<type fullname="UnityEngine.CanvasRenderer" preserve="nothing"/>
-		<type fullname="UnityEngine.Cubemap" preserve="nothing"/>
 		<type fullname="UnityEngine.RenderSettings" preserve="nothing"/>
+		<type fullname="UnityEngine.Cubemap" preserve="nothing"/>
 		<type fullname="UnityEngine.LightProbes" preserve="nothing"/>
 	</assembly>
+	<assembly fullname="Assembly-CSharp-firstpass">
+		<type fullname="FMODUnity.Settings" preserve="nothing"/>
+	</assembly>
 	<assembly fullname="Assembly-CSharp">
+		<type fullname="AudioDuck" preserve="nothing"/>
 		<type fullname="AudioManager" preserve="nothing"/>
 		<type fullname="Ball" preserve="nothing"/>
 		<type fullname="BallValidZone" preserve="nothing"/>
@@ -146,6 +150,7 @@
 		<type fullname="UnityEngine.UI.Image" preserve="nothing"/>
 		<type fullname="UnityEngine.UI.Slider" preserve="nothing"/>
 		<type fullname="UnityEngine.UI.Text" preserve="nothing"/>
+		<type fullname="UnityEngine.UI.Toggle" preserve="nothing"/>
 		<type fullname="UnityEngine.UI.VerticalLayoutGroup" preserve="nothing"/>
 	</assembly>
 	<assembly fullname="bolt">

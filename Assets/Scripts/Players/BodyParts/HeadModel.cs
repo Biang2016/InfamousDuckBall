@@ -10,16 +10,16 @@ public class HeadModel : MonoBehaviour
     {
         Head.Duck.Body.BodyAnimator.SetFloat("Tail", 1.0f);
         Head.Duck.Body.BodyAnimator.SetFloat("Breath", 0.0f);
-        if (Head.Player.entity.HasControl)
-        {
-            AudioManager.Instance.SoundPlay("sfx/Sound_Pull", 1f);
-        }
-        else
-        {
-            AudioManager.Instance.SoundPlay("sfx/Sound_Pull", 0.5f);
-        }
+        //if (Head.Player.entity.HasControl)
+        //{
+        //    AudioManager.Instance.SoundPlay("sfx/Sound_Pull", 1f);
+        //}
+        //else
+        //{
+        //    AudioManager.Instance.SoundPlay("sfx/Sound_Pull", 0.5f);
+        //}
 
-        //AudioDuck.Instance.StartPlayerQuackSound(Head.Player.PlayerNumber, (float) Head.Player.TeamNumber, transform, Head.Duck.DuckRigidbody);
+        AudioDuck.Instance.StartPlayerQuackSound(Head.Player.PlayerNumber, (float) Head.Player.TeamNumber, 1, transform, Head.Duck.DuckRigidbody);
         Head.Duck.Body.PullNeck();
         Head.Duck.Wings.Kick();
 
@@ -42,15 +42,15 @@ public class HeadModel : MonoBehaviour
     {
         Head.Duck.Body.BodyAnimator.SetFloat("Tail", 1.0f);
         Head.Duck.Body.BodyAnimator.SetFloat("Breath", 0.0f);
-        //AudioDuck.Instance.StartPlayerQuackSound(Head.Player.PlayerNumber, (float) Head.Player.TeamNumber, transform, Head.Duck.DuckRigidbody);
-        if (Head.Player.entity.HasControl)
-        {
-            AudioManager.Instance.SoundPlay("sfx/Sound_Push", 1f);
-        }
-        else
-        {
-            AudioManager.Instance.SoundPlay("sfx/Sound_Push", 0.5f);
-        }
+        AudioDuck.Instance.StartPlayerQuackSound(Head.Player.PlayerNumber, (float) Head.Player.TeamNumber, 0, transform, Head.Duck.DuckRigidbody);
+        //if (Head.Player.entity.HasControl)
+        //{
+        //    AudioManager.Instance.SoundPlay("sfx/Sound_Push", 1f);
+        //}
+        //else
+        //{
+        //    AudioManager.Instance.SoundPlay("sfx/Sound_Push", 0.5f);
+        //}
 
         Head.Duck.Body.PushNeck();
         Head.Duck.Wings.Kick();

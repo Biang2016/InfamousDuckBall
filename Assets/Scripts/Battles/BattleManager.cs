@@ -27,6 +27,8 @@ public abstract class BattleManager : MonoBehaviour
 
     public void Initialize()
     {
+        AudioDuck.Instance.StopAllWOCEvents();
+        AudioDuck.Instance.PlaySound(AudioDuck.Instance.Sea, gameObject);
         PlayerSpawnPointManager.Init();
 
         TeamDict.Clear();
