@@ -44,7 +44,7 @@ public class BattleManager_FlagRace : BattleManager_BallGame
         ScoreRingSingleSpawnerDict.Add(TeamNumber.Team1, ScoreRingSingleSpawner_Team1);
         ScoreRingSingleSpawnerDict.Add(TeamNumber.Team2, ScoreRingSingleSpawner_Team2);
         GameManager.Instance.DebugPanel.RefreshScore(false);
-        GameManager.Instance.DebugPanel.SetStartTipShown(true, "F10 to START");
+        GameManager.Instance.DebugPanel.SetStartTipShown(true, "F4/F5/F6 to switch game, F10 to Start/Stop");
         PlayerControllerMoveDirectionQuaternion = Quaternion.Euler(0, 90, 0);
     }
 
@@ -130,7 +130,7 @@ public class BattleManager_FlagRace : BattleManager_BallGame
     {
         base.StartBattle();
         IsStart = true;
-        GameManager.Instance.DebugPanel.SetStartTipShown(true, "F10 to Start/Stop, F4/F5/F6 to switch game");
+        GameManager.Instance.DebugPanel.SetStartTipShown(true, "F4/F5/F6 to switch game, F10 to Start/Stop");
     }
 
     IEnumerator Co_GenerateScoreRingSingle()
@@ -320,6 +320,6 @@ public class BattleManager_FlagRace : BattleManager_BallGame
         LeftBall = null;
         RightBall = null;
         IsStart = false;
-        GameManager.Instance.DebugPanel.SetStartTipShown(true, "F10 to Start/Stop, F4/F5/F6 to switch game");
+        GameManager.Instance.DebugPanel.SetStartTipShown(true, "F4/F5/F6 to switch game, F10 to Start/Stop");
     }
 }

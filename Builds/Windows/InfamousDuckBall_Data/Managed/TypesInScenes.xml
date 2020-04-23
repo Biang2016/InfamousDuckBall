@@ -64,6 +64,7 @@
 	</assembly>
 	<assembly fullname="Assembly-CSharp-firstpass">
 		<type fullname="FMODUnity.Settings" preserve="nothing"/>
+		<type fullname="FMODUnity.StudioListener" preserve="nothing"/>
 	</assembly>
 	<assembly fullname="Assembly-CSharp">
 		<type fullname="AudioDuck" preserve="nothing"/>
