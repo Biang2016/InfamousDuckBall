@@ -4,6 +4,7 @@ using Random = UnityEngine.Random;
 
 public class ScoreRingSingleSpawner : MonoBehaviour
 {
+    private List<ScoreRingSingle> ScoreRingSingles = new List<ScoreRingSingle>();
     private List<Transform> Points = new List<Transform>();
     public TeamNumber TeamNumber;
 
@@ -28,12 +29,26 @@ public class ScoreRingSingleSpawner : MonoBehaviour
             ScoreRingSingle srs = be.GetComponent<ScoreRingSingle>();
             srs.state.TeamNumber = (int) TeamNumber;
             srs.state.CostumeType = Random.Range(0, ConfigManager.CostumeTypeCount);
-
+            ScoreRingSingles.Add(srs);
             return srs;
         }
         else
         {
             return null;
+        }
+    }
+
+    public void Clear()
+    {
+        if (BoltNetwork.IsServer)
+        {
+            foreach (ScoreRingSingle srs in ScoreRingSingles)
+            {
+                if (srs != null)
+                {
+                    BoltNetwork.Destroy(srs.gameObject);
+                }
+            }
         }
     }
 }

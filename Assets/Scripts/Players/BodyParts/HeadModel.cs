@@ -10,43 +10,63 @@ public class HeadModel : MonoBehaviour
     {
         Head.Duck.Body.BodyAnimator.SetFloat("Tail", 1.0f);
         Head.Duck.Body.BodyAnimator.SetFloat("Breath", 0.0f);
-        AudioManager.Instance.SoundPlay("sfx/Sound_Pull");
+        if (Head.Player.entity.HasControl)
+        {
+            AudioManager.Instance.SoundPlay("sfx/Sound_Pull", 1f);
+        }
+        else
+        {
+            AudioManager.Instance.SoundPlay("sfx/Sound_Pull", 0.5f);
+        }
+
+        //AudioDuck.Instance.StartPlayerQuackSound(Head.Player.PlayerNumber, (float) Head.Player.TeamNumber, transform, Head.Duck.DuckRigidbody);
         Head.Duck.Body.PullNeck();
         Head.Duck.Wings.Kick();
 
-            Ball ball = GameManager.Instance.Ball;
-            if (ball)
+        Ball ball = GameManager.Instance.GetBallByHeadPos(transform.position);
+        if (ball)
+        {
+            Vector3 diff = ball.transform.position - transform.position;
+            float distance = diff.magnitude;
+            if (distance < Head.DuckConfig.PullRadius * GameManager.Instance.GameState.state.DuckConfig.PullRadiusMulti)
             {
-                Vector3 diff = ball.transform.position - transform.position;
-                float distance = diff.magnitude;
-                if (distance < Head.DuckConfig.PullRadius * GameManager.Instance.GameState.state.DuckConfig.PullRadiusMulti)
-                {
-                    ball.RigidBody.DOMove(Head.transform.position + Head.transform.forward * Head.DuckConfig.PullBallStopFromHead, Head.DuckConfig.PullDuration);
-                    ball.Kick(Head.Duck.Player.TeamNumber, (-diff.normalized) * 0);
-                    FXManager.Instance.PlayFX(FX_Type.BallKickParticleSystem, ball.transform.position, Quaternion.FromToRotation(Vector3.back, diff.normalized));
-                }
+                ball.RigidBody.DOMove(Head.transform.position + Head.transform.forward * Head.DuckConfig.PullBallStopFromHead, Head.DuckConfig.PullDuration);
+                ball.Kick(Head.Duck.Player.TeamNumber, (-diff.normalized) * 0);
+                AudioDuck.Instance.PlaySound(AudioDuck.Instance.FishBreath, GameManager.Instance.gameObject);
+                FXManager.Instance.PlayFX(FX_Type.BallKickParticleSystem, ball.transform.position, Quaternion.FromToRotation(Vector3.back, diff.normalized));
             }
+        }
     }
 
     public void OnPush()
     {
         Head.Duck.Body.BodyAnimator.SetFloat("Tail", 1.0f);
         Head.Duck.Body.BodyAnimator.SetFloat("Breath", 0.0f);
-        AudioManager.Instance.SoundPlay("sfx/Sound_Push");
+        //AudioDuck.Instance.StartPlayerQuackSound(Head.Player.PlayerNumber, (float) Head.Player.TeamNumber, transform, Head.Duck.DuckRigidbody);
+        if (Head.Player.entity.HasControl)
+        {
+            AudioManager.Instance.SoundPlay("sfx/Sound_Push", 1f);
+        }
+        else
+        {
+            AudioManager.Instance.SoundPlay("sfx/Sound_Push", 0.5f);
+        }
+
         Head.Duck.Body.PushNeck();
         Head.Duck.Wings.Kick();
 
-            Ball ball = GameManager.Instance.Ball;
-            if (ball)
+        Ball ball = GameManager.Instance.GetBallByHeadPos(transform.position);
+        if (ball)
+        {
+            Vector3 diff = ball.transform.position - transform.position;
+            float distance = diff.magnitude;
+            if (distance < Head.DuckConfig.PushRadius * GameManager.Instance.GameState.state.DuckConfig.PushRadiusMulti + Head.Duck.Body.ChargeDistance)
             {
-                Vector3 diff = ball.transform.position - transform.position;
-                float distance = diff.magnitude;
-                if (distance < Head.DuckConfig.PushRadius * GameManager.Instance.GameState.state.DuckConfig.PushRadiusMulti + Head.Duck.Body.ChargeDistance)
-                {
-                    ball.Kick(Head.Duck.Player.TeamNumber, (Head.transform.forward) * (Head.DuckConfig.PushForce + Head.PushChargeForceRatio * Head.DuckConfig.PushChargingExtraForce));
-                    FXManager.Instance.PlayFX(FX_Type.BallKickParticleSystem, ball.transform.position, Quaternion.FromToRotation(Vector3.back, diff.normalized));
-                }
+                AudioDuck.Instance.PlaySound(AudioDuck.Instance.FishBreath, GameManager.Instance.gameObject);
+                ball.Kick(Head.Duck.Player.TeamNumber, (Head.transform.forward) * (Head.DuckConfig.PushForce + Head.PushChargeForceRatio * Head.DuckConfig.PushChargingExtraForce));
+                FXManager.Instance.PlayFX(FX_Type.BallKickParticleSystem, ball.transform.position, Quaternion.FromToRotation(Vector3.back, diff.normalized));
             }
+        }
     }
 
     public void OnPushOver()

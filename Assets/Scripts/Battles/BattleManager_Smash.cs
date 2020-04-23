@@ -5,6 +5,11 @@ using UnityEngine;
 
 public class BattleManager_Smash : BattleManager_BallGame
 {
+    internal Ball Ball;
+    public Transform BallPivot;
+    internal Vector3 BallDefaultPos = Vector3.zero;
+    public BallValidZone BallValidZone;
+
     public ScoreRingManager ScoreRingManager => Boat.ScoreRingManager;
     public Boat Boat;
 
@@ -25,6 +30,14 @@ public class BattleManager_Smash : BattleManager_BallGame
     protected override void Update()
     {
         base.Update();
+        if (IsStart && BoltNetwork.IsServer)
+        {
+            if (Ball)
+            {
+                Ball.RigidBody.mass = GameManager.Instance.GameState.state.DuckConfig.BallWeight * ConfigManager.Instance.BallWeight;
+                Ball.Collider.material.bounciness = GameManager.Instance.GameState.state.DuckConfig.BallBounce * ConfigManager.Instance.BallBounce;
+            }
+        }
     }
 
     public override void StartBattle_Server()
@@ -54,12 +67,18 @@ public class BattleManager_Smash : BattleManager_BallGame
             BattleStartEvent.Create().Send();
             if (!Ball)
             {
-                BoltNetwork.Instantiate(BoltPrefabs.Ball, BallPivot.position, BallPivot.rotation);
+                BoltEntity be1 = BoltNetwork.Instantiate(BoltPrefabs.Ball, BallPivot.position, BallPivot.rotation);
+                BallEvent be = BallEvent.Create();
+                be.BallEntity = be1;
+                be.BallName = "SmashBall";
+                be.Send();
+                Ball = be1.GetComponent<Ball>();
+                Ball.ResetTransform = BallPivot;
                 BallDefaultPos = Ball.transform.position;
             }
             else
             {
-                ResetBall();
+                Ball.ResetBall();
             }
 
             ScoreRingManager.Reset();
@@ -85,32 +104,12 @@ public class BattleManager_Smash : BattleManager_BallGame
         }
     }
 
-    public override void ResetBall()
-    {
-        if (BoltNetwork.IsServer)
-        {
-            StartCoroutine(Co_ResetBall(1f));
-        }
-    }
-
-    IEnumerator Co_ResetBall(float suspendingTime)
-    {
-        if (Ball)
-        {
-            Ball.RigidBody.DOPause();
-            Ball.transform.position = BallDefaultPos;
-            Ball.Reset();
-            Ball.RigidBody.useGravity = false;
-            yield return new WaitForSeconds(suspendingTime);
-            if (Ball) Ball.RigidBody.useGravity = true;
-        }
-    }
-
-    public override void BallHit_Server(Player player, TeamNumber teamNumber)
+    public override void BallHit_Server(Ball ball, Player player, TeamNumber teamNumber)
     {
         PlayerRingEvent pre = PlayerRingEvent.Create();
         pre.HasRing = false;
         pre.PlayerNumber = (int) player.PlayerNumber;
+        pre.Exploded = true;
         pre.Send();
 
         Team hitTeam = TeamDict[teamNumber];
@@ -161,7 +160,8 @@ public class BattleManager_Smash : BattleManager_BallGame
         sce.IsNewBattle = false;
         sce.Send();
 
-        ResetBall();
+        ball.KickedFly();
+        AudioDuck.Instance.PlaySound(AudioDuck.Instance.FishBreath, GameManager.Instance.gameObject);
     }
 
     IEnumerator Co_PlayerRingRecover(Player player, CostumeType costumeType)
@@ -171,6 +171,7 @@ public class BattleManager_Smash : BattleManager_BallGame
         pre.HasRing = true;
         pre.PlayerNumber = (int) player.PlayerNumber;
         pre.CostumeType = (int) costumeType;
+        pre.Exploded = false;
         pre.Send();
 
         switch (player.TeamNumber)
@@ -217,7 +218,7 @@ public class BattleManager_Smash : BattleManager_BallGame
     public override void EndBattle()
     {
         base.EndBattle();
-        ball = null;
+        Ball = null;
         IsStart = false;
         GameManager.Instance.DebugPanel.SetStartTipShown(true, "F10 to Start/Stop, F4/F5/F6 to switch game");
         GameManager.Instance.DebugPanel.RefreshScore(true);

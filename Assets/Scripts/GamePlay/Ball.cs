@@ -1,10 +1,13 @@
-﻿using Bolt;
+﻿using System.Collections;
+using Bolt;
+using DG.Tweening;
 using UnityEngine;
 
 public class Ball : EntityEventListener<IBallState>
 {
     public Collider Collider;
     public Rigidbody RigidBody;
+    internal Transform ResetTransform;
 
     void OnTriggerEnter(Collider c)
     {
@@ -18,13 +21,13 @@ public class Ball : EntityEventListener<IBallState>
                     //Todo Vibrate
                 }
 
-                GameManager.Instance.Cur_BallBattleManager.BallHit_Server(p, (TeamNumber) p.state.PlayerInfo.TeamNumber);
+                GameManager.Instance.Cur_BallBattleManager.BallHit_Server(this, p, (TeamNumber) p.state.PlayerInfo.TeamNumber);
             }
 
             ScoreRingSingle srs = c.gameObject.GetComponentInParent<ScoreRingSingle>();
             if (srs)
             {
-                srs.Explode();
+                srs.Explode(true);
             }
         }
     }
@@ -34,19 +37,29 @@ public class Ball : EntityEventListener<IBallState>
         state.SetTransforms(state.Transform, transform);
     }
 
-    public override void SimulateOwner()
+    public void KickedFly()
     {
-        // MeshRenderer.transform.localScale = Vector3.one * transform.position.y / 2.5f;
+        transform.DOMoveY(10f, 0.3f);
+        RigidBody.AddForce(Vector3.up * 800f);
     }
 
-    public void Reset()
+    public void ResetBall()
     {
         if (BoltNetwork.IsServer)
         {
-            RigidBody.velocity = Vector3.zero;
-            RigidBody.angularVelocity = Vector3.zero;
-            RigidBody.useGravity = true;
+            StartCoroutine(Co_ResetBall(1f));
         }
+    }
+
+    IEnumerator Co_ResetBall(float suspendingTime)
+    {
+        RigidBody.DOPause();
+        transform.position = ResetTransform.position;
+        RigidBody.velocity = Vector3.zero;
+        RigidBody.angularVelocity = Vector3.zero;
+        RigidBody.useGravity = false;
+        yield return new WaitForSeconds(suspendingTime);
+        RigidBody.useGravity = true;
     }
 
     public void Kick(TeamNumber teamNumber, Vector3 force)

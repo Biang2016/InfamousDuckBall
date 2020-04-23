@@ -67,21 +67,6 @@ public class GameManager : MonoSingleton<GameManager>
         }
     }
 
-    public Ball Ball
-    {
-        get
-        {
-            if (Cur_BallBattleManager)
-            {
-                return Cur_BallBattleManager.Ball;
-            }
-            else
-            {
-                return null;
-            }
-        }
-    }
-
     public BattleManager Cur_BattleManager;
 
     public BattleManager_BallGame Cur_BallBattleManager
@@ -97,6 +82,32 @@ public class GameManager : MonoSingleton<GameManager>
                 return null;
             }
         }
+    }
+
+    public Ball GetBallByHeadPos(Vector3 headPos)
+    {
+        if (Cur_BallBattleManager)
+        {
+            if (Cur_BallBattleManager is BattleManager_Smash smash)
+            {
+                return smash.Ball;
+            }
+
+            if (Cur_BallBattleManager is BattleManager_FlagRace flagRace)
+            {
+                if (flagRace.BallValidZone_Left.Collider.bounds.Contains(headPos))
+                {
+                    return flagRace.LeftBall;
+                }
+
+                if (flagRace.BallValidZone_Right.Collider.bounds.Contains(headPos))
+                {
+                    return flagRace.RightBall;
+                }
+            }
+        }
+
+        return null;
     }
 
     public DebugPanel DebugPanel;

@@ -75,6 +75,7 @@ public class Feet : MonoBehaviour
         // Walk
         if (Mathf.Abs(vel.magnitude) > FeetMoveThreshold)
         {
+            AudioDuck.Instance.StartPlayerMovementSound(Player.PlayerNumber, transform, Player.Duck.DuckRigidbody);
             Duck.Body.BodyAnimator.SetFloat("Breath", 0.1f);
             Duck.Body.BodyAnimator.SetFloat("Walk", 1.0f);
             Duck.Ring.Walking();

@@ -107,6 +107,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c44a490f64274b2e912b11ba1c73f5a0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  HasRing: 0
   PlayerController: {fileID: 286692668241381088}
   PlayerCostume: {fileID: 149510618339678733}
   Duck: {fileID: 4661269327795546053}

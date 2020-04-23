@@ -19,7 +19,7 @@ public class Battle_Smash_Callbacks : Bolt.GlobalEventListener
         }
         else
         {
-            player.LoseRing();
+            player.LoseRing(evnt.Exploded);
         }
     }
 

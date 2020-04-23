@@ -20,11 +20,17 @@ public class ScoreRingSingle : EntityBehaviour<IScoreRingSingleState>
         Collider.enabled = entity.IsOwner;
     }
 
-    public void Explode()
+    public void Explode(bool sound)
     {
         if (BoltNetwork.IsServer)
         {
             BoltNetwork.Destroy(gameObject);
+            if (sound)
+            {
+                SFX_Event evnt = SFX_Event.Create();
+                evnt.SoundName = "BuoyPop";
+                evnt.Send();
+            }
         }
     }
 
@@ -32,6 +38,5 @@ public class ScoreRingSingle : EntityBehaviour<IScoreRingSingleState>
     {
         base.Detached();
         FXManager.Instance.PlayFX(FX_Type.ScoreRingExplosion, transform.position, Quaternion.Euler(0, 1, 0));
-        AudioManager.Instance.SoundPlay("sfx/BalloonPop",0.5f);
     }
 }

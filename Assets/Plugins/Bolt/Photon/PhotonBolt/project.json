@@ -1147,6 +1147,19 @@
           "AssetSettings": {
             "$type": "Bolt.Compiler.PropertyEventSettings, bolt.compiler"
           }
+        },
+        {
+          "Name": "Exploded",
+          "Enabled": true,
+          "Expanded": true,
+          "ReplicationMode": 1,
+          "Priority": 1,
+          "PropertyType": {
+            "$type": "Bolt.Compiler.PropertyTypeBool, bolt.compiler"
+          },
+          "AssetSettings": {
+            "$type": "Bolt.Compiler.PropertyEventSettings, bolt.compiler"
+          }
         }
       ],
       "EntitySenders": 3,
@@ -1210,6 +1223,20 @@
           "Priority": 1,
           "PropertyType": {
             "$type": "Bolt.Compiler.PropertyTypeBool, bolt.compiler"
+          },
+          "AssetSettings": {
+            "$type": "Bolt.Compiler.PropertyEventSettings, bolt.compiler"
+          }
+        },
+        {
+          "Name": "ScorePlayer",
+          "Enabled": true,
+          "Expanded": true,
+          "ReplicationMode": 1,
+          "Priority": 1,
+          "PropertyType": {
+            "$type": "Bolt.Compiler.PropertyTypeInteger, bolt.compiler",
+            "MaxValue": 255
           },
           "AssetSettings": {
             "$type": "Bolt.Compiler.PropertyEventSettings, bolt.compiler"
@@ -2045,6 +2072,80 @@
       },
       "Name": "ScoreRingSingleState",
       "Guid": "f96eea46-8b53-4177-bdba-508a84a39bd3",
+      "Groups": [
+        "samples"
+      ]
+    },
+    {
+      "$type": "Bolt.Compiler.EventDefinition, bolt.compiler",
+      "Properties": [],
+      "Name": "PlayerScore",
+      "Guid": "93414488-bc79-4fd1-afbf-aef1e8d09a3a",
+      "Groups": [
+        "samples"
+      ]
+    },
+    {
+      "$type": "Bolt.Compiler.EventDefinition, bolt.compiler",
+      "Properties": [
+        {
+          "Name": "SoundName",
+          "Enabled": true,
+          "Expanded": true,
+          "ReplicationMode": 1,
+          "Priority": 1,
+          "PropertyType": {
+            "$type": "Bolt.Compiler.PropertyTypeString, bolt.compiler",
+            "MaxLength": 20
+          },
+          "AssetSettings": {
+            "$type": "Bolt.Compiler.PropertyEventSettings, bolt.compiler"
+          }
+        }
+      ],
+      "EntitySenders": 3,
+      "GlobalSenders": 1,
+      "Name": "SFX_Event",
+      "Guid": "38ba3ff6-d4e8-4909-8940-c060afade3d4",
+      "Groups": [
+        "samples"
+      ]
+    },
+    {
+      "$type": "Bolt.Compiler.EventDefinition, bolt.compiler",
+      "Properties": [
+        {
+          "Name": "BallEntity",
+          "Enabled": true,
+          "Expanded": true,
+          "ReplicationMode": 1,
+          "Priority": 1,
+          "PropertyType": {
+            "$type": "Bolt.Compiler.PropertyTypeEntity, bolt.compiler"
+          },
+          "AssetSettings": {
+            "$type": "Bolt.Compiler.PropertyEventSettings, bolt.compiler"
+          }
+        },
+        {
+          "Name": "BallName",
+          "Enabled": true,
+          "Expanded": true,
+          "ReplicationMode": 1,
+          "Priority": 1,
+          "PropertyType": {
+            "$type": "Bolt.Compiler.PropertyTypeString, bolt.compiler",
+            "MaxLength": 10
+          },
+          "AssetSettings": {
+            "$type": "Bolt.Compiler.PropertyEventSettings, bolt.compiler"
+          }
+        }
+      ],
+      "EntitySenders": 3,
+      "GlobalSenders": 1,
+      "Name": "BallEvent",
+      "Guid": "4486b32b-01e0-4a2b-be24-25832e9f0c14",
       "Groups": [
         "samples"
       ]

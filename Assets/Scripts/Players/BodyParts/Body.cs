@@ -24,9 +24,10 @@ public class Body : MonoBehaviour
     {
         if (IsPushingNeck) return;
         Cur_HeadTargetPosition = Duck.Neck.HeadPosPivot.position;
-        if (GameManager.Instance.Cur_BattleManager.IsStart && GameManager.Instance.Ball)
+        Ball ball = GameManager.Instance.GetBallByHeadPos(Duck.Head.transform.position);
+        if (GameManager.Instance.Cur_BattleManager.IsStart && ball)
         {
-            Cur_HeadTargetPosition.y = GameManager.Instance.Ball.transform.position.y;
+            Cur_HeadTargetPosition.y = ball.transform.position.y;
         }
 
         if (Player.Controller != null)
@@ -66,9 +67,9 @@ public class Body : MonoBehaviour
                         neckTargetPos = (neckTargetPos - transform.position).normalized * (DuckConfig.Radius * 2) + transform.position;
                     }
 
-                    if (GameManager.Instance.Cur_BattleManager.IsStart && GameManager.Instance.Ball)
+                    if (GameManager.Instance.Cur_BattleManager.IsStart && ball)
                     {
-                        neckTargetPos.y = GameManager.Instance.Ball.transform.position.y;
+                        neckTargetPos.y = ball.transform.position.y;
                     }
                     else
                     {
@@ -111,9 +112,9 @@ public class Body : MonoBehaviour
                         neckTargetPos = (neckTargetPos - transform.position).normalized * (DuckConfig.Radius * 2) + transform.position;
                     }
 
-                    if (GameManager.Instance.Cur_BattleManager.IsStart && GameManager.Instance.Ball)
+                    if (GameManager.Instance.Cur_BattleManager.IsStart && ball)
                     {
-                        neckTargetPos.y = GameManager.Instance.Ball.transform.position.y;
+                        neckTargetPos.y = ball.transform.position.y;
                     }
                     else
                     {
@@ -157,7 +158,7 @@ public class Body : MonoBehaviour
         Vector3 neckTargetPos = Duck.Neck.HeadPosPivot.position;
 
         Vector3 targetPos = Vector3.zero;
-        Ball ball = GameManager.Instance.Ball;
+        Ball ball = GameManager.Instance.GetBallByHeadPos(Duck.Head.transform.position);
         if (ball)
         {
             targetPos = ball.transform.position;
@@ -193,9 +194,10 @@ public class Body : MonoBehaviour
         Vector3 neckTargetPos = Duck.Neck.HeadPosPivot.position;
 
         Vector3 targetPos = Vector3.zero;
-        if (GameManager.Instance.Ball)
+        Ball ball = GameManager.Instance.GetBallByHeadPos(Duck.Head.transform.position);
+        if (ball)
         {
-            targetPos = GameManager.Instance.Ball.transform.position;
+            targetPos = ball.transform.position;
         }
         else
         {

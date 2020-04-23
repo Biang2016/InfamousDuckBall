@@ -24,6 +24,7 @@ public class Head : MonoBehaviour
                 }
                 else if (rightTriggerDown)
                 {
+                    //AudioDuck.Instance.PlaySound(AudioDuck.Instance.DuckCharge, gameObject);
                     HeadStatus = HeadStatusTypes.PushCharging;
                     Duck.Ring.Charge();
                     Duck.Wings.Charge();
@@ -132,16 +133,17 @@ public class Head : MonoBehaviour
         transform.position = Duck.Neck.HeadPosPivot.position;
         if (!Duck.Body.IsPushingNeck)
         {
-            if (GameManager.Instance.Ball)
+            Ball ball = GameManager.Instance.GetBallByHeadPos(transform.position);
+            if (ball)
             {
                 Vector3 diff_HeadToBody = Player.GetPlayerPosition - transform.position;
-                Vector3 diff_HeadToBall = GameManager.Instance.Ball.transform.position - transform.position;
+                Vector3 diff_HeadToBall = ball.transform.position - transform.position;
 
                 float angle = Mathf.Abs(Vector3.SignedAngle(diff_HeadToBody, diff_HeadToBall, Vector3.down));
 
                 if (angle > DuckConfig.LookBallAngleThreshold)
                 {
-                    transform.LookAt(GameManager.Instance.Ball.transform.position);
+                    transform.LookAt(ball.transform.position);
                 }
                 else
                 {

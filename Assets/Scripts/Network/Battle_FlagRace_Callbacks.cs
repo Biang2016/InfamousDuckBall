@@ -19,7 +19,7 @@ public class Battle_FlagRace_Callbacks : Bolt.GlobalEventListener
         }
         else
         {
-            player.LoseRing();
+            player.LoseRing(evnt.Exploded);
         }
     }
 
@@ -30,13 +30,18 @@ public class Battle_FlagRace_Callbacks : Bolt.GlobalEventListener
         team.Score = evnt.Score;
         if (!evnt.IsNewBattle)
         {
-            AudioManager.Instance.SoundPlay("sfx/Sound_Score");
+            PlayerNumber playerNumber = (PlayerNumber) evnt.ScorePlayer;
+            AudioDuck.Instance.PlaySound(AudioDuck.Instance.BuoyInPlace, GameManager.Instance.Cur_BattleManager.GetPlayer(playerNumber).gameObject);
         }
+
         GameManager.Instance.DebugPanel.RefreshScore(false);
     }
 
-    IEnumerator Co_ScoreRingDisappear(TeamNumber tn, int score)
+    public override void OnEvent(SFX_Event evnt)
     {
-        yield return new WaitForSeconds(ConfigManager.Instance.RingRecoverTime);
+        if (evnt.SoundName == "BuoyPop")
+        {
+            AudioDuck.Instance.PlaySound(AudioDuck.Instance.BuoyPop, gameObject);
+        }
     }
 }

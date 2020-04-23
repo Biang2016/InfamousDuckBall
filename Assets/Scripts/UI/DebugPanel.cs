@@ -17,6 +17,7 @@ public class DebugPanel : BaseUIForm
     [SerializeField] private Text LevelNameText;
     [SerializeField] private Text StartTipText;
 
+    public Toggle ConfigRowsToggle;
     public ConfigRows ConfigRows;
 
     private SortedDictionary<TeamNumber, Text> TeamScoreTextDict = new SortedDictionary<TeamNumber, Text>();
@@ -39,6 +40,8 @@ public class DebugPanel : BaseUIForm
         TeamScoreDotDict.Add(TeamNumber.Team2, Score2Dot);
         TeamScoreDotDict.Add(TeamNumber.Team3, Score3Dot);
         TeamScoreDotDict.Add(TeamNumber.Team4, Score4Dot);
+
+        ConfigRowsToggle.onValueChanged.AddListener(SetConfigPanelShown);
     }
 
     public Text fpsText;
@@ -77,7 +80,7 @@ public class DebugPanel : BaseUIForm
         LevelNameText.text = GameManager.Instance.Cur_BattleManager.BattleType.ToString();
     }
 
-    public void SetStartTipShown(bool shown,string text)
+    public void SetStartTipShown(bool shown, string text)
     {
         StartTipText.enabled = shown;
         StartTipText.text = text;
@@ -113,5 +116,10 @@ public class DebugPanel : BaseUIForm
     {
         yield return new WaitForSeconds(3f);
         WinTextAnim.SetTrigger("Hide");
+    }
+
+    public void SetConfigPanelShown(bool shown)
+    {
+        ConfigRows.gameObject.SetActive(shown);
     }
 }

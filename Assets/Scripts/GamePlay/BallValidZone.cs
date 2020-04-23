@@ -2,12 +2,11 @@
 
 public class BallValidZone : MonoBehaviour
 {
+    public Collider Collider;
+
     void OnTriggerExit(Collider c)
     {
         Ball ball = c.GetComponent<Ball>();
-        if (ball)
-        {
-            GameManager.Instance.Cur_BallBattleManager.ResetBall();
-        }
+        ball?.ResetBall();
     }
 }

@@ -19,6 +19,5 @@ public class Goalie : MonoBehaviour
     public void ParticleRelease()
     {
         FXManager.Instance.PlayFX(FX_Type.ScoreRingExplosion, transform.position, Quaternion.Euler(-90, 0, 0));
-        AudioManager.Instance.SoundPlay("sfx/BalloonPop", 0.5f);
     }
 }

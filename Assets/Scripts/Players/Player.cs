@@ -1,4 +1,6 @@
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using Bolt;
 using UnityEngine;
 
@@ -94,6 +96,7 @@ public class Player : EntityBehaviour<IPlayerState>
 
     public void GetRing(CostumeType costumeType)
     {
+        StartCoroutine(Co_PlayGenerateRingSound());
         HasRing = true;
         PlayerCostume.Initialize(PlayerNumber, TeamNumber, CostumeType);
         Duck.Ring.Initialize(TeamNumber, costumeType);
@@ -101,12 +104,24 @@ public class Player : EntityBehaviour<IPlayerState>
         Duck.Wings.GetRing();
     }
 
-    public void LoseRing()
+    IEnumerator Co_PlayGenerateRingSound()
+    {
+        yield return new WaitForSeconds(0.4f);
+        AudioDuck.Instance.PlaySound(AudioDuck.Instance.DuckGenerateBuoy, gameObject);
+    }
+
+    public void LoseRing(bool explode)
     {
         if (HasRing)
         {
-            Goalie.ParticleRelease();
-            Duck.Wings.Hit();
+            if (explode)
+            {
+                AudioDuck.Instance.PlaySound(AudioDuck.Instance.BuoyPop, GameManager.Instance.gameObject);
+                AudioManager.Instance.SoundPlay("sfx/Sound_Score");
+                Goalie.ParticleRelease();
+                Duck.Wings.Hit();
+            }
+
             Duck.Ring.LoseRing();
             Duck.Wings.LoseRing();
         }

@@ -142,6 +142,7 @@ public abstract class BattleManager : MonoBehaviour
                 PlayerRingEvent pre = PlayerRingEvent.Create();
                 pre.PlayerNumber = (int) kv.Key;
                 pre.HasRing = false;
+                pre.Exploded = false;
                 pre.Send();
             }
         }
