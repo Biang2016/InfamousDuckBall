@@ -23,7 +23,7 @@ public class BattleManager_Smash : BattleManager_BallGame
         }
 
         GameManager.Instance.DebugPanel.RefreshScore(true);
-        GameManager.Instance.DebugPanel.SetStartTipShown(true, "F10 to Start/Stop, F4/F5/F6 to switch game");
+        GameManager.Instance.DebugPanel.SetStartTipShown(true, "F4/F5/F6 to switch game, F10 to Start/Stop");
         PlayerControllerMoveDirectionQuaternion = Quaternion.Euler(0, 0, 0);
     }
 
@@ -57,7 +57,7 @@ public class BattleManager_Smash : BattleManager_BallGame
     {
         base.StartBattle();
         IsStart = true;
-        GameManager.Instance.DebugPanel.SetStartTipShown(true, "F10 to Start/Stop, F4/F5/F6 to switch game");
+        GameManager.Instance.DebugPanel.SetStartTipShown(true, "F4/F5/F6 to switch game, F10 to Start/Stop");
     }
 
     public void StartNewRound()
@@ -220,7 +220,7 @@ public class BattleManager_Smash : BattleManager_BallGame
         base.EndBattle();
         Ball = null;
         IsStart = false;
-        GameManager.Instance.DebugPanel.SetStartTipShown(true, "F10 to Start/Stop, F4/F5/F6 to switch game");
+        GameManager.Instance.DebugPanel.SetStartTipShown(true, "F4/F5/F6 to switch game, F10 to Start/Stop");
         GameManager.Instance.DebugPanel.RefreshScore(true);
     }
 }
