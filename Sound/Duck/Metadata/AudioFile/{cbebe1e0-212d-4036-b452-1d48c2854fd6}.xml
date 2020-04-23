@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.00.00">
+	<object class="AudioFile" id="{cbebe1e0-212d-4036-b452-1d48c2854fd6}">
+		<property name="assetPath">
+			<value>Cartoon Balloon Sounds Balloon Being Blown Up Blowing Twice 02.wav</value>
+		</property>
+		<property name="frequencyInKHz">
+			<value>48</value>
+		</property>
+		<property name="channelCount">
+			<value>1</value>
+		</property>
+		<property name="length">
+			<value>8.6601250000000007</value>
+		</property>
+		<relationship name="masterAssetFolder">
+			<destination>{d6a162d4-1507-49cd-9b59-7ca5996eeed7}</destination>
+		</relationship>
+	</object>
+</objects>

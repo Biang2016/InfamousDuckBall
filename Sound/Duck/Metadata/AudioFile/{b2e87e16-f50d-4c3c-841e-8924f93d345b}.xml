@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.00.00">
+	<object class="AudioFile" id="{b2e87e16-f50d-4c3c-841e-8924f93d345b}">
+		<property name="assetPath">
+			<value>51147__rutgermuller__wet-footsteps-in-small-shower-cabin.wav</value>
+		</property>
+		<property name="isStreaming">
+			<value>true</value>
+		</property>
+		<property name="frequencyInKHz">
+			<value>44.0999985</value>
+		</property>
+		<property name="channelCount">
+			<value>1</value>
+		</property>
+		<property name="length">
+			<value>15.5</value>
+		</property>
+		<relationship name="masterAssetFolder">
+			<destination>{d6a162d4-1507-49cd-9b59-7ca5996eeed7}</destination>
+		</relationship>
+	</object>
+</objects>
