@@ -1,6 +1,9 @@
 <linker>
 	<assembly fullname="UnityEngine">
 		<type fullname="UnityEngine.Object" preserve="nothing"/>
+		<type fullname="UnityEngine.Behaviour" preserve="nothing"/>
+		<type fullname="UnityEngine.Component" preserve="nothing"/>
+		<type fullname="UnityEngine.MonoBehaviour" preserve="nothing"/>
 		<type fullname="UnityEditor.MonoScript" preserve="nothing"/>
 		<type fullname="UnityEngine.Material" preserve="nothing"/>
 		<type fullname="UnityEditor.UnityConnectSettings" preserve="nothing"/>
@@ -43,12 +46,9 @@
 		<type fullname="UnityEngine.SphereCollider" preserve="nothing"/>
 		<type fullname="UnityEngine.Canvas" preserve="nothing"/>
 		<type fullname="UnityEngine.RectTransform" preserve="nothing"/>
-		<type fullname="UnityEngine.Behaviour" preserve="nothing"/>
 		<type fullname="UnityEngine.Animator" preserve="nothing"/>
 		<type fullname="UnityEngine.RuntimeAnimatorController" preserve="nothing"/>
 		<type fullname="UnityEngine.Motion" preserve="nothing"/>
-		<type fullname="UnityEngine.Component" preserve="nothing"/>
-		<type fullname="UnityEngine.MonoBehaviour" preserve="nothing"/>
 		<type fullname="UnityEditor.Animations.AnimatorController" preserve="nothing"/>
 		<type fullname="UnityEngine.Avatar" preserve="nothing"/>
 		<type fullname="UnityEngine.GameObject" preserve="nothing"/>
@@ -66,13 +66,17 @@
 		<type fullname="AudioManager" preserve="nothing"/>
 		<type fullname="Ball" preserve="nothing"/>
 		<type fullname="BallValidZone" preserve="nothing"/>
-		<type fullname="BattleManager_PVP4" preserve="nothing"/>
+		<type fullname="BattleManager_FlagRace" preserve="nothing"/>
+		<type fullname="BattleManager_Prepare" preserve="nothing"/>
+		<type fullname="BattleManager_Smash" preserve="nothing"/>
 		<type fullname="BezierCurve" preserve="nothing"/>
 		<type fullname="BezierPath" preserve="nothing"/>
 		<type fullname="Boat" preserve="nothing"/>
 		<type fullname="Body" preserve="nothing"/>
 		<type fullname="CameraDepthTextureMode" preserve="nothing"/>
 		<type fullname="ConfigManager" preserve="nothing"/>
+		<type fullname="ConfigRow" preserve="nothing"/>
+		<type fullname="ConfigRows" preserve="nothing"/>
 		<type fullname="CostumeManager" preserve="nothing"/>
 		<type fullname="DebugPanel" preserve="nothing"/>
 		<type fullname="Duck" preserve="nothing"/>
@@ -80,7 +84,11 @@
 		<type fullname="FX" preserve="nothing"/>
 		<type fullname="FXManager" preserve="nothing"/>
 		<type fullname="Feet" preserve="nothing"/>
+		<type fullname="FlagGetRingPoint" preserve="nothing"/>
+		<type fullname="FlagScorePoint" preserve="nothing"/>
+		<type fullname="GameManager" preserve="nothing"/>
 		<type fullname="GameObjectPoolManager" preserve="nothing"/>
+		<type fullname="GameState" preserve="nothing"/>
 		<type fullname="GeneralSlider" preserve="nothing"/>
 		<type fullname="GoalCollider" preserve="nothing"/>
 		<type fullname="Goalie" preserve="nothing"/>
@@ -90,6 +98,7 @@
 		<type fullname="MultiControllerManager" preserve="nothing"/>
 		<type fullname="Neck" preserve="nothing"/>
 		<type fullname="NormalsReplacementShader" preserve="nothing"/>
+		<type fullname="NoticeManager" preserve="nothing"/>
 		<type fullname="OnMouseClick" preserve="nothing"/>
 		<type fullname="Player" preserve="nothing"/>
 		<type fullname="PlayerCollider" preserve="nothing"/>
@@ -97,12 +106,14 @@
 		<type fullname="PlayerCostume" preserve="nothing"/>
 		<type fullname="PlayerSpawnPoint" preserve="nothing"/>
 		<type fullname="PlayerSpawnPointManager" preserve="nothing"/>
-		<type fullname="PlayerValidZone" preserve="nothing"/>
 		<type fullname="PrefabManager" preserve="nothing"/>
 		<type fullname="Ring" preserve="nothing"/>
 		<type fullname="RingContainer" preserve="nothing"/>
 		<type fullname="ScoreRing" preserve="nothing"/>
 		<type fullname="ScoreRingManager" preserve="nothing"/>
+		<type fullname="ScoreRingSingle" preserve="nothing"/>
+		<type fullname="ScoreRingSingleSpawner" preserve="nothing"/>
+		<type fullname="ScoreRingSingleTrigger" preserve="nothing"/>
 		<type fullname="SunGlasses" preserve="nothing"/>
 		<type fullname="UIManager" preserve="nothing"/>
 		<type fullname="UIMaskMgr" preserve="nothing"/>
@@ -112,29 +123,34 @@
 		<type fullname="WingsContainer" preserve="nothing"/>
 		<type fullname="WorldUIManager" preserve="nothing"/>
 	</assembly>
+	<assembly fullname="Unity.InputSystem">
+		<type fullname="UnityEngine.InputSystem.InputSettings" preserve="nothing"/>
+		<type fullname="UnityEngine.InputSystem.InputSystemObject" preserve="nothing"/>
+		<type fullname="UnityEngine.InputSystem.RemoteInputPlayerConnection" preserve="nothing"/>
+	</assembly>
 	<assembly fullname="Unity.TextMeshPro">
 		<type fullname="TMPro.TMP_FontAsset" preserve="nothing"/>
 		<type fullname="TMPro.TMP_Settings" preserve="nothing"/>
 		<type fullname="TMPro.TMP_SpriteAsset" preserve="nothing"/>
 		<type fullname="TMPro.TMP_StyleSheet" preserve="nothing"/>
+		<type fullname="TMPro.TextMeshPro" preserve="nothing"/>
 	</assembly>
 	<assembly fullname="UnityEngine.UI">
 		<type fullname="UnityEngine.EventSystems.EventSystem" preserve="nothing"/>
 		<type fullname="UnityEngine.EventSystems.StandaloneInputModule" preserve="nothing"/>
 		<type fullname="UnityEngine.UI.Button" preserve="nothing"/>
 		<type fullname="UnityEngine.UI.CanvasScaler" preserve="nothing"/>
+		<type fullname="UnityEngine.UI.ContentSizeFitter" preserve="nothing"/>
 		<type fullname="UnityEngine.UI.GraphicRaycaster" preserve="nothing"/>
 		<type fullname="UnityEngine.UI.HorizontalLayoutGroup" preserve="nothing"/>
 		<type fullname="UnityEngine.UI.Image" preserve="nothing"/>
 		<type fullname="UnityEngine.UI.Slider" preserve="nothing"/>
 		<type fullname="UnityEngine.UI.Text" preserve="nothing"/>
+		<type fullname="UnityEngine.UI.VerticalLayoutGroup" preserve="nothing"/>
 	</assembly>
 	<assembly fullname="bolt">
 		<type fullname="Bolt.PrefabDatabase" preserve="nothing"/>
 		<type fullname="BoltEntity" preserve="nothing"/>
 		<type fullname="BoltRuntimeSettings" preserve="nothing"/>
-	</assembly>
-	<assembly fullname="com.unity.multiplayer-hlapi.Runtime">
-		<type fullname="UnityEngine.Networking.NetworkCallbacks" preserve="nothing"/>
 	</assembly>
 </linker>

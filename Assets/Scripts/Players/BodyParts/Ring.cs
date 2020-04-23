@@ -42,6 +42,7 @@ public class Ring : ScoreRing
     public void GetRing()
     {
         Anim.SetTrigger("GetRing");
+        Anim.ResetTrigger("Hit");
         Anim.ResetTrigger("LoseRing");
         StartCoroutine(Co_GetRing());
     }

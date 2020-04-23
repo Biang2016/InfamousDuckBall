@@ -34,6 +34,12 @@ public class Body : MonoBehaviour
             // Move Neck
             if (Player.Controller.ControllerNumber != PlayerNumber.Player5) // xbox one controller input
             {
+                Quaternion moveRot = new Quaternion();
+                if (GameManager.Instance.Cur_BattleManager)
+                {
+                    moveRot = GameManager.Instance.Cur_BattleManager.PlayerControllerMoveDirectionQuaternion;
+                }
+
                 float h = Player.Controller.Axises[ControlAxis.RightStick_H];
                 float v = Player.Controller.Axises[ControlAxis.RightStick_V];
 
@@ -51,8 +57,8 @@ public class Body : MonoBehaviour
                         ChargeDistance = 0f;
                     }
 
-                    neckTargetPos += Vector3.forward * (DuckConfig.NeckSpeed * GameManager.Instance.GameState.state.DuckConfig.NeckSpeedMulti * h);
-                    neckTargetPos += Vector3.right * (DuckConfig.NeckSpeed * GameManager.Instance.GameState.state.DuckConfig.NeckSpeedMulti * v);
+                    neckTargetPos += moveRot * Vector3.forward * (DuckConfig.NeckSpeed * GameManager.Instance.GameState.state.DuckConfig.NeckSpeedMulti * h);
+                    neckTargetPos += moveRot * Vector3.right * (DuckConfig.NeckSpeed * GameManager.Instance.GameState.state.DuckConfig.NeckSpeedMulti * v);
 
                     float targetRadius = (neckTargetPos - transform.position).magnitude;
                     if (targetRadius < DuckConfig.Radius * 2)

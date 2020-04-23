@@ -72,6 +72,7 @@ public class BattleManager_FlagRace : BattleManager_BallGame
                 ScoreChangeEvent sce = ScoreChangeEvent.Create();
                 sce.TeamNumber = (int) kv.Key;
                 sce.Score = kv.Value.Score;
+                sce.IsNewBattle = true;
                 sce.Send();
             }
 
@@ -163,12 +164,12 @@ public class BattleManager_FlagRace : BattleManager_BallGame
             pre.HasRing = false;
             pre.PlayerNumber = (int) player.PlayerNumber;
             pre.Send();
-            player.state.HasRing = false;
 
             Team scoreTeam = TeamDict[player.TeamNumber];
             ScoreChangeEvent sce = ScoreChangeEvent.Create();
             sce.TeamNumber = (int) player.TeamNumber;
             sce.Score = scoreTeam.Score + 1;
+            sce.IsNewBattle = false;
             sce.Send();
 
             ScoreRingManager srm = ScoreRingManagerDict[player.TeamNumber];
@@ -206,7 +207,6 @@ public class BattleManager_FlagRace : BattleManager_BallGame
         pre.HasRing = false;
         pre.PlayerNumber = (int) player.PlayerNumber;
         pre.Send();
-        player.state.HasRing = false;
 
         ResetBall();
     }
@@ -219,7 +219,6 @@ public class BattleManager_FlagRace : BattleManager_BallGame
         pre.PlayerNumber = (int) player.PlayerNumber;
         pre.CostumeType = (int) costumeType;
         pre.Send();
-        player.state.HasRing = true;
     }
 
     public void EatDropScoreRingSingle(Player player, ScoreRingSingle scoreRingSingle)
@@ -235,7 +234,6 @@ public class BattleManager_FlagRace : BattleManager_BallGame
                     evnt.CostumeType = scoreRingSingle.state.CostumeType;
                     evnt.HasRing = true;
                     evnt.Send();
-                    player.state.HasRing = true;
                     scoreRingSingle.Explode();
                 }
             }

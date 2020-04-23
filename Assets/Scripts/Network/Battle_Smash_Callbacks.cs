@@ -29,7 +29,11 @@ public class Battle_Smash_Callbacks : Bolt.GlobalEventListener
         Team team = GameManager.Instance.Cur_BattleManager.TeamDict[tn];
         team.Score = evnt.Score;
         team.MegaScore = evnt.MegaScore;
-        AudioManager.Instance.SoundPlay("sfx/Sound_Score");
+        if (!evnt.IsNewBattle)
+        {
+            AudioManager.Instance.SoundPlay("sfx/Sound_Score");
+        }
+
         GameManager.Instance.DebugPanel.RefreshScore(true);
     }
 }

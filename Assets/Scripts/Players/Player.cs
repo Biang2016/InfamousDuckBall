@@ -8,7 +8,7 @@ public class Player : EntityBehaviour<IPlayerState>
     public TeamNumber TeamNumber => (TeamNumber) state.PlayerInfo.TeamNumber;
     public CostumeType CostumeType => (CostumeType) state.PlayerInfo.CostumeType;
 
-    public bool HasRing => state.HasRing;
+    public bool HasRing;
 
     public PlayerController PlayerController;
     public PlayerCostume PlayerCostume;
@@ -94,7 +94,8 @@ public class Player : EntityBehaviour<IPlayerState>
 
     public void GetRing(CostumeType costumeType)
     {
-        PlayerCostume.Initialize(PlayerNumber,TeamNumber,CostumeType);
+        HasRing = true;
+        PlayerCostume.Initialize(PlayerNumber, TeamNumber, CostumeType);
         Duck.Ring.Initialize(TeamNumber, costumeType);
         Duck.Ring.GetRing();
         Duck.Wings.GetRing();
@@ -102,10 +103,15 @@ public class Player : EntityBehaviour<IPlayerState>
 
     public void LoseRing()
     {
-        Goalie.ParticleRelease();
-        Duck.Wings.Hit();
-        Duck.Ring.LoseRing();
-        Duck.Wings.LoseRing();
+        if (HasRing)
+        {
+            Goalie.ParticleRelease();
+            Duck.Wings.Hit();
+            Duck.Ring.LoseRing();
+            Duck.Wings.LoseRing();
+        }
+
+        HasRing = false;
         Goalie.IsGoalie = false;
     }
 
@@ -120,7 +126,6 @@ public class Player : EntityBehaviour<IPlayerState>
     {
         Duck.DuckRigidbody.velocity = Vector3.zero;
         Duck.DuckRigidbody.angularVelocity = Vector3.zero;
-        Goalie.ParticleRelease();
         Duck.Wings.Hit();
         Duck.Ring.LoseRing();
         Duck.Wings.LoseRing();

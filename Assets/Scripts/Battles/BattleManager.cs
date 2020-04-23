@@ -37,6 +37,10 @@ public abstract class BattleManager : MonoBehaviour
         Player[] players = FindObjectsOfType<Player>();
         foreach (Player player in players)
         {
+            if (BoltNetwork.IsServer)
+            {
+                player.state.UpdateState();
+            }
             AddPlayer(player);
         }
 
@@ -139,7 +143,6 @@ public abstract class BattleManager : MonoBehaviour
                 pre.PlayerNumber = (int) kv.Key;
                 pre.HasRing = false;
                 pre.Send();
-                kv.Value.state.HasRing = false;
             }
         }
     }

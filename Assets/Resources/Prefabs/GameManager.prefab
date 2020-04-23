@@ -44,6 +44,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   RingRecoverTime: 1.5
+  BallWeight: 1
+  BallBounce: 0.5
+  RingDropIntervalRandomMin: 5
+  RingDropIntervalRandomMax: 10
 --- !u!1 &1648598272153711691
 GameObject:
   m_ObjectHideFlags: 0
@@ -201,7 +205,7 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 7031322463944608617}
+  - {fileID: 615480485195959253}
   - {fileID: 5980882137029398715}
   - {fileID: 5980882138327281475}
   - {fileID: 5980882138589961546}
@@ -211,7 +215,7 @@ Transform:
   - {fileID: 9098111638257216308}
   - {fileID: 1459851974337921944}
   - {fileID: 7797503739547008694}
-  - {fileID: 7907493695282913802}
+  - {fileID: 5050531078786640972}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -651,22 +655,22 @@ PrefabInstance:
         type: 3}
       propertyPath: UICanvas
       value: 
-      objectReference: {fileID: 3507463539855278156}
+      objectReference: {fileID: 615480485195961279}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7fcdd2b42846247e781421ef5fc2919e, type: 3}
---- !u!4 &7031322463944608617 stripped
+--- !u!4 &615480485195959253 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7574745312018746254, guid: 7fcdd2b42846247e781421ef5fc2919e,
     type: 3}
   m_PrefabInstance: {fileID: 615480485195956455}
   m_PrefabAsset: {fileID: 0}
---- !u!223 &3507463539855278156 stripped
+--- !u!223 &615480485195961279 stripped
 Canvas:
   m_CorrespondingSourceObject: {fileID: 4046382818433892523, guid: 7fcdd2b42846247e781421ef5fc2919e,
     type: 3}
   m_PrefabInstance: {fileID: 615480485195956455}
   m_PrefabAsset: {fileID: 0}
---- !u!20 &8857633578113023341 stripped
+--- !u!20 &615480485195959491 stripped
 Camera:
   m_CorrespondingSourceObject: {fileID: 8243279409502879114, guid: 7fcdd2b42846247e781421ef5fc2919e,
     type: 3}
@@ -793,20 +797,10 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Camera
       value: 
-      objectReference: {fileID: 8857633578113023341}
-    - target: {fileID: 3855575969529373567, guid: 386c9dc95ead08d42af7a7917f8dd151,
-        type: 3}
-      propertyPath: m_Mesh
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 8251873314753482985, guid: 386c9dc95ead08d42af7a7917f8dd151,
-        type: 3}
-      propertyPath: m_Mesh
-      value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 615480485195959491}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 386c9dc95ead08d42af7a7917f8dd151, type: 3}
---- !u!224 &7907493695282913802 stripped
+--- !u!224 &5050531078786640972 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 3146354636212886838, guid: 386c9dc95ead08d42af7a7917f8dd151,
     type: 3}

@@ -28,7 +28,10 @@ public class Battle_FlagRace_Callbacks : Bolt.GlobalEventListener
         TeamNumber tn = (TeamNumber) evnt.TeamNumber;
         Team team = GameManager.Instance.Cur_BattleManager.TeamDict[tn];
         team.Score = evnt.Score;
-        AudioManager.Instance.SoundPlay("sfx/Sound_Score");
+        if (!evnt.IsNewBattle)
+        {
+            AudioManager.Instance.SoundPlay("sfx/Sound_Score");
+        }
         GameManager.Instance.DebugPanel.RefreshScore(false);
     }
 

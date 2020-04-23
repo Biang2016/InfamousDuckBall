@@ -6,8 +6,10 @@
             "fullManagedTypeName": "UnityEngine.Object",
             "moduleName": "Core",
             "usedInScenes": [
-                "Assets/Scenes/Menu.unity",
-                "Assets/Scenes/MainScene.unity"
+                "Assets/Scenes/BoltMenu.unity",
+                "Assets/Scenes/Battle_Prepare.unity",
+                "Assets/Scenes/Battle_Smash.unity",
+                "Assets/Scenes/Battle_FlagRace.unity"
             ]
         },
         {
@@ -16,8 +18,10 @@
             "fullManagedTypeName": "",
             "moduleName": "Core",
             "usedInScenes": [
-                "Assets/Scenes/Menu.unity",
-                "Assets/Scenes/MainScene.unity"
+                "Assets/Scenes/BoltMenu.unity",
+                "Assets/Scenes/Battle_Prepare.unity",
+                "Assets/Scenes/Battle_Smash.unity",
+                "Assets/Scenes/Battle_FlagRace.unity"
             ]
         },
         {
@@ -26,8 +30,46 @@
             "fullManagedTypeName": "",
             "moduleName": "Core",
             "usedInScenes": [
-                "Assets/Scenes/Menu.unity",
-                "Assets/Scenes/MainScene.unity"
+                "Assets/Scenes/BoltMenu.unity",
+                "Assets/Scenes/Battle_Prepare.unity",
+                "Assets/Scenes/Battle_Smash.unity",
+                "Assets/Scenes/Battle_FlagRace.unity"
+            ]
+        },
+        {
+            "managedAssemblyName": "UnityEngine.dll",
+            "nativeClass": "Behaviour",
+            "fullManagedTypeName": "UnityEngine.Behaviour",
+            "moduleName": "Core",
+            "usedInScenes": [
+                "Assets/Scenes/BoltMenu.unity",
+                "Assets/Scenes/Battle_Prepare.unity",
+                "Assets/Scenes/Battle_Smash.unity",
+                "Assets/Scenes/Battle_FlagRace.unity"
+            ]
+        },
+        {
+            "managedAssemblyName": "UnityEngine.dll",
+            "nativeClass": "Component",
+            "fullManagedTypeName": "UnityEngine.Component",
+            "moduleName": "Core",
+            "usedInScenes": [
+                "Assets/Scenes/BoltMenu.unity",
+                "Assets/Scenes/Battle_Prepare.unity",
+                "Assets/Scenes/Battle_Smash.unity",
+                "Assets/Scenes/Battle_FlagRace.unity"
+            ]
+        },
+        {
+            "managedAssemblyName": "UnityEngine.dll",
+            "nativeClass": "MonoBehaviour",
+            "fullManagedTypeName": "UnityEngine.MonoBehaviour",
+            "moduleName": "Core",
+            "usedInScenes": [
+                "Assets/Scenes/BoltMenu.unity",
+                "Assets/Scenes/Battle_Prepare.unity",
+                "Assets/Scenes/Battle_Smash.unity",
+                "Assets/Scenes/Battle_FlagRace.unity"
             ]
         },
         {
@@ -36,8 +78,10 @@
             "fullManagedTypeName": "UnityEditor.MonoScript",
             "moduleName": "Core",
             "usedInScenes": [
-                "Assets/Scenes/Menu.unity",
-                "Assets/Scenes/MainScene.unity"
+                "Assets/Scenes/BoltMenu.unity",
+                "Assets/Scenes/Battle_Prepare.unity",
+                "Assets/Scenes/Battle_Smash.unity",
+                "Assets/Scenes/Battle_FlagRace.unity"
             ]
         },
         {
@@ -46,8 +90,10 @@
             "fullManagedTypeName": "UnityEngine.Material",
             "moduleName": "Core",
             "usedInScenes": [
-                "Assets/Scenes/Menu.unity",
-                "Assets/Scenes/MainScene.unity"
+                "Assets/Scenes/BoltMenu.unity",
+                "Assets/Scenes/Battle_Prepare.unity",
+                "Assets/Scenes/Battle_Smash.unity",
+                "Assets/Scenes/Battle_FlagRace.unity"
             ]
         },
         {
@@ -70,8 +116,10 @@
             "fullManagedTypeName": "",
             "moduleName": "Core",
             "usedInScenes": [
-                "Assets/Scenes/Menu.unity",
-                "Assets/Scenes/MainScene.unity"
+                "Assets/Scenes/BoltMenu.unity",
+                "Assets/Scenes/Battle_Prepare.unity",
+                "Assets/Scenes/Battle_Smash.unity",
+                "Assets/Scenes/Battle_FlagRace.unity"
             ]
         },
         {
@@ -94,8 +142,10 @@
             "fullManagedTypeName": "UnityEngine.Shader",
             "moduleName": "Core",
             "usedInScenes": [
-                "Assets/Scenes/Menu.unity",
-                "Assets/Scenes/MainScene.unity"
+                "Assets/Scenes/BoltMenu.unity",
+                "Assets/Scenes/Battle_Prepare.unity",
+                "Assets/Scenes/Battle_Smash.unity",
+                "Assets/Scenes/Battle_FlagRace.unity"
             ]
         },
         {
@@ -118,8 +168,10 @@
             "fullManagedTypeName": "UnityEngine.TextAsset",
             "moduleName": "Core",
             "usedInScenes": [
-                "Assets/Scenes/Menu.unity",
-                "Assets/Scenes/MainScene.unity"
+                "Assets/Scenes/BoltMenu.unity",
+                "Assets/Scenes/Battle_Prepare.unity",
+                "Assets/Scenes/Battle_Smash.unity",
+                "Assets/Scenes/Battle_FlagRace.unity"
             ]
         },
         {
@@ -135,7 +187,7 @@
             "fullManagedTypeName": "UnityEngine.PhysicMaterial",
             "moduleName": "Physics",
             "usedInScenes": [
-                "Assets/Scenes/Menu.unity"
+                "Assets/Scenes/BoltMenu.unity"
             ]
         },
         {
@@ -235,8 +287,10 @@
             "fullManagedTypeName": "UnityEngine.Camera",
             "moduleName": "Core",
             "usedInScenes": [
-                "Assets/Scenes/Menu.unity",
-                "Assets/Scenes/MainScene.unity"
+                "Assets/Scenes/BoltMenu.unity",
+                "Assets/Scenes/Battle_Prepare.unity",
+                "Assets/Scenes/Battle_Smash.unity",
+                "Assets/Scenes/Battle_FlagRace.unity"
             ]
         },
         {
@@ -245,8 +299,10 @@
             "fullManagedTypeName": "UnityEngine.Transform",
             "moduleName": "Core",
             "usedInScenes": [
-                "Assets/Scenes/Menu.unity",
-                "Assets/Scenes/MainScene.unity"
+                "Assets/Scenes/BoltMenu.unity",
+                "Assets/Scenes/Battle_Prepare.unity",
+                "Assets/Scenes/Battle_Smash.unity",
+                "Assets/Scenes/Battle_FlagRace.unity"
             ]
         },
         {
@@ -255,7 +311,10 @@
             "fullManagedTypeName": "UnityEngine.Renderer",
             "moduleName": "Core",
             "usedInScenes": [
-                "Assets/Scenes/Menu.unity"
+                "Assets/Scenes/BoltMenu.unity",
+                "Assets/Scenes/Battle_Prepare.unity",
+                "Assets/Scenes/Battle_Smash.unity",
+                "Assets/Scenes/Battle_FlagRace.unity"
             ]
         },
         {
@@ -264,8 +323,10 @@
             "fullManagedTypeName": "UnityEngine.Light",
             "moduleName": "Core",
             "usedInScenes": [
-                "Assets/Scenes/Menu.unity",
-                "Assets/Scenes/MainScene.unity"
+                "Assets/Scenes/BoltMenu.unity",
+                "Assets/Scenes/Battle_Prepare.unity",
+                "Assets/Scenes/Battle_Smash.unity",
+                "Assets/Scenes/Battle_FlagRace.unity"
             ]
         },
         {
@@ -274,7 +335,10 @@
             "fullManagedTypeName": "UnityEngine.MeshFilter",
             "moduleName": "Core",
             "usedInScenes": [
-                "Assets/Scenes/Menu.unity"
+                "Assets/Scenes/BoltMenu.unity",
+                "Assets/Scenes/Battle_Prepare.unity",
+                "Assets/Scenes/Battle_Smash.unity",
+                "Assets/Scenes/Battle_FlagRace.unity"
             ]
         },
         {
@@ -283,7 +347,7 @@
             "fullManagedTypeName": "UnityEngine.SkinnedMeshRenderer",
             "moduleName": "Core",
             "usedInScenes": [
-                "Assets/Scenes/Menu.unity"
+                "Assets/Scenes/BoltMenu.unity"
             ]
         },
         {
@@ -292,7 +356,10 @@
             "fullManagedTypeName": "UnityEngine.MeshRenderer",
             "moduleName": "Core",
             "usedInScenes": [
-                "Assets/Scenes/Menu.unity"
+                "Assets/Scenes/BoltMenu.unity",
+                "Assets/Scenes/Battle_Prepare.unity",
+                "Assets/Scenes/Battle_Smash.unity",
+                "Assets/Scenes/Battle_FlagRace.unity"
             ]
         },
         {
@@ -301,7 +368,7 @@
             "fullManagedTypeName": "UnityEngine.SpriteRenderer",
             "moduleName": "Core",
             "usedInScenes": [
-                "Assets/Scenes/Menu.unity"
+                "Assets/Scenes/BoltMenu.unity"
             ]
         },
         {
@@ -310,7 +377,10 @@
             "fullManagedTypeName": "UnityEngine.AnimationClip",
             "moduleName": "Animation",
             "usedInScenes": [
-                "Assets/Scenes/Menu.unity"
+                "Assets/Scenes/BoltMenu.unity",
+                "Assets/Scenes/Battle_Prepare.unity",
+                "Assets/Scenes/Battle_Smash.unity",
+                "Assets/Scenes/Battle_FlagRace.unity"
             ]
         },
         {
@@ -319,7 +389,10 @@
             "fullManagedTypeName": "UnityEngine.AudioBehaviour",
             "moduleName": "Audio",
             "usedInScenes": [
-                "Assets/Scenes/Menu.unity"
+                "Assets/Scenes/BoltMenu.unity",
+                "Assets/Scenes/Battle_Prepare.unity",
+                "Assets/Scenes/Battle_Smash.unity",
+                "Assets/Scenes/Battle_FlagRace.unity"
             ]
         },
         {
@@ -328,7 +401,10 @@
             "fullManagedTypeName": "UnityEngine.AudioListener",
             "moduleName": "Audio",
             "usedInScenes": [
-                "Assets/Scenes/Menu.unity"
+                "Assets/Scenes/BoltMenu.unity",
+                "Assets/Scenes/Battle_Prepare.unity",
+                "Assets/Scenes/Battle_Smash.unity",
+                "Assets/Scenes/Battle_FlagRace.unity"
             ]
         },
         {
@@ -337,8 +413,7 @@
             "fullManagedTypeName": "UnityEngine.Audio.AudioMixer",
             "moduleName": "Audio",
             "usedInScenes": [
-                "Assets/Scenes/Menu.unity",
-                "Assets/Scenes/MainScene.unity"
+                "Assets/Scenes/BoltMenu.unity"
             ]
         },
         {
@@ -347,8 +422,7 @@
             "fullManagedTypeName": "UnityEngine.Audio.AudioMixerGroup",
             "moduleName": "Audio",
             "usedInScenes": [
-                "Assets/Scenes/Menu.unity",
-                "Assets/Scenes/MainScene.unity"
+                "Assets/Scenes/BoltMenu.unity"
             ]
         },
         {
@@ -357,8 +431,7 @@
             "fullManagedTypeName": "UnityEngine.Audio.AudioMixerSnapshot",
             "moduleName": "Audio",
             "usedInScenes": [
-                "Assets/Scenes/Menu.unity",
-                "Assets/Scenes/MainScene.unity"
+                "Assets/Scenes/BoltMenu.unity"
             ]
         },
         {
@@ -367,7 +440,7 @@
             "fullManagedTypeName": "UnityEngine.AudioClip",
             "moduleName": "Audio",
             "usedInScenes": [
-                "Assets/Scenes/Menu.unity"
+                "Assets/Scenes/BoltMenu.unity"
             ]
         },
         {
@@ -376,8 +449,10 @@
             "fullManagedTypeName": "UnityEngine.Texture",
             "moduleName": "Core",
             "usedInScenes": [
-                "Assets/Scenes/Menu.unity",
-                "Assets/Scenes/MainScene.unity"
+                "Assets/Scenes/BoltMenu.unity",
+                "Assets/Scenes/Battle_Prepare.unity",
+                "Assets/Scenes/Battle_Smash.unity",
+                "Assets/Scenes/Battle_FlagRace.unity"
             ]
         },
         {
@@ -386,7 +461,7 @@
             "fullManagedTypeName": "UnityEngine.ParticleSystem",
             "moduleName": "ParticleSystem",
             "usedInScenes": [
-                "Assets/Scenes/Menu.unity"
+                "Assets/Scenes/BoltMenu.unity"
             ]
         },
         {
@@ -395,7 +470,7 @@
             "fullManagedTypeName": "UnityEngine.ParticleSystemRenderer",
             "moduleName": "ParticleSystem",
             "usedInScenes": [
-                "Assets/Scenes/Menu.unity"
+                "Assets/Scenes/BoltMenu.unity"
             ]
         },
         {
@@ -404,7 +479,7 @@
             "fullManagedTypeName": "UnityEngine.Rigidbody",
             "moduleName": "Physics",
             "usedInScenes": [
-                "Assets/Scenes/Menu.unity"
+                "Assets/Scenes/BoltMenu.unity"
             ]
         },
         {
@@ -413,7 +488,10 @@
             "fullManagedTypeName": "UnityEngine.Collider",
             "moduleName": "Physics",
             "usedInScenes": [
-                "Assets/Scenes/Menu.unity"
+                "Assets/Scenes/BoltMenu.unity",
+                "Assets/Scenes/Battle_Prepare.unity",
+                "Assets/Scenes/Battle_Smash.unity",
+                "Assets/Scenes/Battle_FlagRace.unity"
             ]
         },
         {
@@ -422,7 +500,7 @@
             "fullManagedTypeName": "UnityEngine.MeshCollider",
             "moduleName": "Physics",
             "usedInScenes": [
-                "Assets/Scenes/Menu.unity"
+                "Assets/Scenes/BoltMenu.unity"
             ]
         },
         {
@@ -431,7 +509,10 @@
             "fullManagedTypeName": "UnityEngine.BoxCollider",
             "moduleName": "Physics",
             "usedInScenes": [
-                "Assets/Scenes/Menu.unity"
+                "Assets/Scenes/BoltMenu.unity",
+                "Assets/Scenes/Battle_Prepare.unity",
+                "Assets/Scenes/Battle_Smash.unity",
+                "Assets/Scenes/Battle_FlagRace.unity"
             ]
         },
         {
@@ -440,7 +521,8 @@
             "fullManagedTypeName": "UnityEngine.SphereCollider",
             "moduleName": "Physics",
             "usedInScenes": [
-                "Assets/Scenes/Menu.unity"
+                "Assets/Scenes/BoltMenu.unity",
+                "Assets/Scenes/Battle_FlagRace.unity"
             ]
         },
         {
@@ -449,8 +531,7 @@
             "fullManagedTypeName": "UnityEngine.Canvas",
             "moduleName": "UI",
             "usedInScenes": [
-                "Assets/Scenes/Menu.unity",
-                "Assets/Scenes/MainScene.unity"
+                "Assets/Scenes/BoltMenu.unity"
             ]
         },
         {
@@ -459,18 +540,7 @@
             "fullManagedTypeName": "UnityEngine.RectTransform",
             "moduleName": "Core",
             "usedInScenes": [
-                "Assets/Scenes/Menu.unity",
-                "Assets/Scenes/MainScene.unity"
-            ]
-        },
-        {
-            "managedAssemblyName": "UnityEngine.dll",
-            "nativeClass": "Behaviour",
-            "fullManagedTypeName": "UnityEngine.Behaviour",
-            "moduleName": "Core",
-            "usedInScenes": [
-                "Assets/Scenes/Menu.unity",
-                "Assets/Scenes/MainScene.unity"
+                "Assets/Scenes/BoltMenu.unity"
             ]
         },
         {
@@ -479,7 +549,10 @@
             "fullManagedTypeName": "UnityEngine.Animator",
             "moduleName": "Animation",
             "usedInScenes": [
-                "Assets/Scenes/Menu.unity"
+                "Assets/Scenes/BoltMenu.unity",
+                "Assets/Scenes/Battle_Prepare.unity",
+                "Assets/Scenes/Battle_Smash.unity",
+                "Assets/Scenes/Battle_FlagRace.unity"
             ]
         },
         {
@@ -488,7 +561,10 @@
             "fullManagedTypeName": "UnityEngine.RuntimeAnimatorController",
             "moduleName": "Animation",
             "usedInScenes": [
-                "Assets/Scenes/Menu.unity"
+                "Assets/Scenes/BoltMenu.unity",
+                "Assets/Scenes/Battle_Prepare.unity",
+                "Assets/Scenes/Battle_Smash.unity",
+                "Assets/Scenes/Battle_FlagRace.unity"
             ]
         },
         {
@@ -497,27 +573,10 @@
             "fullManagedTypeName": "UnityEngine.Motion",
             "moduleName": "Animation",
             "usedInScenes": [
-                "Assets/Scenes/Menu.unity"
-            ]
-        },
-        {
-            "managedAssemblyName": "UnityEngine.dll",
-            "nativeClass": "Component",
-            "fullManagedTypeName": "UnityEngine.Component",
-            "moduleName": "Core",
-            "usedInScenes": [
-                "Assets/Scenes/Menu.unity",
-                "Assets/Scenes/MainScene.unity"
-            ]
-        },
-        {
-            "managedAssemblyName": "UnityEngine.dll",
-            "nativeClass": "MonoBehaviour",
-            "fullManagedTypeName": "UnityEngine.MonoBehaviour",
-            "moduleName": "Core",
-            "usedInScenes": [
-                "Assets/Scenes/Menu.unity",
-                "Assets/Scenes/MainScene.unity"
+                "Assets/Scenes/BoltMenu.unity",
+                "Assets/Scenes/Battle_Prepare.unity",
+                "Assets/Scenes/Battle_Smash.unity",
+                "Assets/Scenes/Battle_FlagRace.unity"
             ]
         },
         {
@@ -526,7 +585,10 @@
             "fullManagedTypeName": "UnityEditor.Animations.AnimatorController",
             "moduleName": "Animation",
             "usedInScenes": [
-                "Assets/Scenes/Menu.unity"
+                "Assets/Scenes/BoltMenu.unity",
+                "Assets/Scenes/Battle_Prepare.unity",
+                "Assets/Scenes/Battle_Smash.unity",
+                "Assets/Scenes/Battle_FlagRace.unity"
             ]
         },
         {
@@ -535,7 +597,10 @@
             "fullManagedTypeName": "UnityEngine.Avatar",
             "moduleName": "Animation",
             "usedInScenes": [
-                "Assets/Scenes/Menu.unity"
+                "Assets/Scenes/BoltMenu.unity",
+                "Assets/Scenes/Battle_Prepare.unity",
+                "Assets/Scenes/Battle_Smash.unity",
+                "Assets/Scenes/Battle_FlagRace.unity"
             ]
         },
         {
@@ -544,8 +609,10 @@
             "fullManagedTypeName": "UnityEngine.GameObject",
             "moduleName": "Core",
             "usedInScenes": [
-                "Assets/Scenes/Menu.unity",
-                "Assets/Scenes/MainScene.unity"
+                "Assets/Scenes/BoltMenu.unity",
+                "Assets/Scenes/Battle_Prepare.unity",
+                "Assets/Scenes/Battle_Smash.unity",
+                "Assets/Scenes/Battle_FlagRace.unity"
             ]
         },
         {
@@ -554,8 +621,10 @@
             "fullManagedTypeName": "UnityEngine.LightmapSettings",
             "moduleName": "Core",
             "usedInScenes": [
-                "Assets/Scenes/Menu.unity",
-                "Assets/Scenes/MainScene.unity"
+                "Assets/Scenes/BoltMenu.unity",
+                "Assets/Scenes/Battle_Prepare.unity",
+                "Assets/Scenes/Battle_Smash.unity",
+                "Assets/Scenes/Battle_FlagRace.unity"
             ]
         },
         {
@@ -564,7 +633,7 @@
             "fullManagedTypeName": "UnityEngine.Font",
             "moduleName": "TextRendering",
             "usedInScenes": [
-                "Assets/Scenes/Menu.unity"
+                "Assets/Scenes/BoltMenu.unity"
             ]
         },
         {
@@ -573,7 +642,10 @@
             "fullManagedTypeName": "UnityEngine.Mesh",
             "moduleName": "Core",
             "usedInScenes": [
-                "Assets/Scenes/Menu.unity"
+                "Assets/Scenes/BoltMenu.unity",
+                "Assets/Scenes/Battle_Prepare.unity",
+                "Assets/Scenes/Battle_Smash.unity",
+                "Assets/Scenes/Battle_FlagRace.unity"
             ]
         },
         {
@@ -582,8 +654,10 @@
             "fullManagedTypeName": "UnityEngine.Texture2D",
             "moduleName": "Core",
             "usedInScenes": [
-                "Assets/Scenes/Menu.unity",
-                "Assets/Scenes/MainScene.unity"
+                "Assets/Scenes/BoltMenu.unity",
+                "Assets/Scenes/Battle_Prepare.unity",
+                "Assets/Scenes/Battle_Smash.unity",
+                "Assets/Scenes/Battle_FlagRace.unity"
             ]
         },
         {
@@ -592,8 +666,7 @@
             "fullManagedTypeName": "UnityEngine.Sprite",
             "moduleName": "Core",
             "usedInScenes": [
-                "Assets/Scenes/Menu.unity",
-                "Assets/Scenes/MainScene.unity"
+                "Assets/Scenes/BoltMenu.unity"
             ]
         },
         {
@@ -602,8 +675,7 @@
             "fullManagedTypeName": "UnityEngine.CanvasRenderer",
             "moduleName": "UI",
             "usedInScenes": [
-                "Assets/Scenes/Menu.unity",
-                "Assets/Scenes/MainScene.unity"
+                "Assets/Scenes/BoltMenu.unity"
             ]
         },
         {
@@ -612,7 +684,7 @@
             "fullManagedTypeName": "",
             "moduleName": "Audio",
             "usedInScenes": [
-                "Assets/Scenes/Menu.unity"
+                "Assets/Scenes/BoltMenu.unity"
             ]
         },
         {
@@ -621,8 +693,7 @@
             "fullManagedTypeName": "UnityEngine.Cubemap",
             "moduleName": "Core",
             "usedInScenes": [
-                "Assets/Scenes/Menu.unity",
-                "Assets/Scenes/MainScene.unity"
+                "Assets/Scenes/BoltMenu.unity"
             ]
         },
         {
@@ -631,8 +702,10 @@
             "fullManagedTypeName": "UnityEngine.RenderSettings",
             "moduleName": "Core",
             "usedInScenes": [
-                "Assets/Scenes/Menu.unity",
-                "Assets/Scenes/MainScene.unity"
+                "Assets/Scenes/BoltMenu.unity",
+                "Assets/Scenes/Battle_Prepare.unity",
+                "Assets/Scenes/Battle_Smash.unity",
+                "Assets/Scenes/Battle_FlagRace.unity"
             ]
         },
         {
@@ -641,8 +714,7 @@
             "fullManagedTypeName": "UnityEngine.LightProbes",
             "moduleName": "Core",
             "usedInScenes": [
-                "Assets/Scenes/Menu.unity",
-                "Assets/Scenes/MainScene.unity"
+                "Assets/Scenes/BoltMenu.unity"
             ]
         },
         {
@@ -651,7 +723,7 @@
             "fullManagedTypeName": "UnityEngine.TextAsset",
             "moduleName": "Core",
             "usedInScenes": [
-                "Assets/Scenes/Menu.unity"
+                "Assets/Scenes/BoltMenu.unity"
             ]
         },
         {
@@ -660,8 +732,10 @@
             "fullManagedTypeName": "",
             "moduleName": "Core",
             "usedInScenes": [
-                "Assets/Scenes/Menu.unity",
-                "Assets/Scenes/MainScene.unity"
+                "Assets/Scenes/BoltMenu.unity",
+                "Assets/Scenes/Battle_Prepare.unity",
+                "Assets/Scenes/Battle_Smash.unity",
+                "Assets/Scenes/Battle_FlagRace.unity"
             ]
         },
         {
@@ -688,7 +762,21 @@
         {
             "managedAssemblyName": "Assembly-CSharp.dll",
             "nativeClass": "",
-            "fullManagedTypeName": "BattleManager_PVP4",
+            "fullManagedTypeName": "BattleManager_FlagRace",
+            "moduleName": "",
+            "usedInScenes": []
+        },
+        {
+            "managedAssemblyName": "Assembly-CSharp.dll",
+            "nativeClass": "",
+            "fullManagedTypeName": "BattleManager_Prepare",
+            "moduleName": "",
+            "usedInScenes": []
+        },
+        {
+            "managedAssemblyName": "Assembly-CSharp.dll",
+            "nativeClass": "",
+            "fullManagedTypeName": "BattleManager_Smash",
             "moduleName": "",
             "usedInScenes": []
         },
@@ -731,6 +819,20 @@
             "managedAssemblyName": "Assembly-CSharp.dll",
             "nativeClass": "",
             "fullManagedTypeName": "ConfigManager",
+            "moduleName": "",
+            "usedInScenes": []
+        },
+        {
+            "managedAssemblyName": "Assembly-CSharp.dll",
+            "nativeClass": "",
+            "fullManagedTypeName": "ConfigRow",
+            "moduleName": "",
+            "usedInScenes": []
+        },
+        {
+            "managedAssemblyName": "Assembly-CSharp.dll",
+            "nativeClass": "",
+            "fullManagedTypeName": "ConfigRows",
             "moduleName": "",
             "usedInScenes": []
         },
@@ -786,7 +888,35 @@
         {
             "managedAssemblyName": "Assembly-CSharp.dll",
             "nativeClass": "",
+            "fullManagedTypeName": "FlagGetRingPoint",
+            "moduleName": "",
+            "usedInScenes": []
+        },
+        {
+            "managedAssemblyName": "Assembly-CSharp.dll",
+            "nativeClass": "",
+            "fullManagedTypeName": "FlagScorePoint",
+            "moduleName": "",
+            "usedInScenes": []
+        },
+        {
+            "managedAssemblyName": "Assembly-CSharp.dll",
+            "nativeClass": "",
+            "fullManagedTypeName": "GameManager",
+            "moduleName": "",
+            "usedInScenes": []
+        },
+        {
+            "managedAssemblyName": "Assembly-CSharp.dll",
+            "nativeClass": "",
             "fullManagedTypeName": "GameObjectPoolManager",
+            "moduleName": "",
+            "usedInScenes": []
+        },
+        {
+            "managedAssemblyName": "Assembly-CSharp.dll",
+            "nativeClass": "",
+            "fullManagedTypeName": "GameState",
             "moduleName": "",
             "usedInScenes": []
         },
@@ -856,6 +986,13 @@
         {
             "managedAssemblyName": "Assembly-CSharp.dll",
             "nativeClass": "",
+            "fullManagedTypeName": "NoticeManager",
+            "moduleName": "",
+            "usedInScenes": []
+        },
+        {
+            "managedAssemblyName": "Assembly-CSharp.dll",
+            "nativeClass": "",
             "fullManagedTypeName": "OnMouseClick",
             "moduleName": "",
             "usedInScenes": []
@@ -905,13 +1042,6 @@
         {
             "managedAssemblyName": "Assembly-CSharp.dll",
             "nativeClass": "",
-            "fullManagedTypeName": "PlayerValidZone",
-            "moduleName": "",
-            "usedInScenes": []
-        },
-        {
-            "managedAssemblyName": "Assembly-CSharp.dll",
-            "nativeClass": "",
             "fullManagedTypeName": "PrefabManager",
             "moduleName": "",
             "usedInScenes": []
@@ -941,6 +1071,27 @@
             "managedAssemblyName": "Assembly-CSharp.dll",
             "nativeClass": "",
             "fullManagedTypeName": "ScoreRingManager",
+            "moduleName": "",
+            "usedInScenes": []
+        },
+        {
+            "managedAssemblyName": "Assembly-CSharp.dll",
+            "nativeClass": "",
+            "fullManagedTypeName": "ScoreRingSingle",
+            "moduleName": "",
+            "usedInScenes": []
+        },
+        {
+            "managedAssemblyName": "Assembly-CSharp.dll",
+            "nativeClass": "",
+            "fullManagedTypeName": "ScoreRingSingleSpawner",
+            "moduleName": "",
+            "usedInScenes": []
+        },
+        {
+            "managedAssemblyName": "Assembly-CSharp.dll",
+            "nativeClass": "",
+            "fullManagedTypeName": "ScoreRingSingleTrigger",
             "moduleName": "",
             "usedInScenes": []
         },
@@ -1001,6 +1152,27 @@
             "usedInScenes": []
         },
         {
+            "managedAssemblyName": "Unity.InputSystem.dll",
+            "nativeClass": "",
+            "fullManagedTypeName": "UnityEngine.InputSystem.InputSettings",
+            "moduleName": "",
+            "usedInScenes": []
+        },
+        {
+            "managedAssemblyName": "Unity.InputSystem.dll",
+            "nativeClass": "",
+            "fullManagedTypeName": "UnityEngine.InputSystem.InputSystemObject",
+            "moduleName": "",
+            "usedInScenes": []
+        },
+        {
+            "managedAssemblyName": "Unity.InputSystem.dll",
+            "nativeClass": "",
+            "fullManagedTypeName": "UnityEngine.InputSystem.RemoteInputPlayerConnection",
+            "moduleName": "",
+            "usedInScenes": []
+        },
+        {
             "managedAssemblyName": "Unity.TextMeshPro.dll",
             "nativeClass": "",
             "fullManagedTypeName": "TMPro.TMP_FontAsset",
@@ -1029,6 +1201,13 @@
             "usedInScenes": []
         },
         {
+            "managedAssemblyName": "Unity.TextMeshPro.dll",
+            "nativeClass": "",
+            "fullManagedTypeName": "TMPro.TextMeshPro",
+            "moduleName": "",
+            "usedInScenes": []
+        },
+        {
             "managedAssemblyName": "UnityEngine.UI.dll",
             "nativeClass": "",
             "fullManagedTypeName": "UnityEngine.EventSystems.EventSystem",
@@ -1053,6 +1232,13 @@
             "managedAssemblyName": "UnityEngine.UI.dll",
             "nativeClass": "",
             "fullManagedTypeName": "UnityEngine.UI.CanvasScaler",
+            "moduleName": "",
+            "usedInScenes": []
+        },
+        {
+            "managedAssemblyName": "UnityEngine.UI.dll",
+            "nativeClass": "",
+            "fullManagedTypeName": "UnityEngine.UI.ContentSizeFitter",
             "moduleName": "",
             "usedInScenes": []
         },
@@ -1092,6 +1278,13 @@
             "usedInScenes": []
         },
         {
+            "managedAssemblyName": "UnityEngine.UI.dll",
+            "nativeClass": "",
+            "fullManagedTypeName": "UnityEngine.UI.VerticalLayoutGroup",
+            "moduleName": "",
+            "usedInScenes": []
+        },
+        {
             "managedAssemblyName": "bolt.dll",
             "nativeClass": "",
             "fullManagedTypeName": "Bolt.PrefabDatabase",
@@ -1109,13 +1302,6 @@
             "managedAssemblyName": "bolt.dll",
             "nativeClass": "",
             "fullManagedTypeName": "BoltRuntimeSettings",
-            "moduleName": "",
-            "usedInScenes": []
-        },
-        {
-            "managedAssemblyName": "com.unity.multiplayer-hlapi.Runtime.dll",
-            "nativeClass": "",
-            "fullManagedTypeName": "UnityEngine.Networking.NetworkCallbacks",
             "moduleName": "",
             "usedInScenes": []
         }

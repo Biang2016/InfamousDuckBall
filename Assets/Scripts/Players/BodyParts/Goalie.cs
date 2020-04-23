@@ -3,7 +3,6 @@ using UnityEngine;
 public class Goalie : MonoBehaviour
 {
     [SerializeField] private Collider GoalCollider;
-    [SerializeField] private ParticleSystem ParticleSystem;
 
     [SerializeField] private bool isGoalie = false;
 
@@ -19,6 +18,7 @@ public class Goalie : MonoBehaviour
 
     public void ParticleRelease()
     {
-        ParticleSystem.Play();
+        FXManager.Instance.PlayFX(FX_Type.ScoreRingExplosion, transform.position, Quaternion.Euler(-90, 0, 0));
+        AudioManager.Instance.SoundPlay("sfx/BalloonPop", 0.5f);
     }
 }

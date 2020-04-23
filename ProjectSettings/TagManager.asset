@@ -23,10 +23,10 @@ TagManager:
   - PlayerCollider2
   - PlayerCollider3
   - PlayerCollider4
-  - BallKicker1
-  - BallKicker2
-  - BallKicker3
-  - BallKicker4
+  - 
+  - 
+  - 
+  - 
   - PlayerGoal
   - BallKickerIgnorePlayer
   - SurroundingCollider
@@ -34,10 +34,13 @@ TagManager:
   - Ball2
   - Ball3
   - Ball4
-  - 
-  - 
+  - GameTrigger
+  - ScoreRingSingle
   - 
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Notice
+    uniqueID: 4243668137
     locked: 0

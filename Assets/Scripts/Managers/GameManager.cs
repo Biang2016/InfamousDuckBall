@@ -38,10 +38,10 @@ public class GameManager : MonoSingleton<GameManager>
 
     public void Update()
     {
-        if (BoltNetwork.IsClient && !BoltNetwork.IsConnected && Cur_BattleManager != null)
-        {
-            SceneManager.LoadScene("BoltMenu");
-        }
+        //if (BoltNetwork.IsClient && !BoltNetwork.IsConnected && Cur_BattleManager != null)
+        //{
+        //    SceneManager.LoadScene("BoltMenu");
+        //}
 
         if (BoltNetwork.IsServer)
         {

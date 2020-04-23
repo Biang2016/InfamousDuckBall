@@ -78,6 +78,7 @@ public class BattleManager_Smash : BattleManager_BallGame
                     sce.TeamNumber = (int) kv.Key;
                     sce.Score = kv.Value.Score;
                     sce.MegaScore = kv.Value.MegaScore;
+                    sce.IsNewBattle = true;
                     sce.Send();
                 }
             }
@@ -111,7 +112,6 @@ public class BattleManager_Smash : BattleManager_BallGame
         pre.HasRing = false;
         pre.PlayerNumber = (int) player.PlayerNumber;
         pre.Send();
-        player.state.HasRing = false;
 
         Team hitTeam = TeamDict[teamNumber];
 
@@ -125,6 +125,7 @@ public class BattleManager_Smash : BattleManager_BallGame
                 _sce.Score = TeamDict[otherTeam].Score;
                 TeamDict[otherTeam].MegaScore += 1;
                 _sce.MegaScore = TeamDict[otherTeam].MegaScore;
+                _sce.IsNewBattle = false;
                 _sce.Send();
                 StartNewRound();
                 return;
@@ -157,6 +158,7 @@ public class BattleManager_Smash : BattleManager_BallGame
         sce.TeamNumber = (int) teamNumber;
         sce.Score = hitTeam.Score;
         sce.MegaScore = hitTeam.MegaScore;
+        sce.IsNewBattle = false;
         sce.Send();
 
         ResetBall();
@@ -170,7 +172,6 @@ public class BattleManager_Smash : BattleManager_BallGame
         pre.PlayerNumber = (int) player.PlayerNumber;
         pre.CostumeType = (int) costumeType;
         pre.Send();
-        player.state.HasRing = true;
 
         switch (player.TeamNumber)
         {
@@ -207,6 +208,7 @@ public class BattleManager_Smash : BattleManager_BallGame
                 sce.TeamNumber = (int) kv.Key;
                 sce.Score = kv.Value.Score;
                 sce.MegaScore = kv.Value.MegaScore;
+                sce.IsNewBattle = true;
                 sce.Send();
             }
         }
