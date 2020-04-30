@@ -9,12 +9,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8871701188780565915}
-  - component: {fileID: 8871701188780565914}
   - component: {fileID: 8871701188780565913}
-  - component: {fileID: 8871701188780565912}
-  - component: {fileID: 8871701188780565916}
   m_Layer: 0
-  m_Name: ScoreRingSingle
+  m_Name: ScoreRingNoCode
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -37,19 +34,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: -52.31, y: 55.73, z: 0}
---- !u!114 &8871701188780565914
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8871701188780565911}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2651de717e6226c41bb1f7619b511421, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Renderer: {fileID: 8871701190450558136}
 --- !u!54 &8871701188780565913
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -66,50 +50,6 @@ Rigidbody:
   m_Interpolate: 1
   m_Constraints: 0
   m_CollisionDetection: 1
---- !u!114 &8871701188780565912
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8871701188780565911}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1d6fbbe64cf4ba84f9e2668f056ac740, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ScoreRing: {fileID: 8871701188780565914}
-  Collider: {fileID: 8871701189731248009}
-  RigidBody: {fileID: 8871701188780565913}
---- !u!114 &8871701188780565916
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8871701188780565911}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -36112512, guid: 5b00bf8b25851d440940a40ec23344f4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _sceneGuid: 
-  _serializerGuid: f96eea46-8b53-4177-bdba-508a84a39bd3
-  _prefabId: 4
-  _updateRate: 1
-  _autoFreezeProxyFrames: 0
-  _clientPredicted: 0
-  _allowInstantiateOnClient: 0
-  _persistThroughSceneLoads: 0
-  _sceneObjectDestroyOnDetach: 1
-  _sceneObjectAutoAttach: 1
-  _alwaysProxy: 0
-  _detachOnDisable: 1
-  _allowFirstReplicationWhenFrozen: 0
-  _autoRemoveChildEntities: 0
-  _entityBehaviourQueryOption: 0
-  _entityPriorityCalculatorQueryOption: 0
-  _entityReplicationFilterQueryOption: 0
 --- !u!1 &8871701188976440044
 GameObject:
   m_ObjectHideFlags: 0
@@ -154,7 +94,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f00cb36ec9a848347badc1e1015cea67, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ScoreRingSingle: {fileID: 8871701188780565912}
+  ScoreRingSingle: {fileID: 0}
 --- !u!135 &1230215524533912280
 SphereCollider:
   m_ObjectHideFlags: 0
