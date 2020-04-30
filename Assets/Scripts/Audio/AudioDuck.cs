@@ -26,6 +26,7 @@ public class AudioDuck : MonoBehaviour
     //FMOD.Studio.EventInstance playerMoveSoundInstance;
     public FMOD.Studio.EventInstance[] playerMoveSoundInstance = new FMOD.Studio.EventInstance[4];
     public FMOD.Studio.EventInstance[] playerQuackSoundInstance = new FMOD.Studio.EventInstance[4];
+    public FMOD.Studio.EventInstance[] playerChargeSoundInstance = new FMOD.Studio.EventInstance[4];
     FMOD.Studio.EventInstance WindInstance;
 
     public static AudioDuck Instance;
@@ -128,6 +129,29 @@ public class AudioDuck : MonoBehaviour
         playerQuackSoundInstance[(int)playernumber].setParameterByName("Team", teamnumber);
         //action == 0 PUSH, action == 1 PULL
         playerQuackSoundInstance[(int)playernumber].setParameterByName("Action", action);
+    }
+
+    public void StartPlayerChargeSound(PlayerNumber playernumber, Transform playerTransform, Rigidbody playerRB)
+    {
+
+        //check to see if we already have a player move sound running (in which case we just update the parameter)
+        if (!playerChargeSoundInstance[(int)playernumber].isValid())
+        {
+
+            //first we make an instance of the sound
+            playerChargeSoundInstance[(int)playernumber] = FMODUnity.RuntimeManager.CreateInstance(DuckCharge);
+            //then attach that to the player object (now it will update position and velocity data)
+            FMODUnity.RuntimeManager.AttachInstanceToGameObject(playerChargeSoundInstance[(int)playernumber], playerTransform, playerRB);
+            //then we start it and release it (release means the instance will be destroyed when playback stops)
+            playerChargeSoundInstance[(int)playernumber].start();
+            playerQuackSoundInstance[(int)playernumber].release();
+
+        }
+    }
+
+    public void StopPlayerChargeSound(PlayerNumber playernumber)
+    {
+        playerChargeSoundInstance[(int)playernumber].stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
     }
 
 
