@@ -88,7 +88,7 @@ public static class PlayerObjectRegistry
 
     static PlayerNumber FindUnusedPlayerNumber()
     {
-        for (int i = 0; i < ConfigManager.MaximalPlayerNumber; i++)
+        for (int i = 0; i < ConfigManager.MaxPlayerNumber_Local; i++)
         {
             PlayerNumber pn = (PlayerNumber) i;
             if (!playerDict.ContainsKey(pn))

@@ -27,6 +27,10 @@ public abstract class BattleManager : MonoBehaviour
 
     public void Initialize()
     {
+        UIManager.Instance.CloseUIForm<PasswordPanel>();
+        UIManager.Instance.CloseUIForm<CreateRoomPanel>();
+        UIManager.Instance.CloseUIForm<LobbyPanel>();
+
         AudioDuck.Instance.StopAllWOCEvents();
         AudioDuck.Instance.PlaySound(AudioDuck.Instance.Sea, gameObject);
         PlayerSpawnPointManager.Init();
@@ -63,7 +67,7 @@ public abstract class BattleManager : MonoBehaviour
                 {
                     if (!GameManager.Instance.Cur_BattleManager || GameManager.Instance.Cur_BattleManager.BattleType != BattleTypes.Prepare)
                     {
-                        GameManager.Instance.SwitchBattle(BattleTypes.Prepare);
+                        GameManager.Instance.SwitchBattle_Server(BattleTypes.Prepare);
                     }
                 }
 
@@ -71,7 +75,7 @@ public abstract class BattleManager : MonoBehaviour
                 {
                     if (!GameManager.Instance.Cur_BattleManager || GameManager.Instance.Cur_BattleManager.BattleType != BattleTypes.FlagRace)
                     {
-                        GameManager.Instance.SwitchBattle(BattleTypes.Smash);
+                        GameManager.Instance.SwitchBattle_Server(BattleTypes.Smash);
                     }
                 }
 
@@ -79,7 +83,7 @@ public abstract class BattleManager : MonoBehaviour
                 {
                     if (!GameManager.Instance.Cur_BattleManager || GameManager.Instance.Cur_BattleManager.BattleType != BattleTypes.FlagRace)
                     {
-                        GameManager.Instance.SwitchBattle(BattleTypes.FlagRace);
+                        GameManager.Instance.SwitchBattle_Server(BattleTypes.FlagRace);
                     }
                 }
             }

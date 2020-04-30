@@ -28,21 +28,29 @@ public class GameManager : MonoSingleton<GameManager>
         Application.targetFrameRate = 60;
         AssignLayers();
         Input.ResetInputAxes();
+        BoltLauncher.StartClient();
+        InvokeRepeating("RepeatUpdateRoomInfo", 0, 2f);
+    }
+
+    void RepeatUpdateRoomInfo()
+    {
+        BoltManager.UpdateCurrentSession();
     }
 
     public void Start()
     {
         DebugPanel = UIManager.Instance.ShowUIForms<DebugPanel>();
         DebugPanel.CloseUIForm();
+        CreateRoomPanel CreateRoomPanel = UIManager.Instance.ShowUIForms<CreateRoomPanel>();
+        CreateRoomPanel.CloseUIForm();
+        PasswordPanel PasswordPanel = UIManager.Instance.ShowUIForms<PasswordPanel>();
+        PasswordPanel.CloseUIForm();
+
+        UIManager.Instance.ShowUIForms<LobbyPanel>();
     }
 
     public void Update()
     {
-        //if (BoltNetwork.IsClient && !BoltNetwork.IsConnected && Cur_BattleManager != null)
-        //{
-        //    SceneManager.LoadScene("BoltMenu");
-        //}
-
         if (BoltNetwork.IsServer)
         {
             if (Input.GetKeyUp(KeyCode.O))
@@ -112,10 +120,10 @@ public class GameManager : MonoSingleton<GameManager>
 
     public DebugPanel DebugPanel;
 
-    public void SwitchBattle(BattleTypes battleType)
+    public void SwitchBattle_Server(BattleTypes battleType)
     {
         Cur_BallBattleManager?.EndBattle_Server();
-        Menu.SwitchScene("Battle_" + battleType);
+        BoltManager.SwitchScene_Server("Battle_" + battleType);
     }
 
     #region Events

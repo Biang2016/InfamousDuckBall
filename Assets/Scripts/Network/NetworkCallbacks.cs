@@ -1,8 +1,11 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
+using System.Linq;
+using Bolt;
+using UdpKit;
 
 [BoltGlobalBehaviour]
-public class NetworkCallbacks : Bolt.GlobalEventListener
+public class NetworkCallbacks : GlobalEventListener
 {
     List<string> logMessages = new List<string>();
 
@@ -21,5 +24,10 @@ public class NetworkCallbacks : Bolt.GlobalEventListener
     public override void OnEvent(LogEvent evnt)
     {
         logMessages.Insert(0, evnt.Message);
+    }
+
+    public override void ConnectRequest(UdpEndPoint endpoint, IProtocolToken token)
+    {
+        BoltManager.ConnectRequest_Server(endpoint, token);
     }
 }

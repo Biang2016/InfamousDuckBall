@@ -58,6 +58,7 @@
 		<type fullname="UnityEngine.Texture2D" preserve="nothing"/>
 		<type fullname="UnityEngine.Sprite" preserve="nothing"/>
 		<type fullname="UnityEngine.CanvasRenderer" preserve="nothing"/>
+		<type fullname="UnityEngine.ComputeShader" preserve="nothing"/>
 		<type fullname="UnityEngine.Cubemap" preserve="nothing"/>
 		<type fullname="UnityEngine.RenderSettings" preserve="nothing"/>
 		<type fullname="UnityEngine.LightProbes" preserve="nothing"/>
@@ -78,11 +79,13 @@
 		<type fullname="BezierPath" preserve="nothing"/>
 		<type fullname="Boat" preserve="nothing"/>
 		<type fullname="Body" preserve="nothing"/>
+		<type fullname="BoltManager" preserve="nothing"/>
 		<type fullname="CameraDepthTextureMode" preserve="nothing"/>
 		<type fullname="ConfigManager" preserve="nothing"/>
 		<type fullname="ConfigRow" preserve="nothing"/>
 		<type fullname="ConfigRows" preserve="nothing"/>
 		<type fullname="CostumeManager" preserve="nothing"/>
+		<type fullname="CreateRoomPanel" preserve="nothing"/>
 		<type fullname="DebugPanel" preserve="nothing"/>
 		<type fullname="Duck" preserve="nothing"/>
 		<type fullname="DuckConfig" preserve="nothing"/>
@@ -99,12 +102,13 @@
 		<type fullname="Goalie" preserve="nothing"/>
 		<type fullname="Head" preserve="nothing"/>
 		<type fullname="HeadModel" preserve="nothing"/>
-		<type fullname="Menu" preserve="nothing"/>
+		<type fullname="LobbyPanel" preserve="nothing"/>
 		<type fullname="MultiControllerManager" preserve="nothing"/>
 		<type fullname="Neck" preserve="nothing"/>
 		<type fullname="NormalsReplacementShader" preserve="nothing"/>
 		<type fullname="NoticeManager" preserve="nothing"/>
 		<type fullname="OnMouseClick" preserve="nothing"/>
+		<type fullname="PasswordPanel" preserve="nothing"/>
 		<type fullname="Player" preserve="nothing"/>
 		<type fullname="PlayerCollider" preserve="nothing"/>
 		<type fullname="PlayerController" preserve="nothing"/>
@@ -114,6 +118,7 @@
 		<type fullname="PrefabManager" preserve="nothing"/>
 		<type fullname="Ring" preserve="nothing"/>
 		<type fullname="RingContainer" preserve="nothing"/>
+		<type fullname="RoomButton" preserve="nothing"/>
 		<type fullname="ScoreRing" preserve="nothing"/>
 		<type fullname="ScoreRingManager" preserve="nothing"/>
 		<type fullname="ScoreRingSingle" preserve="nothing"/>
@@ -133,6 +138,23 @@
 		<type fullname="UnityEngine.InputSystem.InputSystemObject" preserve="nothing"/>
 		<type fullname="UnityEngine.InputSystem.RemoteInputPlayerConnection" preserve="nothing"/>
 	</assembly>
+	<assembly fullname="Unity.Postprocessing.Runtime">
+		<type fullname="UnityEngine.Rendering.PostProcessing.AmbientOcclusion" preserve="nothing"/>
+		<type fullname="UnityEngine.Rendering.PostProcessing.AutoExposure" preserve="nothing"/>
+		<type fullname="UnityEngine.Rendering.PostProcessing.Bloom" preserve="nothing"/>
+		<type fullname="UnityEngine.Rendering.PostProcessing.ChromaticAberration" preserve="nothing"/>
+		<type fullname="UnityEngine.Rendering.PostProcessing.ColorGrading" preserve="nothing"/>
+		<type fullname="UnityEngine.Rendering.PostProcessing.DepthOfField" preserve="nothing"/>
+		<type fullname="UnityEngine.Rendering.PostProcessing.Grain" preserve="nothing"/>
+		<type fullname="UnityEngine.Rendering.PostProcessing.LensDistortion" preserve="nothing"/>
+		<type fullname="UnityEngine.Rendering.PostProcessing.MotionBlur" preserve="nothing"/>
+		<type fullname="UnityEngine.Rendering.PostProcessing.PostProcessLayer" preserve="nothing"/>
+		<type fullname="UnityEngine.Rendering.PostProcessing.PostProcessProfile" preserve="nothing"/>
+		<type fullname="UnityEngine.Rendering.PostProcessing.PostProcessResources" preserve="nothing"/>
+		<type fullname="UnityEngine.Rendering.PostProcessing.PostProcessVolume" preserve="nothing"/>
+		<type fullname="UnityEngine.Rendering.PostProcessing.ScreenSpaceReflections" preserve="nothing"/>
+		<type fullname="UnityEngine.Rendering.PostProcessing.Vignette" preserve="nothing"/>
+	</assembly>
 	<assembly fullname="Unity.TextMeshPro">
 		<type fullname="TMPro.TMP_FontAsset" preserve="nothing"/>
 		<type fullname="TMPro.TMP_Settings" preserve="nothing"/>
@@ -146,9 +168,15 @@
 		<type fullname="UnityEngine.UI.Button" preserve="nothing"/>
 		<type fullname="UnityEngine.UI.CanvasScaler" preserve="nothing"/>
 		<type fullname="UnityEngine.UI.ContentSizeFitter" preserve="nothing"/>
+		<type fullname="UnityEngine.UI.Dropdown" preserve="nothing"/>
 		<type fullname="UnityEngine.UI.GraphicRaycaster" preserve="nothing"/>
 		<type fullname="UnityEngine.UI.HorizontalLayoutGroup" preserve="nothing"/>
 		<type fullname="UnityEngine.UI.Image" preserve="nothing"/>
+		<type fullname="UnityEngine.UI.InputField" preserve="nothing"/>
+		<type fullname="UnityEngine.UI.LayoutElement" preserve="nothing"/>
+		<type fullname="UnityEngine.UI.Mask" preserve="nothing"/>
+		<type fullname="UnityEngine.UI.ScrollRect" preserve="nothing"/>
+		<type fullname="UnityEngine.UI.Scrollbar" preserve="nothing"/>
 		<type fullname="UnityEngine.UI.Slider" preserve="nothing"/>
 		<type fullname="UnityEngine.UI.Text" preserve="nothing"/>
 		<type fullname="UnityEngine.UI.Toggle" preserve="nothing"/>
