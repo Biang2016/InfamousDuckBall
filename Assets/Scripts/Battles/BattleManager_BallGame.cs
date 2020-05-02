@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public abstract class BattleManager_BallGame : BattleManager
 {
@@ -26,7 +25,6 @@ public abstract class BattleManager_BallGame : BattleManager
                 StartBattle_Server();
             }
         }
-
     }
 
     public abstract void StartBattle_Server();

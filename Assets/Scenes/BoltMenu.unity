@@ -283,7 +283,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1127141948}
-  - component: {fileID: 1127141947}
   m_Layer: 0
   m_Name: BoltMenu
   m_TagString: Untagged
@@ -291,18 +290,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1127141947
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1127141946}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9a90121a6fd34229b428bbfefb675440, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!4 &1127141948
 Transform:
   m_ObjectHideFlags: 0
@@ -414,3 +401,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ListenerNumber: -1
+--- !u!1 &1359759079 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5980882138566427482, guid: 776f29a684a9a412eb9b5171aa4742bd,
+    type: 3}
+  m_PrefabInstance: {fileID: 138940673}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1359759080
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1359759079}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a90121a6fd34229b428bbfefb675440, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

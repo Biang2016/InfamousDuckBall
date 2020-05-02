@@ -1,6 +1,5 @@
-﻿using UnityEngine;
-using System.Collections.Generic;
-using Random = UnityEngine.Random;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 public class ScoreRingSingleSpawner : MonoBehaviour
 {

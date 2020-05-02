@@ -11,8 +11,8 @@ using UnityEngine;
 
 public class TCP2_ShaderUpdateUnityTime : MonoBehaviour
 {
-	void LateUpdate()
-	{
-		Shader.SetGlobalFloat("unityTime", Time.time);
-	}
+    void LateUpdate()
+    {
+        Shader.SetGlobalFloat("unityTime", Time.time);
+    }
 }

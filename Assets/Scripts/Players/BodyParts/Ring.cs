@@ -1,5 +1,5 @@
-﻿using UnityEngine;
-using System.Collections;
+﻿using System.Collections;
+using UnityEngine;
 
 public class Ring : ScoreRing
 {
@@ -16,7 +16,7 @@ public class Ring : ScoreRing
 
     public void Update()
     {
-        Anim.SetBool("IsCharging", Duck.Head.HeadStatus==Head.HeadStatusTypes.PushCharging);
+        Anim.SetBool("IsCharging", Duck.Head.HeadStatus == Head.HeadStatusTypes.PushCharging);
     }
 
     public void Kick()

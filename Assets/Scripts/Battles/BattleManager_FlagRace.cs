@@ -1,6 +1,5 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using DG.Tweening;
 using UnityEngine;
 
 public class BattleManager_FlagRace : BattleManager_BallGame
@@ -81,11 +80,8 @@ public class BattleManager_FlagRace : BattleManager_BallGame
             if (!LeftBall)
             {
                 BoltEntity be1 = BoltNetwork.Instantiate(BoltPrefabs.Ball, BallPivot_Left.position, BallPivot_Left.rotation);
-                BallEvent be = BallEvent.Create();
-                be.BallEntity = be1;
-                be.BallName = "FlagRaceBall_Left";
-                be.Send();
                 LeftBall = be1.GetComponent<Ball>();
+                LeftBall.state.BallName = "FlagRaceBall_Left";
                 LeftBall.ResetTransform = BallPivot_Left;
                 BallDefaultPos_Left = LeftBall.transform.position;
             }
@@ -97,11 +93,8 @@ public class BattleManager_FlagRace : BattleManager_BallGame
             if (!RightBall)
             {
                 BoltEntity be1 = BoltNetwork.Instantiate(BoltPrefabs.Ball, BallPivot_Right.position, BallPivot_Right.rotation);
-                BallEvent be = BallEvent.Create();
-                be.BallEntity = be1;
-                be.BallName = "FlagRaceBall_Right";
-                be.Send();
                 RightBall = be1.GetComponent<Ball>();
+                RightBall.state.BallName = "FlagRaceBall_Right";
                 RightBall.ResetTransform = BallPivot_Right;
                 BallDefaultPos_Right = RightBall.transform.position;
             }
@@ -295,7 +288,9 @@ public class BattleManager_FlagRace : BattleManager_BallGame
     {
         if (BoltNetwork.IsServer)
         {
-            BattleEndEvent.Create().Send();
+            BattleEndEvent evnt = BattleEndEvent.Create();
+            evnt.BattleType = (int) BattleTypes.FlagRace;
+            evnt.Send();
             if (LeftBall)
             {
                 LeftBall.StopAllCoroutines();

@@ -2,11 +2,9 @@
 
 public class WaterBob : MonoBehaviour
 {
-    [SerializeField]
-    float height = 0.1f;
+    [SerializeField] float height = 0.1f;
 
-    [SerializeField]
-    float period = 1;
+    [SerializeField] float period = 1;
 
     private Vector3 initialPosition;
     private float offset;

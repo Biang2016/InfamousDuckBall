@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -16,6 +15,7 @@ public class DebugPanel : BaseUIForm
 
     [SerializeField] private Text LevelNameText;
     [SerializeField] private Text StartTipText;
+    [SerializeField] private Text ControlTipText;
 
     public Toggle ConfigRowsToggle;
     public ConfigRows ConfigRows;

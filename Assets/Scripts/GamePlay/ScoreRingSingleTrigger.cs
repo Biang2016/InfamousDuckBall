@@ -1,5 +1,4 @@
-﻿using Bolt;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class ScoreRingSingleTrigger : MonoBehaviour
 {

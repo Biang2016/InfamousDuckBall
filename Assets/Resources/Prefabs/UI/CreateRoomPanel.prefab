@@ -297,7 +297,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 8664657624009739331}
   m_Direction: 2
   m_Value: 0
-  m_Size: 1
+  m_Size: 0.7
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -2076,6 +2076,7 @@ MonoBehaviour:
   VisibleToggle: {fileID: 6537237907696017069}
   BattleTypeDropdown: {fileID: 3073027194696366442}
   ConfirmButton: {fileID: 601108414227303382}
+  CancelButton: {fileID: 3663400714218113099}
   StatusText: {fileID: 5677548387594402100}
 --- !u!1 &6116806849050168334
 GameObject:
@@ -2462,7 +2463,7 @@ MonoBehaviour:
   m_LineType: 0
   m_HideMobileInput: 0
   m_CharacterValidation: 0
-  m_CharacterLimit: 0
+  m_CharacterLimit: 20
   m_OnEndEdit:
     m_PersistentCalls:
       m_Calls: []
@@ -3613,14 +3614,14 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 4905007220637219592}
   m_TextComponent: {fileID: 6525102985009741502}
   m_Placeholder: {fileID: 5868284741591271096}
-  m_ContentType: 0
-  m_InputType: 0
+  m_ContentType: 7
+  m_InputType: 2
   m_AsteriskChar: 42
   m_KeyboardType: 0
   m_LineType: 0
   m_HideMobileInput: 0
   m_CharacterValidation: 0
-  m_CharacterLimit: 0
+  m_CharacterLimit: 20
   m_OnEndEdit:
     m_PersistentCalls:
       m_Calls: []

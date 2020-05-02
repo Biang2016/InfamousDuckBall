@@ -1,12 +1,9 @@
-﻿using UnityEngine;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 public class ConfigManager : MonoSingleton<ConfigManager>
 {
     public static SortedDictionary<BattleTypes, int> BattleMaxPlayerNumberDict = new SortedDictionary<BattleTypes, int>
     {
-        {BattleTypes.Prepare, 4},
         {BattleTypes.Smash, 2},
         {BattleTypes.FlagRace, 4},
     };

@@ -1,10 +1,7 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class AudioDuck : MonoBehaviour
 {
-
     //The audio manager for FMOD is a bit different that standard Unity, but we don't do as much setting volume, pitch, etc (all of that is done in FMOD Studio)
 
     //A lot of the scripting techniques I use come from the Unity Example on FMOD's website: https://www.fmod.com/resources/documentation-unity?version=2.0&page=examples-basic.html
@@ -14,11 +11,12 @@ public class AudioDuck : MonoBehaviour
     [Header("BGM")] [FMODUnity.EventRef] public string BGM;
 
     [Header("Characters")]
-    [FMODUnity.EventRef] public string DuckCharge, DuckFootsteps, DuckGenerateBuoy, DuckQuack, DuckTouchBuoy;
+    [FMODUnity.EventRef]
+    public string DuckCharge, DuckFootsteps, DuckGenerateBuoy, DuckQuack, DuckTouchBuoy;
+
     [FMODUnity.EventRef] public string FishBreath, FishFlapping;
 
-    [Header("SFX")]
-    [FMODUnity.EventRef] public string BuoyInPlace, BuoyPop, Sea, Wind;
+    [Header("SFX")] [FMODUnity.EventRef] public string BuoyInPlace, BuoyPop, Sea, Wind;
 
     FMOD.Studio.Bus MasterBus;
 
@@ -41,11 +39,6 @@ public class AudioDuck : MonoBehaviour
         }
 
         Instance = this;
-
-        DontDestroyOnLoad(gameObject);
-
-        Instance = this;
-
         DontDestroyOnLoad(gameObject);
     }
 
@@ -80,18 +73,17 @@ public class AudioDuck : MonoBehaviour
     //we can attach a sound to an object with a rigidbody, and it will automatically update it's position and velocity
     public void StartPlayerMovementSound(PlayerNumber playernumber, Transform playerTransform, Rigidbody playerRB)
     {
-
         RaycastHit hit;
 
         //check to see if we already have a player move sound running (in which case we just update the parameter)
-        if (!playerMoveSoundInstance[(int)playernumber].isValid())
+        if (!playerMoveSoundInstance[(int) playernumber].isValid())
         {
             if ((Physics.Raycast(playerTransform.position + playerTransform.up, Vector3.down, out hit)))
             {
                 //first we make an instance of the sound
-                playerMoveSoundInstance[(int)playernumber] = FMODUnity.RuntimeManager.CreateInstance(DuckFootsteps);
+                playerMoveSoundInstance[(int) playernumber] = FMODUnity.RuntimeManager.CreateInstance(DuckFootsteps);
                 //then attach that to the player object (now it will update position and velocity data)
-                FMODUnity.RuntimeManager.AttachInstanceToGameObject(playerMoveSoundInstance[(int)playernumber], playerTransform, playerRB);
+                FMODUnity.RuntimeManager.AttachInstanceToGameObject(playerMoveSoundInstance[(int) playernumber], playerTransform, playerRB);
                 //bool a = hit.collider.gameObject.CompareTag("Metal");
                 //if (a)
                 //{
@@ -102,58 +94,50 @@ public class AudioDuck : MonoBehaviour
                 //    playerMoveSoundInstance[(int)teamnumber].setParameterByName("On Metal", 0.0f);
                 //}
                 //then we start it and release it (release means the instance will be destroyed when playback stops)
-                playerMoveSoundInstance[(int)playernumber].start();
-                playerMoveSoundInstance[(int)playernumber].release();
+                playerMoveSoundInstance[(int) playernumber].start();
+                playerMoveSoundInstance[(int) playernumber].release();
             }
-
         }
     }
 
-
-    public void StartPlayerQuackSound(PlayerNumber playernumber,float teamnumber, float action, Transform playerTransform, Rigidbody playerRB)
+    public void StartPlayerQuackSound(PlayerNumber playernumber, float teamnumber, float action, Transform playerTransform, Rigidbody playerRB)
     {
-
         //check to see if we already have a player move sound running (in which case we just update the parameter)
-        if (!playerQuackSoundInstance[(int)playernumber].isValid())
+        if (!playerQuackSoundInstance[(int) playernumber].isValid())
         {
-
-                //first we make an instance of the sound
-                playerQuackSoundInstance[(int)playernumber] = FMODUnity.RuntimeManager.CreateInstance(DuckQuack);
-                //then attach that to the player object (now it will update position and velocity data)
-                FMODUnity.RuntimeManager.AttachInstanceToGameObject(playerQuackSoundInstance[(int)playernumber], playerTransform, playerRB);
-                //then we start it and release it (release means the instance will be destroyed when playback stops)
-                playerQuackSoundInstance[(int)playernumber].start();
-                playerQuackSoundInstance[(int)playernumber].release();
-            
+            //first we make an instance of the sound
+            playerQuackSoundInstance[(int) playernumber] = FMODUnity.RuntimeManager.CreateInstance(DuckQuack);
+            //then attach that to the player object (now it will update position and velocity data)
+            FMODUnity.RuntimeManager.AttachInstanceToGameObject(playerQuackSoundInstance[(int) playernumber], playerTransform, playerRB);
+            //then we start it and release it (release means the instance will be destroyed when playback stops)
+            playerQuackSoundInstance[(int) playernumber].start();
+            playerQuackSoundInstance[(int) playernumber].release();
         }
-        playerQuackSoundInstance[(int)playernumber].setParameterByName("Team", teamnumber);
+
+        playerQuackSoundInstance[(int) playernumber].setParameterByName("Team", teamnumber);
         //action == 0 PUSH, action == 1 PULL
-        playerQuackSoundInstance[(int)playernumber].setParameterByName("Action", action);
+        playerQuackSoundInstance[(int) playernumber].setParameterByName("Action", action);
     }
 
     public void StartPlayerChargeSound(PlayerNumber playernumber, Transform playerTransform, Rigidbody playerRB)
     {
-
         //check to see if we already have a player move sound running (in which case we just update the parameter)
-        if (!playerChargeSoundInstance[(int)playernumber].isValid())
+        if (!playerChargeSoundInstance[(int) playernumber].isValid())
         {
-
             //first we make an instance of the sound
-            playerChargeSoundInstance[(int)playernumber] = FMODUnity.RuntimeManager.CreateInstance(DuckCharge);
+            playerChargeSoundInstance[(int) playernumber] = FMODUnity.RuntimeManager.CreateInstance(DuckCharge);
             //then attach that to the player object (now it will update position and velocity data)
-            FMODUnity.RuntimeManager.AttachInstanceToGameObject(playerChargeSoundInstance[(int)playernumber], playerTransform, playerRB);
+            FMODUnity.RuntimeManager.AttachInstanceToGameObject(playerChargeSoundInstance[(int) playernumber], playerTransform, playerRB);
             //then we start it and release it (release means the instance will be destroyed when playback stops)
-            playerChargeSoundInstance[(int)playernumber].start();
-            playerQuackSoundInstance[(int)playernumber].release();
-
+            playerChargeSoundInstance[(int) playernumber].start();
+            playerQuackSoundInstance[(int) playernumber].release();
         }
     }
 
     public void StopPlayerChargeSound(PlayerNumber playernumber)
     {
-        playerChargeSoundInstance[(int)playernumber].stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
+        playerChargeSoundInstance[(int) playernumber].stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
     }
-
 
     public void StartWind(Transform windTransform, Rigidbody windRB)
     {

@@ -1,5 +1,3 @@
-﻿
-public class GeneralSliderAttached : CameraFaceSliderAttached<GeneralSlider>
+﻿public class GeneralSliderAttached : CameraFaceSliderAttached<GeneralSlider>
 {
-
 }

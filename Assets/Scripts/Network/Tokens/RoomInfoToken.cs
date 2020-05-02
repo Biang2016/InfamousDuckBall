@@ -22,6 +22,7 @@ public class RoomInfoToken : IProtocolToken
         Waiting = 0,
         Full = 1,
         Playing = 2,
+        Closing = 3,
     }
 
     public void Read(UdpPacket packet)

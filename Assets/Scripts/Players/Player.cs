@@ -1,6 +1,4 @@
-using System;
 using System.Collections;
-using System.Collections.Generic;
 using Bolt;
 using UnityEngine;
 
@@ -31,6 +29,18 @@ public class Player : EntityBehaviour<IPlayerState>
         PlayerController.Attached();
         Duck.Attached();
         state.OnUpdateState += OnStateChanged;
+    }
+
+    public override void Detached()
+    {
+        base.Detached();
+        Duck.Detached();
+    }
+
+    public override void ControlGained()
+    {
+        base.ControlGained();
+        Duck.Body.Cur_HeadTargetPosition = Duck.Feet.transform.position + Duck.Feet.transform.forward * DuckConfig.MaxNeckLength;
     }
 
     public void OnStateChanged()

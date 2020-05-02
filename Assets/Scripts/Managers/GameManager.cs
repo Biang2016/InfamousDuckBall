@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -24,12 +22,19 @@ public class GameManager : MonoSingleton<GameManager>
 
     void Awake()
     {
-        DontDestroyOnLoad(gameObject);
-        Application.targetFrameRate = 60;
-        AssignLayers();
-        Input.ResetInputAxes();
-        BoltLauncher.StartClient();
-        InvokeRepeating("RepeatUpdateRoomInfo", 0, 2f);
+        if (instance != null)
+        {
+            DestroyImmediate(gameObject);
+        }
+        else
+        {
+            DontDestroyOnLoad(gameObject);
+            Application.targetFrameRate = 60;
+            AssignLayers();
+            Input.ResetInputAxes();
+            BoltLauncher.StartClient();
+            InvokeRepeating("RepeatUpdateRoomInfo", 0, 2f);
+        }
     }
 
     void RepeatUpdateRoomInfo()
@@ -51,27 +56,32 @@ public class GameManager : MonoSingleton<GameManager>
 
     public void Update()
     {
-        if (BoltNetwork.IsServer)
+        if (Input.GetKeyUp(KeyCode.Escape))
         {
-            if (Input.GetKeyUp(KeyCode.O))
+            if (BoltNetwork.IsServer)
             {
-                GameState.state.DuckConfig.NeckMaxLengthMulti = GameState.state.DuckConfig.NeckMaxLengthMulti + 0.1f;
+                CloseRoomEvent evnt = CloseRoomEvent.Create();
+                evnt.Send();
             }
+            else
+            {
+                ReturnToLobby();
+            }
+        }
+    }
 
-            if (Input.GetKeyUp(KeyCode.P))
-            {
-                GameState.state.DuckConfig.NeckMaxLengthMulti = GameState.state.DuckConfig.NeckMaxLengthMulti - 0.1f;
-            }
-
-            if (Input.GetKeyUp(KeyCode.K))
-            {
-                GameState.state.DuckConfig.MoveSpeedMulti = GameState.state.DuckConfig.MoveSpeedMulti + 0.1f;
-            }
-
-            if (Input.GetKeyUp(KeyCode.L))
-            {
-                GameState.state.DuckConfig.MoveSpeedMulti = GameState.state.DuckConfig.MoveSpeedMulti - 0.1f;
-            }
+    public void ReturnToLobby()
+    {
+        if (Cur_BattleManager)
+        {
+            Cur_BattleManager.IsClosing = true;
+            PlayerObjectRegistry.RemoveAllPlayers();
+            BoltNetwork.ShutdownImmediate();
+            UIManager.instance.ShowUIForms<LobbyPanel>();
+            UIManager.instance.CloseUIForm<DebugPanel>();
+            SceneManager.LoadScene("BoltMenu");
+            BoltLauncher.StartClient();
+            BoltManager.UpdateRoomList(BoltNetwork.SessionList);
         }
     }
 
@@ -119,12 +129,6 @@ public class GameManager : MonoSingleton<GameManager>
     }
 
     public DebugPanel DebugPanel;
-
-    public void SwitchBattle_Server(BattleTypes battleType)
-    {
-        Cur_BallBattleManager?.EndBattle_Server();
-        BoltManager.SwitchScene_Server("Battle_" + battleType);
-    }
 
     #region Events
 

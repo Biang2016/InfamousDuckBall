@@ -1,6 +1,5 @@
-﻿using UnityEngine;
-using System.Collections;
-using Bolt;
+﻿using Bolt;
+using UnityEngine;
 
 public class ScoreRingSingle : EntityBehaviour<IScoreRingSingleState>
 {

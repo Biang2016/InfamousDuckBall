@@ -1,8 +1,4 @@
-﻿using UnityEngine;
-using System.Collections;
-using System.Collections.Generic;
-
-[BoltGlobalBehaviour("Battle_FlagRace")]
+﻿[BoltGlobalBehaviour("Battle_FlagRace")]
 public class Battle_FlagRace_Callbacks : Bolt.GlobalEventListener
 {
     public override void OnEvent(BattleStartEvent evnt)
@@ -43,5 +39,16 @@ public class Battle_FlagRace_Callbacks : Bolt.GlobalEventListener
         {
             AudioDuck.Instance.PlaySound(AudioDuck.Instance.BuoyPop, gameObject);
         }
+    }
+
+    public override void OnEvent(PlayerTeamChangeEvent evnt)
+    {
+        TeamNumber newTeamNumber = (TeamNumber) evnt.TeamNumber;
+        TeamNumber oldTeamNumber = (TeamNumber) evnt.OriTeamNumber;
+        PlayerNumber pn = (PlayerNumber) evnt.PlayerNumber;
+        Player player = GameManager.Instance.Cur_BattleManager.GetPlayer(pn);
+        GameManager.Instance.Cur_BattleManager.TeamDict[oldTeamNumber].TeamPlayers.Remove(player);
+        GameManager.Instance.Cur_BattleManager.TeamDict[newTeamNumber].TeamPlayers.Add(player);
+        player.PlayerCostume.Initialize(pn, newTeamNumber, player.CostumeType);
     }
 }

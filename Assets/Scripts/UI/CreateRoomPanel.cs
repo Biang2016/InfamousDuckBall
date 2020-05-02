@@ -1,5 +1,5 @@
-﻿using UnityEngine;
-using System.Collections;
+﻿using System.Collections;
+using UnityEngine;
 using UnityEngine.UI;
 
 public class CreateRoomPanel : BaseUIForm
@@ -22,6 +22,7 @@ public class CreateRoomPanel : BaseUIForm
     [SerializeField] private Dropdown BattleTypeDropdown;
 
     [SerializeField] private Button ConfirmButton;
+    [SerializeField] private Button CancelButton;
 
     [SerializeField] private Text StatusText;
 
@@ -31,6 +32,7 @@ public class CreateRoomPanel : BaseUIForm
     {
         if (startServerCreateRoomCoroutine != null)
         {
+            StopCoroutine(startServerCreateRoomCoroutine);
             return;
         }
 
@@ -48,7 +50,7 @@ public class CreateRoomPanel : BaseUIForm
     {
         ConfirmButton.interactable = false;
 
-        if (BoltNetwork.IsRunning && BoltNetwork.IsClient)
+        if (BoltNetwork.IsRunning)
         {
             BoltNetwork.Shutdown();
             StatusText.text = "Switching to server mode ...";
@@ -62,18 +64,44 @@ public class CreateRoomPanel : BaseUIForm
         BoltManager.OnBoltStartDone_Server = delegate
         {
             BoltManager.StartServerSession(
-                (BattleTypes) (BattleTypeDropdown.value + 1),
+                (BattleTypes) (BattleTypeDropdown.value),
                 roomName: RoomNameInput.text,
+                PasswordToggle.isOn,
                 password: PasswordInput.text.EncodeSHA512(),
                 visible: VisibleToggle.isOn);
         };
 
         StatusText.text = "Preparing the boat ...";
         BoltLauncher.StartServer();
-        yield return new WaitForSeconds(1f);
-        startServerCreateRoomCoroutine = null;
-        ConfirmButton.interactable = true;
-        StatusText.text = "Ready..";
+
+        float tick = 0f;
+        while (!BoltNetwork.IsRunning)
+        {
+            tick += 0.2f;
+            yield return new WaitForSeconds(0.2f);
+
+            if (tick > 5f)
+            {
+                NoticeManager.Instance.ShowInfoPanelCenter("Create room timeout", 0f, 1f);
+                break;
+            }
+        }
+
+        if (BoltNetwork.IsRunning && BoltNetwork.IsServer)
+        {
+            startServerCreateRoomCoroutine = null;
+            ConfirmButton.interactable = false;
+            CancelButton.interactable = false;
+            StatusText.text = "Ready..";
+        }
+        else
+        {
+            startServerCreateRoomCoroutine = null;
+            ConfirmButton.interactable = true;
+            CancelButton.interactable = true;
+            StatusText.text = "";
+            CloseUIForm();
+        }
     }
 
     public void CancelButtonClick()
@@ -98,12 +126,16 @@ public class CreateRoomPanel : BaseUIForm
     public override void Display()
     {
         StatusText.text = "";
+        ConfirmButton.interactable = true;
+        CancelButton.interactable = true;
         base.Display();
     }
 
     public override void Hide()
     {
         StatusText.text = "";
+        ConfirmButton.interactable = true;
+        CancelButton.interactable = true;
         base.Hide();
     }
 }

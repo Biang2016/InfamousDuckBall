@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using UnityEngine.Events;
 using UnityEngine.UI;
 
 public class RoomButton : PoolObject
@@ -42,6 +41,11 @@ public class RoomButton : PoolObject
             case RoomInfoToken.Status.Playing:
             {
                 StatusText.color = Color.red;
+                break;
+            }
+            case RoomInfoToken.Status.Closing:
+            {
+                StatusText.color = Color.gray;
                 break;
             }
         }

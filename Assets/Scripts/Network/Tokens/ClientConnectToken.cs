@@ -2,7 +2,7 @@
 using Bolt;
 using UdpKit;
 
-class ClientConnectToken : IProtocolToken
+internal class ClientConnectToken : IProtocolToken
 {
     public string UserName;
 

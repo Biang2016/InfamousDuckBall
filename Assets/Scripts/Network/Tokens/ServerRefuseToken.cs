@@ -2,7 +2,7 @@
 using Bolt;
 using UdpKit;
 
-class ServerRefuseToken : IProtocolToken
+internal class ServerRefuseToken : IProtocolToken
 {
     public string Message;
 

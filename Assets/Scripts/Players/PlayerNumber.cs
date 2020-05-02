@@ -6,6 +6,7 @@ public enum PlayerNumber
     Player4 = 3,
     Player5 = 4,
     AnyPlayer = 16,
+
     // AI = 99,
     None = 100,
 }

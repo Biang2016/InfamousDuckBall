@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using DG.Tweening;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 public abstract class BattleManager : MonoBehaviour
@@ -39,6 +36,7 @@ public abstract class BattleManager : MonoBehaviour
         TeamDict.Add(TeamNumber.Team1, new Team(TeamNumber.Team1));
         TeamDict.Add(TeamNumber.Team2, new Team(TeamNumber.Team2));
 
+        GameManager.Instance.DebugPanel.ConfigRows.Initialize();
         GameManager.Instance.DebugPanel.RefreshLevelName();
         Player[] players = FindObjectsOfType<Player>();
         foreach (Player player in players)
@@ -47,6 +45,7 @@ public abstract class BattleManager : MonoBehaviour
             {
                 player.state.UpdateState();
             }
+
             AddPlayer(player);
         }
 
@@ -56,40 +55,25 @@ public abstract class BattleManager : MonoBehaviour
     public abstract void Child_Initialize();
 
     public bool IsStart = false;
+    public bool IsClosing = false;
 
     protected virtual void Update()
     {
-        if (BoltNetwork.IsServer)
+        GameManager.Instance.DebugPanel.ConfigRows.Refresh();
+
+#if DEBUG
+        if (Input.GetKeyUp(KeyCode.F1))
         {
-            if (!IsStart)
+            if (UIManager.Instance.GetBaseUIForm<DebugPanel>().IsShown)
             {
-                if (Input.GetKeyUp(KeyCode.F4))
-                {
-                    if (!GameManager.Instance.Cur_BattleManager || GameManager.Instance.Cur_BattleManager.BattleType != BattleTypes.Prepare)
-                    {
-                        GameManager.Instance.SwitchBattle_Server(BattleTypes.Prepare);
-                    }
-                }
-
-                if (Input.GetKeyUp(KeyCode.F5))
-                {
-                    if (!GameManager.Instance.Cur_BattleManager || GameManager.Instance.Cur_BattleManager.BattleType != BattleTypes.FlagRace)
-                    {
-                        GameManager.Instance.SwitchBattle_Server(BattleTypes.Smash);
-                    }
-                }
-
-                if (Input.GetKeyUp(KeyCode.F6))
-                {
-                    if (!GameManager.Instance.Cur_BattleManager || GameManager.Instance.Cur_BattleManager.BattleType != BattleTypes.FlagRace)
-                    {
-                        GameManager.Instance.SwitchBattle_Server(BattleTypes.FlagRace);
-                    }
-                }
+                UIManager.Instance.CloseUIForm<DebugPanel>();
+            }
+            else
+            {
+                UIManager.Instance.ShowUIForms<DebugPanel>();
             }
         }
-
-        GameManager.Instance.DebugPanel.ConfigRows.Refresh();
+#endif
     }
 
     #region Players
@@ -152,24 +136,6 @@ public abstract class BattleManager : MonoBehaviour
                 pre.Send();
             }
         }
-    }
-
-    public SortedDictionary<BoltConnection, PlayerInfoData> GetAllPlayerInfoData()
-    {
-        SortedDictionary<BoltConnection, PlayerInfoData> res = new SortedDictionary<BoltConnection, PlayerInfoData>();
-        foreach (KeyValuePair<PlayerNumber, Player> kv in PlayerDict)
-        {
-            if (kv.Value.entity.IsOwner)
-            {
-                res.Add(BoltNetwork.Server, kv.Value.GetPlayerInfoDate());
-            }
-            else
-            {
-                res.Add(kv.Value.entity.Controller, kv.Value.GetPlayerInfoDate());
-            }
-        }
-
-        return res;
     }
 
     #endregion

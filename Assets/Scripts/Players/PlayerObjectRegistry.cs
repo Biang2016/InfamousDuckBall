@@ -1,6 +1,4 @@
-using System;
 using System.Collections.Generic;
-using UnityEngine;
 
 public static class PlayerObjectRegistry
 {
@@ -35,16 +33,45 @@ public static class PlayerObjectRegistry
         playerDict.Add(playerInfoData.PlayerNumber, player);
     }
 
-    // this simply returns the 'players' list cast to
-    // an IEnumerable<T> so that we hide the ability
-    // to modify the player list from the outside.
-    public static IEnumerable<PlayerObject> AllPlayers
+    public static void RemoveAllPlayers()
     {
-        get { return playerDict.Values; }
+        if (BoltNetwork.IsServer)
+        {
+            foreach (KeyValuePair<PlayerNumber, PlayerObject> kv in playerDict)
+            {
+                BoltNetwork.Destroy(kv.Value.Player.gameObject);
+            }
+        }
+
+        playerDict.Clear();
+        MyPlayer = null;
     }
 
-    // finds the server player by checking the
-    // .IsServer property for every player object.
+    public static void RemovePlayer(BoltConnection connection)
+    {
+        PlayerObject player = null;
+        foreach (KeyValuePair<PlayerNumber, PlayerObject> kv in playerDict)
+        {
+            if (kv.Value.Connection == null)
+            {
+                player = kv.Value;
+            }
+            else
+            {
+                if (kv.Value.Connection.ConnectionId == connection.ConnectionId)
+                {
+                    player = kv.Value;
+                }
+            }
+        }
+
+        if (player != null)
+        {
+            playerDict.Remove(player.PlayerNumber);
+            BoltNetwork.Destroy(player.Player.gameObject);
+        }
+    }
+
     public static PlayerObject ServerPlayer
     {
         get

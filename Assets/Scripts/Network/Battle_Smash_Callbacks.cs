@@ -1,8 +1,4 @@
-﻿using UnityEngine;
-using System.Collections;
-using System.Collections.Generic;
-
-[BoltGlobalBehaviour("Battle_Smash")]
+﻿[BoltGlobalBehaviour("Battle_Smash")]
 public class Battle_Smash_Callbacks : Bolt.GlobalEventListener
 {
     public override void OnEvent(BattleStartEvent evnt)

@@ -1,5 +1,5 @@
-﻿using UnityEngine;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using UnityEngine;
 using UnityEngine.UI;
 
 public class LobbyPanel : BaseUIForm
@@ -14,7 +14,7 @@ public class LobbyPanel : BaseUIForm
             uiForms_ShowMode: UIFormShowModes.Normal,
             uiForm_LucencyType: UIFormLucencyTypes.ImPenetrable);
 
-        BoltManager.RefreshRoomList = RefreshRoomList;
+        BoltManager.RefreshRoomListInUI = RefreshRoomList;
     }
 
     [SerializeField] private Transform RoomListContainer;
@@ -44,5 +44,21 @@ public class LobbyPanel : BaseUIForm
     public void CreateRoom()
     {
         UIManager.Instance.ShowUIForms<CreateRoomPanel>();
+    }
+
+    void Start()
+    {
+        InvokeRepeating("RefreshButtonClick", 0f, 3f);
+    }
+
+    public override void Display()
+    {
+        base.Display();
+        RefreshButtonClick();
+    }
+
+    public void RefreshButtonClick()
+    {
+        BoltManager.UpdateRoomList(BoltNetwork.SessionList);
     }
 }

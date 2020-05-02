@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 8871701188780565912}
   - component: {fileID: 8871701188780565916}
   m_Layer: 0
-  m_Name: ScoreRingSingle
+  m_Name: ScoreRingNoCode
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -95,7 +95,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _sceneGuid: 
   _serializerGuid: f96eea46-8b53-4177-bdba-508a84a39bd3
-  _prefabId: 4
+  _prefabId: 3
   _updateRate: 1
   _autoFreezeProxyFrames: 0
   _clientPredicted: 0

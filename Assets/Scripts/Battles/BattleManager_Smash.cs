@@ -1,6 +1,5 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using DG.Tweening;
 using UnityEngine;
 
 public class BattleManager_Smash : BattleManager_BallGame
@@ -68,11 +67,8 @@ public class BattleManager_Smash : BattleManager_BallGame
             if (!Ball)
             {
                 BoltEntity be1 = BoltNetwork.Instantiate(BoltPrefabs.Ball, BallPivot.position, BallPivot.rotation);
-                BallEvent be = BallEvent.Create();
-                be.BallEntity = be1;
-                be.BallName = "SmashBall";
-                be.Send();
                 Ball = be1.GetComponent<Ball>();
+                Ball.state.BallName = "SmashBall";
                 Ball.ResetTransform = BallPivot;
                 BallDefaultPos = Ball.transform.position;
             }
@@ -193,7 +189,9 @@ public class BattleManager_Smash : BattleManager_BallGame
     {
         if (BoltNetwork.IsServer)
         {
-            BattleEndEvent.Create().Send();
+            BattleEndEvent evnt = BattleEndEvent.Create();
+            evnt.BattleType = (int) BattleTypes.Smash;
+            evnt.Send();
             if (Ball)
             {
                 BoltNetwork.Destroy(Ball.gameObject);

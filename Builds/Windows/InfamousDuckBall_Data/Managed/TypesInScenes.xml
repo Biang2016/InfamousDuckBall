@@ -58,7 +58,6 @@
 		<type fullname="UnityEngine.Texture2D" preserve="nothing"/>
 		<type fullname="UnityEngine.Sprite" preserve="nothing"/>
 		<type fullname="UnityEngine.CanvasRenderer" preserve="nothing"/>
-		<type fullname="UnityEngine.ComputeShader" preserve="nothing"/>
 		<type fullname="UnityEngine.Cubemap" preserve="nothing"/>
 		<type fullname="UnityEngine.RenderSettings" preserve="nothing"/>
 		<type fullname="UnityEngine.LightProbes" preserve="nothing"/>
@@ -73,7 +72,6 @@
 		<type fullname="Ball" preserve="nothing"/>
 		<type fullname="BallValidZone" preserve="nothing"/>
 		<type fullname="BattleManager_FlagRace" preserve="nothing"/>
-		<type fullname="BattleManager_Prepare" preserve="nothing"/>
 		<type fullname="BattleManager_Smash" preserve="nothing"/>
 		<type fullname="BezierCurve" preserve="nothing"/>
 		<type fullname="BezierPath" preserve="nothing"/>
@@ -137,23 +135,6 @@
 		<type fullname="UnityEngine.InputSystem.InputSettings" preserve="nothing"/>
 		<type fullname="UnityEngine.InputSystem.InputSystemObject" preserve="nothing"/>
 		<type fullname="UnityEngine.InputSystem.RemoteInputPlayerConnection" preserve="nothing"/>
-	</assembly>
-	<assembly fullname="Unity.Postprocessing.Runtime">
-		<type fullname="UnityEngine.Rendering.PostProcessing.AmbientOcclusion" preserve="nothing"/>
-		<type fullname="UnityEngine.Rendering.PostProcessing.AutoExposure" preserve="nothing"/>
-		<type fullname="UnityEngine.Rendering.PostProcessing.Bloom" preserve="nothing"/>
-		<type fullname="UnityEngine.Rendering.PostProcessing.ChromaticAberration" preserve="nothing"/>
-		<type fullname="UnityEngine.Rendering.PostProcessing.ColorGrading" preserve="nothing"/>
-		<type fullname="UnityEngine.Rendering.PostProcessing.DepthOfField" preserve="nothing"/>
-		<type fullname="UnityEngine.Rendering.PostProcessing.Grain" preserve="nothing"/>
-		<type fullname="UnityEngine.Rendering.PostProcessing.LensDistortion" preserve="nothing"/>
-		<type fullname="UnityEngine.Rendering.PostProcessing.MotionBlur" preserve="nothing"/>
-		<type fullname="UnityEngine.Rendering.PostProcessing.PostProcessLayer" preserve="nothing"/>
-		<type fullname="UnityEngine.Rendering.PostProcessing.PostProcessProfile" preserve="nothing"/>
-		<type fullname="UnityEngine.Rendering.PostProcessing.PostProcessResources" preserve="nothing"/>
-		<type fullname="UnityEngine.Rendering.PostProcessing.PostProcessVolume" preserve="nothing"/>
-		<type fullname="UnityEngine.Rendering.PostProcessing.ScreenSpaceReflections" preserve="nothing"/>
-		<type fullname="UnityEngine.Rendering.PostProcessing.Vignette" preserve="nothing"/>
 	</assembly>
 	<assembly fullname="Unity.TextMeshPro">
 		<type fullname="TMPro.TMP_FontAsset" preserve="nothing"/>

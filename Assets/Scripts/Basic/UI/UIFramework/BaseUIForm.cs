@@ -5,7 +5,7 @@ public class BaseUIForm : MonoBehaviour
 {
     public UIType UIType = new UIType();
 
-    #region  窗体的四种(生命周期)状态
+    #region 窗体的四种(生命周期)状态
 
     private bool closeFlag = false;
 
@@ -54,14 +54,20 @@ public class BaseUIForm : MonoBehaviour
     {
     }
 
+    public bool IsShown => isShown;
+
+    private bool isShown;
+
     public virtual void Display()
     {
+        isShown = true;
         gameObject.SetActive(true);
         UIMaskMgr.Instance.SetMaskWindow(gameObject, UIType.UIForms_Type, UIType.UIForm_LucencyType);
     }
 
     public virtual void Hide()
     {
+        isShown = false;
         gameObject.SetActive(false);
         UIMaskMgr.Instance.CancelAllMaskWindow(UIType.UIForm_LucencyType);
     }

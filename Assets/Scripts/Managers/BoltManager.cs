@@ -1,11 +1,11 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using UnityEngine;
 using Bolt;
 using Bolt.Matchmaking;
 using Bolt.Utils;
 using UdpKit;
+using UnityEngine;
 using UnityEngine.Events;
 
 public class BoltManager : GlobalEventListener
@@ -36,6 +36,17 @@ public class BoltManager : GlobalEventListener
     {
         if (BoltNetwork.IsServer)
         {
+            if (GameManager.Instance.Cur_BallBattleManager != null)
+            {
+                if (GameManager.Instance.Cur_BallBattleManager.IsStart)
+                {
+                    ServerRefuseToken srt = new ServerRefuseToken();
+                    srt.Message = "The game has begun.";
+                    BoltNetwork.Refuse(endpoint, srt);
+                    return;
+                }
+            }
+
             if (cur_ServerRoomInfo != null)
             {
                 if (cur_ServerRoomInfo.Max_PlayerNumber <= BoltNetwork.Connections.ToList().Count + 1)
@@ -43,18 +54,21 @@ public class BoltManager : GlobalEventListener
                     ServerRefuseToken srt = new ServerRefuseToken();
                     srt.Message = "The room is full";
                     BoltNetwork.Refuse(endpoint, srt);
+                    return;
                 }
                 else
                 {
                     if (token is ClientConnectToken cct)
                     {
                         BoltNetwork.Accept(endpoint);
+                        return;
                     }
                     else
                     {
                         ServerRefuseToken srt = new ServerRefuseToken();
                         srt.Message = "Wrong protocol";
                         BoltNetwork.Refuse(endpoint, srt);
+                        return;
                     }
                 }
             }
@@ -63,6 +77,7 @@ public class BoltManager : GlobalEventListener
                 ServerRefuseToken srt = new ServerRefuseToken();
                 srt.Message = "Errors in this room";
                 BoltNetwork.Refuse(endpoint, srt);
+                return;
             }
         }
     }
@@ -75,7 +90,7 @@ public class BoltManager : GlobalEventListener
     public static UnityAction OnBoltStartDone_Server;
     private static RoomInfoToken cur_ServerRoomInfo;
 
-    public static void StartServerSession(BattleTypes battleType, string roomName, string password, bool visible)
+    public static void StartServerSession(BattleTypes battleType, string roomName, bool hasPassword, string password, bool visible)
     {
         if (BoltNetwork.IsServer)
         {
@@ -87,13 +102,13 @@ public class BoltManager : GlobalEventListener
             cur_ServerRoomInfo.Cur_PlayerNumber = 1;
             cur_ServerRoomInfo.M_Status = RoomInfoToken.Status.Waiting;
             cur_ServerRoomInfo.Max_PlayerNumber = ConfigManager.BattleMaxPlayerNumberDict[battleType];
-            cur_ServerRoomInfo.HasPassword = !string.IsNullOrWhiteSpace(password);
+            cur_ServerRoomInfo.HasPassword = hasPassword;
             cur_ServerRoomInfo.Password = password;
 
             // TODO game name existed bug
             BoltMatchmaking.CreateSession(
                 sessionID: roomName,
-                sceneToLoad: "Battle_Prepare",
+                sceneToLoad: "Battle_" + battleType,
                 token: cur_ServerRoomInfo
             );
         }
@@ -104,28 +119,28 @@ public class BoltManager : GlobalEventListener
         if (BoltNetwork.IsRunning && BoltNetwork.IsServer && cur_ServerRoomInfo != null)
         {
             cur_ServerRoomInfo.Cur_PlayerNumber = BoltNetwork.Clients.ToList().Count + 1;
-            if (!GameManager.Instance.Cur_BattleManager)
+            if (GameManager.Instance.Cur_BattleManager)
             {
-                cur_ServerRoomInfo.M_Status = RoomInfoToken.Status.Waiting;
-            }
-            else
-            {
-                switch (GameManager.Instance.Cur_BattleManager.BattleType)
+                if (GameManager.Instance.Cur_BattleManager.IsClosing)
                 {
-                    case BattleTypes.Prepare:
-                    {
-                        cur_ServerRoomInfo.M_Status = RoomInfoToken.Status.Waiting;
-                        break;
-                    }
-                    case BattleTypes.Smash:
-                    {
-                        cur_ServerRoomInfo.M_Status = RoomInfoToken.Status.Playing;
-                        break;
-                    }
-                    case BattleTypes.FlagRace:
+                    cur_ServerRoomInfo.M_Status = RoomInfoToken.Status.Closing;
+                }
+                else
+                {
+                    if (GameManager.Instance.Cur_BattleManager.IsStart)
                     {
                         cur_ServerRoomInfo.M_Status = RoomInfoToken.Status.Playing;
-                        break;
+                    }
+                    else
+                    {
+                        if (cur_ServerRoomInfo.Cur_PlayerNumber == cur_ServerRoomInfo.Max_PlayerNumber)
+                        {
+                            cur_ServerRoomInfo.M_Status = RoomInfoToken.Status.Full;
+                        }
+                        else
+                        {
+                            cur_ServerRoomInfo.M_Status = RoomInfoToken.Status.Waiting;
+                        }
                     }
                 }
             }
@@ -136,13 +151,21 @@ public class BoltManager : GlobalEventListener
 
     #endregion
 
+    void Update()
+    {
+        if (BoltNetwork.IsRunning && BoltNetwork.IsClient)
+        {
+
+        }
+    }
+
     #region Client
 
     public static UnityAction OnBoltStartDone_Client;
 
     private UnityAction OnConnectedAction;
 
-    private void TryConnect(UdpSession session, string userName)
+    private static void TryConnect(UdpSession session, string userName)
     {
         if (BoltNetwork.IsRunning && BoltNetwork.IsClient)
         {
@@ -190,9 +213,14 @@ public class BoltManager : GlobalEventListener
         }
     }
 
-    public static UnityAction<List<RoomInfoToken>> RefreshRoomList;
+    public static UnityAction<List<RoomInfoToken>> RefreshRoomListInUI;
 
     public override void SessionListUpdated(Map<Guid, UdpSession> sessionList)
+    {
+        UpdateRoomList(sessionList);
+    }
+
+    public static void UpdateRoomList(Map<Guid, UdpSession> sessionList)
     {
         Debug.LogFormat("Session list updated: {0} total sessions", sessionList.Count);
         List<RoomInfoToken> roomInfos = new List<RoomInfoToken>();
@@ -200,36 +228,52 @@ public class BoltManager : GlobalEventListener
         {
             if (kv.Value.Source == UdpSessionSource.Photon)
             {
-                RoomInfoToken ri = (RoomInfoToken) kv.Value.GetProtocolToken();
+                RoomInfoToken ri = (RoomInfoToken)kv.Value.GetProtocolToken();
 
                 ri.OnRoomButtonClick = delegate
                 {
-                    if (ri.Cur_PlayerNumber < ri.Max_PlayerNumber)
+                    switch (ri.M_Status)
                     {
-                        if (ri.HasPassword)
-                        {
-                            PasswordPanel pp = UIManager.Instance.ShowUIForms<PasswordPanel>();
-                            pp.ConfirmButton.onClick.RemoveAllListeners();
-                            pp.ConfirmButton.onClick.AddListener(delegate
+                        case RoomInfoToken.Status.Playing:
                             {
-                                if (ri.Password == pp.PasswordInputField.text.EncodeSHA512())
+                                NoticeManager.Instance.ShowInfoPanelCenter("The game has begun", 0f, 1f);
+                                break;
+                            }
+                        case RoomInfoToken.Status.Full:
+                            {
+                                NoticeManager.Instance.ShowInfoPanelCenter("The room is full", 0f, 1f);
+                                break;
+                            }
+                        case RoomInfoToken.Status.Closing:
+                            {
+                                NoticeManager.Instance.ShowInfoPanelCenter("The game has closed", 0f, 1f);
+                                break;
+                            }
+                        case RoomInfoToken.Status.Waiting:
+                            {
+                                if (ri.HasPassword)
                                 {
-                                    TryConnect(kv.Value, "NewUser");
+                                    PasswordPanel pp = UIManager.Instance.ShowUIForms<PasswordPanel>();
+                                    pp.ConfirmButton.onClick.RemoveAllListeners();
+                                    pp.ConfirmButton.onClick.AddListener(delegate
+                                    {
+                                        if (ri.Password == pp.PasswordInputField.text.EncodeSHA512())
+                                        {
+                                            TryConnect(kv.Value, "NewUser");
+                                        }
+                                        else
+                                        {
+                                            NoticeManager.Instance.ShowInfoPanelCenter("Wrong password", 0f, 1f);
+                                        }
+                                    });
                                 }
                                 else
                                 {
-                                    NoticeManager.Instance.ShowInfoPanelCenter("Wrong password", 0f, 1f);
+                                    TryConnect(kv.Value, "NewUser");
                                 }
-                            });
-                        }
-                        else
-                        {
-                            TryConnect(kv.Value, "NewUser");
-                        }
-                    }
-                    else
-                    {
-                        NoticeManager.Instance.ShowInfoPanelCenter("The room is full", 0f, 1f);
+
+                                break;
+                            }
                     }
                 };
 
@@ -240,7 +284,7 @@ public class BoltManager : GlobalEventListener
             }
         }
 
-        RefreshRoomList?.Invoke(roomInfos);
+        RefreshRoomListInUI?.Invoke(roomInfos);
     }
 
     #endregion

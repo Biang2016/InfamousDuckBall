@@ -313,7 +313,7 @@ public class AudioManager : MonoSingleton<AudioManager>
 
     #endregion
 
-    #region  音效
+    #region 音效
 
     private void PlayClip(AudioClip audioClip, float volume = 1f, string name = null)
     {

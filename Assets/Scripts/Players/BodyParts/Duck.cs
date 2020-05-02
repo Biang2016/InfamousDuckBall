@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using System.Collections;
 
 public class Duck : MonoBehaviour
 {
@@ -27,6 +26,13 @@ public class Duck : MonoBehaviour
         Ring.Attached();
         SunGlasses.Attached();
         PlayerCostume.Attached();
+    }
+
+    public void Detached()
+    {
+        Ring.StopAllCoroutines();
+        Body.StopAllCoroutines();
+        StopAllCoroutines();
     }
 
     public void Initialize()

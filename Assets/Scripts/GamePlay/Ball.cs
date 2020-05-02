@@ -28,6 +28,7 @@ public class Ball : EntityEventListener<IBallState>
             if (srs)
             {
                 srs.Explode(true);
+                KickedFly();
             }
         }
     }
@@ -35,6 +36,42 @@ public class Ball : EntityEventListener<IBallState>
     public override void Attached()
     {
         state.SetTransforms(state.Transform, transform);
+    }
+
+    void Update()
+    {
+        if (GameManager.Instance.Cur_BattleManager != null)
+        {
+            if (GameManager.Instance.Cur_BattleManager is BattleManager_Smash smash)
+            {
+                if (smash.Ball == null)
+                {
+                    if (state.BallName == "FlagRaceBall_Left")
+                    {
+                        smash.Ball = this;
+                    }
+                }
+            }
+
+            if (GameManager.Instance.Cur_BattleManager is BattleManager_FlagRace flagRace)
+            {
+                if (flagRace.LeftBall == null)
+                {
+                    if (state.BallName == "FlagRaceBall_Left")
+                    {
+                        flagRace.LeftBall = this;
+                    }
+                }
+
+                if (flagRace.RightBall == null)
+                {
+                    if (state.BallName == "FlagRaceBall_Right")
+                    {
+                        flagRace.RightBall = this;
+                    }
+                }
+            }
+        }
     }
 
     public void KickedFly()

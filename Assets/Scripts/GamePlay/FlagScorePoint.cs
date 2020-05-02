@@ -1,6 +1,4 @@
 ﻿using UnityEngine;
-using System.Collections;
-using Bolt;
 
 public class FlagScorePoint : MonoBehaviour
 {

@@ -1,8 +1,7 @@
-﻿using UnityEngine;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using Bolt;
 using UdpKit;
+using UnityEngine;
 
 [BoltGlobalBehaviour]
 public class NetworkCallbacks : GlobalEventListener
