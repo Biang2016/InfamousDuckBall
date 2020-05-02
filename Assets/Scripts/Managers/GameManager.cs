@@ -54,7 +54,6 @@ public class GameManager : MonoSingleton<GameManager>
         PasswordPanel.CloseUIForm();
 
         BoatMenu.BoatMoveIn();
-        //UIManager.Instance.ShowUIForms<LobbyPanel>();
     }
 
     public void Update()

@@ -19,10 +19,11 @@ public class CreateRoomPanel : BaseUIForm
     [SerializeField] private Toggle PasswordToggle;
     [SerializeField] private InputField PasswordInput;
     [SerializeField] private Toggle VisibleToggle;
-    [SerializeField] private Dropdown BattleTypeDropdown;
 
     [SerializeField] private Button ConfirmButton;
     [SerializeField] private Button CancelButton;
+    [SerializeField] private Button Button_1V1;
+    [SerializeField] private Button Button_2V2;
 
     [SerializeField] private Text StatusText;
 
@@ -42,7 +43,7 @@ public class CreateRoomPanel : BaseUIForm
         }
         else
         {
-            NoticeManager.Instance.ShowInfoPanelCenter("Invalid room name", 0f, 1f);
+            NoticeManager.Instance.ShowInfoPanelCenter("Invalid room name", 0f, 0.5f);
         }
     }
 
@@ -64,7 +65,7 @@ public class CreateRoomPanel : BaseUIForm
         BoltManager.OnBoltStartDone_Server = delegate
         {
             BoltManager.StartServerSession(
-                (BattleTypes) (BattleTypeDropdown.value),
+                CurrentSelectedBattleType,
                 roomName: RoomNameInput.text,
                 PasswordToggle.isOn,
                 password: PasswordInput.text.EncodeSHA512(),
@@ -82,7 +83,7 @@ public class CreateRoomPanel : BaseUIForm
 
             if (tick > 5f)
             {
-                NoticeManager.Instance.ShowInfoPanelCenter("Create room timeout", 0f, 1f);
+                NoticeManager.Instance.ShowInfoPanelCenter("Create room timeout", 0f, 0.5f);
                 break;
             }
         }
@@ -123,11 +124,42 @@ public class CreateRoomPanel : BaseUIForm
         CloseUIForm();
     }
 
+    private BattleTypes CurrentSelectedBattleType = BattleTypes.FlagRace;
+
+    public void OnButton1V1Click()
+    {
+        Button_1V1.image.color = Color.white;
+        Button_1V1.transform.localScale = Vector3.one;
+        Button_1V1.interactable = false;
+
+        Button_2V2.image.color = ClientUtils.HTMLColorToColor("#B0B0B0");
+        Button_2V2.transform.localScale = Vector3.one * 0.7f;
+        Button_2V2.interactable = true;
+
+        CurrentSelectedBattleType = BattleTypes.Smash;
+    }
+
+    public void OnButton2V2Click()
+    {
+        Button_1V1.image.color = ClientUtils.HTMLColorToColor("#B0B0B0");
+        Button_1V1.transform.localScale = Vector3.one * 0.7f;
+        Button_1V1.interactable = true;
+
+        Button_2V2.image.color = Color.white;
+        Button_2V2.transform.localScale = Vector3.one;
+        Button_2V2.interactable = false;
+
+        CurrentSelectedBattleType = BattleTypes.FlagRace;
+    }
+
     public override void Display()
     {
         StatusText.text = "";
         ConfirmButton.interactable = true;
         CancelButton.interactable = true;
+
+        OnButton2V2Click();
+
         base.Display();
     }
 

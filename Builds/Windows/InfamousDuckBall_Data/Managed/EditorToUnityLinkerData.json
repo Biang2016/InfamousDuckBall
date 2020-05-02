@@ -1263,13 +1263,6 @@
         {
             "managedAssemblyName": "UnityEngine.UI.dll",
             "nativeClass": "",
-            "fullManagedTypeName": "UnityEngine.UI.Dropdown",
-            "moduleName": "",
-            "usedInScenes": []
-        },
-        {
-            "managedAssemblyName": "UnityEngine.UI.dll",
-            "nativeClass": "",
             "fullManagedTypeName": "UnityEngine.UI.GraphicRaycaster",
             "moduleName": "",
             "usedInScenes": []

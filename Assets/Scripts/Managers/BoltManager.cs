@@ -191,7 +191,7 @@ public class BoltManager : GlobalEventListener
         base.ConnectRefused(endpoint, token);
         if (BoltNetwork.IsClient)
         {
-            NoticeManager.Instance.ShowInfoPanelCenter(((ServerRefuseToken) token).Message, 0f, 1f);
+            NoticeManager.Instance.ShowInfoPanelCenter(((ServerRefuseToken) token).Message, 0f, 0.5f);
         }
     }
 
@@ -209,7 +209,7 @@ public class BoltManager : GlobalEventListener
         if (BoltNetwork.IsClient)
         {
             base.ConnectFailed(endpoint, token);
-            NoticeManager.Instance.ShowInfoPanelCenter("Failed to connect to bolt", 0f, 1f);
+            NoticeManager.Instance.ShowInfoPanelCenter("Failed to connect to bolt", 0f, 0.5f);
         }
     }
 
@@ -236,17 +236,17 @@ public class BoltManager : GlobalEventListener
                     {
                         case RoomInfoToken.Status.Playing:
                             {
-                                NoticeManager.Instance.ShowInfoPanelCenter("The game has begun", 0f, 1f);
+                                NoticeManager.Instance.ShowInfoPanelCenter("The game has begun", 0f, 0.5f);
                                 break;
                             }
                         case RoomInfoToken.Status.Full:
                             {
-                                NoticeManager.Instance.ShowInfoPanelCenter("The room is full", 0f, 1f);
+                                NoticeManager.Instance.ShowInfoPanelCenter("The room is full", 0f, 0.5f);
                                 break;
                             }
                         case RoomInfoToken.Status.Closing:
                             {
-                                NoticeManager.Instance.ShowInfoPanelCenter("The game has closed", 0f, 1f);
+                                NoticeManager.Instance.ShowInfoPanelCenter("The game has closed", 0f, 0.5f);
                                 break;
                             }
                         case RoomInfoToken.Status.Waiting:
@@ -263,7 +263,7 @@ public class BoltManager : GlobalEventListener
                                         }
                                         else
                                         {
-                                            NoticeManager.Instance.ShowInfoPanelCenter("Wrong password", 0f, 1f);
+                                            NoticeManager.Instance.ShowInfoPanelCenter("Wrong password", 0f, 0.5f);
                                         }
                                     });
                                 }
