@@ -58,9 +58,7 @@
 		<type fullname="UnityEngine.Texture2D" preserve="nothing"/>
 		<type fullname="UnityEngine.Sprite" preserve="nothing"/>
 		<type fullname="UnityEngine.CanvasRenderer" preserve="nothing"/>
-		<type fullname="UnityEngine.Cubemap" preserve="nothing"/>
 		<type fullname="UnityEngine.RenderSettings" preserve="nothing"/>
-		<type fullname="UnityEngine.LightProbes" preserve="nothing"/>
 	</assembly>
 	<assembly fullname="Assembly-CSharp-firstpass">
 		<type fullname="FMODUnity.Settings" preserve="nothing"/>
@@ -76,6 +74,7 @@
 		<type fullname="BezierCurve" preserve="nothing"/>
 		<type fullname="BezierPath" preserve="nothing"/>
 		<type fullname="Boat" preserve="nothing"/>
+		<type fullname="BoatMenu" preserve="nothing"/>
 		<type fullname="Body" preserve="nothing"/>
 		<type fullname="BoltManager" preserve="nothing"/>
 		<type fullname="CameraDepthTextureMode" preserve="nothing"/>
@@ -106,6 +105,7 @@
 		<type fullname="NormalsReplacementShader" preserve="nothing"/>
 		<type fullname="NoticeManager" preserve="nothing"/>
 		<type fullname="OnMouseClick" preserve="nothing"/>
+		<type fullname="OnPointerHoverAndLeave" preserve="nothing"/>
 		<type fullname="PasswordPanel" preserve="nothing"/>
 		<type fullname="Player" preserve="nothing"/>
 		<type fullname="PlayerCollider" preserve="nothing"/>
@@ -120,16 +120,18 @@
 		<type fullname="ScoreRing" preserve="nothing"/>
 		<type fullname="ScoreRingManager" preserve="nothing"/>
 		<type fullname="ScoreRingSingle" preserve="nothing"/>
+		<type fullname="ScoreRingSingleBoatMenu" preserve="nothing"/>
 		<type fullname="ScoreRingSingleSpawner" preserve="nothing"/>
 		<type fullname="ScoreRingSingleTrigger" preserve="nothing"/>
+		<type fullname="StartMenu" preserve="nothing"/>
 		<type fullname="SunGlasses" preserve="nothing"/>
 		<type fullname="UIManager" preserve="nothing"/>
 		<type fullname="UIMaskMgr" preserve="nothing"/>
 		<type fullname="WaterBob" preserve="nothing"/>
 		<type fullname="Wheel" preserve="nothing"/>
+		<type fullname="WholeBoat_BoatMenu" preserve="nothing"/>
 		<type fullname="Wings" preserve="nothing"/>
 		<type fullname="WingsContainer" preserve="nothing"/>
-		<type fullname="WorldUIManager" preserve="nothing"/>
 	</assembly>
 	<assembly fullname="Unity.InputSystem">
 		<type fullname="UnityEngine.InputSystem.InputSettings" preserve="nothing"/>

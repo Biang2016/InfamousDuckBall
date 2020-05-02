@@ -8,7 +8,6 @@
             "usedInScenes": [
                 "Assets/Scenes/BoltMenu.unity",
                 "Assets/Scenes/Battle_FlagRace.unity",
-                "Assets/Scenes/Battle_Prepare.unity",
                 "Assets/Scenes/Battle_Smash.unity"
             ]
         },
@@ -20,7 +19,6 @@
             "usedInScenes": [
                 "Assets/Scenes/BoltMenu.unity",
                 "Assets/Scenes/Battle_FlagRace.unity",
-                "Assets/Scenes/Battle_Prepare.unity",
                 "Assets/Scenes/Battle_Smash.unity"
             ]
         },
@@ -32,7 +30,6 @@
             "usedInScenes": [
                 "Assets/Scenes/BoltMenu.unity",
                 "Assets/Scenes/Battle_FlagRace.unity",
-                "Assets/Scenes/Battle_Prepare.unity",
                 "Assets/Scenes/Battle_Smash.unity"
             ]
         },
@@ -44,7 +41,6 @@
             "usedInScenes": [
                 "Assets/Scenes/BoltMenu.unity",
                 "Assets/Scenes/Battle_FlagRace.unity",
-                "Assets/Scenes/Battle_Prepare.unity",
                 "Assets/Scenes/Battle_Smash.unity"
             ]
         },
@@ -56,7 +52,6 @@
             "usedInScenes": [
                 "Assets/Scenes/BoltMenu.unity",
                 "Assets/Scenes/Battle_FlagRace.unity",
-                "Assets/Scenes/Battle_Prepare.unity",
                 "Assets/Scenes/Battle_Smash.unity"
             ]
         },
@@ -68,7 +63,6 @@
             "usedInScenes": [
                 "Assets/Scenes/BoltMenu.unity",
                 "Assets/Scenes/Battle_FlagRace.unity",
-                "Assets/Scenes/Battle_Prepare.unity",
                 "Assets/Scenes/Battle_Smash.unity"
             ]
         },
@@ -80,7 +74,6 @@
             "usedInScenes": [
                 "Assets/Scenes/BoltMenu.unity",
                 "Assets/Scenes/Battle_FlagRace.unity",
-                "Assets/Scenes/Battle_Prepare.unity",
                 "Assets/Scenes/Battle_Smash.unity"
             ]
         },
@@ -92,7 +85,6 @@
             "usedInScenes": [
                 "Assets/Scenes/BoltMenu.unity",
                 "Assets/Scenes/Battle_FlagRace.unity",
-                "Assets/Scenes/Battle_Prepare.unity",
                 "Assets/Scenes/Battle_Smash.unity"
             ]
         },
@@ -118,7 +110,6 @@
             "usedInScenes": [
                 "Assets/Scenes/BoltMenu.unity",
                 "Assets/Scenes/Battle_FlagRace.unity",
-                "Assets/Scenes/Battle_Prepare.unity",
                 "Assets/Scenes/Battle_Smash.unity"
             ]
         },
@@ -144,7 +135,6 @@
             "usedInScenes": [
                 "Assets/Scenes/BoltMenu.unity",
                 "Assets/Scenes/Battle_FlagRace.unity",
-                "Assets/Scenes/Battle_Prepare.unity",
                 "Assets/Scenes/Battle_Smash.unity"
             ]
         },
@@ -170,7 +160,6 @@
             "usedInScenes": [
                 "Assets/Scenes/BoltMenu.unity",
                 "Assets/Scenes/Battle_FlagRace.unity",
-                "Assets/Scenes/Battle_Prepare.unity",
                 "Assets/Scenes/Battle_Smash.unity"
             ]
         },
@@ -300,7 +289,6 @@
             "usedInScenes": [
                 "Assets/Scenes/BoltMenu.unity",
                 "Assets/Scenes/Battle_FlagRace.unity",
-                "Assets/Scenes/Battle_Prepare.unity",
                 "Assets/Scenes/Battle_Smash.unity"
             ]
         },
@@ -443,7 +431,6 @@
             "usedInScenes": [
                 "Assets/Scenes/BoltMenu.unity",
                 "Assets/Scenes/Battle_FlagRace.unity",
-                "Assets/Scenes/Battle_Prepare.unity",
                 "Assets/Scenes/Battle_Smash.unity"
             ]
         },
@@ -596,7 +583,6 @@
             "usedInScenes": [
                 "Assets/Scenes/BoltMenu.unity",
                 "Assets/Scenes/Battle_FlagRace.unity",
-                "Assets/Scenes/Battle_Prepare.unity",
                 "Assets/Scenes/Battle_Smash.unity"
             ]
         },
@@ -608,7 +594,6 @@
             "usedInScenes": [
                 "Assets/Scenes/BoltMenu.unity",
                 "Assets/Scenes/Battle_FlagRace.unity",
-                "Assets/Scenes/Battle_Prepare.unity",
                 "Assets/Scenes/Battle_Smash.unity"
             ]
         },
@@ -640,7 +625,6 @@
             "usedInScenes": [
                 "Assets/Scenes/BoltMenu.unity",
                 "Assets/Scenes/Battle_FlagRace.unity",
-                "Assets/Scenes/Battle_Prepare.unity",
                 "Assets/Scenes/Battle_Smash.unity"
             ]
         },
@@ -673,32 +657,13 @@
         },
         {
             "managedAssemblyName": "UnityEngine.dll",
-            "nativeClass": "Cubemap",
-            "fullManagedTypeName": "UnityEngine.Cubemap",
-            "moduleName": "Core",
-            "usedInScenes": [
-                "Assets/Scenes/BoltMenu.unity"
-            ]
-        },
-        {
-            "managedAssemblyName": "UnityEngine.dll",
             "nativeClass": "RenderSettings",
             "fullManagedTypeName": "UnityEngine.RenderSettings",
             "moduleName": "Core",
             "usedInScenes": [
                 "Assets/Scenes/BoltMenu.unity",
                 "Assets/Scenes/Battle_FlagRace.unity",
-                "Assets/Scenes/Battle_Prepare.unity",
                 "Assets/Scenes/Battle_Smash.unity"
-            ]
-        },
-        {
-            "managedAssemblyName": "UnityEngine.dll",
-            "nativeClass": "LightProbes",
-            "fullManagedTypeName": "UnityEngine.LightProbes",
-            "moduleName": "Core",
-            "usedInScenes": [
-                "Assets/Scenes/BoltMenu.unity"
             ]
         },
         {
@@ -718,7 +683,6 @@
             "usedInScenes": [
                 "Assets/Scenes/BoltMenu.unity",
                 "Assets/Scenes/Battle_FlagRace.unity",
-                "Assets/Scenes/Battle_Prepare.unity",
                 "Assets/Scenes/Battle_Smash.unity"
             ]
         },
@@ -796,6 +760,13 @@
             "managedAssemblyName": "Assembly-CSharp.dll",
             "nativeClass": "",
             "fullManagedTypeName": "Boat",
+            "moduleName": "",
+            "usedInScenes": []
+        },
+        {
+            "managedAssemblyName": "Assembly-CSharp.dll",
+            "nativeClass": "",
+            "fullManagedTypeName": "BoatMenu",
             "moduleName": "",
             "usedInScenes": []
         },
@@ -1012,6 +983,13 @@
         {
             "managedAssemblyName": "Assembly-CSharp.dll",
             "nativeClass": "",
+            "fullManagedTypeName": "OnPointerHoverAndLeave",
+            "moduleName": "",
+            "usedInScenes": []
+        },
+        {
+            "managedAssemblyName": "Assembly-CSharp.dll",
+            "nativeClass": "",
             "fullManagedTypeName": "PasswordPanel",
             "moduleName": "",
             "usedInScenes": []
@@ -1110,6 +1088,13 @@
         {
             "managedAssemblyName": "Assembly-CSharp.dll",
             "nativeClass": "",
+            "fullManagedTypeName": "ScoreRingSingleBoatMenu",
+            "moduleName": "",
+            "usedInScenes": []
+        },
+        {
+            "managedAssemblyName": "Assembly-CSharp.dll",
+            "nativeClass": "",
             "fullManagedTypeName": "ScoreRingSingleSpawner",
             "moduleName": "",
             "usedInScenes": []
@@ -1118,6 +1103,13 @@
             "managedAssemblyName": "Assembly-CSharp.dll",
             "nativeClass": "",
             "fullManagedTypeName": "ScoreRingSingleTrigger",
+            "moduleName": "",
+            "usedInScenes": []
+        },
+        {
+            "managedAssemblyName": "Assembly-CSharp.dll",
+            "nativeClass": "",
+            "fullManagedTypeName": "StartMenu",
             "moduleName": "",
             "usedInScenes": []
         },
@@ -1159,6 +1151,13 @@
         {
             "managedAssemblyName": "Assembly-CSharp.dll",
             "nativeClass": "",
+            "fullManagedTypeName": "WholeBoat_BoatMenu",
+            "moduleName": "",
+            "usedInScenes": []
+        },
+        {
+            "managedAssemblyName": "Assembly-CSharp.dll",
+            "nativeClass": "",
             "fullManagedTypeName": "Wings",
             "moduleName": "",
             "usedInScenes": []
@@ -1167,13 +1166,6 @@
             "managedAssemblyName": "Assembly-CSharp.dll",
             "nativeClass": "",
             "fullManagedTypeName": "WingsContainer",
-            "moduleName": "",
-            "usedInScenes": []
-        },
-        {
-            "managedAssemblyName": "Assembly-CSharp.dll",
-            "nativeClass": "",
-            "fullManagedTypeName": "WorldUIManager",
             "moduleName": "",
             "usedInScenes": []
         },

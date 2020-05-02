@@ -10,8 +10,10 @@ GameObject:
   m_Component:
   - component: {fileID: 8871701188780565915}
   - component: {fileID: 8871701188780565913}
+  - component: {fileID: 7627720330362111421}
+  - component: {fileID: 3730265682094489908}
   m_Layer: 0
-  m_Name: ScoreRingNoCode
+  m_Name: ScoreRingBoatMenu
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -24,16 +26,15 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8871701188780565911}
-  m_LocalRotation: {x: -0.3896908, y: 0.41953138, z: 0.20602594, w: 0.79352874}
-  m_LocalPosition: {x: 0, y: 10, z: 0}
+  m_LocalRotation: {x: 1, y: 0, z: 0, w: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 8871701190450558138}
   - {fileID: 8871701189731248010}
-  - {fileID: 8871701188976440045}
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: -52.31, y: 55.73, z: 0}
+  m_LocalEulerAnglesHint: {x: 180, y: 0, z: 0}
 --- !u!54 &8871701188780565913
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -50,64 +51,33 @@ Rigidbody:
   m_Interpolate: 1
   m_Constraints: 0
   m_CollisionDetection: 1
---- !u!1 &8871701188976440044
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 8871701188976440045}
-  - component: {fileID: 8871701188976440046}
-  - component: {fileID: 1230215524533912280}
-  m_Layer: 29
-  m_Name: Trigger
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &8871701188976440045
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8871701188976440044}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 8871701188780565915}
-  m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &8871701188976440046
+--- !u!114 &7627720330362111421
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8871701188976440044}
+  m_GameObject: {fileID: 8871701188780565911}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f00cb36ec9a848347badc1e1015cea67, type: 3}
+  m_Script: {fileID: 11500000, guid: 7d0c6f2cc6611de4e924f23ddecc6f05, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ScoreRingSingle: {fileID: 0}
---- !u!135 &1230215524533912280
-SphereCollider:
+  ScoreRing: {fileID: 3730265682094489908}
+  RigidBody: {fileID: 8871701188780565913}
+--- !u!114 &3730265682094489908
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8871701188976440044}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
+  m_GameObject: {fileID: 8871701188780565911}
   m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 2.18
-  m_Center: {x: 0, y: 0, z: 0}
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2651de717e6226c41bb1f7619b511421, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Renderer: {fileID: 8871701190450558136}
 --- !u!1 &8871701189731248008
 GameObject:
   m_ObjectHideFlags: 0

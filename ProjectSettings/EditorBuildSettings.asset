@@ -12,9 +12,6 @@ EditorBuildSettings:
     path: Assets/Scenes/Battle_FlagRace.unity
     guid: 183696bee6d20bd4cb2222d2a3847672
   - enabled: 1
-    path: Assets/Scenes/Battle_Prepare.unity
-    guid: 276c9ab8234120c428b5895439646dc2
-  - enabled: 1
     path: Assets/Scenes/Battle_Smash.unity
     guid: c4a492c3432351749b5b565a45aa321b
   m_configObjects: {}

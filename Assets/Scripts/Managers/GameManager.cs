@@ -42,6 +42,8 @@ public class GameManager : MonoSingleton<GameManager>
         BoltManager.UpdateCurrentSession();
     }
 
+    public BoatMenu BoatMenu;
+
     public void Start()
     {
         DebugPanel = UIManager.Instance.ShowUIForms<DebugPanel>();
@@ -51,7 +53,8 @@ public class GameManager : MonoSingleton<GameManager>
         PasswordPanel PasswordPanel = UIManager.Instance.ShowUIForms<PasswordPanel>();
         PasswordPanel.CloseUIForm();
 
-        UIManager.Instance.ShowUIForms<LobbyPanel>();
+        BoatMenu.BoatMoveIn();
+        //UIManager.Instance.ShowUIForms<LobbyPanel>();
     }
 
     public void Update()
