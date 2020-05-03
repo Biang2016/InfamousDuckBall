@@ -40,7 +40,10 @@ public class Player : EntityBehaviour<IPlayerState>
     public override void ControlGained()
     {
         base.ControlGained();
-        Duck.Body.Cur_HeadTargetPosition = Duck.Feet.transform.position + Duck.Feet.transform.forward * DuckConfig.MaxNeckLength;
+        Duck.Neck.NeckTargetPos = Duck.Body.transform.position + Duck.Body.transform.forward * 5f + Duck.Body.transform.up * 3f;
+        Duck.Body.Cur_HeadTargetPosition = Duck.Neck.NeckTargetPos;
+        Duck.Neck.NeckDeform();
+        Duck.Body.MoveNeckTo(Duck.Neck.NeckTargetPos);
     }
 
     public void OnStateChanged()
