@@ -130,6 +130,7 @@
 		<type fullname="SunGlasses" preserve="nothing"/>
 		<type fullname="UIManager" preserve="nothing"/>
 		<type fullname="UIMaskMgr" preserve="nothing"/>
+		<type fullname="WaitingPanel" preserve="nothing"/>
 		<type fullname="WaterBob" preserve="nothing"/>
 		<type fullname="Wheel" preserve="nothing"/>
 		<type fullname="Wings" preserve="nothing"/>

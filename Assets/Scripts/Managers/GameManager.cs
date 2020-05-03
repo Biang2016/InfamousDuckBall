@@ -50,6 +50,8 @@ public class GameManager : MonoSingleton<GameManager>
         DebugPanel.CloseUIForm();
         CreateRoomPanel CreateRoomPanel = UIManager.Instance.ShowUIForms<CreateRoomPanel>();
         CreateRoomPanel.CloseUIForm();
+        WaitingPanel WaitingPanel = UIManager.Instance.ShowUIForms<WaitingPanel>();
+        WaitingPanel.CloseUIForm();
         PasswordPanel PasswordPanel = UIManager.Instance.ShowUIForms<PasswordPanel>();
         PasswordPanel.CloseUIForm();
         GameLogoPanel = UIManager.Instance.ShowUIForms<GameLogoPanel>();

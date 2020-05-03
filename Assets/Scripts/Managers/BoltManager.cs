@@ -169,6 +169,7 @@ public class BoltManager : GlobalEventListener
     {
         if (BoltNetwork.IsRunning && BoltNetwork.IsClient)
         {
+            UIManager.Instance.ShowUIForms<WaitingPanel>();
             ClientConnectToken cct = new ClientConnectToken();
             cct.UserName = userName;
             BoltMatchmaking.JoinSession(session, cct);

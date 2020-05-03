@@ -59,7 +59,5 @@ public class CreateNamePanel : BaseUIForm
         {
             NoticeManager.Instance.ShowInfoPanelCenter("EVERY DUCK NEEDS A NAME", 0f, 0.5f);
         }
-
-        
     }
 }

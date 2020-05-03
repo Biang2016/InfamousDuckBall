@@ -50,6 +50,7 @@ public class CreateRoomPanel : BaseUIForm
     IEnumerator Co_StartServerCreateRoom()
     {
         ConfirmButton.interactable = false;
+        UIManager.Instance.ShowUIForms<WaitingPanel>();
 
         if (BoltNetwork.IsRunning)
         {
@@ -87,6 +88,8 @@ public class CreateRoomPanel : BaseUIForm
                 break;
             }
         }
+
+        UIManager.Instance.CloseUIForm<WaitingPanel>();
 
         if (BoltNetwork.IsRunning && BoltNetwork.IsServer)
         {
