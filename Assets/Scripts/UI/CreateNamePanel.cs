@@ -54,6 +54,10 @@ public class CreateNamePanel : BaseUIForm
                 boatAlreadyMoveIn = true;
                 BoatMenuManager.Instance.BoatMoveIn();
             }
+            else
+            {
+                GameManager.Instance.LobbyPanel.UpdateUserName();
+            }
         }
         else
         {

@@ -187,12 +187,12 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 3788543574250745813, guid: 776f29a684a9a412eb9b5171aa4742bd,
+    - target: {fileID: 5050531078786641395, guid: 776f29a684a9a412eb9b5171aa4742bd,
         type: 3}
       propertyPath: m_Mesh
       value: 
       objectReference: {fileID: 0}
-    - target: {fileID: 8329080592850312259, guid: 776f29a684a9a412eb9b5171aa4742bd,
+    - target: {fileID: 5050531078786641435, guid: 776f29a684a9a412eb9b5171aa4742bd,
         type: 3}
       propertyPath: m_Mesh
       value: 

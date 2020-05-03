@@ -11,6 +11,8 @@ public class LobbyPanel : MonoBehaviour
 
     [SerializeField] private Transform RoomListContainer;
 
+    public string CurrentFilter => RoomIDInputField.text;
+
     [SerializeField] private InputField RoomIDInputField;
     [SerializeField] private Text UserNameText;
     [SerializeField] private InputField SearchInputField;
@@ -42,12 +44,21 @@ public class LobbyPanel : MonoBehaviour
     void Start()
     {
         InvokeRepeating("RefreshButtonClick", 0f, 3f);
+        RoomIDInputField.onValueChanged.AddListener(delegate
+        {
+            RefreshButtonClick();
+        });
+    }
+
+    public void UpdateUserName()
+    {
+        UserNameText.text = PlayerPrefs.GetString("PlayerID");
     }
 
     public void Display()
     {
         gameObject.SetActive(true);
-        UserNameText.text = PlayerPrefs.GetString("PlayerID");
+        UpdateUserName();
         RefreshButtonClick();
     }
 
@@ -56,10 +67,14 @@ public class LobbyPanel : MonoBehaviour
         gameObject.SetActive(false);
     }
 
+    public void OnRenameButtonClick()
+    {
+        UIManager.Instance.ShowUIForms<CreateNamePanel>().Display();
+    }
+
     public void RefreshButtonClick()
     {
-        //SearchInputField.text
-        BoltManager.UpdateRoomList(BoltNetwork.SessionList);
+        BoltManager.UpdateRoomList(BoltNetwork.SessionList, CurrentFilter);
     }
 
     public void OnBackButtonClick()

@@ -89,7 +89,7 @@ public class GameManager : MonoSingleton<GameManager>
             UIManager.Instance.CloseUIForm<DebugPanel>();
             SceneManager.LoadScene("BoltMenu");
             BoltLauncher.StartClient();
-            BoltManager.UpdateRoomList(BoltNetwork.SessionList);
+            BoltManager.UpdateRoomList(BoltNetwork.SessionList, LobbyPanel.CurrentFilter);
         }
     }
 

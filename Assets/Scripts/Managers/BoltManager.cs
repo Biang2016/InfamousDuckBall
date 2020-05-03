@@ -155,7 +155,6 @@ public class BoltManager : GlobalEventListener
     {
         if (BoltNetwork.IsRunning && BoltNetwork.IsClient)
         {
-
         }
     }
 
@@ -218,10 +217,10 @@ public class BoltManager : GlobalEventListener
 
     public override void SessionListUpdated(Map<Guid, UdpSession> sessionList)
     {
-        UpdateRoomList(sessionList);
+        UpdateRoomList(sessionList, GameManager.Instance.LobbyPanel.CurrentFilter);
     }
 
-    public static void UpdateRoomList(Map<Guid, UdpSession> sessionList)
+    public static void UpdateRoomList(Map<Guid, UdpSession> sessionList, string filter)
     {
         Debug.LogFormat("Session list updated: {0} total sessions", sessionList.Count);
         List<RoomInfoToken> roomInfos = new List<RoomInfoToken>();
@@ -229,58 +228,68 @@ public class BoltManager : GlobalEventListener
         {
             if (kv.Value.Source == UdpSessionSource.Photon)
             {
-                RoomInfoToken ri = (RoomInfoToken)kv.Value.GetProtocolToken();
+                RoomInfoToken ri = (RoomInfoToken) kv.Value.GetProtocolToken();
 
                 ri.OnRoomButtonClick = delegate
                 {
                     switch (ri.M_Status)
                     {
                         case RoomInfoToken.Status.Playing:
-                            {
-                                NoticeManager.Instance.ShowInfoPanelCenter("The game has begun", 0f, 0.5f);
-                                break;
-                            }
+                        {
+                            NoticeManager.Instance.ShowInfoPanelCenter("The game has begun", 0f, 0.5f);
+                            break;
+                        }
                         case RoomInfoToken.Status.Full:
-                            {
-                                NoticeManager.Instance.ShowInfoPanelCenter("The room is full", 0f, 0.5f);
-                                break;
-                            }
+                        {
+                            NoticeManager.Instance.ShowInfoPanelCenter("The room is full", 0f, 0.5f);
+                            break;
+                        }
                         case RoomInfoToken.Status.Closing:
-                            {
-                                NoticeManager.Instance.ShowInfoPanelCenter("The game has closed", 0f, 0.5f);
-                                break;
-                            }
+                        {
+                            NoticeManager.Instance.ShowInfoPanelCenter("The game has closed", 0f, 0.5f);
+                            break;
+                        }
                         case RoomInfoToken.Status.Waiting:
+                        {
+                            if (ri.HasPassword)
                             {
-                                if (ri.HasPassword)
+                                PasswordPanel pp = UIManager.Instance.ShowUIForms<PasswordPanel>();
+                                pp.ConfirmButton.onClick.RemoveAllListeners();
+                                pp.ConfirmButton.onClick.AddListener(delegate
                                 {
-                                    PasswordPanel pp = UIManager.Instance.ShowUIForms<PasswordPanel>();
-                                    pp.ConfirmButton.onClick.RemoveAllListeners();
-                                    pp.ConfirmButton.onClick.AddListener(delegate
+                                    if (ri.Password == pp.PasswordInputField.text.EncodeSHA512())
                                     {
-                                        if (ri.Password == pp.PasswordInputField.text.EncodeSHA512())
-                                        {
-                                            TryConnect(kv.Value, "NewUser");
-                                        }
-                                        else
-                                        {
-                                            NoticeManager.Instance.ShowInfoPanelCenter("Wrong password", 0f, 0.5f);
-                                        }
-                                    });
-                                }
-                                else
-                                {
-                                    TryConnect(kv.Value, "NewUser");
-                                }
-
-                                break;
+                                        TryConnect(kv.Value, "NewUser");
+                                    }
+                                    else
+                                    {
+                                        NoticeManager.Instance.ShowInfoPanelCenter("Wrong password", 0f, 0.5f);
+                                    }
+                                });
                             }
+                            else
+                            {
+                                TryConnect(kv.Value, "NewUser");
+                            }
+
+                            break;
+                        }
                     }
                 };
 
-                if (ri.IsVisible)
+                if (!string.IsNullOrWhiteSpace(filter))
                 {
-                    roomInfos.Add(ri);
+                    if (ri.RoomName.ToUpper().Contains(filter.ToUpper()))
+                    {
+                        roomInfos.Add(ri);
+                    }
+                }
+                else
+                {
+                    if (ri.IsVisible)
+                    {
+                        roomInfos.Add(ri);
+                    }
                 }
             }
         }
