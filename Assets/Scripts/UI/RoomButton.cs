@@ -22,8 +22,22 @@ public class RoomButton : PoolObject
 
         MyRoomInfo = roomInfo;
         RoomNameText.text = roomInfo.RoomName;
-        BattleTypeText.text = roomInfo.BattleType.ToString();
-        PlayerNumberText.color = roomInfo.Cur_PlayerNumber == roomInfo.Max_PlayerNumber ? Color.red : Color.green;
+
+        switch (roomInfo.BattleType)
+        {
+            case BattleTypes.Smash:
+            {
+                BattleTypeText.text = "Smash 1v1";
+                break;
+            }
+            case BattleTypes.FlagRace:
+            {
+                BattleTypeText.text = "Ring-Race 2v2";
+                break;
+            }
+        }
+
+        PlayerNumberText.color = roomInfo.Cur_PlayerNumber == roomInfo.Max_PlayerNumber ? ClientUtils.HTMLColorToColor("#d36c6c") : ClientUtils.HTMLColorToColor("#6cd383");
         PlayerNumberText.text = roomInfo.Cur_PlayerNumber + " / " + roomInfo.Max_PlayerNumber;
         StatusText.text = roomInfo.M_Status.ToString();
         switch (roomInfo.M_Status)
