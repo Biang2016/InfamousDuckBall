@@ -24,11 +24,10 @@ public abstract class BattleManager : MonoBehaviour
 
     public void Initialize()
     {
-        UIManager.Instance.CloseUIForm<StartMenu>();
         UIManager.Instance.CloseUIForm<PasswordPanel>();
         UIManager.Instance.CloseUIForm<CreateRoomPanel>();
-        UIManager.Instance.CloseUIForm<LobbyPanel>();
-        GameManager.Instance.BoatMenu.gameObject.SetActive(false);
+        GameManager.Instance.LobbyPanel.gameObject.SetActive(false);
+        BoatMenuManager.Instance.gameObject.SetActive(false);
 
         AudioDuck.Instance.StopAllWOCEvents();
         AudioDuck.Instance.PlaySound(AudioDuck.Instance.Sea, gameObject);

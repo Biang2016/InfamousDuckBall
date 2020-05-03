@@ -3,17 +3,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.UI;
 
-public class WholeBoat_BoatMenu : MonoBehaviour
+public class BoatMenuBoat : MonoBehaviour
 {
     public void OnBoatArrive()
     {
-        StartMenu sm = UIManager.Instance.ShowUIForms<StartMenu>();
+        GameLogoPanel sm = UIManager.Instance.ShowUIForms<GameLogoPanel>();
         sm.GameLogoDrop();
     }
 
     public List<ScoreRingSingleBoatMenu> ScoreRings = new List<ScoreRingSingleBoatMenu>();
 
-    public void RingsExplode()
+    public void ScoreRingsExplode()
     {
         foreach (ScoreRingSingleBoatMenu sr in ScoreRings)
         {

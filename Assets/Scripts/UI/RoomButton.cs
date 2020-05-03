@@ -30,17 +30,17 @@ public class RoomButton : PoolObject
         {
             case RoomInfoToken.Status.Waiting:
             {
-                StatusText.color = Color.green;
+                StatusText.color = ClientUtils.HTMLColorToColor("#6cd383");
                 break;
             }
             case RoomInfoToken.Status.Full:
             {
-                StatusText.color = ClientUtils.HTMLColorToColor("#FF8000");
+                StatusText.color = ClientUtils.HTMLColorToColor("#D3B46C");
                 break;
             }
             case RoomInfoToken.Status.Playing:
             {
-                StatusText.color = Color.red;
+                StatusText.color = ClientUtils.HTMLColorToColor("#d36c6c");
                 break;
             }
             case RoomInfoToken.Status.Closing:

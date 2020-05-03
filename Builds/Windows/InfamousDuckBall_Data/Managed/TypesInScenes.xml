@@ -74,7 +74,8 @@
 		<type fullname="BezierCurve" preserve="nothing"/>
 		<type fullname="BezierPath" preserve="nothing"/>
 		<type fullname="Boat" preserve="nothing"/>
-		<type fullname="BoatMenu" preserve="nothing"/>
+		<type fullname="BoatMenuBoat" preserve="nothing"/>
+		<type fullname="BoatMenuManager" preserve="nothing"/>
 		<type fullname="Body" preserve="nothing"/>
 		<type fullname="BoltManager" preserve="nothing"/>
 		<type fullname="CameraDepthTextureMode" preserve="nothing"/>
@@ -82,6 +83,7 @@
 		<type fullname="ConfigRow" preserve="nothing"/>
 		<type fullname="ConfigRows" preserve="nothing"/>
 		<type fullname="CostumeManager" preserve="nothing"/>
+		<type fullname="CreateNamePanel" preserve="nothing"/>
 		<type fullname="CreateRoomPanel" preserve="nothing"/>
 		<type fullname="DebugPanel" preserve="nothing"/>
 		<type fullname="Duck" preserve="nothing"/>
@@ -91,6 +93,7 @@
 		<type fullname="Feet" preserve="nothing"/>
 		<type fullname="FlagGetRingPoint" preserve="nothing"/>
 		<type fullname="FlagScorePoint" preserve="nothing"/>
+		<type fullname="GameLogoPanel" preserve="nothing"/>
 		<type fullname="GameManager" preserve="nothing"/>
 		<type fullname="GameObjectPoolManager" preserve="nothing"/>
 		<type fullname="GameState" preserve="nothing"/>
@@ -123,13 +126,12 @@
 		<type fullname="ScoreRingSingleBoatMenu" preserve="nothing"/>
 		<type fullname="ScoreRingSingleSpawner" preserve="nothing"/>
 		<type fullname="ScoreRingSingleTrigger" preserve="nothing"/>
-		<type fullname="StartMenu" preserve="nothing"/>
+		<type fullname="StartMenuPanel_Boat" preserve="nothing"/>
 		<type fullname="SunGlasses" preserve="nothing"/>
 		<type fullname="UIManager" preserve="nothing"/>
 		<type fullname="UIMaskMgr" preserve="nothing"/>
 		<type fullname="WaterBob" preserve="nothing"/>
 		<type fullname="Wheel" preserve="nothing"/>
-		<type fullname="WholeBoat_BoatMenu" preserve="nothing"/>
 		<type fullname="Wings" preserve="nothing"/>
 		<type fullname="WingsContainer" preserve="nothing"/>
 	</assembly>
@@ -144,6 +146,7 @@
 		<type fullname="TMPro.TMP_SpriteAsset" preserve="nothing"/>
 		<type fullname="TMPro.TMP_StyleSheet" preserve="nothing"/>
 		<type fullname="TMPro.TextMeshPro" preserve="nothing"/>
+		<type fullname="TMPro.TextMeshProUGUI" preserve="nothing"/>
 	</assembly>
 	<assembly fullname="UnityEngine.UI">
 		<type fullname="UnityEngine.EventSystems.EventSystem" preserve="nothing"/>

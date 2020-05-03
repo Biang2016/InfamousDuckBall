@@ -42,7 +42,7 @@ public class GameManager : MonoSingleton<GameManager>
         BoltManager.UpdateCurrentSession();
     }
 
-    public BoatMenu BoatMenu;
+    public LobbyPanel LobbyPanel;
 
     public void Start()
     {
@@ -52,8 +52,10 @@ public class GameManager : MonoSingleton<GameManager>
         CreateRoomPanel.CloseUIForm();
         PasswordPanel PasswordPanel = UIManager.Instance.ShowUIForms<PasswordPanel>();
         PasswordPanel.CloseUIForm();
+        GameLogoPanel = UIManager.Instance.ShowUIForms<GameLogoPanel>();
+        GameLogoPanel.CloseUIForm();
 
-        BoatMenu.BoatMoveIn();
+        CreateNamePanel CreateNamePanel = UIManager.Instance.ShowUIForms<CreateNamePanel>();
     }
 
     public void Update()
@@ -79,8 +81,10 @@ public class GameManager : MonoSingleton<GameManager>
             Cur_BattleManager.IsClosing = true;
             PlayerObjectRegistry.RemoveAllPlayers();
             BoltNetwork.ShutdownImmediate();
-            UIManager.instance.ShowUIForms<LobbyPanel>();
-            UIManager.instance.CloseUIForm<DebugPanel>();
+            BoatMenuManager.Instance.gameObject.SetActive(true);
+            BoatMenuManager.Instance.BoatMoveInWithoutGameLogoPanel();
+            LobbyPanel.Display();
+            UIManager.Instance.CloseUIForm<DebugPanel>();
             SceneManager.LoadScene("BoltMenu");
             BoltLauncher.StartClient();
             BoltManager.UpdateRoomList(BoltNetwork.SessionList);
@@ -131,6 +135,7 @@ public class GameManager : MonoSingleton<GameManager>
     }
 
     public DebugPanel DebugPanel;
+    public GameLogoPanel GameLogoPanel;
 
     #region Events
 

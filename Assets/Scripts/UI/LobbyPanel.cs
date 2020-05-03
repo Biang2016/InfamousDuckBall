@@ -2,18 +2,10 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class LobbyPanel : BaseUIForm
+public class LobbyPanel : MonoBehaviour
 {
     void Awake()
     {
-        UIType.InitUIType(
-            isClearStack: false,
-            isESCClose: false,
-            isClickElsewhereClose: false,
-            uiForms_Type: UIFormTypes.Normal,
-            uiForms_ShowMode: UIFormShowModes.Normal,
-            uiForm_LucencyType: UIFormLucencyTypes.ImPenetrable);
-
         BoltManager.RefreshRoomListInUI = RefreshRoomList;
     }
 
@@ -21,6 +13,7 @@ public class LobbyPanel : BaseUIForm
 
     [SerializeField] private InputField RoomIDInputField;
     [SerializeField] private Text UserNameText;
+    [SerializeField] private InputField SearchInputField;
 
     private List<RoomButton> RoomButtons = new List<RoomButton>();
 
@@ -51,14 +44,26 @@ public class LobbyPanel : BaseUIForm
         InvokeRepeating("RefreshButtonClick", 0f, 3f);
     }
 
-    public override void Display()
+    public void Display()
     {
-        base.Display();
+        gameObject.SetActive(true);
+        UserNameText.text = PlayerPrefs.GetString("PlayerID");
         RefreshButtonClick();
+    }
+
+    public void Hide()
+    {
+        gameObject.SetActive(false);
     }
 
     public void RefreshButtonClick()
     {
+        //SearchInputField.text
         BoltManager.UpdateRoomList(BoltNetwork.SessionList);
+    }
+
+    public void OnBackButtonClick()
+    {
+        BoatMenuManager.Instance.FromLobbyBackToStartMenu();
     }
 }

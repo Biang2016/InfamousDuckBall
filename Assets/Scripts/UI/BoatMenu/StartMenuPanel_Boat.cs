@@ -2,16 +2,8 @@
 using System.Collections;
 using UnityEngine.UI;
 
-public class BoatMenu : MonoBehaviour
+public class StartMenuPanel_Boat : MonoBehaviour
 {
-    [SerializeField] private WholeBoat_BoatMenu WholeBoat_BoatMenu;
-    [SerializeField] private Animator Anim;
-
-    public void BoatMoveIn()
-    {
-        Anim.SetTrigger("MoveIn");
-    }
-
     [SerializeField] private Button PlayButton;
     [SerializeField] private Button HelpButton;
     [SerializeField] private Button CreditButton;
@@ -20,19 +12,17 @@ public class BoatMenu : MonoBehaviour
 
     public void OnPlayButtonClick()
     {
-        WholeBoat_BoatMenu.RingsExplode();
-        UIManager.Instance.ShowUIForms<LobbyPanel>();
+        BoatMenuManager.Instance.FromStartMenuToLobby();
     }
 
     public void OnHelpButtonClick()
     {
-        WholeBoat_BoatMenu.RingsExplode();
-        //UIManager.Instance.ShowUIForms<LobbyPanel>();
+        //BoatMenuManager.Instance.BoatMenuBoat.RingsExplode();
     }
 
     public void OnCreditButtonClick()
     {
-        WholeBoat_BoatMenu.RingsExplode();
+        BoatMenuManager.Instance.BoatMenuBoat.ScoreRingsExplode();
         PlayButton.gameObject.SetActive(false);
         HelpButton.gameObject.SetActive(false);
         CreditButton.gameObject.SetActive(false);
@@ -42,7 +32,8 @@ public class BoatMenu : MonoBehaviour
 
     public void OnBackButtonClick()
     {
-        WholeBoat_BoatMenu.ScoreRingRecover();
+        GameManager.Instance.GameLogoPanel.GameLogoDrop();
+        BoatMenuManager.Instance.BoatMenuBoat.ScoreRingRecover();
         PlayButton.gameObject.SetActive(true);
         HelpButton.gameObject.SetActive(true);
         CreditButton.gameObject.SetActive(true);

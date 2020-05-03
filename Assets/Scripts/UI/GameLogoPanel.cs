@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class StartMenu : BaseUIForm
+public class GameLogoPanel : BaseUIForm
 {
     void Awake()
     {

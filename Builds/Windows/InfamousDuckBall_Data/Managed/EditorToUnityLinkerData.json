@@ -766,7 +766,14 @@
         {
             "managedAssemblyName": "Assembly-CSharp.dll",
             "nativeClass": "",
-            "fullManagedTypeName": "BoatMenu",
+            "fullManagedTypeName": "BoatMenuBoat",
+            "moduleName": "",
+            "usedInScenes": []
+        },
+        {
+            "managedAssemblyName": "Assembly-CSharp.dll",
+            "nativeClass": "",
+            "fullManagedTypeName": "BoatMenuManager",
             "moduleName": "",
             "usedInScenes": []
         },
@@ -816,6 +823,13 @@
             "managedAssemblyName": "Assembly-CSharp.dll",
             "nativeClass": "",
             "fullManagedTypeName": "CostumeManager",
+            "moduleName": "",
+            "usedInScenes": []
+        },
+        {
+            "managedAssemblyName": "Assembly-CSharp.dll",
+            "nativeClass": "",
+            "fullManagedTypeName": "CreateNamePanel",
             "moduleName": "",
             "usedInScenes": []
         },
@@ -879,6 +893,13 @@
             "managedAssemblyName": "Assembly-CSharp.dll",
             "nativeClass": "",
             "fullManagedTypeName": "FlagScorePoint",
+            "moduleName": "",
+            "usedInScenes": []
+        },
+        {
+            "managedAssemblyName": "Assembly-CSharp.dll",
+            "nativeClass": "",
+            "fullManagedTypeName": "GameLogoPanel",
             "moduleName": "",
             "usedInScenes": []
         },
@@ -1109,7 +1130,7 @@
         {
             "managedAssemblyName": "Assembly-CSharp.dll",
             "nativeClass": "",
-            "fullManagedTypeName": "StartMenu",
+            "fullManagedTypeName": "StartMenuPanel_Boat",
             "moduleName": "",
             "usedInScenes": []
         },
@@ -1145,13 +1166,6 @@
             "managedAssemblyName": "Assembly-CSharp.dll",
             "nativeClass": "",
             "fullManagedTypeName": "Wheel",
-            "moduleName": "",
-            "usedInScenes": []
-        },
-        {
-            "managedAssemblyName": "Assembly-CSharp.dll",
-            "nativeClass": "",
-            "fullManagedTypeName": "WholeBoat_BoatMenu",
             "moduleName": "",
             "usedInScenes": []
         },
@@ -1222,6 +1236,13 @@
             "managedAssemblyName": "Unity.TextMeshPro.dll",
             "nativeClass": "",
             "fullManagedTypeName": "TMPro.TextMeshPro",
+            "moduleName": "",
+            "usedInScenes": []
+        },
+        {
+            "managedAssemblyName": "Unity.TextMeshPro.dll",
+            "nativeClass": "",
+            "fullManagedTypeName": "TMPro.TextMeshProUGUI",
             "moduleName": "",
             "usedInScenes": []
         },
