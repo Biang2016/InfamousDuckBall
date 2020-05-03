@@ -129,6 +129,7 @@ public class Player : EntityBehaviour<IPlayerState>
         {
             if (explode)
             {
+                Duck.DuckUI.ShowAnnoyingUI();
                 AudioDuck.Instance.PlaySound(AudioDuck.Instance.BuoyPop, GameManager.Instance.gameObject);
                 AudioManager.Instance.SoundPlay("sfx/Sound_Score");
                 Goalie.ParticleRelease();

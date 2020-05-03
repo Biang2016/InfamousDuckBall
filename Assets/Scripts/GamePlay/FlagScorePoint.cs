@@ -3,6 +3,12 @@
 public class FlagScorePoint : MonoBehaviour
 {
     public TeamNumber MyTeamNumber;
+    public Animator Anim;
+
+    void Awake()
+    {
+        Anim.SetFloat("Delay", Random.Range(0f, 1f));
+    }
 
     void OnTriggerEnter(Collider c)
     {

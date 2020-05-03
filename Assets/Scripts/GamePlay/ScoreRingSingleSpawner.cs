@@ -20,20 +20,19 @@ public class ScoreRingSingleSpawner : MonoBehaviour
         return Points[Random.Range(0, Points.Count)].position;
     }
 
-    public ScoreRingSingle Spawn()
+    public void Spawn()
     {
         if (BoltNetwork.IsServer)
         {
-            BoltEntity be = BoltNetwork.Instantiate(BoltPrefabs.ScoreRingSingle, GetRandomPos(), Random.rotation);
-            ScoreRingSingle srs = be.GetComponent<ScoreRingSingle>();
-            srs.state.TeamNumber = (int) TeamNumber;
-            srs.state.CostumeType = Random.Range(0, ConfigManager.CostumeTypeCount);
-            ScoreRingSingles.Add(srs);
-            return srs;
-        }
-        else
-        {
-            return null;
+            if (ScoreRingSingles.Count < 5)
+            {
+                BoltEntity be = BoltNetwork.Instantiate(BoltPrefabs.ScoreRingSingle, GetRandomPos(), Random.rotation);
+                ScoreRingSingle srs = be.GetComponent<ScoreRingSingle>();
+                srs.state.TeamNumber = (int) TeamNumber;
+                srs.state.CostumeType = Random.Range(0, ConfigManager.CostumeTypeCount);
+                ScoreRingSingles.Add(srs);
+                srs.OnRemove = delegate { ScoreRingSingles.Remove(srs); };
+            }
         }
     }
 

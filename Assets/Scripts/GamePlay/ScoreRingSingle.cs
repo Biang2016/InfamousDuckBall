@@ -1,11 +1,14 @@
 ﻿using Bolt;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class ScoreRingSingle : EntityBehaviour<IScoreRingSingleState>
 {
     [SerializeField] private ScoreRing ScoreRing;
     public Collider Collider;
     public Rigidbody RigidBody;
+
+    internal UnityAction OnRemove;
 
     void Update()
     {
@@ -30,6 +33,8 @@ public class ScoreRingSingle : EntityBehaviour<IScoreRingSingleState>
                 evnt.SoundName = "BuoyPop";
                 evnt.Send();
             }
+
+            OnRemove?.Invoke();
         }
     }
 

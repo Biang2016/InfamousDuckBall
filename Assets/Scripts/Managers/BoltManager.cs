@@ -279,9 +279,19 @@ public class BoltManager : GlobalEventListener
 
                 if (!string.IsNullOrWhiteSpace(filter))
                 {
-                    if (ri.RoomName.ToUpper().Contains(filter.ToUpper()))
+                    if (ri.IsVisible)
                     {
-                        roomInfos.Add(ri);
+                        if (ri.RoomName.ToUpper().Contains(filter.ToUpper()))
+                        {
+                            roomInfos.Add(ri);
+                        }
+                    }
+                    else
+                    {
+                        if (ri.RoomName.ToUpper() == filter.ToUpper())
+                        {
+                            roomInfos.Add(ri);
+                        }
                     }
                 }
                 else

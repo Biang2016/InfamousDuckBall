@@ -79,6 +79,7 @@
 		<type fullname="Body" preserve="nothing"/>
 		<type fullname="BoltManager" preserve="nothing"/>
 		<type fullname="CameraDepthTextureMode" preserve="nothing"/>
+		<type fullname="CameraFacingUI" preserve="nothing"/>
 		<type fullname="ConfigManager" preserve="nothing"/>
 		<type fullname="ConfigRow" preserve="nothing"/>
 		<type fullname="ConfigRows" preserve="nothing"/>
@@ -88,6 +89,7 @@
 		<type fullname="DebugPanel" preserve="nothing"/>
 		<type fullname="Duck" preserve="nothing"/>
 		<type fullname="DuckConfig" preserve="nothing"/>
+		<type fullname="DuckUI" preserve="nothing"/>
 		<type fullname="FX" preserve="nothing"/>
 		<type fullname="FXManager" preserve="nothing"/>
 		<type fullname="Feet" preserve="nothing"/>
@@ -97,7 +99,6 @@
 		<type fullname="GameManager" preserve="nothing"/>
 		<type fullname="GameObjectPoolManager" preserve="nothing"/>
 		<type fullname="GameState" preserve="nothing"/>
-		<type fullname="GeneralSlider" preserve="nothing"/>
 		<type fullname="GoalCollider" preserve="nothing"/>
 		<type fullname="Goalie" preserve="nothing"/>
 		<type fullname="Head" preserve="nothing"/>
@@ -133,6 +134,7 @@
 		<type fullname="WaitingPanel" preserve="nothing"/>
 		<type fullname="WaterBob" preserve="nothing"/>
 		<type fullname="Wheel" preserve="nothing"/>
+		<type fullname="WindIndicator" preserve="nothing"/>
 		<type fullname="Wings" preserve="nothing"/>
 		<type fullname="WingsContainer" preserve="nothing"/>
 	</assembly>
