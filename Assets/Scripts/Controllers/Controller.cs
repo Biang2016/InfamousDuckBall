@@ -31,6 +31,8 @@ public class Controller
         }
     }
 
+    public bool Active = true;
+
     public virtual void FixedUpdate()
     {
         foreach (KeyValuePair<ControlButtons, bool> kv in ButtonPressed)

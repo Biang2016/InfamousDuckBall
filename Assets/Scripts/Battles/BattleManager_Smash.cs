@@ -56,7 +56,14 @@ public class BattleManager_Smash : BattleManager_BallGame
     {
         base.StartBattle();
         IsStart = true;
-        GameManager.Instance.DebugPanel.SetStartTipShown(true, "F4/F5/F6 to switch game, F10 to Start/Stop");
+        int round = 0;
+        foreach (KeyValuePair<TeamNumber, Team> kv in TeamDict)
+        {
+            round += kv.Value.MegaScore;
+        }
+
+        UIManager.Instance.ShowUIForms<RoundPanel>().Show(round + 1);
+        StartCoroutine(Co_StartNewRound());
     }
 
     public void StartNewRound()
@@ -100,6 +107,13 @@ public class BattleManager_Smash : BattleManager_BallGame
         }
     }
 
+    IEnumerator Co_StartNewRound()
+    {
+        PlayerObjectRegistry.MyPlayer.PlayerController.Controller.Active = false;
+        yield return new WaitForSeconds(5f);
+        PlayerObjectRegistry.MyPlayer.PlayerController.Controller.Active = true;
+    }
+
     public override void BallHit_Server(Ball ball, Player player, TeamNumber teamNumber)
     {
         PlayerRingEvent pre = PlayerRingEvent.Create();
@@ -127,7 +141,8 @@ public class BattleManager_Smash : BattleManager_BallGame
             }
             else
             {
-                GameManager.Instance.DebugPanel.Wins(otherTeam);
+                //TODO
+                //GameManager.Instance.DebugPanel.Wins(otherTeam);
                 EndBattle_Server();
             }
         }

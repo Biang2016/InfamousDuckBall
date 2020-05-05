@@ -119,11 +119,19 @@ public class BattleManager_FlagRace : BattleManager_BallGame
         }
     }
 
+    IEnumerator Co_StartBattle()
+    {
+        PlayerObjectRegistry.MyPlayer.PlayerController.Controller.Active = false;
+        yield return new WaitForSeconds(4f);
+        PlayerObjectRegistry.MyPlayer.PlayerController.Controller.Active = true;
+    }
+
     public override void StartBattle()
     {
         base.StartBattle();
         IsStart = true;
-        GameManager.Instance.DebugPanel.SetStartTipShown(true, "F4/F5/F6 to switch game, F10 to Start/Stop");
+        UIManager.Instance.ShowUIForms<RoundPanel>().Show(-1);
+        StartCoroutine(Co_StartBattle());
     }
 
     IEnumerator Co_GenerateScoreRingSingle()
@@ -229,7 +237,8 @@ public class BattleManager_FlagRace : BattleManager_BallGame
             GameManager.Instance.DebugPanel.RefreshScore(false);
             if (scoreTeam.Score == ConfigManager.FlagRace_TeamTargetScore - 1)
             {
-                GameManager.Instance.DebugPanel.Wins(scoreTeam.TeamNumber);
+                //TODO
+                //GameManager.Instance.DebugPanel.Wins(scoreTeam.TeamNumber);
                 EndBattle_Server();
             }
         }

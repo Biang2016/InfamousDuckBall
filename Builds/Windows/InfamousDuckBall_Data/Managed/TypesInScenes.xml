@@ -120,6 +120,7 @@
 		<type fullname="Ring" preserve="nothing"/>
 		<type fullname="RingContainer" preserve="nothing"/>
 		<type fullname="RoomButton" preserve="nothing"/>
+		<type fullname="RoundPanel" preserve="nothing"/>
 		<type fullname="ScoreRing" preserve="nothing"/>
 		<type fullname="ScoreRingManager" preserve="nothing"/>
 		<type fullname="ScoreRingSingle" preserve="nothing"/>
