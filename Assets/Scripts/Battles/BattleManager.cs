@@ -10,7 +10,7 @@ public abstract class BattleManager : MonoBehaviour
     public float DefaultHeadHeight = 5f;
     public Plane FloorPlane = new Plane(Vector3.up, new Vector3(0, 0, 0));
 
-    public Quaternion PlayerControllerMoveDirectionQuaternion;
+    internal Quaternion PlayerControllerMoveDirectionQuaternion;
 
     protected virtual void Awake()
     {
@@ -32,7 +32,6 @@ public abstract class BattleManager : MonoBehaviour
 
         AudioDuck.Instance.StopAllWOCEvents();
         AudioDuck.Instance.PlaySound(AudioDuck.Instance.Sea, gameObject);
-        PlayerSpawnPointManager.Init();
 
         TeamDict.Clear();
         TeamDict.Add(TeamNumber.Team1, new Team(TeamNumber.Team1));
@@ -80,7 +79,7 @@ public abstract class BattleManager : MonoBehaviour
 
     #region Players
 
-    public PlayerSpawnPointManager PlayerSpawnPointManager;
+    public TeamSpawnPointManager PlayerSpawnPointManager;
     public SortedDictionary<PlayerNumber, Player> PlayerDict = new SortedDictionary<PlayerNumber, Player>();
     internal SortedDictionary<TeamNumber, Team> TeamDict = new SortedDictionary<TeamNumber, Team>();
 
@@ -121,7 +120,7 @@ public abstract class BattleManager : MonoBehaviour
     public virtual void ResetPlayer(Player player)
     {
         player.Reset();
-        PlayerSpawnPointManager.Spawn(player.PlayerNumber);
+        PlayerSpawnPointManager.Spawn(player.PlayerNumber, player.TeamNumber);
     }
 
     public void ResetAllPlayers()

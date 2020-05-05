@@ -103,6 +103,7 @@
 		<type fullname="Goalie" preserve="nothing"/>
 		<type fullname="Head" preserve="nothing"/>
 		<type fullname="HeadModel" preserve="nothing"/>
+		<type fullname="LeaveGamePanel" preserve="nothing"/>
 		<type fullname="LobbyPanel" preserve="nothing"/>
 		<type fullname="MultiControllerManager" preserve="nothing"/>
 		<type fullname="Neck" preserve="nothing"/>
@@ -115,8 +116,6 @@
 		<type fullname="PlayerCollider" preserve="nothing"/>
 		<type fullname="PlayerController" preserve="nothing"/>
 		<type fullname="PlayerCostume" preserve="nothing"/>
-		<type fullname="PlayerSpawnPoint" preserve="nothing"/>
-		<type fullname="PlayerSpawnPointManager" preserve="nothing"/>
 		<type fullname="PrefabManager" preserve="nothing"/>
 		<type fullname="Ring" preserve="nothing"/>
 		<type fullname="RingContainer" preserve="nothing"/>
@@ -129,6 +128,8 @@
 		<type fullname="ScoreRingSingleTrigger" preserve="nothing"/>
 		<type fullname="StartMenuPanel_Boat" preserve="nothing"/>
 		<type fullname="SunGlasses" preserve="nothing"/>
+		<type fullname="TeamSpawnPoint" preserve="nothing"/>
+		<type fullname="TeamSpawnPointManager" preserve="nothing"/>
 		<type fullname="UIManager" preserve="nothing"/>
 		<type fullname="UIMaskMgr" preserve="nothing"/>
 		<type fullname="WaitingPanel" preserve="nothing"/>

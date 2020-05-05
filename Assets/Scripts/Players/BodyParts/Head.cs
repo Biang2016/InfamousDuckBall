@@ -57,7 +57,7 @@ public class Head : MonoBehaviour
                 }
                 else if (rightTriggerPressed)
                 {
-                    if (Time.time - PushChargeTimeTick > DuckConfig.PushChargeTimeMaxDuration - 0.5f)
+                    if (Time.time - PushChargeTimeTick > DuckConfig.PushChargeTimeMaxDuration - 0.7f)
                     {
                         Duck.DuckUI.ShowMaxUI();
                     }

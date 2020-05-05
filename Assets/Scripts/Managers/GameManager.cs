@@ -5,6 +5,8 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoSingleton<GameManager>
 {
+    public float temp = 2f;
+
     private GameState gameState;
 
     public GameState GameState
@@ -43,6 +45,7 @@ public class GameManager : MonoSingleton<GameManager>
     }
 
     public LobbyPanel LobbyPanel;
+    public LeaveGamePanel LeaveGamePanel;
 
     public void Start()
     {
@@ -57,21 +60,26 @@ public class GameManager : MonoSingleton<GameManager>
         GameLogoPanel = UIManager.Instance.ShowUIForms<GameLogoPanel>();
         GameLogoPanel.CloseUIForm();
 
-        CreateNamePanel CreateNamePanel = UIManager.Instance.ShowUIForms<CreateNamePanel>();
+        LeaveGamePanel = UIManager.Instance.ShowUIForms<LeaveGamePanel>();
+        LeaveGamePanel.CloseUIForm();
+
+        UIManager.Instance.ShowUIForms<CreateNamePanel>();
     }
 
     public void Update()
     {
         if (Input.GetKeyUp(KeyCode.Escape))
         {
-            if (BoltNetwork.IsServer)
+            if (Cur_BattleManager)
             {
-                CloseRoomEvent evnt = CloseRoomEvent.Create();
-                evnt.Send();
-            }
-            else
-            {
-                ReturnToLobby();
+                if (!LeaveGamePanel.IsShown)
+                {
+                    UIManager.Instance.ShowUIForms<LeaveGamePanel>();
+                }
+                else
+                {
+                    LeaveGamePanel.CloseUIForm();
+                }
             }
         }
     }

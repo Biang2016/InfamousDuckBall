@@ -31,12 +31,12 @@ public class RoomInfoToken : IProtocolToken
         ushort port = packet.ReadUShort(16);
         UdpEndPoint = new UdpEndPoint(new UdpIPv4Address(packedAddress), port);
         IsVisible = packet.ReadByte(8) == 0x00;
-        RoomName = packet.ReadString(Encoding.Unicode);
+        RoomName = packet.ReadString(Encoding.UTF32);
         BattleType = (BattleTypes) packet.ReadInt(32);
         Cur_PlayerNumber = packet.ReadInt(32);
         Max_PlayerNumber = packet.ReadInt(32);
         HasPassword = packet.ReadByte(8) == 0x00;
-        Password = packet.ReadString(Encoding.Unicode);
+        Password = packet.ReadString(Encoding.UTF32);
         M_Status = (Status) packet.ReadInt(32);
     }
 
@@ -45,12 +45,12 @@ public class RoomInfoToken : IProtocolToken
         packet.WriteUInt(UdpEndPoint.Address.Packed);
         packet.WriteUShort(UdpEndPoint.Port);
         packet.WriteByte((byte) (IsVisible ? 0x00 : 0x01));
-        packet.WriteString(RoomName, Encoding.Unicode, RoomName.Length);
+        packet.WriteString(RoomName, Encoding.UTF32, RoomName.Length);
         packet.WriteInt((int) BattleType);
         packet.WriteInt(Cur_PlayerNumber);
         packet.WriteInt(Max_PlayerNumber);
         packet.WriteByte((byte) (HasPassword ? 0x00 : 0x01));
-        packet.WriteString(Password, Encoding.Unicode, Password.Length);
+        packet.WriteString(Password, Encoding.UTF32, Password.Length);
         packet.WriteInt((int) M_Status);
     }
 }

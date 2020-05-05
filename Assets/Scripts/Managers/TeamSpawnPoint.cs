@@ -1,10 +1,10 @@
 ﻿using UnityEngine;
 
-public class PlayerSpawnPoint : MonoBehaviour, IRevivePlayer
+public class TeamSpawnPoint : MonoBehaviour, IRevivePlayer
 {
     internal bool ConsiderInCamera = true;
-    [SerializeField] private PlayerNumber allowedPlayerNumber;
-    public PlayerNumber AllowedPlayerNumber => allowedPlayerNumber;
+    [SerializeField] private TeamNumber allowedTeamNumber;
+    public TeamNumber AllowedTeamNumber => allowedTeamNumber;
 
     public void Init()
     {
@@ -14,7 +14,7 @@ public class PlayerSpawnPoint : MonoBehaviour, IRevivePlayer
     {
     }
 
-    public void Spawn(PlayerNumber playerNumber)
+    public void Spawn(PlayerNumber playerNumber, TeamNumber teamNumber)
     {
         Player player = GameManager.Instance.Cur_BattleManager.GetPlayer(playerNumber);
         player.SetPlayerPosition(transform.position);

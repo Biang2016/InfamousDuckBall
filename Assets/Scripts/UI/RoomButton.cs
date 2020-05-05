@@ -3,7 +3,7 @@ using UnityEngine.UI;
 
 public class RoomButton : PoolObject
 {
-    [SerializeField] private Button Button;
+    public Button Button;
     [SerializeField] private Text RoomNameText;
     [SerializeField] private Text BattleTypeText;
     [SerializeField] private Text PlayerNumberText;

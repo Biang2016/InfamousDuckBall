@@ -5,9 +5,9 @@ using UnityEngine;
 /// <summary>
 /// 自行寻找合适复活点
 /// </summary>
-public class PlayerSpawnPointManager : MonoBehaviour
+public class TeamSpawnPointManager : MonoBehaviour
 {
-    private Dictionary<PlayerNumber, List<PlayerSpawnPoint>> PlayerSpawnPointDict = new Dictionary<PlayerNumber, List<PlayerSpawnPoint>>();
+    private Dictionary<TeamNumber, List<TeamSpawnPoint>> TeamSpawnPointDict = new Dictionary<TeamNumber, List<TeamSpawnPoint>>();
 
     [SerializeField] private bool ConsiderInCamera = true;
 
@@ -15,38 +15,30 @@ public class PlayerSpawnPointManager : MonoBehaviour
 
     void Awake()
     {
-        List<PlayerSpawnPoint> PlayerSpawnPoints = gameObject.GetComponentsInChildren<PlayerSpawnPoint>(true).ToList();
-        foreach (PlayerSpawnPoint sp in PlayerSpawnPoints)
+        List<TeamSpawnPoint> TeamSpawnPoints = gameObject.GetComponentsInChildren<TeamSpawnPoint>(true).ToList();
+        foreach (TeamSpawnPoint sp in TeamSpawnPoints)
         {
             sp.ConsiderInCamera = ConsiderInCamera;
-            if (!PlayerSpawnPointDict.ContainsKey(sp.AllowedPlayerNumber))
+            if (!TeamSpawnPointDict.ContainsKey(sp.AllowedTeamNumber))
             {
-                PlayerSpawnPointDict.Add(sp.AllowedPlayerNumber, new List<PlayerSpawnPoint>());
+                TeamSpawnPointDict.Add(sp.AllowedTeamNumber, new List<TeamSpawnPoint>());
             }
 
-            PlayerSpawnPointDict[sp.AllowedPlayerNumber].Add(sp);
+            TeamSpawnPointDict[sp.AllowedTeamNumber].Add(sp);
         }
     }
 
-    public void Init()
-    {
-    }
-
-    void Update()
-    {
-    }
-
-    public void Spawn(PlayerNumber playerNumber)
+    public void Spawn(PlayerNumber playerNumber, TeamNumber teamNumber)
     {
         List<Vector3> notValidPoints = GameManager.Instance.Cur_BattleManager.GetAllPlayerPositions();
 
-        List<PlayerSpawnPoint> candidates = new List<PlayerSpawnPoint>();
-        List<PlayerSpawnPoint> candidates_any = new List<PlayerSpawnPoint>();
+        List<TeamSpawnPoint> candidates = new List<TeamSpawnPoint>();
+        List<TeamSpawnPoint> candidates_any = new List<TeamSpawnPoint>();
         List<IRevivePlayer> results = new List<IRevivePlayer>();
 
-        if (PlayerSpawnPointDict.ContainsKey(playerNumber))
+        if (TeamSpawnPointDict.ContainsKey(teamNumber))
         {
-            foreach (PlayerSpawnPoint sp in PlayerSpawnPointDict[playerNumber])
+            foreach (TeamSpawnPoint sp in TeamSpawnPointDict[teamNumber])
             {
                 candidates.Add(sp);
             }
@@ -56,9 +48,9 @@ public class PlayerSpawnPointManager : MonoBehaviour
 
         if (results.Count == 0)
         {
-            if (PlayerSpawnPointDict.ContainsKey(PlayerNumber.AnyPlayer))
+            if (TeamSpawnPointDict.ContainsKey(TeamNumber.AnyTeam))
             {
-                foreach (PlayerSpawnPoint sp in PlayerSpawnPointDict[PlayerNumber.AnyPlayer])
+                foreach (TeamSpawnPoint sp in TeamSpawnPointDict[TeamNumber.AnyTeam])
                 {
                     candidates.Add(sp);
                     candidates_any.Add(sp);
@@ -71,19 +63,19 @@ public class PlayerSpawnPointManager : MonoBehaviour
         if (results.Count > 0)
         {
             int randomIndex = Random.Range(0, results.Count);
-            results[randomIndex].Spawn(playerNumber);
+            results[randomIndex].Spawn(playerNumber,teamNumber);
         }
         else
         {
             int randomIndex = Random.Range(0, candidates.Count);
-            candidates[randomIndex].Spawn(playerNumber);
+            candidates[randomIndex].Spawn(playerNumber, teamNumber);
         }
     }
 
-    private List<IRevivePlayer> GetNoConflictPoints(List<PlayerSpawnPoint> spawnPoints, List<Vector3> notValidPoints)
+    private List<IRevivePlayer> GetNoConflictPoints(List<TeamSpawnPoint> spawnPoints, List<Vector3> notValidPoints)
     {
         List<IRevivePlayer> noConflictPlaces = new List<IRevivePlayer>();
-        foreach (PlayerSpawnPoint psp in spawnPoints)
+        foreach (TeamSpawnPoint psp in spawnPoints)
         {
             bool hasConflicts = false;
             foreach (Vector3 notValidPoint in notValidPoints)

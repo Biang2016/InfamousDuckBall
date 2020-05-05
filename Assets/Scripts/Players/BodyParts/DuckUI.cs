@@ -37,7 +37,7 @@ public class DuckUI : MonoBehaviour
             StopCoroutine(ShowAnnoyingUICoroutine);
         }
 
-        ShowAnnoyingUICoroutine = StartCoroutine(Co_ShowAnnoyingUI(0.8f));
+        ShowAnnoyingUICoroutine = StartCoroutine(Co_ShowAnnoyingUI(1.2f));
     }
 
     IEnumerator Co_ShowAnnoyingUI(float duration)
@@ -56,7 +56,7 @@ public class DuckUI : MonoBehaviour
             StopCoroutine(ShowMaxUICoroutine);
         }
 
-        ShowMaxUICoroutine = StartCoroutine(Co_ShowMaxUI(0.3f));
+        ShowMaxUICoroutine = StartCoroutine(Co_ShowMaxUI(0.5f));
     }
 
     IEnumerator Co_ShowMaxUI(float duration)

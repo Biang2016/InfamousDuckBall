@@ -62,4 +62,36 @@ public class Battle_All_Callbacks : Bolt.GlobalEventListener
         ReturnToLobby_ServerCoroutine = null;
         GameManager.Instance.ReturnToLobby();
     }
+
+    public override void OnEvent(BallSOSEvent evnt)
+    {
+        if (GameManager.Instance.Cur_BattleManager)
+        {
+            switch (GameManager.Instance.Cur_BattleManager.BattleType)
+            {
+                case BattleTypes.Smash:
+                {
+                    Ball ball = ((BattleManager_Smash) GameManager.Instance.Cur_BattleManager).Ball;
+                    ball?.SetSOSBubbleShown_Client(evnt.Shown);
+                    break;
+                }
+                case BattleTypes.FlagRace:
+                {
+                    Ball leftBall = ((BattleManager_FlagRace) GameManager.Instance.Cur_BattleManager).LeftBall;
+                    Ball rightBall = ((BattleManager_FlagRace) GameManager.Instance.Cur_BattleManager).RightBall;
+                    if (evnt.BallName == leftBall.state.BallName)
+                    {
+                        leftBall.SetSOSBubbleShown_Client(evnt.Shown);
+                    }
+
+                    if (evnt.BallName == rightBall.state.BallName)
+                    {
+                        rightBall.SetSOSBubbleShown_Client(evnt.Shown);
+                    }
+
+                    break;
+                }
+            }
+        }
+    }
 }

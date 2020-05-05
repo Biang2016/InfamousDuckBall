@@ -23,8 +23,8 @@ public class DuckConfig : MonoBehaviour
     public float PullChargeBackward = 0.1f;
 
     [Space] public float HeadRotateSpeed = 5f;
-    public float NeckStartTangent = 1f;
-    public float NeckEndTangent = 1f;
+    public float NeckStartTangent => MaxNeckLength / 18f;
+    public float NeckEndTangent => MaxNeckLength / 18f;
     public float LookBallAngleThreshold = 45f;
     public float MinNeckLength = 1f;
     public float MaxNeckLength = 5f;

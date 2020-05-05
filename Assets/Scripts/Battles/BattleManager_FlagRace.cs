@@ -281,7 +281,7 @@ public class BattleManager_FlagRace : BattleManager_BallGame
     public override void ResetPlayer(Player player)
     {
         player.Reset();
-        PlayerSpawnPointManager.Spawn((PlayerNumber) player.TeamNumber);
+        PlayerSpawnPointManager.Spawn(player.PlayerNumber, player.TeamNumber);
     }
 
     public override void EndBattle_Server()

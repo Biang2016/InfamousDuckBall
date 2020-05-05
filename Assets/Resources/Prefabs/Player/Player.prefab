@@ -466,8 +466,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 792509075724341867}
   m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 0, y: -0.25, z: 0}
+  m_LocalScale: {x: 1.3, y: 1.3, z: 1}
   m_Children: []
   m_Father: {fileID: 78408315243672531}
   m_RootOrder: 1
@@ -617,8 +617,8 @@ MonoBehaviour:
   Accelerate: 150
   BrakeVelocityThreshold: 0.3
   PushNeckFrame: 5
-  PushRadius: 5
-  PushNeckDistance: 3
+  PushRadius: 6.5
+  PushNeckDistance: 4
   PushForce: 1000
   PushChargingExtraForce: 5000
   PushChargeTimeMaxDuration: 1.6
@@ -629,11 +629,9 @@ MonoBehaviour:
   PullDuration: 0.2
   PullChargeBackward: 0.05
   HeadRotateSpeed: 60
-  NeckStartTangent: 0.5
-  NeckEndTangent: 0.5
   LookBallAngleThreshold: 0
   MinNeckLength: 1
-  MaxNeckLength: 9
+  MaxNeckLength: 10
 --- !u!114 &149510618339678733
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -797,8 +795,8 @@ MonoBehaviour:
   m_outlineColor:
     serializedVersion: 2
     rgba: 4278190080
-  m_fontSize: 15
-  m_fontSizeBase: 15
+  m_fontSize: 20
+  m_fontSizeBase: 20
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -835,7 +833,7 @@ MonoBehaviour:
   m_firstVisibleCharacter: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: -4.163086, y: 0, z: -4.1574984, w: -0.9373174}
+  m_margin: {x: -5.8896484, y: -0.69624996, z: -5.7666016, w: -0.9373174}
   m_textInfo:
     textComponent: {fileID: 1424830582321861448}
     characterCount: 6
@@ -2040,7 +2038,7 @@ MonoBehaviour:
     endPoint: {x: 0, y: 0, z: 5.564884}
     startTangent: {x: -3.2297623, y: 3.2059717, z: 3.3333333}
     endTangent: {x: 2.5546143, y: -2.6084623, z: -3.333333}
-  color: {r: 0.1847254, g: 0.67091584, b: 0.84828186, a: 1}
+  color: {r: 0.53921443, g: 0.54917043, b: 0.41230124, a: 1}
 --- !u!1 &4904128705103003697
 GameObject:
   m_ObjectHideFlags: 0
@@ -2659,7 +2657,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6288290350225074579}
   m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: -0.25, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 78408315243672531}

@@ -23,10 +23,12 @@ public class GameLogoPanel : BaseUIForm
     public void GameLogoDrop()
     {
         GameLogoAnim.SetTrigger("Show");
+        GameLogoAnim.ResetTrigger("Hide");
     }
 
     public void GameLogoPullUp()
     {
         GameLogoAnim.SetTrigger("Hide");
+        GameLogoAnim.ResetTrigger("Show");
     }
 }

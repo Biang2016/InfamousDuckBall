@@ -1,4 +1,8 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
+using Bolt.Matchmaking;
+using UdpKit;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -12,7 +16,21 @@ public class CreateRoomPanel : BaseUIForm
             isClickElsewhereClose: false,
             uiForms_Type: UIFormTypes.PopUp,
             uiForms_ShowMode: UIFormShowModes.Normal,
-            uiForm_LucencyType: UIFormLucencyTypes.Blur);
+            uiForm_LucencyType: UIFormLucencyTypes.Penetrable);
+    }
+
+    void Update()
+    {
+        if (gameObject.activeInHierarchy)
+        {
+            if (!UIManager.Instance.GetBaseUIForm<WaitingPanel>().IsShown)
+            {
+                if (Input.GetKeyUp(KeyCode.Escape))
+                {
+                    CancelButtonClick();
+                }
+            }
+        }
     }
 
     [SerializeField] private InputField RoomNameInput;
@@ -34,7 +52,6 @@ public class CreateRoomPanel : BaseUIForm
         if (startServerCreateRoomCoroutine != null)
         {
             StopCoroutine(startServerCreateRoomCoroutine);
-            return;
         }
 
         if (!string.IsNullOrWhiteSpace(RoomNameInput.text))
@@ -51,10 +68,11 @@ public class CreateRoomPanel : BaseUIForm
     {
         ConfirmButton.interactable = false;
         UIManager.Instance.ShowUIForms<WaitingPanel>();
+        SetInteractable(false);
 
         if (BoltNetwork.IsRunning)
         {
-            BoltNetwork.Shutdown();
+            BoltNetwork.ShutdownImmediate();
             StatusText.text = "Switching to server mode ...";
         }
 
@@ -157,6 +175,8 @@ public class CreateRoomPanel : BaseUIForm
 
     public override void Display()
     {
+        GameManager.Instance.LobbyPanel.Interactable = false;
+        SetInteractable(true);
         StatusText.text = "";
         ConfirmButton.interactable = true;
         CancelButton.interactable = true;
@@ -168,9 +188,41 @@ public class CreateRoomPanel : BaseUIForm
 
     public override void Hide()
     {
+        GameManager.Instance.LobbyPanel.Interactable = true;
+        UIManager.Instance.CloseUIForm<WaitingPanel>();
         StatusText.text = "";
         ConfirmButton.interactable = true;
         CancelButton.interactable = true;
         base.Hide();
+    }
+
+    public void SetInteractable(bool interactable)
+    {
+        RoomNameInput.interactable = interactable;
+        PasswordToggle.interactable = interactable;
+        PasswordInput.interactable = PasswordToggle.isOn && interactable;
+        VisibleToggle.interactable = interactable;
+        Button_1V1.interactable = interactable;
+        Button_2V2.interactable = interactable;
+    }
+
+    private bool interactable = true;
+
+    public bool Interactable
+    {
+        get { return interactable; }
+        set
+        {
+            if (interactable != value)
+            {
+                interactable = value;
+                RoomNameInput.interactable = value;
+                PasswordToggle.interactable = value;
+                PasswordInput.interactable = PasswordToggle.isOn && value;
+                VisibleToggle.interactable = value;
+                Button_1V1.interactable = value;
+                Button_2V2.interactable = value;
+            }
+        }
     }
 }

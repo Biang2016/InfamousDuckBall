@@ -97,6 +97,7 @@ public class BoltManager : GlobalEventListener
             cur_ServerRoomInfo = new RoomInfoToken();
             cur_ServerRoomInfo.UdpEndPoint = BoltNetwork.UdpSocket.WanEndPoint;
             cur_ServerRoomInfo.RoomName = roomName;
+            string sessionID = roomName + DateTime.Now.ToLongTimeString();
             cur_ServerRoomInfo.IsVisible = visible;
             cur_ServerRoomInfo.BattleType = battleType;
             cur_ServerRoomInfo.Cur_PlayerNumber = 1;
@@ -107,7 +108,7 @@ public class BoltManager : GlobalEventListener
 
             // TODO game name existed bug
             BoltMatchmaking.CreateSession(
-                sessionID: roomName,
+                sessionID: sessionID,
                 sceneToLoad: "Battle_" + battleType,
                 token: cur_ServerRoomInfo
             );
@@ -222,6 +223,11 @@ public class BoltManager : GlobalEventListener
 
     public static void UpdateRoomList(Map<Guid, UdpSession> sessionList, string filter)
     {
+        if (!BoltNetwork.IsRunning)
+        {
+            BoltLauncher.StartClient();
+        }
+
         Debug.LogFormat("Session list updated: {0} total sessions", sessionList.Count);
         List<RoomInfoToken> roomInfos = new List<RoomInfoToken>();
         foreach (KeyValuePair<Guid, UdpSession> kv in sessionList)

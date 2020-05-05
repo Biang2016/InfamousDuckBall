@@ -12,7 +12,18 @@ public class CreateNamePanel : BaseUIForm
             isClickElsewhereClose: false,
             uiForms_Type: UIFormTypes.Normal,
             uiForms_ShowMode: UIFormShowModes.Normal,
-            uiForm_LucencyType: UIFormLucencyTypes.ImPenetrable);
+            uiForm_LucencyType: UIFormLucencyTypes.Penetrable);
+    }
+
+    void Update()
+    {
+        if (IsShown && GameManager.Instance.LobbyPanel.gameObject.activeInHierarchy)
+        {
+            if (Input.GetKeyUp(KeyCode.Escape))
+            {
+                CloseUIForm();
+            }
+        }
     }
 
     [SerializeField] private Animator Anim;
@@ -20,6 +31,7 @@ public class CreateNamePanel : BaseUIForm
 
     public override void Display()
     {
+        GameManager.Instance.LobbyPanel.Interactable = false;
 #if DEBUG
         base.Display();
         Anim.SetTrigger("Show");
@@ -31,6 +43,7 @@ public class CreateNamePanel : BaseUIForm
             {
                 boatAlreadyMoveIn = true;
                 BoatMenuManager.Instance.BoatMoveIn();
+                CloseUIForm();
             }
         }
         else
@@ -39,6 +52,12 @@ public class CreateNamePanel : BaseUIForm
             Anim.SetTrigger("Show");
         }
 #endif
+    }
+
+    public override void Hide()
+    {
+        base.Hide();
+        GameManager.Instance.LobbyPanel.Interactable = true;
     }
 
     private bool boatAlreadyMoveIn = false;
@@ -58,6 +77,8 @@ public class CreateNamePanel : BaseUIForm
             {
                 GameManager.Instance.LobbyPanel.UpdateUserName();
             }
+
+            CloseUIForm();
         }
         else
         {
