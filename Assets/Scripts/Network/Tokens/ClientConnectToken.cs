@@ -8,11 +8,11 @@ internal class ClientConnectToken : IProtocolToken
 
     public void Read(UdpPacket packet)
     {
-        UserName = packet.ReadString(Encoding.Unicode);
+        UserName = packet.ReadString(Encoding.UTF8);
     }
 
     public void Write(UdpPacket packet)
     {
-        packet.WriteString(UserName, Encoding.Unicode, UserName.Length);
+        packet.WriteString(UserName, Encoding.UTF8, UserName.Length);
     }
 }

@@ -82,11 +82,6 @@ public class BoltManager : GlobalEventListener
         }
     }
 
-    public static void SwitchScene_Server(string sceneName)
-    {
-        BoltNetwork.LoadScene(sceneName);
-    }
-
     public static UnityAction OnBoltStartDone_Server;
     private static RoomInfoToken cur_ServerRoomInfo;
 
@@ -180,13 +175,6 @@ public class BoltManager : GlobalEventListener
         }
     }
 
-    public override void ConnectAttempt(UdpEndPoint endpoint, IProtocolToken token)
-    {
-        ClientConnectToken cct = new ClientConnectToken();
-        cct.UserName = "NewUser";
-        base.ConnectAttempt(endpoint, cct);
-    }
-
     public override void ConnectRefused(UdpEndPoint endpoint, IProtocolToken token)
     {
         base.ConnectRefused(endpoint, token);
@@ -265,7 +253,7 @@ public class BoltManager : GlobalEventListener
                                 {
                                     if (ri.Password == pp.PasswordInputField.text.EncodeSHA512())
                                     {
-                                        TryConnect(kv.Value, "NewUser");
+                                        TryConnect(kv.Value, PlayerPrefs.GetString("PlayerID"));
                                     }
                                     else
                                     {
@@ -275,7 +263,7 @@ public class BoltManager : GlobalEventListener
                             }
                             else
                             {
-                                TryConnect(kv.Value, "NewUser");
+                                TryConnect(kv.Value, PlayerPrefs.GetString("PlayerID"));
                             }
 
                             break;

@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Player : EntityBehaviour<IPlayerState>
 {
+    public string PlayerName => state.PlayerInfo.PlayerName;
     public PlayerNumber PlayerNumber => (PlayerNumber) state.PlayerInfo.PlayerNumber;
     public TeamNumber TeamNumber => (TeamNumber) state.PlayerInfo.TeamNumber;
     public CostumeType CostumeType => (CostumeType) state.PlayerInfo.CostumeType;
@@ -56,8 +57,9 @@ public class Player : EntityBehaviour<IPlayerState>
 
     private bool IsInitialized = false;
 
-    public void Initialize_Server(PlayerNumber playerNumber, TeamNumber teamNumber, CostumeType costumeType)
+    public void Initialize_Server(string playerName, PlayerNumber playerNumber, TeamNumber teamNumber, CostumeType costumeType)
     {
+        state.PlayerInfo.PlayerName = playerName;
         state.PlayerInfo.PlayerNumber = (int) playerNumber;
         state.PlayerInfo.TeamNumber = (int) teamNumber;
         if (entity.IsOwner && !IsInitialized)
@@ -159,10 +161,5 @@ public class Player : EntityBehaviour<IPlayerState>
         Duck.Ring.LoseRing();
         Duck.Wings.LoseRing();
         Goalie.IsGoalie = false;
-    }
-
-    public PlayerInfoData GetPlayerInfoDate()
-    {
-        return new PlayerInfoData(PlayerNumber, TeamNumber, CostumeType);
     }
 }

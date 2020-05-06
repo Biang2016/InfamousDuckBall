@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using UnityEngine;
 
 public static class PlayerObjectRegistry
 {
@@ -25,6 +26,7 @@ public static class PlayerObjectRegistry
             player.Connection.UserData = player;
         }
 
+        player.PlayerName = playerInfoData.PlayerName;
         player.PlayerNumber = playerInfoData.PlayerNumber;
         player.TeamNumber = playerInfoData.TeamNumber;
         player.CostumeType = playerInfoData.CostumeType;
@@ -91,12 +93,7 @@ public static class PlayerObjectRegistry
 
     public static void CreateServerPlayer()
     {
-        CreatePlayer(null, new PlayerInfoData(PlayerNumber.Player1, (TeamNumber) (playerDict.Count % 2), CostumeType.Costume1));
-    }
-
-    public static void CreateServerPlayer(PlayerInfoData playerInfoData)
-    {
-        CreatePlayer(null, playerInfoData);
+        CreatePlayer(null, new PlayerInfoData(PlayerPrefs.GetString("PlayerID"), PlayerNumber.Player1, (TeamNumber) (playerDict.Count % 2), CostumeType.Costume1));
     }
 
     public static void CreateClientPlayer(BoltConnection connection)
@@ -104,13 +101,14 @@ public static class PlayerObjectRegistry
         PlayerNumber pn = FindUnusedPlayerNumber();
         if (pn != PlayerNumber.None && pn != PlayerNumber.Player1)
         {
-            CreatePlayer(connection, new PlayerInfoData(pn, (TeamNumber) (playerDict.Count % 2), CostumeType.Costume1));
-        }
-    }
+            string playerName = "unknown";
+            if (connection.ConnectToken is ClientConnectToken cct)
+            {
+                playerName = cct.UserName;
+            }
 
-    public static void CreateClientPlayer(BoltConnection connection, PlayerInfoData playerInfoData)
-    {
-        CreatePlayer(connection, playerInfoData);
+            CreatePlayer(connection, new PlayerInfoData(playerName, pn, (TeamNumber) (playerDict.Count % 2), CostumeType.Costume1));
+        }
     }
 
     static PlayerNumber FindUnusedPlayerNumber()

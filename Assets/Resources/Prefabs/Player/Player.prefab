@@ -795,8 +795,8 @@ MonoBehaviour:
   m_outlineColor:
     serializedVersion: 2
     rgba: 4278190080
-  m_fontSize: 20
-  m_fontSizeBase: 20
+  m_fontSize: 10
+  m_fontSizeBase: 10
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -2038,7 +2038,7 @@ MonoBehaviour:
     endPoint: {x: 0, y: 0, z: 5.564884}
     startTangent: {x: -3.2297623, y: 3.2059717, z: 3.3333333}
     endTangent: {x: 2.5546143, y: -2.6084623, z: -3.333333}
-  color: {r: 0.53921443, g: 0.54917043, b: 0.41230124, a: 1}
+  color: {r: 0.058980823, g: 0.33103365, b: 0.1673541, a: 1}
 --- !u!1 &4904128705103003697
 GameObject:
   m_ObjectHideFlags: 0

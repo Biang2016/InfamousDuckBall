@@ -22,10 +22,14 @@ public class DuckUI : MonoBehaviour
 
     public void Initialize()
     {
-        PlayerName.text = PlayerPrefs.GetString("PlayerID");
         Arrow.sprite = TeamArrowSprites[(int) Player.TeamNumber];
         Bubble_Annoying.enabled = false;
         Bubble_Max.enabled = false;
+    }
+
+    void Update()
+    {
+        PlayerName.text = Player.state.PlayerInfo.PlayerName;
     }
 
     private Coroutine ShowAnnoyingUICoroutine;
