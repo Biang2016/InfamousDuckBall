@@ -12,7 +12,7 @@ public class Battle_All_Callbacks : Bolt.GlobalEventListener
         {
             if (GameManager.Instance.Cur_BallBattleManager.BattleType == (BattleTypes) evnt.BattleType)
             {
-                GameManager.Instance.Cur_BallBattleManager.EndBattle();
+                GameManager.Instance.Cur_BallBattleManager.EndBattle((TeamNumber) evnt.WinnerTeamNumber, evnt.Team1Score, evnt.Team2Score);
             }
         }
     }

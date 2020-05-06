@@ -74,7 +74,7 @@ public class GameManager : MonoSingleton<GameManager>
             {
                 if (!LeaveGamePanel.IsShown)
                 {
-                    UIManager.Instance.ShowUIForms<LeaveGamePanel>();
+                    UIManager.Instance.ShowUIForms<LeaveGamePanel>().Initialize();
                 }
                 else
                 {

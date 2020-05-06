@@ -1,11 +1,14 @@
 <linker>
 	<assembly fullname="UnityEngine">
 		<type fullname="UnityEngine.Object" preserve="nothing"/>
+		<type fullname="UnityEngine.Texture" preserve="nothing"/>
 		<type fullname="UnityEngine.Behaviour" preserve="nothing"/>
 		<type fullname="UnityEngine.Component" preserve="nothing"/>
 		<type fullname="UnityEngine.MonoBehaviour" preserve="nothing"/>
 		<type fullname="UnityEditor.MonoScript" preserve="nothing"/>
 		<type fullname="UnityEngine.Material" preserve="nothing"/>
+		<type fullname="UnityEngine.Texture2D" preserve="nothing"/>
+		<type fullname="UnityEngine.Sprite" preserve="nothing"/>
 		<type fullname="UnityEditor.UnityConnectSettings" preserve="nothing"/>
 		<type fullname="UnityEditor.VFXManager" preserve="nothing"/>
 		<type fullname="UnityEngine.Shader" preserve="nothing"/>
@@ -36,7 +39,6 @@
 		<type fullname="UnityEngine.Audio.AudioMixerGroup" preserve="nothing"/>
 		<type fullname="UnityEngine.Audio.AudioMixerSnapshot" preserve="nothing"/>
 		<type fullname="UnityEngine.AudioClip" preserve="nothing"/>
-		<type fullname="UnityEngine.Texture" preserve="nothing"/>
 		<type fullname="UnityEngine.ParticleSystem" preserve="nothing"/>
 		<type fullname="UnityEngine.ParticleSystemRenderer" preserve="nothing"/>
 		<type fullname="UnityEngine.Rigidbody" preserve="nothing"/>
@@ -55,8 +57,6 @@
 		<type fullname="UnityEngine.LightmapSettings" preserve="nothing"/>
 		<type fullname="UnityEngine.Font" preserve="nothing"/>
 		<type fullname="UnityEngine.Mesh" preserve="nothing"/>
-		<type fullname="UnityEngine.Texture2D" preserve="nothing"/>
-		<type fullname="UnityEngine.Sprite" preserve="nothing"/>
 		<type fullname="UnityEngine.CanvasRenderer" preserve="nothing"/>
 		<type fullname="UnityEngine.RenderSettings" preserve="nothing"/>
 	</assembly>
@@ -121,6 +121,9 @@
 		<type fullname="RingContainer" preserve="nothing"/>
 		<type fullname="RoomButton" preserve="nothing"/>
 		<type fullname="RoundPanel" preserve="nothing"/>
+		<type fullname="RoundScorePanel" preserve="nothing"/>
+		<type fullname="RoundScoreRow" preserve="nothing"/>
+		<type fullname="RoundSmallScorePanel" preserve="nothing"/>
 		<type fullname="ScoreRing" preserve="nothing"/>
 		<type fullname="ScoreRingManager" preserve="nothing"/>
 		<type fullname="ScoreRingSingle" preserve="nothing"/>
@@ -136,6 +139,7 @@
 		<type fullname="WaitingPanel" preserve="nothing"/>
 		<type fullname="WaterBob" preserve="nothing"/>
 		<type fullname="Wheel" preserve="nothing"/>
+		<type fullname="WinPanel" preserve="nothing"/>
 		<type fullname="WindIndicator" preserve="nothing"/>
 		<type fullname="Wings" preserve="nothing"/>
 		<type fullname="WingsContainer" preserve="nothing"/>

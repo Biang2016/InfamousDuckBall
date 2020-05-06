@@ -35,6 +35,17 @@
         },
         {
             "managedAssemblyName": "UnityEngine.dll",
+            "nativeClass": "Texture",
+            "fullManagedTypeName": "UnityEngine.Texture",
+            "moduleName": "Core",
+            "usedInScenes": [
+                "Assets/Scenes/BoltMenu.unity",
+                "Assets/Scenes/Battle_FlagRace.unity",
+                "Assets/Scenes/Battle_Smash.unity"
+            ]
+        },
+        {
+            "managedAssemblyName": "UnityEngine.dll",
             "nativeClass": "Behaviour",
             "fullManagedTypeName": "UnityEngine.Behaviour",
             "moduleName": "Core",
@@ -86,6 +97,27 @@
                 "Assets/Scenes/BoltMenu.unity",
                 "Assets/Scenes/Battle_FlagRace.unity",
                 "Assets/Scenes/Battle_Smash.unity"
+            ]
+        },
+        {
+            "managedAssemblyName": "UnityEngine.dll",
+            "nativeClass": "Texture2D",
+            "fullManagedTypeName": "UnityEngine.Texture2D",
+            "moduleName": "Core",
+            "usedInScenes": [
+                "Assets/Scenes/BoltMenu.unity",
+                "Assets/Scenes/Battle_FlagRace.unity",
+                "Assets/Scenes/Battle_Smash.unity"
+            ]
+        },
+        {
+            "managedAssemblyName": "UnityEngine.dll",
+            "nativeClass": "Sprite",
+            "fullManagedTypeName": "UnityEngine.Sprite",
+            "moduleName": "Core",
+            "usedInScenes": [
+                "Assets/Scenes/BoltMenu.unity",
+                "Assets/Scenes/Battle_FlagRace.unity"
             ]
         },
         {
@@ -426,17 +458,6 @@
         },
         {
             "managedAssemblyName": "UnityEngine.dll",
-            "nativeClass": "Texture",
-            "fullManagedTypeName": "UnityEngine.Texture",
-            "moduleName": "Core",
-            "usedInScenes": [
-                "Assets/Scenes/BoltMenu.unity",
-                "Assets/Scenes/Battle_FlagRace.unity",
-                "Assets/Scenes/Battle_Smash.unity"
-            ]
-        },
-        {
-            "managedAssemblyName": "UnityEngine.dll",
             "nativeClass": "ParticleSystem",
             "fullManagedTypeName": "UnityEngine.ParticleSystem",
             "moduleName": "ParticleSystem",
@@ -616,27 +637,6 @@
                 "Assets/Scenes/BoltMenu.unity",
                 "Assets/Scenes/Battle_FlagRace.unity",
                 "Assets/Scenes/Battle_Smash.unity"
-            ]
-        },
-        {
-            "managedAssemblyName": "UnityEngine.dll",
-            "nativeClass": "Texture2D",
-            "fullManagedTypeName": "UnityEngine.Texture2D",
-            "moduleName": "Core",
-            "usedInScenes": [
-                "Assets/Scenes/BoltMenu.unity",
-                "Assets/Scenes/Battle_FlagRace.unity",
-                "Assets/Scenes/Battle_Smash.unity"
-            ]
-        },
-        {
-            "managedAssemblyName": "UnityEngine.dll",
-            "nativeClass": "Sprite",
-            "fullManagedTypeName": "UnityEngine.Sprite",
-            "moduleName": "Core",
-            "usedInScenes": [
-                "Assets/Scenes/BoltMenu.unity",
-                "Assets/Scenes/Battle_FlagRace.unity"
             ]
         },
         {
@@ -1097,6 +1097,27 @@
         {
             "managedAssemblyName": "Assembly-CSharp.dll",
             "nativeClass": "",
+            "fullManagedTypeName": "RoundScorePanel",
+            "moduleName": "",
+            "usedInScenes": []
+        },
+        {
+            "managedAssemblyName": "Assembly-CSharp.dll",
+            "nativeClass": "",
+            "fullManagedTypeName": "RoundScoreRow",
+            "moduleName": "",
+            "usedInScenes": []
+        },
+        {
+            "managedAssemblyName": "Assembly-CSharp.dll",
+            "nativeClass": "",
+            "fullManagedTypeName": "RoundSmallScorePanel",
+            "moduleName": "",
+            "usedInScenes": []
+        },
+        {
+            "managedAssemblyName": "Assembly-CSharp.dll",
+            "nativeClass": "",
             "fullManagedTypeName": "ScoreRing",
             "moduleName": "",
             "usedInScenes": []
@@ -1196,6 +1217,13 @@
             "managedAssemblyName": "Assembly-CSharp.dll",
             "nativeClass": "",
             "fullManagedTypeName": "Wheel",
+            "moduleName": "",
+            "usedInScenes": []
+        },
+        {
+            "managedAssemblyName": "Assembly-CSharp.dll",
+            "nativeClass": "",
+            "fullManagedTypeName": "WinPanel",
             "moduleName": "",
             "usedInScenes": []
         },

@@ -18,7 +18,7 @@ public abstract class BattleManager_BallGame : BattleManager
         {
             if (IsStart)
             {
-                EndBattle_Server();
+                EndBattle_Server(TeamNumber.None);
             }
             else
             {
@@ -35,11 +35,10 @@ public abstract class BattleManager_BallGame : BattleManager
     }
 
     public abstract void BallHit_Server(Ball ball, Player hitPlayer, TeamNumber hitTeamNumber);
-    public abstract void EndBattle_Server();
+    public abstract void EndBattle_Server(TeamNumber winnerTeam);
 
-    public virtual void EndBattle()
+    public virtual void EndBattle(TeamNumber winnerTeam, int team1Score, int team2Score)
     {
         StopAllCoroutines();
-        NoticeManager.Instance.ShowInfoPanelTop("GAME OVER!", 0, 0.7f);
     }
 }

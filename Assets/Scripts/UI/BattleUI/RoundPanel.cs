@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.Events;
 using UnityEngine.UI;
 
 public class RoundPanel : BaseUIForm
@@ -24,6 +25,12 @@ public class RoundPanel : BaseUIForm
     [SerializeField] private Animator BannerTextAnim;
 
     private Coroutine showCoroutine;
+
+    public override void Display()
+    {
+        base.Display();
+        PlayerObjectRegistry.MyPlayer.PlayerController.Controller.Active = false;
+    }
 
     public void Show(int round)
     {
@@ -72,6 +79,7 @@ public class RoundPanel : BaseUIForm
         yield return new WaitForSeconds(0.5f);
 
         BannerAnim.SetTrigger("Hide");
+        PlayerObjectRegistry.MyPlayer.PlayerController.Controller.Active = true;
         CloseUIForm();
     }
 }

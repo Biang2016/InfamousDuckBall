@@ -1,5 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
+using Bolt;
+using Bolt.Matchmaking;
+using Bolt.Utils;
 using UnityEngine.UI;
 
 public class LeaveGamePanel : BaseUIForm
@@ -16,6 +19,18 @@ public class LeaveGamePanel : BaseUIForm
             uiForms_Type: UIFormTypes.Normal,
             uiForms_ShowMode: UIFormShowModes.Normal,
             uiForm_LucencyType: UIFormLucencyTypes.Penetrable);
+    }
+
+    public void Initialize()
+    {
+        if (BoltMatchmaking.CurrentSession != null)
+        {
+            IProtocolToken token = BoltMatchmaking.CurrentSession.GetProtocolToken();
+            if (token != null && token is RoomInfoToken rit)
+            {
+                RoomIDText.text = "Room ID: " + rit.RoomName;
+            }
+        }
     }
 
     public void OnContinueButtonClick()

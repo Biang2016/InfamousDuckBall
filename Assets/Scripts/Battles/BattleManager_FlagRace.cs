@@ -237,9 +237,7 @@ public class BattleManager_FlagRace : BattleManager_BallGame
             GameManager.Instance.DebugPanel.RefreshScore(false);
             if (scoreTeam.Score == ConfigManager.FlagRace_TeamTargetScore - 1)
             {
-                //TODO
-                //GameManager.Instance.DebugPanel.Wins(scoreTeam.TeamNumber);
-                EndBattle_Server();
+                EndBattle_Server(scoreTeam.TeamNumber);
             }
         }
     }
@@ -258,7 +256,6 @@ public class BattleManager_FlagRace : BattleManager_BallGame
     IEnumerator Co_PlayerRingRecover(Player player, CostumeType costumeType)
     {
         yield return null;
-        //yield return new WaitForSeconds(0.2f);
         PlayerRingEvent pre = PlayerRingEvent.Create();
         pre.HasRing = true;
         pre.PlayerNumber = (int) player.PlayerNumber;
@@ -293,11 +290,14 @@ public class BattleManager_FlagRace : BattleManager_BallGame
         PlayerSpawnPointManager.Spawn(player.PlayerNumber, player.TeamNumber);
     }
 
-    public override void EndBattle_Server()
+    public override void EndBattle_Server(TeamNumber winnerTeam)
     {
         if (BoltNetwork.IsServer)
         {
             BattleEndEvent evnt = BattleEndEvent.Create();
+            evnt.Team1Score = TeamDict[TeamNumber.Team1].Score;
+            evnt.Team2Score = TeamDict[TeamNumber.Team2].Score;
+            evnt.WinnerTeamNumber = (int) winnerTeam;
             evnt.BattleType = (int) BattleTypes.FlagRace;
             evnt.Send();
             if (LeftBall)
@@ -318,12 +318,11 @@ public class BattleManager_FlagRace : BattleManager_BallGame
         }
     }
 
-    public override void EndBattle()
+    public override void EndBattle(TeamNumber winnerTeam, int team1Score, int team2Score)
     {
-        base.EndBattle();
+        base.EndBattle(winnerTeam, team1Score, team2Score);
         LeftBall = null;
         RightBall = null;
         IsStart = false;
-        GameManager.Instance.DebugPanel.SetStartTipShown(true, "F4/F5/F6 to switch game, F10 to Start/Stop");
     }
 }

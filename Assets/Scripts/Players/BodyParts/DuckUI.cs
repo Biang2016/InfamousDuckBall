@@ -29,7 +29,10 @@ public class DuckUI : MonoBehaviour
 
     void Update()
     {
-        PlayerName.text = Player.state.PlayerInfo.PlayerName;
+        if (Player.state != null)
+        {
+            PlayerName.text = Player.state.PlayerInfo.PlayerName;
+        }
     }
 
     private Coroutine ShowAnnoyingUICoroutine;

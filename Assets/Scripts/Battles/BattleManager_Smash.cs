@@ -43,7 +43,8 @@ public class BattleManager_Smash : BattleManager_BallGame
     {
         if (BoltNetwork.IsServer)
         {
-            StartNewRound();
+            BattleStartEvent.Create().Send();
+            StartNewRound_Server();
             ScoreRingManager.Reset();
             foreach (KeyValuePair<TeamNumber, Team> kv in TeamDict)
             {
@@ -56,21 +57,22 @@ public class BattleManager_Smash : BattleManager_BallGame
     {
         base.StartBattle();
         IsStart = true;
-        int round = 0;
-        foreach (KeyValuePair<TeamNumber, Team> kv in TeamDict)
-        {
-            round += kv.Value.MegaScore;
-        }
-
-        UIManager.Instance.ShowUIForms<RoundPanel>().Show(round + 1);
-        StartCoroutine(Co_StartNewRound());
     }
 
-    public void StartNewRound()
+    public void StartNewRound_Server()
     {
         if (BoltNetwork.IsServer)
         {
-            BattleStartEvent.Create().Send();
+            RoundStartEvent evnt = RoundStartEvent.Create();
+            int round = 0;
+            foreach (KeyValuePair<TeamNumber, Team> kv in TeamDict)
+            {
+                round += kv.Value.MegaScore;
+            }
+
+            evnt.Round = round + 1;
+            evnt.Send();
+
             if (!Ball)
             {
                 BoltEntity be1 = BoltNetwork.Instantiate(BoltPrefabs.Ball, BallPivot.position, BallPivot.rotation);
@@ -107,11 +109,47 @@ public class BattleManager_Smash : BattleManager_BallGame
         }
     }
 
-    IEnumerator Co_StartNewRound()
+    public void StartNewRound(int round)
+    {
+        RoundPanel rp = UIManager.Instance.ShowUIForms<RoundPanel>();
+        rp.Show(round);
+
+        RoundSmallScorePanel rssp = UIManager.Instance.ShowUIForms<RoundSmallScorePanel>();
+        rssp.RefreshScore_Team1(5);
+        rssp.RefreshScore_Team2(5);
+    }
+
+    public void EndRound_Server(TeamNumber winnerTeamNumber, int Team1Score, int Team2Score, bool battleEnd)
+    {
+        StartCoroutine(Co_EndRound_Server(winnerTeamNumber, Team1Score, Team2Score, battleEnd));
+    }
+
+    IEnumerator Co_EndRound_Server(TeamNumber winnerTeamNumber, int Team1Score, int Team2Score, bool battleEnd)
+    {
+        RoundEndEvent evnt = RoundEndEvent.Create();
+        evnt.WinTeamNumber = (int) winnerTeamNumber;
+        evnt.Team1Score = Team1Score;
+        evnt.Team2Score = Team2Score;
+        evnt.Send();
+
+        if (battleEnd)
+        {
+            yield return new WaitForSeconds(3f);
+            EndBattle_Server(winnerTeamNumber);
+        }
+        else
+        {
+            yield return new WaitForSeconds(3f);
+            StartNewRound_Server();
+        }
+    }
+
+    public void EndRound(TeamNumber winnerTeam, int team1Score, int team2Score)
     {
         PlayerObjectRegistry.MyPlayer.PlayerController.Controller.Active = false;
-        yield return new WaitForSeconds(5f);
-        PlayerObjectRegistry.MyPlayer.PlayerController.Controller.Active = true;
+        RoundScorePanel rsp = UIManager.Instance.ShowUIForms<RoundScorePanel>();
+        rsp.Initialize(team2Score, team1Score);
+        rsp.ShowJump();
     }
 
     public override void BallHit_Server(Ball ball, Player player, TeamNumber teamNumber)
@@ -129,6 +167,14 @@ public class BattleManager_Smash : BattleManager_BallGame
             TeamNumber otherTeam = teamNumber == TeamNumber.Team1 ? TeamNumber.Team2 : TeamNumber.Team1;
             if (TeamDict[otherTeam].MegaScore < ConfigManager.Smash_TeamTargetMegaScore - 1)
             {
+                ScoreChangeEvent _sce_hit = ScoreChangeEvent.Create();
+                _sce_hit.TeamNumber = (int) teamNumber;
+                _sce_hit.Score = TeamDict[teamNumber].Score - 1;
+                TeamDict[teamNumber].Score -= 1;
+                _sce_hit.MegaScore = TeamDict[teamNumber].MegaScore;
+                _sce_hit.IsNewBattle = false;
+                _sce_hit.Send();
+
                 ScoreChangeEvent _sce = ScoreChangeEvent.Create();
                 _sce.TeamNumber = (int) otherTeam;
                 _sce.Score = TeamDict[otherTeam].Score;
@@ -136,14 +182,12 @@ public class BattleManager_Smash : BattleManager_BallGame
                 _sce.MegaScore = TeamDict[otherTeam].MegaScore;
                 _sce.IsNewBattle = false;
                 _sce.Send();
-                StartNewRound();
+                EndRound_Server(otherTeam, TeamDict[TeamNumber.Team1].MegaScore, TeamDict[TeamNumber.Team2].MegaScore, false);
                 return;
             }
             else
             {
-                //TODO
-                //GameManager.Instance.DebugPanel.Wins(otherTeam);
-                EndBattle_Server();
+                EndRound_Server(otherTeam, TeamDict[TeamNumber.Team1].MegaScore, TeamDict[TeamNumber.Team2].MegaScore, true);
             }
         }
         else
@@ -175,6 +219,56 @@ public class BattleManager_Smash : BattleManager_BallGame
         AudioDuck.Instance.PlaySound(AudioDuck.Instance.FishBreath, GameManager.Instance.gameObject);
     }
 
+    public override void EndBattle_Server(TeamNumber winnerTeam)
+    {
+        if (BoltNetwork.IsServer)
+        {
+            if (Ball)
+            {
+                BoltNetwork.Destroy(Ball.gameObject);
+            }
+
+            BattleEndEvent evnt = BattleEndEvent.Create();
+            evnt.BattleType = (int) BattleTypes.Smash;
+            evnt.WinnerTeamNumber = (int) winnerTeam;
+            evnt.Team1Score = TeamDict[TeamNumber.Team1].MegaScore;
+            evnt.Team2Score = TeamDict[TeamNumber.Team2].MegaScore;
+            evnt.Send();
+
+            ResetAllPlayers();
+            ScoreRingManager.Reset();
+            foreach (KeyValuePair<TeamNumber, Team> kv in TeamDict)
+            {
+                kv.Value.Score = ConfigManager.Smash_TeamStartScore;
+                kv.Value.MegaScore = 0;
+                ScoreChangeEvent sce = ScoreChangeEvent.Create();
+                sce.TeamNumber = (int) kv.Key;
+                sce.Score = kv.Value.Score;
+                sce.MegaScore = kv.Value.MegaScore;
+                sce.IsNewBattle = true;
+                sce.Send();
+            }
+        }
+    }
+
+    public override void EndBattle(TeamNumber winnerTeam, int team1Score, int team2Score)
+    {
+        base.EndBattle(winnerTeam, team1Score, team2Score);
+        UIManager.Instance.CloseUIForm<RoundSmallScorePanel>();
+        if (winnerTeam == TeamNumber.None)
+        {
+        }
+        else
+        {
+            WinPanel wp = UIManager.Instance.ShowUIForms<WinPanel>();
+            wp.Initialize(BattleTypes.Smash, winnerTeam);
+            wp.Show();
+        }
+
+        Ball = null;
+        IsStart = false;
+    }
+
     IEnumerator Co_PlayerRingRecover(Player player, CostumeType costumeType)
     {
         yield return new WaitForSeconds(ConfigManager.Instance.RingRecoverTime);
@@ -198,42 +292,5 @@ public class BattleManager_Smash : BattleManager_BallGame
                 break;
             }
         }
-    }
-
-    public override void EndBattle_Server()
-    {
-        if (BoltNetwork.IsServer)
-        {
-            BattleEndEvent evnt = BattleEndEvent.Create();
-            evnt.BattleType = (int) BattleTypes.Smash;
-            evnt.Send();
-            if (Ball)
-            {
-                BoltNetwork.Destroy(Ball.gameObject);
-            }
-
-            ResetAllPlayers();
-            ScoreRingManager.Reset();
-            foreach (KeyValuePair<TeamNumber, Team> kv in TeamDict)
-            {
-                kv.Value.Score = ConfigManager.Smash_TeamStartScore;
-                kv.Value.MegaScore = 0;
-                ScoreChangeEvent sce = ScoreChangeEvent.Create();
-                sce.TeamNumber = (int) kv.Key;
-                sce.Score = kv.Value.Score;
-                sce.MegaScore = kv.Value.MegaScore;
-                sce.IsNewBattle = true;
-                sce.Send();
-            }
-        }
-    }
-
-    public override void EndBattle()
-    {
-        base.EndBattle();
-        Ball = null;
-        IsStart = false;
-        GameManager.Instance.DebugPanel.SetStartTipShown(true, "F4/F5/F6 to switch game, F10 to Start/Stop");
-        GameManager.Instance.DebugPanel.RefreshScore(true);
     }
 }
