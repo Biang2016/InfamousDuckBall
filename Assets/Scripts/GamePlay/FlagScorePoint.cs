@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 public class FlagScorePoint : MonoBehaviour
 {
@@ -10,6 +11,8 @@ public class FlagScorePoint : MonoBehaviour
         Anim.SetFloat("Delay", Random.Range(0f, 1f));
     }
 
+    private SortedDictionary<PlayerNumber, float> playerStayDurationDict = new SortedDictionary<PlayerNumber, float>();
+
     void OnTriggerEnter(Collider c)
     {
         if (BoltNetwork.IsServer)
@@ -19,12 +22,62 @@ public class FlagScorePoint : MonoBehaviour
                 Player p = c.GetComponentInParent<Player>();
                 if (p.TeamNumber == MyTeamNumber)
                 {
-                    if (PlayerObjectRegistry.MyPlayer == p)
+                    if (p.HasRing)
                     {
-                        //Todo Vibrate
+                        AudioDuck.Instance.StartPlayerChargeSound(p.PlayerNumber, p.transform, p.Duck.DuckRigidbody);
                     }
+                }
+            }
+        }
+    }
 
-                    ((BattleManager_FlagRace) GameManager.Instance.Cur_BallBattleManager).FlagScorePointHit_Server(p);
+    void OnTriggerStay(Collider c)
+    {
+        if (BoltNetwork.IsServer)
+        {
+            if (c.gameObject.GetComponentInParent<PlayerCollider>())
+            {
+                Player p = c.GetComponentInParent<Player>();
+                if (p.TeamNumber == MyTeamNumber)
+                {
+                    if (p.HasRing)
+                    {
+                        if (!playerStayDurationDict.ContainsKey(p.PlayerNumber))
+                        {
+                            playerStayDurationDict.Add(p.PlayerNumber, 0f);
+                        }
+
+                        playerStayDurationDict[p.PlayerNumber] += Time.deltaTime;
+                        if (playerStayDurationDict[p.PlayerNumber] > 2f)
+                        {
+                            playerStayDurationDict[p.PlayerNumber] = 0f;
+                            ((BattleManager_FlagRace) GameManager.Instance.Cur_BallBattleManager).FlagScorePointHit_Server(p);
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    void OnTriggerExit(Collider c)
+    {
+        if (BoltNetwork.IsServer)
+        {
+            if (c.gameObject.GetComponentInParent<PlayerCollider>())
+            {
+                Player p = c.GetComponentInParent<Player>();
+                if (p.TeamNumber == MyTeamNumber)
+                {
+                    if (p.HasRing)
+                    {
+                        if (!playerStayDurationDict.ContainsKey(p.PlayerNumber))
+                        {
+                            playerStayDurationDict.Add(p.PlayerNumber, 0f);
+                        }
+
+                        playerStayDurationDict[p.PlayerNumber] = 0f;
+                        AudioDuck.Instance.StopPlayerChargeSound(p.PlayerNumber);
+                    }
                 }
             }
         }

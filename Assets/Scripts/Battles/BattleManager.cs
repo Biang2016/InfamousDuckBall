@@ -27,6 +27,7 @@ public abstract class BattleManager : MonoBehaviour
         UIManager.Instance.CloseUIForm<PasswordPanel>();
         UIManager.Instance.CloseUIForm<CreateRoomPanel>();
         UIManager.Instance.CloseUIForm<WaitingPanel>();
+        UIManager.Instance.CloseUIForm<MakerPanel>();
         GameManager.Instance.LobbyPanel.gameObject.SetActive(false);
         BoatMenuManager.Instance.gameObject.SetActive(false);
 

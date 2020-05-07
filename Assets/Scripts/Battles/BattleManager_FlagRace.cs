@@ -241,45 +241,42 @@ public class BattleManager_FlagRace : BattleManager_BallGame
 
     public void FlagScorePointHit_Server(Player player)
     {
-        if (player.HasRing)
+        PlayerRingEvent pre = PlayerRingEvent.Create();
+        pre.HasRing = false;
+        pre.PlayerNumber = (int) player.PlayerNumber;
+        pre.Exploded = false;
+        pre.Send();
+
+        Team scoreTeam = TeamDict[player.TeamNumber];
+        ScoreChangeEvent sce = ScoreChangeEvent.Create();
+        sce.TeamNumber = (int) player.TeamNumber;
+        sce.Score = scoreTeam.Score + 1;
+        sce.IsNewBattle = false;
+        sce.Send();
+
+        ScoreRingManager srm = ScoreRingManagerDict[player.TeamNumber];
+        int myTeamNum = player.TeamNumber == TeamNumber.Team1 ? srm.state.RingNumber_Team1 : srm.state.RingNumber_Team2;
+        int otherTeamNum = player.TeamNumber == TeamNumber.Team1 ? srm.state.RingNumber_Team2 : srm.state.RingNumber_Team1;
+        if (myTeamNum + otherTeamNum == ScoreRingManager.MaxRingNumber * 2)
         {
-            PlayerRingEvent pre = PlayerRingEvent.Create();
-            pre.HasRing = false;
-            pre.PlayerNumber = (int) player.PlayerNumber;
-            pre.Exploded = false;
-            pre.Send();
+            otherTeamNum--;
+        }
 
-            Team scoreTeam = TeamDict[player.TeamNumber];
-            ScoreChangeEvent sce = ScoreChangeEvent.Create();
-            sce.TeamNumber = (int) player.TeamNumber;
-            sce.Score = scoreTeam.Score + 1;
-            sce.IsNewBattle = false;
-            sce.Send();
+        myTeamNum++;
+        if (player.TeamNumber == TeamNumber.Team1)
+        {
+            srm.state.RingNumber_Team1 = myTeamNum;
+            srm.state.RingNumber_Team2 = otherTeamNum;
+        }
+        else if (player.TeamNumber == TeamNumber.Team2)
+        {
+            srm.state.RingNumber_Team1 = otherTeamNum;
+            srm.state.RingNumber_Team2 = myTeamNum;
+        }
 
-            ScoreRingManager srm = ScoreRingManagerDict[player.TeamNumber];
-            int myTeamNum = player.TeamNumber == TeamNumber.Team1 ? srm.state.RingNumber_Team1 : srm.state.RingNumber_Team2;
-            int otherTeamNum = player.TeamNumber == TeamNumber.Team1 ? srm.state.RingNumber_Team2 : srm.state.RingNumber_Team1;
-            if (myTeamNum + otherTeamNum == ScoreRingManager.MaxRingNumber * 2)
-            {
-                otherTeamNum--;
-            }
-
-            myTeamNum++;
-            if (player.TeamNumber == TeamNumber.Team1)
-            {
-                srm.state.RingNumber_Team1 = myTeamNum;
-                srm.state.RingNumber_Team2 = otherTeamNum;
-            }
-            else if (player.TeamNumber == TeamNumber.Team2)
-            {
-                srm.state.RingNumber_Team1 = otherTeamNum;
-                srm.state.RingNumber_Team2 = myTeamNum;
-            }
-
-            if (scoreTeam.Score == ConfigManager.FlagRace_TeamTargetScore - 1)
-            {
-                EndBattle_Server(scoreTeam.TeamNumber);
-            }
+        if (scoreTeam.Score == ConfigManager.FlagRace_TeamTargetScore - 1)
+        {
+            EndBattle_Server(scoreTeam.TeamNumber);
         }
     }
 
