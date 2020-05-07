@@ -36,6 +36,8 @@ public class GameManager : MonoSingleton<GameManager>
             Input.ResetInputAxes();
             BoltLauncher.StartClient();
             InvokeRepeating("RepeatUpdateRoomInfo", 0, 2f);
+
+            AudioDuck.Instance.PlaySound(AudioDuck.Instance.BGM, gameObject);
         }
     }
 
@@ -109,6 +111,9 @@ public class GameManager : MonoSingleton<GameManager>
             UIManager.Instance.CloseUIForm<RoundSmallScorePanel>();
             UIManager.Instance.CloseUIForm<WinPanel>();
             UIManager.Instance.CloseUIForm<RoundPanel>();
+
+            AudioDuck.Instance.StopAllWOCEvents();
+            AudioDuck.Instance.PlaySound(AudioDuck.Instance.BGM, gameObject);
         }
     }
 

@@ -33,6 +33,7 @@ public abstract class BattleManager : MonoBehaviour
 
         AudioDuck.Instance.StopAllWOCEvents();
         AudioDuck.Instance.PlaySound(AudioDuck.Instance.Sea, gameObject);
+        AudioDuck.Instance.PlaySound(AudioDuck.Instance.BGM, gameObject);
 
         TeamDict.Clear();
         TeamDict.Add(TeamNumber.Team1, new Team(TeamNumber.Team1));
