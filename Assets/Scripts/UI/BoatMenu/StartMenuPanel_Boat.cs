@@ -17,7 +17,7 @@ public class StartMenuPanel_Boat : MonoBehaviour
 
     public void OnHelpButtonClick()
     {
-        //BoatMenuManager.Instance.BoatMenuBoat.RingsExplode();
+        BoatMenuManager.Instance.FromStartMenuToHelp();
     }
 
     public void OnCreditButtonClick()

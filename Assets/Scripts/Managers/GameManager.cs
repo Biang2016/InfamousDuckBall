@@ -45,6 +45,7 @@ public class GameManager : MonoSingleton<GameManager>
     }
 
     public LobbyPanel LobbyPanel;
+    public HelpPanel HelpPanel;
     public LeaveGamePanel LeaveGamePanel;
 
     public void Start()

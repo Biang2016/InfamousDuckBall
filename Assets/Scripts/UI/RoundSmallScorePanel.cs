@@ -66,10 +66,12 @@ public class RoundSmallScorePanel : BaseUIForm
             if (team1Score == 5)
             {
                 Team1Ring.color = ClientUtils.HTMLColorToColor("#FFFFFF3D");
+                Team1ScoreText.color = ClientUtils.HTMLColorToColor("#FFFFFF3D");
             }
             else
             {
                 Team1Ring.color = ClientUtils.HTMLColorToColor("#FFFFFFFF");
+                Team1ScoreText.color = ClientUtils.HTMLColorToColor("#FFFFFFFF");
             }
         }
         else
@@ -77,10 +79,12 @@ public class RoundSmallScorePanel : BaseUIForm
             if (team1Score == 0)
             {
                 Team1Ring.color = ClientUtils.HTMLColorToColor("#FFFFFF3D");
+                Team1ScoreText.color = ClientUtils.HTMLColorToColor("#FFFFFF3D");
             }
             else
             {
                 Team1Ring.color = ClientUtils.HTMLColorToColor("#FFFFFFFF");
+                Team1ScoreText.color = ClientUtils.HTMLColorToColor("#FFFFFFFF");
             }
         }
 
@@ -100,10 +104,12 @@ public class RoundSmallScorePanel : BaseUIForm
             if (team2Score == 5)
             {
                 Team2Ring.color = ClientUtils.HTMLColorToColor("#FFFFFF3D");
+                Team2ScoreText.color = ClientUtils.HTMLColorToColor("#FFFFFF3D");
             }
             else
             {
                 Team2Ring.color = ClientUtils.HTMLColorToColor("#FFFFFFFF");
+                Team2ScoreText.color = ClientUtils.HTMLColorToColor("#FFFFFFFF");
             }
         }
         else
@@ -111,10 +117,12 @@ public class RoundSmallScorePanel : BaseUIForm
             if (team2Score == 0)
             {
                 Team2Ring.color = ClientUtils.HTMLColorToColor("#FFFFFF3D");
+                Team2ScoreText.color = ClientUtils.HTMLColorToColor("#FFFFFF3D");
             }
             else
             {
                 Team2Ring.color = ClientUtils.HTMLColorToColor("#FFFFFFFF");
+                Team2ScoreText.color = ClientUtils.HTMLColorToColor("#FFFFFFFF");
             }
         }
 

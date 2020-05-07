@@ -5,10 +5,14 @@ using UnityEngine.UI;
 
 public class BoatMenuBoat : MonoBehaviour
 {
-    public void OnBoatArrive()
+    public void OnShowGameLogo()
     {
-        GameLogoPanel sm = UIManager.Instance.ShowUIForms<GameLogoPanel>();
-        sm.GameLogoDrop();
+        UIManager.Instance.ShowUIForms<GameLogoPanel>().GameLogoDrop();
+    }
+
+    public void OnShowMakerPanel()
+    {
+        UIManager.Instance.ShowUIForms<MakerPanel>();
     }
 
     public List<ScoreRingSingleBoatMenu> ScoreRings = new List<ScoreRingSingleBoatMenu>();

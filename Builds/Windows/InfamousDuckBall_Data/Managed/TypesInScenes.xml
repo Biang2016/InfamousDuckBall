@@ -103,8 +103,10 @@
 		<type fullname="Goalie" preserve="nothing"/>
 		<type fullname="Head" preserve="nothing"/>
 		<type fullname="HeadModel" preserve="nothing"/>
+		<type fullname="HelpPanel" preserve="nothing"/>
 		<type fullname="LeaveGamePanel" preserve="nothing"/>
 		<type fullname="LobbyPanel" preserve="nothing"/>
+		<type fullname="MakerPanel" preserve="nothing"/>
 		<type fullname="MultiControllerManager" preserve="nothing"/>
 		<type fullname="Neck" preserve="nothing"/>
 		<type fullname="NormalsReplacementShader" preserve="nothing"/>

@@ -62,7 +62,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1083573799099055389}
-  - {fileID: 8966081379764883393}
+  - {fileID: 4473907419219985272}
   m_Father: {fileID: 4356948721587187795}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -200,7 +200,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2722587783320620156}
   m_LocalRotation: {x: 0.32173207, y: -0.62853706, z: 0.31932113, w: 0.6320315}
-  m_LocalPosition: {x: 19.29, y: 21.01, z: 0.32}
+  m_LocalPosition: {x: 17.7, y: 21.01, z: 0.32}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4356948721587187795}
@@ -370,7 +370,7 @@ Transform:
   m_Children:
   - {fileID: 3659309796767436196}
   - {fileID: 6058005318186219004}
-  - {fileID: 5977403254976498390}
+  - {fileID: 8900908464144788435}
   - {fileID: 6184136234926419573}
   - {fileID: 2177363523261311779}
   - {fileID: 6094457543293594102}
@@ -397,7 +397,7 @@ MonoBehaviour:
   PlayerSpawnPointManager: {fileID: 2303410611140848949}
   BallPivot: {fileID: 6184136234926419573}
   BallValidZone: {fileID: 5856645787261472691}
-  Boat: {fileID: 3816910129269728811}
+  Boat: {fileID: 4473907419219992327}
 --- !u!1 &4356948722303953864
 GameObject:
   m_ObjectHideFlags: 0
@@ -1296,13 +1296,13 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: 186d1ee69634fcb4cba5574273a11cef, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a671e52f87aca764395211c9e29642d5, type: 3}
---- !u!4 &8966081379764883393 stripped
+--- !u!4 &4473907419219985272 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4790537642036348521, guid: a671e52f87aca764395211c9e29642d5,
     type: 3}
   m_PrefabInstance: {fileID: 4473907419219986856}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &3816910129269728811 stripped
+--- !u!114 &4473907419219992327 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 787813903481565059, guid: a671e52f87aca764395211c9e29642d5,
     type: 3}
@@ -1548,7 +1548,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5c3a23f705864f84d92d8d9c72b9eb6a, type: 3}
---- !u!4 &5977403254976498390 stripped
+--- !u!4 &8900908464144788435 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2986556713668012137, guid: 5c3a23f705864f84d92d8d9c72b9eb6a,
     type: 3}
