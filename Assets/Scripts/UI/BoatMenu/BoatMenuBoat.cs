@@ -21,7 +21,7 @@ public class BoatMenuBoat : MonoBehaviour
     {
         foreach (ScoreRingSingleBoatMenu sr in ScoreRings)
         {
-            sr.Explode();
+            sr.Explode(false);
         }
     }
 

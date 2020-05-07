@@ -22,10 +22,10 @@ public class ScoreRingSingleBoatMenu : MonoBehaviour
         ScoreRing.Initialize((TeamNumber) Random.Range(0, 2), (CostumeType) Random.Range(0, 3));
     }
 
-    public void Explode()
+    public void Explode(bool sound)
     {
         ScoreRing.Renderer.enabled = false;
-        AudioDuck.Instance.PlaySound(AudioDuck.Instance.BuoyPop, gameObject);
+        if (sound) AudioDuck.Instance.PlaySound(AudioDuck.Instance.BuoyPop, gameObject);
         FXManager.Instance.PlayFX(FX_Type.ScoreRingExplosion, transform.position, Quaternion.Euler(0, 1, 0));
     }
 }

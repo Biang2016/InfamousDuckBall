@@ -39,7 +39,6 @@ public class AudioDuck : MonoBehaviour
         }
 
         Instance = this;
-        DontDestroyOnLoad(gameObject);
     }
 
     //this is our main way to play sounds in this game.  
@@ -128,10 +127,11 @@ public class AudioDuck : MonoBehaviour
             playerChargeSoundInstance[(int) playernumber] = FMODUnity.RuntimeManager.CreateInstance(DuckCharge);
             //then attach that to the player object (now it will update position and velocity data)
             FMODUnity.RuntimeManager.AttachInstanceToGameObject(playerChargeSoundInstance[(int) playernumber], playerTransform, playerRB);
-            //then we start it and release it (release means the instance will be destroyed when playback stops)
-            playerChargeSoundInstance[(int) playernumber].start();
-            playerQuackSoundInstance[(int) playernumber].release();
         }
+
+        //then we start it and release it (release means the instance will be destroyed when playback stops)
+        playerChargeSoundInstance[(int) playernumber].start();
+        playerQuackSoundInstance[(int) playernumber].release();
     }
 
     public void StopPlayerChargeSound(PlayerNumber playernumber)

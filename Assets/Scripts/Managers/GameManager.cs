@@ -160,6 +160,16 @@ public class GameManager : MonoSingleton<GameManager>
 
     #region Events
 
+    public void SendSFXEvent(string sfxKey)
+    {
+        if (BoltNetwork.IsServer)
+        {
+            SFX_Event evnt = SFX_Event.Create();
+            evnt.SoundName = sfxKey;
+            evnt.Send();
+        }
+    }
+
     #endregion
 
     #region Utils

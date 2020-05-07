@@ -47,6 +47,14 @@ public class Ball : EntityEventListener<IBallState>
         }
     }
 
+    void OnCollisionEnter(Collision c)
+    {
+        if (BoltNetwork.IsServer)
+        {
+            GameManager.Instance.SendSFXEvent(AudioDuck.Instance.FishFlapping);
+        }
+    }
+
     public override void Attached()
     {
         state.SetTransforms(state.Transform, transform);
@@ -106,6 +114,7 @@ public class Ball : EntityEventListener<IBallState>
 
     public void KickedFly()
     {
+        GameManager.Instance.SendSFXEvent(AudioDuck.Instance.FishBreath);
         transform.DOMoveY(10f, 0.3f);
         RigidBody.AddForce(Vector3.up * 800f);
         HideSOSBubble_Server();

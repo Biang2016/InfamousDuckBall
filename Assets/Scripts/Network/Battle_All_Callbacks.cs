@@ -107,4 +107,12 @@ public class Battle_All_Callbacks : Bolt.GlobalEventListener
             }
         }
     }
+
+    public override void OnEvent(SFX_Event evnt)
+    {
+        if (GameManager.Instance.Cur_BattleManager)
+        {
+            AudioDuck.Instance.PlaySound(evnt.SoundName, GameManager.Instance.Cur_BattleManager.BattleCamera.gameObject);
+        }
+    }
 }

@@ -274,7 +274,7 @@ public class BattleManager_Smash : BattleManager_BallGame
         sce.Send();
 
         ball.KickedFly();
-        AudioDuck.Instance.PlaySound(AudioDuck.Instance.FishBreath, GameManager.Instance.gameObject);
+        GameManager.Instance.SendSFXEvent(AudioDuck.Instance.FishBreath);
     }
 
     public override void EndBattle_Server(TeamNumber winnerTeam)

@@ -40,14 +40,6 @@ public class Battle_FlagRace_Callbacks : Bolt.GlobalEventListener
         }
     }
 
-    public override void OnEvent(SFX_Event evnt)
-    {
-        if (evnt.SoundName == "BuoyPop")
-        {
-            AudioDuck.Instance.PlaySound(AudioDuck.Instance.BuoyPop, gameObject);
-        }
-    }
-
     public override void OnEvent(PlayerTeamChangeEvent evnt)
     {
         TeamNumber newTeamNumber = (TeamNumber) evnt.TeamNumber;

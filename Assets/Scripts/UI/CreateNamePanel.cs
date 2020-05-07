@@ -32,26 +32,26 @@ public class CreateNamePanel : BaseUIForm
     public override void Display()
     {
         GameManager.Instance.LobbyPanel.Interactable = false;
-#if DEBUG
+        //#if DEBUG
         base.Display();
         Anim.SetTrigger("Show");
-#else
-        string playerID = PlayerPrefs.GetString("PlayerID");
-        if (!string.IsNullOrWhiteSpace(playerID))
-        {
-            if (!boatAlreadyMoveIn)
-            {
-                boatAlreadyMoveIn = true;
-                BoatMenuManager.Instance.BoatMoveIn();
-                CloseUIForm();
-            }
-        }
-        else
-        {
-            base.Display();
-            Anim.SetTrigger("Show");
-        }
-#endif
+        //#else
+        //string playerID = PlayerPrefs.GetString("PlayerID");
+        //if (!string.IsNullOrWhiteSpace(playerID))
+        //{
+        //    if (!boatAlreadyMoveIn)
+        //    {
+        //        boatAlreadyMoveIn = true;
+        //        BoatMenuManager.Instance.BoatMoveIn();
+        //        CloseUIForm();
+        //    }
+        //}
+        //else
+        //{
+        //    base.Display();
+        //    Anim.SetTrigger("Show");
+        //}
+        //#endif
     }
 
     public override void Hide()

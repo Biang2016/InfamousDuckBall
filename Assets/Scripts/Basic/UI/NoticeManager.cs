@@ -91,7 +91,6 @@ public class NoticeManager : MonoSingleton<NoticeManager>
     IEnumerator Co_ShowInfoPanelCenter(string text, float delay, float last)
     {
         yield return new WaitForSeconds(delay);
-        AudioManager.Instance.SoundPlay("sfx/NoticeInfo", 0.6f);
         InfoTextCenter.text = text;
         if (InfoPanelCenterAnimator.GetBool("isShow"))
         {

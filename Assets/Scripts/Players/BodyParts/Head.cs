@@ -23,13 +23,13 @@ public class Head : MonoBehaviour
                 }
                 else if (rightTriggerDown)
                 {
-                    //AudioDuck.Instance.PlaySound(AudioDuck.Instance.DuckCharge, gameObject);
                     HeadStatus = HeadStatusTypes.PushCharging;
                     Duck.Ring.Charge();
                     Duck.Wings.Charge();
                     Duck.Feet.StartCharge();
                     Duck.SunGlasses.Charging();
                     PushChargeTimeTick = Time.time;
+                    AudioDuck.Instance.StartPlayerChargeSound(Player.PlayerNumber, GameManager.Instance.Cur_BallBattleManager.BattleCamera.transform, Duck.DuckRigidbody);
                 }
                 else if (rightTriggerPressed)
                 {
@@ -54,6 +54,7 @@ public class Head : MonoBehaviour
                     Push();
                     Duck.Feet.ReleaseChargingCircle();
                     Duck.SunGlasses.Normal();
+                    AudioDuck.Instance.StopPlayerChargeSound(Player.PlayerNumber);
                 }
                 else if (rightTriggerPressed)
                 {
@@ -69,6 +70,7 @@ public class Head : MonoBehaviour
                         Push();
                         Duck.Feet.ReleaseChargingCircle();
                         Duck.SunGlasses.Normal();
+                        AudioDuck.Instance.StopPlayerChargeSound(Player.PlayerNumber);
                     }
                 }
 

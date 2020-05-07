@@ -29,9 +29,7 @@ public class ScoreRingSingle : EntityBehaviour<IScoreRingSingleState>
             BoltNetwork.Destroy(gameObject);
             if (sound)
             {
-                SFX_Event evnt = SFX_Event.Create();
-                evnt.SoundName = "BuoyPop";
-                evnt.Send();
+                GameManager.Instance.SendSFXEvent(AudioDuck.Instance.BuoyPop);
             }
 
             OnRemove?.Invoke();
