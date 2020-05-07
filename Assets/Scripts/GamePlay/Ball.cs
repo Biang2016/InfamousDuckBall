@@ -60,7 +60,7 @@ public class Ball : EntityEventListener<IBallState>
             {
                 if (smash.Ball == null)
                 {
-                    if (state.BallName == "FlagRaceBall_Left")
+                    if (state.BallName == "SmashBall")
                     {
                         smash.Ball = this;
                     }
@@ -174,9 +174,9 @@ public class Ball : EntityEventListener<IBallState>
         SOS_Bubble.enabled = true;
         for (int i = 0; i < 5; i++)
         {
-            transform.DOScale(Vector3.one * (1 + 0.1f * i), duration / 10f);
+            Model.transform.DOScale(Vector3.one * (1 + 0.1f * i), duration / 10f);
             yield return new WaitForSeconds(duration / 10f);
-            transform.DOScale(Vector3.one * (1 + 0.1f * i - 0.05f), duration / 10f);
+            Model.transform.DOScale(Vector3.one * (1 + 0.1f * i - 0.05f), duration / 10f);
             yield return new WaitForSeconds(duration / 10f);
         }
 

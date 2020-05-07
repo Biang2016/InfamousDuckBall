@@ -44,5 +44,17 @@ public class Battle_All_ServerCallbacks : Bolt.GlobalEventListener
         {
             player.Spawn();
         }
+
+        UpdatePlayerCountEvent evnt = UpdatePlayerCountEvent.Create();
+        evnt.PlayerCount = GameManager.Instance.Cur_BallBattleManager.PlayerDict.Count;
+        evnt.Send();
+    }
+
+    public override void Disconnected(BoltConnection connection)
+    {
+        base.Disconnected(connection);
+        UpdatePlayerCountEvent evnt = UpdatePlayerCountEvent.Create();
+        evnt.PlayerCount = GameManager.Instance.Cur_BallBattleManager.PlayerDict.Count;
+        evnt.Send();
     }
 }

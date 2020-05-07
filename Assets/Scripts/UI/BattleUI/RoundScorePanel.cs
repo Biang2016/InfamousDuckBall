@@ -38,7 +38,7 @@ public class RoundScorePanel : BaseUIForm
     public override void Hide()
     {
         base.Hide();
-        if (PlayerObjectRegistry.MyPlayer)
+        if (PlayerObjectRegistry.MyPlayer && PlayerObjectRegistry.MyPlayer.PlayerController.Controller != null)
         {
             PlayerObjectRegistry.MyPlayer.Controller.Active = true;
         }

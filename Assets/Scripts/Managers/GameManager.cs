@@ -59,6 +59,12 @@ public class GameManager : MonoSingleton<GameManager>
         PasswordPanel.CloseUIForm();
         GameLogoPanel = UIManager.Instance.ShowUIForms<GameLogoPanel>();
         GameLogoPanel.CloseUIForm();
+        RoundSmallScorePanel RoundSmallScorePanel = UIManager.Instance.ShowUIForms<RoundSmallScorePanel>();
+        RoundSmallScorePanel.CloseUIForm();
+        RoundPanel RoundPanel = UIManager.Instance.ShowUIForms<RoundPanel>();
+        RoundPanel.CloseUIForm();
+        WinPanel WinPanel = UIManager.Instance.ShowUIForms<WinPanel>();
+        WinPanel.CloseUIForm();
 
         LeaveGamePanel = UIManager.Instance.ShowUIForms<LeaveGamePanel>();
         LeaveGamePanel.CloseUIForm();
@@ -89,6 +95,7 @@ public class GameManager : MonoSingleton<GameManager>
         if (Cur_BattleManager)
         {
             Cur_BattleManager.IsClosing = true;
+            Cur_BattleManager.StopAllCoroutines();
             PlayerObjectRegistry.RemoveAllPlayers();
             BoltNetwork.ShutdownImmediate();
             BoatMenuManager.Instance.gameObject.SetActive(true);
@@ -98,6 +105,9 @@ public class GameManager : MonoSingleton<GameManager>
             SceneManager.LoadScene("BoltMenu");
             BoltLauncher.StartClient();
             BoltManager.UpdateRoomList(BoltNetwork.SessionList, LobbyPanel.CurrentFilter);
+            UIManager.Instance.CloseUIForm<RoundSmallScorePanel>();
+            UIManager.Instance.CloseUIForm<WinPanel>();
+            UIManager.Instance.CloseUIForm<RoundPanel>();
         }
     }
 

@@ -16,7 +16,7 @@ public abstract class BattleManager_BallGame : BattleManager
 
         if (Input.GetKeyUp(KeyCode.F10))
         {
-            if (IsStart)
+            if (IsStart || startBattleCoroutine != null)
             {
                 EndBattle_Server(TeamNumber.None);
             }
@@ -28,10 +28,13 @@ public abstract class BattleManager_BallGame : BattleManager
     }
 
     public abstract void StartBattle_Server();
+    protected Coroutine startBattleCoroutine;
+
+    public abstract void StartBattleReadyToggle(bool start, int tick);
+    public abstract void RefreshPlayerNumber(int playerNumber);
 
     public virtual void StartBattle()
     {
-        NoticeManager.Instance.ShowInfoPanelTop("GAME START!", 0, 0.7f);
     }
 
     public abstract void BallHit_Server(Ball ball, Player hitPlayer, TeamNumber hitTeamNumber);

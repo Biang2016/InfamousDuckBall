@@ -1,4 +1,5 @@
 ﻿using DG.Tweening;
+using Microsoft.Win32.SafeHandles;
 using UnityEngine;
 
 public class HeadModel : MonoBehaviour
@@ -29,6 +30,8 @@ public class HeadModel : MonoBehaviour
             float distance = diff.magnitude;
             if (distance < Head.DuckConfig.PullRadius * GameManager.Instance.GameState.state.DuckConfig.PullRadiusMulti)
             {
+                ball.RigidBody.velocity = Vector3.zero;
+                ball.RigidBody.angularVelocity = Vector3.zero;
                 ball.RigidBody.DOMove(Head.transform.position + Head.transform.forward * Head.DuckConfig.PullBallStopFromHead, Head.DuckConfig.PullDuration);
                 ball.Kick(Head.Duck.Player.TeamNumber, (-diff.normalized) * 0);
                 AudioDuck.Instance.PlaySound(AudioDuck.Instance.FishBreath, GameManager.Instance.gameObject);

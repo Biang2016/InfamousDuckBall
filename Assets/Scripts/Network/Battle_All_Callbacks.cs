@@ -6,6 +6,11 @@ using UnityEngine;
 [BoltGlobalBehaviour("Battle_Smash", "Battle_FlagRace")]
 public class Battle_All_Callbacks : Bolt.GlobalEventListener
 {
+    public override void OnEvent(BattleReadyStartToggleEvent evnt)
+    {
+        GameManager.Instance.Cur_BallBattleManager.StartBattleReadyToggle(evnt.Start, evnt.Tick);
+    }
+
     public override void OnEvent(BattleEndEvent evnt)
     {
         if (GameManager.Instance.Cur_BallBattleManager)
@@ -14,6 +19,14 @@ public class Battle_All_Callbacks : Bolt.GlobalEventListener
             {
                 GameManager.Instance.Cur_BallBattleManager.EndBattle((TeamNumber) evnt.WinnerTeamNumber, evnt.Team1Score, evnt.Team2Score);
             }
+        }
+    }
+
+    public override void OnEvent(UpdatePlayerCountEvent evnt)
+    {
+        if (GameManager.Instance.Cur_BallBattleManager)
+        {
+            GameManager.Instance.Cur_BallBattleManager.RefreshPlayerNumber(evnt.PlayerCount);
         }
     }
 

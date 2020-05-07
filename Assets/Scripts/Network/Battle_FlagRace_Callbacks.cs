@@ -26,11 +26,18 @@ public class Battle_FlagRace_Callbacks : Bolt.GlobalEventListener
         team.Score = evnt.Score;
         if (!evnt.IsNewBattle)
         {
+            if (tn == TeamNumber.Team1)
+            {
+                UIManager.Instance.GetBaseUIForm<RoundSmallScorePanel>().RefreshScore_Team1(team.Score);
+            }
+            else if (tn == TeamNumber.Team2)
+            {
+                UIManager.Instance.GetBaseUIForm<RoundSmallScorePanel>().RefreshScore_Team2(team.Score);
+            }
+
             PlayerNumber playerNumber = (PlayerNumber) evnt.ScorePlayer;
             AudioDuck.Instance.PlaySound(AudioDuck.Instance.BuoyInPlace, GameManager.Instance.Cur_BattleManager.GetPlayer(playerNumber).gameObject);
         }
-
-        GameManager.Instance.DebugPanel.RefreshScore(false);
     }
 
     public override void OnEvent(SFX_Event evnt)

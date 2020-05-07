@@ -29,7 +29,7 @@ public class DuckUI : MonoBehaviour
 
     void Update()
     {
-        if (Player.state != null)
+        if (Player && Player.entity && Player.entity.IsAttached && Player.state != null)
         {
             PlayerName.text = Player.state.PlayerInfo.PlayerName;
         }

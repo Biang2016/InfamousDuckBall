@@ -38,7 +38,6 @@ public abstract class BattleManager : MonoBehaviour
         TeamDict.Add(TeamNumber.Team2, new Team(TeamNumber.Team2));
 
         GameManager.Instance.DebugPanel.ConfigRows.Initialize();
-        GameManager.Instance.DebugPanel.RefreshLevelName();
         Player[] players = FindObjectsOfType<Player>();
         foreach (Player player in players)
         {
@@ -111,7 +110,10 @@ public abstract class BattleManager : MonoBehaviour
         List<Vector3> res = new List<Vector3>();
         foreach (KeyValuePair<PlayerNumber, Player> kv in PlayerDict)
         {
-            res.Add(kv.Value.transform.position);
+            if (kv.Value)
+            {
+                res.Add(kv.Value.transform.position);
+            }
         }
 
         return res;

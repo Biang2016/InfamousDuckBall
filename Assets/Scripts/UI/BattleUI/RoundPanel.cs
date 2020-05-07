@@ -29,7 +29,10 @@ public class RoundPanel : BaseUIForm
     public override void Display()
     {
         base.Display();
-        PlayerObjectRegistry.MyPlayer.PlayerController.Controller.Active = false;
+        if (PlayerObjectRegistry.MyPlayer && PlayerObjectRegistry.MyPlayer.PlayerController.Controller != null)
+        {
+            PlayerObjectRegistry.MyPlayer.PlayerController.Controller.Active = false;
+        }
     }
 
     public void Show(int round)
@@ -79,7 +82,21 @@ public class RoundPanel : BaseUIForm
         yield return new WaitForSeconds(0.5f);
 
         BannerAnim.SetTrigger("Hide");
-        PlayerObjectRegistry.MyPlayer.PlayerController.Controller.Active = true;
+        if (PlayerObjectRegistry.MyPlayer && PlayerObjectRegistry.MyPlayer.PlayerController.Controller != null)
+        {
+            PlayerObjectRegistry.MyPlayer.PlayerController.Controller.Active = true;
+        }
+
         CloseUIForm();
+        showCoroutine = null;
+    }
+
+    public override void Hide()
+    {
+        base.Hide();
+        if (showCoroutine != null)
+        {
+            StopCoroutine(showCoroutine);
+        }
     }
 }
