@@ -1,4 +1,5 @@
-﻿using Bolt;
+﻿using System.Linq;
+using Bolt;
 using UdpKit;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -46,7 +47,7 @@ public class Battle_All_ServerCallbacks : Bolt.GlobalEventListener
         }
 
         UpdatePlayerCountEvent evnt = UpdatePlayerCountEvent.Create();
-        evnt.PlayerCount = GameManager.Instance.Cur_BallBattleManager.PlayerDict.Count;
+        evnt.PlayerCount = BoltNetwork.Connections.Count() + 1;
         evnt.Send();
     }
 

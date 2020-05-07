@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -36,7 +37,6 @@ public class GameManager : MonoSingleton<GameManager>
             Input.ResetInputAxes();
             BoltLauncher.StartClient();
             InvokeRepeating("RepeatUpdateRoomInfo", 0, 2f);
-
         }
     }
 
@@ -101,10 +101,21 @@ public class GameManager : MonoSingleton<GameManager>
     {
         if (Cur_BattleManager)
         {
+            StartCoroutine(Co_ReturnToLobby());
+        }
+    }
+
+    IEnumerator Co_ReturnToLobby()
+    {
+        if (Cur_BattleManager)
+        {
             Cur_BattleManager.IsClosing = true;
             Cur_BattleManager.StopAllCoroutines();
             PlayerObjectRegistry.RemoveAllPlayers();
-            BoltNetwork.ShutdownImmediate();
+            BoltNetwork.Shutdown();
+            UIManager.Instance.ShowUIForms<WaitingPanel>();
+            yield return new WaitForSeconds(3f);
+            UIManager.Instance.CloseUIForm<WaitingPanel>();
             BoatMenuManager.Instance.gameObject.SetActive(true);
             BoatMenuManager.Instance.BoatMoveInWithoutGameLogoPanel();
             LobbyPanel.Display();
