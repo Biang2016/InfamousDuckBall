@@ -36,7 +36,7 @@ public class Battle_FlagRace_Callbacks : Bolt.GlobalEventListener
             }
 
             PlayerNumber playerNumber = (PlayerNumber) evnt.ScorePlayer;
-            AudioDuck.Instance.PlaySound(AudioDuck.Instance.BuoyInPlace, GameManager.Instance.Cur_BattleManager.GetPlayer(playerNumber).gameObject);
+            AudioDuck.Instance.PlaySound(AudioDuck.Instance.BuoyInPlace, GameManager.Instance.Cur_BattleManager.GetPlayer(playerNumber).Duck.gameObject);
         }
     }
 

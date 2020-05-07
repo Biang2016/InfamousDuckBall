@@ -27,11 +27,6 @@ public class ScoreRingSingle : EntityBehaviour<IScoreRingSingleState>
         if (BoltNetwork.IsServer)
         {
             BoltNetwork.Destroy(gameObject);
-            if (sound)
-            {
-                GameManager.Instance.SendSFXEvent(AudioDuck.Instance.BuoyPop);
-            }
-
             OnRemove?.Invoke();
         }
     }
@@ -39,6 +34,7 @@ public class ScoreRingSingle : EntityBehaviour<IScoreRingSingleState>
     public override void Detached()
     {
         base.Detached();
+        AudioDuck.Instance.PlaySound(AudioDuck.Instance.BuoyPop, gameObject);
         FXManager.Instance.PlayFX(FX_Type.ScoreRingExplosion, transform.position, Quaternion.Euler(0, 1, 0));
     }
 }

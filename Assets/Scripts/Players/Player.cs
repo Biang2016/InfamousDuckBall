@@ -122,7 +122,7 @@ public class Player : EntityBehaviour<IPlayerState>
     IEnumerator Co_PlayGenerateRingSound()
     {
         yield return new WaitForSeconds(0.4f);
-        AudioDuck.Instance.PlaySound(AudioDuck.Instance.DuckGenerateBuoy, gameObject);
+        AudioDuck.Instance.PlaySound(AudioDuck.Instance.DuckGenerateBuoy, Duck.gameObject);
     }
 
     public void LoseRing(bool explode)
@@ -132,7 +132,7 @@ public class Player : EntityBehaviour<IPlayerState>
             if (explode)
             {
                 Duck.DuckUI.ShowAnnoyingUI();
-                AudioDuck.Instance.PlaySound(AudioDuck.Instance.BuoyPop, GameManager.Instance.gameObject);
+                AudioDuck.Instance.PlaySound(AudioDuck.Instance.BuoyPop, Duck.gameObject);
                 AudioManager.Instance.SoundPlay("sfx/Sound_Score");
                 Goalie.ParticleRelease();
                 Duck.Wings.Hit();
