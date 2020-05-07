@@ -99,7 +99,17 @@ public class BattleManager_FlagRace : BattleManager_BallGame
 
     public override void RefreshPlayerNumber(int playerNumber)
     {
-        UIManager.Instance.GetBaseUIForm<RoundSmallScorePanel>().SetRoomStatusText("Waiting for other players " + playerNumber + "/4");
+        if (BoltNetwork.IsServer)
+        {
+            if (playerNumber == 4)
+            {
+                UIManager.Instance.GetBaseUIForm<RoundSmallScorePanel>().SetRoomStatusText("Press F10 to start the game");
+            }
+            else
+            {
+                UIManager.Instance.GetBaseUIForm<RoundSmallScorePanel>().SetRoomStatusText("Waiting for other players " + playerNumber + "/4");
+            }
+        }
     }
 
     public override void StartBattle_Server()

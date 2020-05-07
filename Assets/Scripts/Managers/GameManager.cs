@@ -37,7 +37,6 @@ public class GameManager : MonoSingleton<GameManager>
             BoltLauncher.StartClient();
             InvokeRepeating("RepeatUpdateRoomInfo", 0, 2f);
 
-            AudioDuck.Instance.PlaySound(AudioDuck.Instance.BGM, gameObject);
         }
     }
 
@@ -76,6 +75,8 @@ public class GameManager : MonoSingleton<GameManager>
         HelpPanel.Hide();
 
         UIManager.Instance.ShowUIForms<CreateNamePanel>();
+
+        AudioDuck.Instance.PlaySound(AudioDuck.Instance.BGM, gameObject);
     }
 
     public void Update()

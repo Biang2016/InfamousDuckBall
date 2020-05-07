@@ -55,15 +55,15 @@ public class LobbyPanel : MonoBehaviour
     {
         if (gameObject.activeInHierarchy)
         {
-            if (!UIManager.Instance.GetBaseUIForm<CreateRoomPanel>().IsShown
-                && !UIManager.Instance.GetBaseUIForm<WaitingPanel>().IsShown
-                && !UIManager.Instance.GetBaseUIForm<CreateNamePanel>().IsShown)
-            {
-                if (Input.GetKeyUp(KeyCode.Escape))
-                {
-                    OnBackButtonClick();
-                }
-            }
+            //if (!UIManager.Instance.GetBaseUIForm<CreateRoomPanel>().IsShown
+            //    && !UIManager.Instance.GetBaseUIForm<WaitingPanel>().IsShown
+            //    && !UIManager.Instance.GetBaseUIForm<CreateNamePanel>().IsShown)
+            //{
+            //    if (Input.GetKeyUp(KeyCode.Escape))
+            //    {
+            //        OnBackButtonClick();
+            //    }
+            //}
         }
     }
 
