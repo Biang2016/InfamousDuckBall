@@ -72,6 +72,9 @@ public class GameManager : MonoSingleton<GameManager>
         LeaveGamePanel = UIManager.Instance.ShowUIForms<LeaveGamePanel>();
         LeaveGamePanel.CloseUIForm();
 
+        LobbyPanel.Hide();
+        HelpPanel.Hide();
+
         UIManager.Instance.ShowUIForms<CreateNamePanel>();
     }
 
