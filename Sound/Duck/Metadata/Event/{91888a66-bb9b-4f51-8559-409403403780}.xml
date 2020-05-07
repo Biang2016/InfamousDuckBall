@@ -5,7 +5,7 @@
 			<value>Fish Breath</value>
 		</property>
 		<property name="outputFormat">
-			<value>2</value>
+			<value>0</value>
 		</property>
 		<relationship name="folder">
 			<destination>{9be8add1-10be-45ef-b8de-9df75140c701}</destination>
@@ -105,6 +105,9 @@
 		</relationship>
 	</object>
 	<object class="EventMixerGroup" id="{cd3d8056-1331-444b-b783-1c8f1155ac9a}">
+		<property name="volume">
+			<value>-5</value>
+		</property>
 		<property name="name">
 			<value>Audio 1</value>
 		</property>
@@ -121,7 +124,7 @@
 	<object class="MixerBusEffectChain" id="{ae1ef97f-e16c-40ee-b017-df1eda060df5}">
 		<relationship name="effects">
 			<destination>{574174c3-98a8-4d5d-a40c-92c6e9f21952}</destination>
-			<destination>{2889ab00-ef6b-448a-a305-7ee746348897}</destination>
+			<destination>{4975e26d-7c0e-4b7f-a23c-1e9b00bba538}</destination>
 		</relationship>
 	</object>
 	<object class="MixerBusPanner" id="{310ef94a-4652-49ca-ac5e-b7d1034ad4cd}" />
@@ -163,6 +166,13 @@
 	</object>
 	<object class="MixerBusPanner" id="{cfcde7f7-4537-447d-8c65-76d08da5b06a}" />
 	<object class="MixerBusFader" id="{574174c3-98a8-4d5d-a40c-92c6e9f21952}" />
-	<object class="SpatialiserEffect" id="{2889ab00-ef6b-448a-a305-7ee746348897}" />
+	<object class="ObjectSpatialiserEffect" id="{4975e26d-7c0e-4b7f-a23c-1e9b00bba538}">
+		<property name="distanceRolloffType">
+			<value>4</value>
+		</property>
+		<property name="maximumDistance">
+			<value>500</value>
+		</property>
+	</object>
 	<object class="MixerBusFader" id="{1a698248-b614-47bf-bfdb-9fdfc04f75a0}" />
 </objects>
