@@ -16,7 +16,9 @@ public class AudioDuck : MonoBehaviour
 
     [FMODUnity.EventRef] public string FishBreath, FishFlapping;
 
-    [Header("SFX")] [FMODUnity.EventRef] public string BuoyInPlace, BuoyPop, Sea, Wind;
+    [Header("SFX")] [FMODUnity.EventRef] public string BuoyInPlace, BuoyPop, Sea, Wind, Round, Score;
+    [Header("Special")] [FMODUnity.EventRef] public string count321, count2;
+    [Header("UI")] [FMODUnity.EventRef] public string Hover, Click, MenuBGM;
 
     FMOD.Studio.Bus MasterBus;
 

@@ -685,6 +685,46 @@ PrefabInstance:
       propertyPath: m_SizeDelta.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 353490681972880050, guid: 776f29a684a9a412eb9b5171aa4742bd,
+        type: 3}
+      propertyPath: Round
+      value: event:/End Round
+      objectReference: {fileID: 0}
+    - target: {fileID: 353490681972880050, guid: 776f29a684a9a412eb9b5171aa4742bd,
+        type: 3}
+      propertyPath: Score
+      value: event:/Score
+      objectReference: {fileID: 0}
+    - target: {fileID: 353490681972880050, guid: 776f29a684a9a412eb9b5171aa4742bd,
+        type: 3}
+      propertyPath: count321
+      value: event:/321
+      objectReference: {fileID: 0}
+    - target: {fileID: 353490681972880050, guid: 776f29a684a9a412eb9b5171aa4742bd,
+        type: 3}
+      propertyPath: count2
+      value: event:/2
+      objectReference: {fileID: 0}
+    - target: {fileID: 353490681972880050, guid: 776f29a684a9a412eb9b5171aa4742bd,
+        type: 3}
+      propertyPath: Hover
+      value: event:/UI/Hover
+      objectReference: {fileID: 0}
+    - target: {fileID: 353490681972880050, guid: 776f29a684a9a412eb9b5171aa4742bd,
+        type: 3}
+      propertyPath: Click
+      value: event:/UI/Click
+      objectReference: {fileID: 0}
+    - target: {fileID: 353490681972880050, guid: 776f29a684a9a412eb9b5171aa4742bd,
+        type: 3}
+      propertyPath: MenuBGM
+      value: event:/UI/Menu BGM
+      objectReference: {fileID: 0}
+    - target: {fileID: 353490681972880050, guid: 776f29a684a9a412eb9b5171aa4742bd,
+        type: 3}
+      propertyPath: BGM
+      value: event:/BGM 1
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 1055175652, guid: 776f29a684a9a412eb9b5171aa4742bd, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 776f29a684a9a412eb9b5171aa4742bd, type: 3}
