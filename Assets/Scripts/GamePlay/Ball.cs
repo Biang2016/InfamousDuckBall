@@ -109,7 +109,7 @@ public class Ball : EntityEventListener<IBallState>
         }
     }
 
-    private float NoTouchDurationBeforeSOS = 10f;
+    private float NoTouchDurationBeforeSOS = 3f;
     private float noTouchTick = 0f;
 
     public void KickedFly()

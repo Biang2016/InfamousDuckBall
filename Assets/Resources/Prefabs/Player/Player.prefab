@@ -613,7 +613,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Radius: 1
   MaxSpeed: 10.5
-  NeckSpeed: 0.3
+  NeckSpeed: 0.4
   Accelerate: 150
   BrakeVelocityThreshold: 0.3
   PushNeckFrame: 5
@@ -2038,7 +2038,7 @@ MonoBehaviour:
     endPoint: {x: 0, y: 0, z: 5.564884}
     startTangent: {x: -3.2297623, y: 3.2059717, z: 3.3333333}
     endTangent: {x: 2.5546143, y: -2.6084623, z: -3.333333}
-  color: {r: 0.058980823, g: 0.33103365, b: 0.1673541, a: 1}
+  color: {r: 0.1931349, g: 0.20136213, b: 0.9009303, a: 1}
 --- !u!1 &4904128705103003697
 GameObject:
   m_ObjectHideFlags: 0
