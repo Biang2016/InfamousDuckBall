@@ -47,7 +47,7 @@ public class GameManager : MonoSingleton<GameManager>
 
     public LobbyPanel LobbyPanel;
     public HelpPanel HelpPanel;
-    public LeaveGamePanel LeaveGamePanel;
+    internal LeaveGamePanel LeaveGamePanel;
 
     public void Start()
     {
@@ -76,7 +76,7 @@ public class GameManager : MonoSingleton<GameManager>
 
         UIManager.Instance.ShowUIForms<CreateNamePanel>();
 
-        AudioDuck.Instance.PlaySound(AudioDuck.Instance.BGM, gameObject);
+        AudioDuck.Instance.PlaySound(AudioDuck.Instance.MenuBGM, gameObject);
     }
 
     public void Update()
@@ -128,7 +128,7 @@ public class GameManager : MonoSingleton<GameManager>
             UIManager.Instance.CloseUIForm<RoundPanel>();
 
             AudioDuck.Instance.StopAllWOCEvents();
-            AudioDuck.Instance.PlaySound(AudioDuck.Instance.BGM, gameObject);
+            AudioDuck.Instance.PlaySound(AudioDuck.Instance.MenuBGM, gameObject);
         }
     }
 
@@ -175,8 +175,8 @@ public class GameManager : MonoSingleton<GameManager>
         return null;
     }
 
-    public DebugPanel DebugPanel;
-    public GameLogoPanel GameLogoPanel;
+    internal DebugPanel DebugPanel;
+    internal GameLogoPanel GameLogoPanel;
 
     #region Events
 

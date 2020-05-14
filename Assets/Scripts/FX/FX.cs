@@ -22,6 +22,6 @@ public class FX : PoolObject
     public void Play()
     {
         ParticleSystem.Play(true);
-        PoolRecycle(5f);
+        PoolRecycle(3f);
     }
 }

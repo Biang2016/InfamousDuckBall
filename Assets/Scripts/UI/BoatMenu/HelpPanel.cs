@@ -46,4 +46,14 @@ public class HelpPanel : MonoBehaviour
         RightButton.gameObject.SetActive(CurrentPage < 2);
         BackButton.gameObject.SetActive(CurrentPage == 2);
     }
+    
+    public void OnButtonHover()
+    {
+        AudioDuck.Instance.PlaySound(AudioDuck.Instance.Hover, GameManager.Instance.gameObject);
+    }
+
+    public void OnButtonClick()
+    {
+        AudioDuck.Instance.PlaySound(AudioDuck.Instance.Click, GameManager.Instance.gameObject);
+    }
 }

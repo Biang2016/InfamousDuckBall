@@ -193,6 +193,8 @@ public class BattleManager_FlagRace : BattleManager_BallGame
         IsStart = true;
         UIManager.Instance.ShowUIForms<RoundPanel>().Show(-1);
 
+        AudioDuck.Instance.PlaySound(AudioDuck.Instance.Round, BattleCamera.gameObject);
+
         RoundSmallScorePanel rssp = UIManager.Instance.ShowUIForms<RoundSmallScorePanel>();
         rssp.SetScoreShown(true);
         rssp.SetPanelPos(false);
@@ -263,6 +265,10 @@ public class BattleManager_FlagRace : BattleManager_BallGame
         sce.Score = scoreTeam.Score + 1;
         sce.IsNewBattle = false;
         sce.Send();
+
+        SFX_Event sfxEvent = SFX_Event.Create();
+        sfxEvent.SoundName = AudioDuck.Instance.Score;
+        sfxEvent.Send();
 
         ScoreRingManager srm = ScoreRingManagerDict[player.TeamNumber];
         int myTeamNum = player.TeamNumber == TeamNumber.Team1 ? srm.state.RingNumber_Team1 : srm.state.RingNumber_Team2;
