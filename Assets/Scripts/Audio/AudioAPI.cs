@@ -25,10 +25,10 @@
         //********************************************************************
         //新增音效
         //回合开始——Round，得分（分数显示部分）——Score，
-        //321倒计时——开始：AudioDuck.Instance.PlaySpecial(count321);
-        //              停止：AudioDuck.Instance.StopSpecial(count321);
-        //2秒提示——开始：AudioDuck.Instance.PlaySpecial(count2);
-        //              停止：AudioDuck.Instance.StopSpecial(count2);，
+        //321倒计时——开始：AudioDuck.Instance.PlaySpecial(countdown321);
+        //              停止：AudioDuck.Instance.StopSpecial(countdown321);
+        //2秒提示——开始：AudioDuck.Instance.PlaySpecial(countdown2);
+        //              停止：AudioDuck.Instance.StopSpecial(countdown2);，
         //按键Hover——Hover，按下按键——Click，
         //开始画面BGM——MenuBGM（原来的BGM游戏开始后再调用）
     }

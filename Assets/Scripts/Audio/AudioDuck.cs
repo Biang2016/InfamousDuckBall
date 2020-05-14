@@ -28,12 +28,16 @@ public class AudioDuck : MonoBehaviour
     public FMOD.Studio.EventInstance[] playerQuackSoundInstance = new FMOD.Studio.EventInstance[4];
     public FMOD.Studio.EventInstance[] playerChargeSoundInstance = new FMOD.Studio.EventInstance[4];
     FMOD.Studio.EventInstance WindInstance;
+    FMOD.Studio.EventInstance countdown321;
+    FMOD.Studio.EventInstance countdown2;
 
     public static AudioDuck Instance;
 
     private void Awake()
     {
         MasterBus = FMODUnity.RuntimeManager.GetBus("Bus:/");
+        countdown321 = FMODUnity.RuntimeManager.CreateInstance(count321);
+        countdown2 = FMODUnity.RuntimeManager.CreateInstance(count2);
 
         if (Instance != null && Instance != this)
         {
