@@ -1,4 +1,3 @@
-using System;
 using Bolt;
 using UnityEngine;
 
@@ -32,8 +31,6 @@ public class PlayerController : MonoBehaviour
         {
             leftHorizontal = Player.Controller.Axises[ControlAxis.LeftStick_H];
             leftVertical = Player.Controller.Axises[ControlAxis.LeftStick_V];
-            headTargetPos = Player.Duck.Body.Cur_HeadTargetPosition;
-            headLookAtPos = Player.Duck.Head.Cur_HeadLookAtPosition;
 
             leftTriggerDown = Player.Controller.ButtonDown[ControlButtons.LeftTrigger];
 
@@ -45,6 +42,9 @@ public class PlayerController : MonoBehaviour
             dpad_LeftUp = Player.Controller.ButtonUp[ControlButtons.DPAD_Left];
             dpad_RightUp = Player.Controller.ButtonUp[ControlButtons.DPAD_Right];
         }
+
+        headTargetPos = Player.Duck.Body.Cur_HeadTargetPosition;
+        headLookAtPos = Player.Duck.Head.Cur_HeadLookAtPosition;
     }
 
     void Update()

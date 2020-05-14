@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using UnityEngine;
 
 public class Controller
 {
@@ -32,6 +31,8 @@ public class Controller
         }
     }
 
+    public bool Active = true;
+
     public virtual void FixedUpdate()
     {
         foreach (KeyValuePair<ControlButtons, bool> kv in ButtonPressed)
@@ -39,7 +40,7 @@ public class Controller
             ButtonDown[kv.Key] = ButtonPressed[kv.Key] && !ButtonPressedLastFrame[kv.Key];
             ButtonUp[kv.Key] = !ButtonPressed[kv.Key] && ButtonPressedLastFrame[kv.Key];
 
-            if (ButtonUp[kv.Key]) Debug.Log(kv.Key);
+            //if (ButtonUp[kv.Key]) Debug.Log(kv.Key);
         }
 
         foreach (KeyValuePair<ControlButtons, bool> kv in ButtonPressed)

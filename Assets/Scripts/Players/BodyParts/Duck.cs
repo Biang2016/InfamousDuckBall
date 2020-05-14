@@ -1,10 +1,10 @@
 ﻿using UnityEngine;
-using System.Collections;
 
 public class Duck : MonoBehaviour
 {
     public Player Player;
     public DuckConfig DuckConfig => Player.DuckConfig;
+    public DuckUI DuckUI;
     public Feet Feet;
     public Body Body;
     public Neck Neck;
@@ -20,6 +20,7 @@ public class Duck : MonoBehaviour
 
     public void Attached()
     {
+        DuckUI.Attached();
         Feet.Attached();
         Body.Attached();
         Neck.Attached();
@@ -29,8 +30,16 @@ public class Duck : MonoBehaviour
         PlayerCostume.Attached();
     }
 
+    public void Detached()
+    {
+        Ring.StopAllCoroutines();
+        Body.StopAllCoroutines();
+        StopAllCoroutines();
+    }
+
     public void Initialize()
     {
+        DuckUI.Initialize();
         Head.Initialize();
         Feet.ReleaseChargingCircle();
     }

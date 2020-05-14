@@ -1,5 +1,4 @@
-﻿using Bolt;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class Head : MonoBehaviour
 {
@@ -24,13 +23,13 @@ public class Head : MonoBehaviour
                 }
                 else if (rightTriggerDown)
                 {
-                    //AudioDuck.Instance.PlaySound(AudioDuck.Instance.DuckCharge, gameObject);
                     HeadStatus = HeadStatusTypes.PushCharging;
                     Duck.Ring.Charge();
                     Duck.Wings.Charge();
                     Duck.Feet.StartCharge();
                     Duck.SunGlasses.Charging();
                     PushChargeTimeTick = Time.time;
+                    AudioDuck.Instance.StartPlayerChargeSound(Player.PlayerNumber, GameManager.Instance.Cur_BallBattleManager.BattleCamera.transform, Duck.DuckRigidbody);
                 }
                 else if (rightTriggerPressed)
                 {
@@ -55,9 +54,15 @@ public class Head : MonoBehaviour
                     Push();
                     Duck.Feet.ReleaseChargingCircle();
                     Duck.SunGlasses.Normal();
+                    AudioDuck.Instance.StopPlayerChargeSound(Player.PlayerNumber);
                 }
                 else if (rightTriggerPressed)
                 {
+                    if (Time.time - PushChargeTimeTick > DuckConfig.PushChargeTimeMaxDuration - 0.7f)
+                    {
+                        Duck.DuckUI.ShowMaxUI();
+                    }
+
                     if (Time.time - PushChargeTimeTick > DuckConfig.PushChargeTimeMaxDuration)
                     {
                         PushChargeForceRatio = 1;
@@ -65,6 +70,7 @@ public class Head : MonoBehaviour
                         Push();
                         Duck.Feet.ReleaseChargingCircle();
                         Duck.SunGlasses.Normal();
+                        AudioDuck.Instance.StopPlayerChargeSound(Player.PlayerNumber);
                     }
                 }
 

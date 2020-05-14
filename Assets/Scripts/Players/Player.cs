@@ -1,11 +1,10 @@
-using System;
 using System.Collections;
-using System.Collections.Generic;
 using Bolt;
 using UnityEngine;
 
 public class Player : EntityBehaviour<IPlayerState>
 {
+    public string PlayerName => state.PlayerInfo.PlayerName;
     public PlayerNumber PlayerNumber => (PlayerNumber) state.PlayerInfo.PlayerNumber;
     public TeamNumber TeamNumber => (TeamNumber) state.PlayerInfo.TeamNumber;
     public CostumeType CostumeType => (CostumeType) state.PlayerInfo.CostumeType;
@@ -33,6 +32,21 @@ public class Player : EntityBehaviour<IPlayerState>
         state.OnUpdateState += OnStateChanged;
     }
 
+    public override void Detached()
+    {
+        base.Detached();
+        Duck.Detached();
+    }
+
+    public override void ControlGained()
+    {
+        base.ControlGained();
+        Duck.Neck.NeckTargetPos = Duck.Body.transform.position + Duck.Body.transform.forward * 5f + Duck.Body.transform.up * 3f;
+        Duck.Body.Cur_HeadTargetPosition = Duck.Neck.NeckTargetPos;
+        Duck.Neck.NeckDeform();
+        Duck.Body.MoveNeckTo(Duck.Neck.NeckTargetPos);
+    }
+
     public void OnStateChanged()
     {
         if (!entity.IsOwner && !IsInitialized)
@@ -43,8 +57,9 @@ public class Player : EntityBehaviour<IPlayerState>
 
     private bool IsInitialized = false;
 
-    public void Initialize_Server(PlayerNumber playerNumber, TeamNumber teamNumber, CostumeType costumeType)
+    public void Initialize_Server(string playerName, PlayerNumber playerNumber, TeamNumber teamNumber, CostumeType costumeType)
     {
+        state.PlayerInfo.PlayerName = playerName;
         state.PlayerInfo.PlayerNumber = (int) playerNumber;
         state.PlayerInfo.TeamNumber = (int) teamNumber;
         if (entity.IsOwner && !IsInitialized)
@@ -107,7 +122,7 @@ public class Player : EntityBehaviour<IPlayerState>
     IEnumerator Co_PlayGenerateRingSound()
     {
         yield return new WaitForSeconds(0.4f);
-        AudioDuck.Instance.PlaySound(AudioDuck.Instance.DuckGenerateBuoy, gameObject);
+        AudioDuck.Instance.PlaySound(AudioDuck.Instance.DuckGenerateBuoy, Duck.gameObject);
     }
 
     public void LoseRing(bool explode)
@@ -116,7 +131,8 @@ public class Player : EntityBehaviour<IPlayerState>
         {
             if (explode)
             {
-                AudioDuck.Instance.PlaySound(AudioDuck.Instance.BuoyPop, GameManager.Instance.gameObject);
+                Duck.DuckUI.ShowAnnoyingUI();
+                AudioDuck.Instance.PlaySound(AudioDuck.Instance.BuoyPop, Duck.gameObject);
                 AudioManager.Instance.SoundPlay("sfx/Sound_Score");
                 Goalie.ParticleRelease();
                 Duck.Wings.Hit();
@@ -145,10 +161,5 @@ public class Player : EntityBehaviour<IPlayerState>
         Duck.Ring.LoseRing();
         Duck.Wings.LoseRing();
         Goalie.IsGoalie = false;
-    }
-
-    public PlayerInfoData GetPlayerInfoDate()
-    {
-        return new PlayerInfoData(PlayerNumber, TeamNumber, CostumeType);
     }
 }

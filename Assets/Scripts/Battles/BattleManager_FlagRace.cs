@@ -1,6 +1,5 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using DG.Tweening;
 using UnityEngine;
 
 public class BattleManager_FlagRace : BattleManager_BallGame
@@ -43,9 +42,12 @@ public class BattleManager_FlagRace : BattleManager_BallGame
         ScoreRingManagerDict.Add(TeamNumber.Team2, ScoreRingManager_Team2);
         ScoreRingSingleSpawnerDict.Add(TeamNumber.Team1, ScoreRingSingleSpawner_Team1);
         ScoreRingSingleSpawnerDict.Add(TeamNumber.Team2, ScoreRingSingleSpawner_Team2);
-        GameManager.Instance.DebugPanel.RefreshScore(false);
-        GameManager.Instance.DebugPanel.SetStartTipShown(true, "F4/F5/F6 to switch game, F10 to Start/Stop");
         PlayerControllerMoveDirectionQuaternion = Quaternion.Euler(0, 90, 0);
+
+        UIManager.Instance.ShowUIForms<RoundSmallScorePanel>();
+        UIManager.Instance.GetBaseUIForm<RoundSmallScorePanel>().SetPanelPos(false);
+        UIManager.Instance.GetBaseUIForm<RoundSmallScorePanel>().SetScoreShown(false);
+        UIManager.Instance.GetBaseUIForm<RoundSmallScorePanel>().SetRoomStatusText("Waiting for other players 1/4");
     }
 
     protected override void Update()
@@ -68,8 +70,73 @@ public class BattleManager_FlagRace : BattleManager_BallGame
         }
     }
 
+    public override void StartBattleReadyToggle(bool start, int tick)
+    {
+        if (start)
+        {
+            UIManager.Instance.GetBaseUIForm<RoundSmallScorePanel>().SetScoreShown(false);
+            UIManager.Instance.GetBaseUIForm<RoundSmallScorePanel>().SetRoomStatusText("Game will start in " + tick + "s");
+        }
+        else
+        {
+            if (PlayerDict.Count == 4)
+            {
+                if (BoltNetwork.IsServer)
+                {
+                    UIManager.Instance.GetBaseUIForm<RoundSmallScorePanel>().SetRoomStatusText("Press F10 to start the game");
+                }
+                else
+                {
+                    UIManager.Instance.GetBaseUIForm<RoundSmallScorePanel>().SetRoomStatusText("Waiting for the game to start");
+                }
+            }
+            else
+            {
+                UIManager.Instance.GetBaseUIForm<RoundSmallScorePanel>().SetRoomStatusText("Waiting for other players " + PlayerDict.Count + "/4");
+            }
+        }
+    }
+
+    public override void RefreshPlayerNumber(int playerNumber)
+    {
+        if (BoltNetwork.IsServer)
+        {
+            if (playerNumber == 4)
+            {
+                UIManager.Instance.GetBaseUIForm<RoundSmallScorePanel>().SetRoomStatusText("Press F10 to start the game");
+            }
+            else
+            {
+                UIManager.Instance.GetBaseUIForm<RoundSmallScorePanel>().SetRoomStatusText("Waiting for other players " + playerNumber + "/4");
+            }
+        }
+    }
+
     public override void StartBattle_Server()
     {
+        if (BoltNetwork.IsServer)
+        {
+            if (startBattleCoroutine != null)
+            {
+                StopCoroutine(startBattleCoroutine);
+                startBattleCoroutine = null;
+            }
+
+            startBattleCoroutine = StartCoroutine(Co_StartBattle_Server());
+        }
+    }
+
+    IEnumerator Co_StartBattle_Server()
+    {
+        for (int i = 0; i < 5; i++)
+        {
+            BattleReadyStartToggleEvent evnt = BattleReadyStartToggleEvent.Create();
+            evnt.Start = true;
+            evnt.Tick = 5 - i;
+            evnt.Send();
+            yield return new WaitForSeconds(1f);
+        }
+
         if (BoltNetwork.IsServer)
         {
             ScoreRingManager_Team1.state.RingNumber_Team1 = 0;
@@ -81,11 +148,8 @@ public class BattleManager_FlagRace : BattleManager_BallGame
             if (!LeftBall)
             {
                 BoltEntity be1 = BoltNetwork.Instantiate(BoltPrefabs.Ball, BallPivot_Left.position, BallPivot_Left.rotation);
-                BallEvent be = BallEvent.Create();
-                be.BallEntity = be1;
-                be.BallName = "FlagRaceBall_Left";
-                be.Send();
                 LeftBall = be1.GetComponent<Ball>();
+                LeftBall.state.BallName = "FlagRaceBall_Left";
                 LeftBall.ResetTransform = BallPivot_Left;
                 BallDefaultPos_Left = LeftBall.transform.position;
             }
@@ -97,11 +161,8 @@ public class BattleManager_FlagRace : BattleManager_BallGame
             if (!RightBall)
             {
                 BoltEntity be1 = BoltNetwork.Instantiate(BoltPrefabs.Ball, BallPivot_Right.position, BallPivot_Right.rotation);
-                BallEvent be = BallEvent.Create();
-                be.BallEntity = be1;
-                be.BallName = "FlagRaceBall_Right";
-                be.Send();
                 RightBall = be1.GetComponent<Ball>();
+                RightBall.state.BallName = "FlagRaceBall_Right";
                 RightBall.ResetTransform = BallPivot_Right;
                 BallDefaultPos_Right = RightBall.transform.position;
             }
@@ -130,7 +191,13 @@ public class BattleManager_FlagRace : BattleManager_BallGame
     {
         base.StartBattle();
         IsStart = true;
-        GameManager.Instance.DebugPanel.SetStartTipShown(true, "F4/F5/F6 to switch game, F10 to Start/Stop");
+        UIManager.Instance.ShowUIForms<RoundPanel>().Show(-1);
+
+        RoundSmallScorePanel rssp = UIManager.Instance.ShowUIForms<RoundSmallScorePanel>();
+        rssp.SetScoreShown(true);
+        rssp.SetPanelPos(false);
+        rssp.RefreshScore_Team1(0);
+        rssp.RefreshScore_Team2(0);
     }
 
     IEnumerator Co_GenerateScoreRingSingle()
@@ -142,20 +209,6 @@ public class BattleManager_FlagRace : BattleManager_BallGame
                 ConfigManager.Instance.RingDropIntervalRandomMax * GameManager.Instance.GameState.state.DuckConfig.RingDropIntervalRandomMax));
             ScoreRingSingleSpawnerDict[TeamNumber.Team1].Spawn();
             ScoreRingSingleSpawnerDict[TeamNumber.Team2].Spawn();
-        }
-    }
-
-    public void ResetBall(Ball ball)
-    {
-        if (BoltNetwork.IsServer)
-        {
-            if (ball == LeftBall)
-            {
-            }
-
-            if (ball == RightBall)
-            {
-            }
         }
     }
 
@@ -198,47 +251,42 @@ public class BattleManager_FlagRace : BattleManager_BallGame
 
     public void FlagScorePointHit_Server(Player player)
     {
-        if (player.HasRing)
+        PlayerRingEvent pre = PlayerRingEvent.Create();
+        pre.HasRing = false;
+        pre.PlayerNumber = (int) player.PlayerNumber;
+        pre.Exploded = false;
+        pre.Send();
+
+        Team scoreTeam = TeamDict[player.TeamNumber];
+        ScoreChangeEvent sce = ScoreChangeEvent.Create();
+        sce.TeamNumber = (int) player.TeamNumber;
+        sce.Score = scoreTeam.Score + 1;
+        sce.IsNewBattle = false;
+        sce.Send();
+
+        ScoreRingManager srm = ScoreRingManagerDict[player.TeamNumber];
+        int myTeamNum = player.TeamNumber == TeamNumber.Team1 ? srm.state.RingNumber_Team1 : srm.state.RingNumber_Team2;
+        int otherTeamNum = player.TeamNumber == TeamNumber.Team1 ? srm.state.RingNumber_Team2 : srm.state.RingNumber_Team1;
+        if (myTeamNum + otherTeamNum == ScoreRingManager.MaxRingNumber * 2)
         {
-            PlayerRingEvent pre = PlayerRingEvent.Create();
-            pre.HasRing = false;
-            pre.PlayerNumber = (int) player.PlayerNumber;
-            pre.Exploded = false;
-            pre.Send();
+            otherTeamNum--;
+        }
 
-            Team scoreTeam = TeamDict[player.TeamNumber];
-            ScoreChangeEvent sce = ScoreChangeEvent.Create();
-            sce.TeamNumber = (int) player.TeamNumber;
-            sce.Score = scoreTeam.Score + 1;
-            sce.IsNewBattle = false;
-            sce.Send();
+        myTeamNum++;
+        if (player.TeamNumber == TeamNumber.Team1)
+        {
+            srm.state.RingNumber_Team1 = myTeamNum;
+            srm.state.RingNumber_Team2 = otherTeamNum;
+        }
+        else if (player.TeamNumber == TeamNumber.Team2)
+        {
+            srm.state.RingNumber_Team1 = otherTeamNum;
+            srm.state.RingNumber_Team2 = myTeamNum;
+        }
 
-            ScoreRingManager srm = ScoreRingManagerDict[player.TeamNumber];
-            int myTeamNum = player.TeamNumber == TeamNumber.Team1 ? srm.state.RingNumber_Team1 : srm.state.RingNumber_Team2;
-            int otherTeamNum = player.TeamNumber == TeamNumber.Team1 ? srm.state.RingNumber_Team2 : srm.state.RingNumber_Team1;
-            if (myTeamNum + otherTeamNum == ScoreRingManager.MaxRingNumber * 2)
-            {
-                otherTeamNum--;
-            }
-
-            myTeamNum++;
-            if (player.TeamNumber == TeamNumber.Team1)
-            {
-                srm.state.RingNumber_Team1 = myTeamNum;
-                srm.state.RingNumber_Team2 = otherTeamNum;
-            }
-            else if (player.TeamNumber == TeamNumber.Team2)
-            {
-                srm.state.RingNumber_Team1 = otherTeamNum;
-                srm.state.RingNumber_Team2 = myTeamNum;
-            }
-
-            GameManager.Instance.DebugPanel.RefreshScore(false);
-            if (scoreTeam.Score == ConfigManager.FlagRace_TeamTargetScore - 1)
-            {
-                GameManager.Instance.DebugPanel.Wins(scoreTeam.TeamNumber);
-                EndBattle_Server();
-            }
+        if (scoreTeam.Score == ConfigManager.FlagRace_TeamTargetScore - 1)
+        {
+            EndBattle_Server(scoreTeam.TeamNumber);
         }
     }
 
@@ -256,7 +304,6 @@ public class BattleManager_FlagRace : BattleManager_BallGame
     IEnumerator Co_PlayerRingRecover(Player player, CostumeType costumeType)
     {
         yield return null;
-        //yield return new WaitForSeconds(0.2f);
         PlayerRingEvent pre = PlayerRingEvent.Create();
         pre.HasRing = true;
         pre.PlayerNumber = (int) player.PlayerNumber;
@@ -288,14 +335,26 @@ public class BattleManager_FlagRace : BattleManager_BallGame
     public override void ResetPlayer(Player player)
     {
         player.Reset();
-        PlayerSpawnPointManager.Spawn((PlayerNumber) player.TeamNumber);
+        PlayerSpawnPointManager.Spawn(player.PlayerNumber, player.TeamNumber);
     }
 
-    public override void EndBattle_Server()
+    public override void EndBattle_Server(TeamNumber winnerTeam)
     {
         if (BoltNetwork.IsServer)
         {
-            BattleEndEvent.Create().Send();
+            if (startBattleCoroutine != null)
+            {
+                StopCoroutine(startBattleCoroutine);
+                startBattleCoroutine = null;
+            }
+
+            {
+                BattleReadyStartToggleEvent evnt = BattleReadyStartToggleEvent.Create();
+                evnt.Start = false;
+                evnt.Tick = 0;
+                evnt.Send();
+            }
+
             if (LeftBall)
             {
                 LeftBall.StopAllCoroutines();
@@ -308,18 +367,53 @@ public class BattleManager_FlagRace : BattleManager_BallGame
                 BoltNetwork.Destroy(RightBall.gameObject);
             }
 
+            {
+                BattleEndEvent evnt = BattleEndEvent.Create();
+                evnt.Team1Score = TeamDict[TeamNumber.Team1].Score;
+                evnt.Team2Score = TeamDict[TeamNumber.Team2].Score;
+                evnt.WinnerTeamNumber = (int) winnerTeam;
+                evnt.BattleType = (int) BattleTypes.FlagRace;
+                evnt.Send();
+            }
+
             ScoreRingSingleSpawner_Team1.Clear();
             ScoreRingSingleSpawner_Team2.Clear();
             ResetAllPlayers();
         }
     }
 
-    public override void EndBattle()
+    public override void EndBattle(TeamNumber winnerTeam, int team1Score, int team2Score)
     {
-        base.EndBattle();
+        base.EndBattle(winnerTeam, team1Score, team2Score);
+        if (winnerTeam == TeamNumber.None)
+        {
+            if (PlayerObjectRegistry.MyPlayer && PlayerObjectRegistry.MyPlayer.PlayerController.Controller != null)
+            {
+                PlayerObjectRegistry.MyPlayer.PlayerController.Controller.Active = true;
+            }
+
+            if (IsStart)
+            {
+                NoticeManager.Instance.ShowInfoPanelTop("GAME ENDS!", 0, 0.5f);
+            }
+
+            UIManager.Instance.CloseUIForm<RoundPanel>();
+        }
+        else
+        {
+            if (PlayerObjectRegistry.MyPlayer && PlayerObjectRegistry.MyPlayer.PlayerController.Controller != null)
+            {
+                PlayerObjectRegistry.MyPlayer.PlayerController.Controller.Active = true;
+            }
+
+            WinPanel wp = UIManager.Instance.ShowUIForms<WinPanel>();
+            wp.Initialize(BattleTypes.Smash, winnerTeam);
+            wp.Show();
+        }
+
         LeftBall = null;
         RightBall = null;
         IsStart = false;
-        GameManager.Instance.DebugPanel.SetStartTipShown(true, "F4/F5/F6 to switch game, F10 to Start/Stop");
+        UIManager.Instance.GetBaseUIForm<RoundSmallScorePanel>().SetScoreShown(false);
     }
 }

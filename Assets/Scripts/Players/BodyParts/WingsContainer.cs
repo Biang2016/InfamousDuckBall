@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using System.Collections;
 
 public class WingsContainer : MonoBehaviour
 {
@@ -20,6 +19,5 @@ public class WingsContainer : MonoBehaviour
 
         Quaternion rot = LeftWingJoint.rotation * Quaternion.Inverse(InitRotation);
         transform.rotation = rot;
-
     }
 }

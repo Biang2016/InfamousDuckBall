@@ -1,8 +1,4 @@
-﻿using UnityEngine;
-using System.Collections;
-using System.Collections.Generic;
-
-[BoltGlobalBehaviour("Battle_Smash")]
+﻿[BoltGlobalBehaviour("Battle_Smash")]
 public class Battle_Smash_Callbacks : Bolt.GlobalEventListener
 {
     public override void OnEvent(BattleStartEvent evnt)
@@ -31,9 +27,32 @@ public class Battle_Smash_Callbacks : Bolt.GlobalEventListener
         team.MegaScore = evnt.MegaScore;
         if (!evnt.IsNewBattle)
         {
+            if (tn == TeamNumber.Team1)
+            {
+                UIManager.Instance.GetBaseUIForm<RoundSmallScorePanel>().RefreshScore_Team1(team.Score);
+            }
+            else if (tn == TeamNumber.Team2)
+            {
+                UIManager.Instance.GetBaseUIForm<RoundSmallScorePanel>().RefreshScore_Team2(team.Score);
+            }
+
             AudioManager.Instance.SoundPlay("sfx/Sound_Score");
         }
+    }
 
-        GameManager.Instance.DebugPanel.RefreshScore(true);
+    public override void OnEvent(RoundStartEvent evnt)
+    {
+        if (GameManager.Instance.Cur_BattleManager && GameManager.Instance.Cur_BattleManager is BattleManager_Smash smash)
+        {
+            smash.StartNewRound(evnt.Round);
+        }
+    }
+
+    public override void OnEvent(RoundEndEvent evnt)
+    {
+        if (GameManager.Instance.Cur_BattleManager && GameManager.Instance.Cur_BattleManager is BattleManager_Smash smash)
+        {
+            smash.EndRound((TeamNumber) evnt.WinTeamNumber, evnt.Team1Score, evnt.Team2Score);
+        }
     }
 }

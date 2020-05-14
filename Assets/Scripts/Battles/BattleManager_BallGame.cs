@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public abstract class BattleManager_BallGame : BattleManager
 {
@@ -17,31 +16,32 @@ public abstract class BattleManager_BallGame : BattleManager
 
         if (Input.GetKeyUp(KeyCode.F10))
         {
-            if (IsStart)
+            if (IsStart || startBattleCoroutine != null)
             {
-                EndBattle_Server();
+                EndBattle_Server(TeamNumber.None);
             }
             else
             {
                 StartBattle_Server();
             }
         }
-
     }
 
     public abstract void StartBattle_Server();
+    protected Coroutine startBattleCoroutine;
+
+    public abstract void StartBattleReadyToggle(bool start, int tick);
+    public abstract void RefreshPlayerNumber(int playerNumber);
 
     public virtual void StartBattle()
     {
-        NoticeManager.Instance.ShowInfoPanelTop("GAME START!", 0, 0.7f);
     }
 
     public abstract void BallHit_Server(Ball ball, Player hitPlayer, TeamNumber hitTeamNumber);
-    public abstract void EndBattle_Server();
+    public abstract void EndBattle_Server(TeamNumber winnerTeam);
 
-    public virtual void EndBattle()
+    public virtual void EndBattle(TeamNumber winnerTeam, int team1Score, int team2Score)
     {
         StopAllCoroutines();
-        NoticeManager.Instance.ShowInfoPanelTop("GAME OVER!", 0, 0.7f);
     }
 }

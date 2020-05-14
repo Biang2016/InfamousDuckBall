@@ -1,10 +1,9 @@
 ﻿using UnityEngine;
-using System.Collections;
 
 public class PlayerCollider : MonoBehaviour
 {
     internal Player Player;
-    [SerializeField]private Collider Collider;
+    [SerializeField] private Collider Collider;
 
     public void Initialize(Player player)
     {

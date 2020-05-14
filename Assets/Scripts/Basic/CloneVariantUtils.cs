@@ -15,27 +15,27 @@ public static class CloneVariantUtils
         switch (operationType)
         {
             case OperationType.Clone:
+            {
+                if (src is IClone<T> t_Clone)
                 {
-                    if (src is IClone<T> t_Clone)
-                    {
-                        res_t = t_Clone.Clone();
-                    }
-
-                    break;
+                    res_t = t_Clone.Clone();
                 }
+
+                break;
+            }
             case OperationType.Variant:
+            {
+                if (src is IVariant<T> t_Variant)
                 {
-                    if (src is IVariant<T> t_Variant)
-                    {
-                        res_t = t_Variant.Variant();
-                    }
+                    res_t = t_Variant.Variant();
+                }
 
-                    break;
-                }
+                break;
+            }
             case OperationType.None:
-                {
-                    break;
-                }
+            {
+                break;
+            }
         }
 
         return res_t;

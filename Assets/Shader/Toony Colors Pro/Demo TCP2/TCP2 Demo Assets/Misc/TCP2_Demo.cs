@@ -3,324 +3,326 @@ using UnityEngine;
 
 public class TCP2_Demo : MonoBehaviour
 {
-	//--------------------------------------------------------------------------------------------------
-	// PUBLIC INSPECTOR PROPERTIES
-	
-	public Material[] AffectedMaterials;
-	public Texture2D[] RampTextures;
-	public GUISkin GuiSkin;
-	public Light DirLight;
+    //--------------------------------------------------------------------------------------------------
+    // PUBLIC INSPECTOR PROPERTIES
 
-	public GameObject Robot, Ethan;
-	
-	//--------------------------------------------------------------------------------------------------
-	// PRIVATE PROPERTIES
-	
-	private bool mUnityShader;
+    public Material[] AffectedMaterials;
+    public Texture2D[] RampTextures;
+    public GUISkin GuiSkin;
+    public Light DirLight;
 
-	private bool mShaderSpecular = true;
-	private bool mShaderBump = true;
-	private bool mShaderReflection;
-	private bool mShaderRim = true;
-	private bool mShaderRimOutline;
-	private bool mShaderOutline = true;
+    public GameObject Robot, Ethan;
 
-	private float mRimMin = 0.5f;
-	private float mRimMax = 1.0f;
-	
-	private bool mRampTextureFlag;
-	private Texture2D mRampTexture;
-	private float mRampSmoothing = 0.15f;
+    //--------------------------------------------------------------------------------------------------
+    // PRIVATE PROPERTIES
 
-	private float mLightRotationX = 80f;
-	private float mLightRotationY = 25f;
+    private bool mUnityShader;
 
-	private bool mViewRobot;
-	private bool mRobotOutlineNormals = true;
+    private bool mShaderSpecular = true;
+    private bool mShaderBump = true;
+    private bool mShaderReflection;
+    private bool mShaderRim = true;
+    private bool mShaderRimOutline;
+    private bool mShaderOutline = true;
 
-	private TCP2_Demo_View DemoView;
+    private float mRimMin = 0.5f;
+    private float mRimMax = 1.0f;
 
-	//--------------------------------------------------------------------------------------------------
-	// UNITY EVENTS
+    private bool mRampTextureFlag;
+    private Texture2D mRampTexture;
+    private float mRampSmoothing = 0.15f;
 
-	void Awake()
-	{
-		DemoView = GetComponent<TCP2_Demo_View>();
-		mRampTexture = RampTextures[0];
-		UpdateShader();
-	}
+    private float mLightRotationX = 80f;
+    private float mLightRotationY = 25f;
 
-	void OnDestroy()
-	{
-		RestoreRimColors();
-		UpdateShader();
-	}
+    private bool mViewRobot;
+    private bool mRobotOutlineNormals = true;
 
-	void OnGUI()
-	{
-		GUI.skin = GuiSkin;
+    private TCP2_Demo_View DemoView;
 
-		// Outline Normals
-		GUILayout.BeginArea(new Rect(new Rect(Screen.width - 310, 20, 310 - 20, 30)));
+    //--------------------------------------------------------------------------------------------------
+    // UNITY EVENTS
 
-		GUILayout.BeginHorizontal();
-		GUILayout.Label("Demo Character:");
-		if(GUILayout.Button("Ethan", mViewRobot ? "Button" : "ButtonOn"))
-		{
-			mViewRobot = false;
-			Robot.SetActive(false);
-			Ethan.SetActive(true);
-			DemoView.CharacterTransform = Ethan.transform;
-		}
-		if(GUILayout.Button("Robot Kyle", !mViewRobot ? "Button" : "ButtonOn"))
-		{
-			mViewRobot = true;
-			Robot.SetActive(true);
-			Ethan.SetActive(false);
-			DemoView.CharacterTransform = Robot.transform;
-		}
-		GUILayout.EndHorizontal();
-		GUILayout.EndArea();
+    void Awake()
+    {
+        DemoView = GetComponent<TCP2_Demo_View>();
+        mRampTexture = RampTextures[0];
+        UpdateShader();
+    }
 
-		GUILayout.BeginArea(new Rect(new Rect(Screen.width - 310, 55, 310 - 20, Screen.height - 40 - 90)));
-		if(mViewRobot)
-		{
-			GUILayout.Label("Outline Normals");
-			mRobotOutlineNormals = !GUILayout.Toggle(!mRobotOutlineNormals, "Regular Normals");
-			mRobotOutlineNormals = GUILayout.Toggle(mRobotOutlineNormals, "TCP2's Encoded Smoothed Normals");
+    void OnDestroy()
+    {
+        RestoreRimColors();
+        UpdateShader();
+    }
 
-			GUILayout.Label("Toony Colors Pro 2 introduces an innovative way to fix broken outline caused by hard-edge shading.\nRead the documentation to learn more!", "SmallLabelShadow");
-			var r2 = GUILayoutUtility.GetLastRect();
-			GUI.Label(r2, "Toony Colors Pro 2 introduces an innovative way to fix broken outline caused by hard-edge shading.\nRead the documentation to learn more!", "SmallLabel");
-		}
-		GUILayout.EndArea();
+    void OnGUI()
+    {
+        GUI.skin = GuiSkin;
 
-		//Quality Settings
-		GUILayout.BeginArea(new Rect(new Rect(Screen.width - 210, Screen.height - 60, 210 - 20, 50)));
-		GUILayout.Label("Quality Settings:");
-		GUILayout.BeginHorizontal();
-		if(GUILayout.Button("<", GUILayout.Width(26)))
-			QualitySettings.DecreaseLevel(true);
-		GUILayout.Label(QualitySettings.names[ QualitySettings.GetQualityLevel() ], "LabelCenter" );
-		if(GUILayout.Button(">", GUILayout.Width(26)))
-			QualitySettings.IncreaseLevel(true);
-		GUILayout.EndHorizontal();
-		GUILayout.EndArea();
-		
-		// TCP2 Settings
-		GUILayout.BeginArea(new Rect(20,20 + 90,Screen.width - 40, Screen.height - 40));
+        // Outline Normals
+        GUILayout.BeginArea(new Rect(new Rect(Screen.width - 310, 20, 310 - 20, 30)));
 
-		mUnityShader = GUILayout.Toggle(mUnityShader, "View with Unity " + (mViewRobot ? "\"Diffuse Specular\"" : "\"Bumped Specular\""));
-		GUILayout.Space(10);
+        GUILayout.BeginHorizontal();
+        GUILayout.Label("Demo Character:");
+        if (GUILayout.Button("Ethan", mViewRobot ? "Button" : "ButtonOn"))
+        {
+            mViewRobot = false;
+            Robot.SetActive(false);
+            Ethan.SetActive(true);
+            DemoView.CharacterTransform = Ethan.transform;
+        }
 
-		GUI.enabled = !mUnityShader;
+        if (GUILayout.Button("Robot Kyle", !mViewRobot ? "Button" : "ButtonOn"))
+        {
+            mViewRobot = true;
+            Robot.SetActive(true);
+            Ethan.SetActive(false);
+            DemoView.CharacterTransform = Robot.transform;
+        }
 
-		GUILayout.Label("Toony Colors Pro 2 Settings");
-		mShaderSpecular = GUILayout.Toggle(mShaderSpecular, "Specular");
+        GUILayout.EndHorizontal();
+        GUILayout.EndArea();
 
-		GUI.enabled = !mViewRobot;
-		if(GUI.enabled)
-			mShaderBump = GUILayout.Toggle(mShaderBump, "Bump");
-		else
-			GUILayout.Toggle(false, "Bump");
-		GUI.enabled = !mUnityShader;
-		mShaderReflection = GUILayout.Toggle(mShaderReflection, "Reflection");
+        GUILayout.BeginArea(new Rect(new Rect(Screen.width - 310, 55, 310 - 20, Screen.height - 40 - 90)));
+        if (mViewRobot)
+        {
+            GUILayout.Label("Outline Normals");
+            mRobotOutlineNormals = !GUILayout.Toggle(!mRobotOutlineNormals, "Regular Normals");
+            mRobotOutlineNormals = GUILayout.Toggle(mRobotOutlineNormals, "TCP2's Encoded Smoothed Normals");
 
-		var changed = mShaderRim;
-		mShaderRim = GUILayout.Toggle(mShaderRim, "Rim Lighting");
-		changed = changed != mShaderRim;
-		if(changed && mShaderRim && mShaderRimOutline)
-			mShaderRimOutline = false;
-		if(changed && mShaderRim)
-			RestoreRimColors();
+            GUILayout.Label("Toony Colors Pro 2 introduces an innovative way to fix broken outline caused by hard-edge shading.\nRead the documentation to learn more!", "SmallLabelShadow");
+            var r2 = GUILayoutUtility.GetLastRect();
+            GUI.Label(r2, "Toony Colors Pro 2 introduces an innovative way to fix broken outline caused by hard-edge shading.\nRead the documentation to learn more!", "SmallLabel");
+        }
 
-		changed = mShaderRimOutline;
-		mShaderRimOutline = GUILayout.Toggle(mShaderRimOutline, "Rim Outline");
-		changed = changed != mShaderRimOutline;
-		if(changed && mShaderRimOutline && mShaderRim)
-			mShaderRim = false;
-		if(changed && mShaderRimOutline)
-			RimOutlineColor();
+        GUILayout.EndArea();
 
-		GUI.enabled &= mShaderRim || mShaderRimOutline;
-		GUILayout.BeginHorizontal();
-		GUILayout.Label("Rim Min", GUILayout.Width(70));
-		mRimMin = GUILayout.HorizontalSlider(mRimMin, 0f, 1f, GUILayout.Width(130f));
-		GUILayout.EndHorizontal();
+        //Quality Settings
+        GUILayout.BeginArea(new Rect(new Rect(Screen.width - 210, Screen.height - 60, 210 - 20, 50)));
+        GUILayout.Label("Quality Settings:");
+        GUILayout.BeginHorizontal();
+        if (GUILayout.Button("<", GUILayout.Width(26)))
+            QualitySettings.DecreaseLevel(true);
+        GUILayout.Label(QualitySettings.names[QualitySettings.GetQualityLevel()], "LabelCenter");
+        if (GUILayout.Button(">", GUILayout.Width(26)))
+            QualitySettings.IncreaseLevel(true);
+        GUILayout.EndHorizontal();
+        GUILayout.EndArea();
 
-		GUILayout.BeginHorizontal();
-		GUILayout.Label("Rim Max", GUILayout.Width(70));
-		mRimMax = GUILayout.HorizontalSlider(mRimMax, 0f, 1f, GUILayout.Width(130f));
-		GUILayout.EndHorizontal();
-		GUI.enabled = !mUnityShader;
+        // TCP2 Settings
+        GUILayout.BeginArea(new Rect(20, 20 + 90, Screen.width - 40, Screen.height - 40));
 
-		mShaderOutline = GUILayout.Toggle(mShaderOutline, "Outline");
+        mUnityShader = GUILayout.Toggle(mUnityShader, "View with Unity " + (mViewRobot ? "\"Diffuse Specular\"" : "\"Bumped Specular\""));
+        GUILayout.Space(10);
 
-		GUILayout.Space(6);
+        GUI.enabled = !mUnityShader;
 
-		GUILayout.Label("Ramp Settings");
-		mRampTextureFlag = GUILayout.Toggle(mRampTextureFlag, "Textured Ramp");
+        GUILayout.Label("Toony Colors Pro 2 Settings");
+        mShaderSpecular = GUILayout.Toggle(mShaderSpecular, "Specular");
 
-		GUI.enabled &= mRampTextureFlag;
-		GUILayout.BeginHorizontal();
-		var r = GUILayoutUtility.GetRect(200,20, GUILayout.ExpandWidth(false));
-		r.y += 4;
-		GUI.DrawTexture(r, mRampTexture);
-		if(GUILayout.Button("<", GUILayout.Width(26)))
-			PrevRamp();
-		if(GUILayout.Button(">", GUILayout.Width(26)))
-			NextRamp();
-		GUILayout.EndHorizontal();
+        GUI.enabled = !mViewRobot;
+        if (GUI.enabled)
+            mShaderBump = GUILayout.Toggle(mShaderBump, "Bump");
+        else
+            GUILayout.Toggle(false, "Bump");
+        GUI.enabled = !mUnityShader;
+        mShaderReflection = GUILayout.Toggle(mShaderReflection, "Reflection");
 
-		GUI.enabled = !mUnityShader;
-		GUI.enabled &= !mRampTextureFlag;
-		GUILayout.BeginHorizontal();
-		GUILayout.Label("Smoothing", GUILayout.Width(85));
-		mRampSmoothing = GUILayout.HorizontalSlider(mRampSmoothing, 0.01f, 1f, GUILayout.Width(115f));
-		GUILayout.EndHorizontal();
+        var changed = mShaderRim;
+        mShaderRim = GUILayout.Toggle(mShaderRim, "Rim Lighting");
+        changed = changed != mShaderRim;
+        if (changed && mShaderRim && mShaderRimOutline)
+            mShaderRimOutline = false;
+        if (changed && mShaderRim)
+            RestoreRimColors();
 
-		if(GUI.changed)
-		{
-			if(mUnityShader)
-				UnityDiffuseShader();
-			else
-				UpdateShader();
-		}
+        changed = mShaderRimOutline;
+        mShaderRimOutline = GUILayout.Toggle(mShaderRimOutline, "Rim Outline");
+        changed = changed != mShaderRimOutline;
+        if (changed && mShaderRimOutline && mShaderRim)
+            mShaderRim = false;
+        if (changed && mShaderRimOutline)
+            RimOutlineColor();
 
-		// Light Settings
-		GUI.enabled = true;
-		GUILayout.Space(10);
-		GUILayout.Label("Light Rotation");
-		mLightRotationX = GUILayout.HorizontalSlider(mLightRotationX, 0f, 360f, GUILayout.Width(200f));
-		mLightRotationY = GUILayout.HorizontalSlider(mLightRotationY, 0f, 360f, GUILayout.Width(200f));
+        GUI.enabled &= mShaderRim || mShaderRimOutline;
+        GUILayout.BeginHorizontal();
+        GUILayout.Label("Rim Min", GUILayout.Width(70));
+        mRimMin = GUILayout.HorizontalSlider(mRimMin, 0f, 1f, GUILayout.Width(130f));
+        GUILayout.EndHorizontal();
 
-		GUILayout.Space(4);
-		GUILayout.Label("Hold Left mouse button to rotate character", "SmallLabelShadow");
-		r = GUILayoutUtility.GetLastRect();
-		GUI.Label(r, "Hold Left mouse button to rotate character", "SmallLabel");
-		GUILayout.Label("Hold Right/Middle mouse button to scroll", "SmallLabelShadow");
-		r = GUILayoutUtility.GetLastRect();
-		GUI.Label(r, "Hold Right/Middle mouse button to scroll", "SmallLabel");
-		GUILayout.Label("Use mouse scroll wheel or up/down keys to zoom", "SmallLabelShadow");
-		r = GUILayoutUtility.GetLastRect();
-		GUI.Label(r, "Use mouse scroll wheel or up/down keys to zoom", "SmallLabel");
+        GUILayout.BeginHorizontal();
+        GUILayout.Label("Rim Max", GUILayout.Width(70));
+        mRimMax = GUILayout.HorizontalSlider(mRimMax, 0f, 1f, GUILayout.Width(130f));
+        GUILayout.EndHorizontal();
+        GUI.enabled = !mUnityShader;
 
-		if(GUI.changed)
-		{
-			var angle = DirLight.transform.eulerAngles;
-			angle.y = mLightRotationX;
-			angle.x = mLightRotationY;
-			DirLight.transform.eulerAngles = angle;
-		}
+        mShaderOutline = GUILayout.Toggle(mShaderOutline, "Outline");
 
-		GUILayout.EndArea();
-	}
-	
-	//--------------------------------------------------------------------------------------------------
-	// PRIVATE
+        GUILayout.Space(6);
 
-	private void UnityDiffuseShader()
-	{
-		var bumpedSpecular = Shader.Find("Bumped Specular");
-		var specular = Shader.Find("Specular");
-		foreach(var m in AffectedMaterials)
-		{
-			if(m.name.Contains("Robot"))
-				m.shader = specular;
-			else
-				m.shader = bumpedSpecular;
-		}
-	}
+        GUILayout.Label("Ramp Settings");
+        mRampTextureFlag = GUILayout.Toggle(mRampTextureFlag, "Textured Ramp");
 
-	private void UpdateShader()
-	{
-		foreach(var m in AffectedMaterials)
-		{
-			ToggleKeyword(m, mShaderSpecular, "TCP2_SPEC");
-			if(!m.name.Contains("Robot"))
-				ToggleKeyword(m, mShaderBump, "TCP2_BUMP");
-			ToggleKeyword(m, mShaderReflection, "TCP2_REFLECTION_MASKED");
-			ToggleKeyword(m, mShaderRim, "TCP2_RIM");
-			ToggleKeyword(m, mShaderRimOutline, "TCP2_RIMO");
-			ToggleKeyword(m, mShaderOutline, "OUTLINES");
-			ToggleKeyword(m, mRampTextureFlag, "TCP2_RAMPTEXT");
+        GUI.enabled &= mRampTextureFlag;
+        GUILayout.BeginHorizontal();
+        var r = GUILayoutUtility.GetRect(200, 20, GUILayout.ExpandWidth(false));
+        r.y += 4;
+        GUI.DrawTexture(r, mRampTexture);
+        if (GUILayout.Button("<", GUILayout.Width(26)))
+            PrevRamp();
+        if (GUILayout.Button(">", GUILayout.Width(26)))
+            NextRamp();
+        GUILayout.EndHorizontal();
 
-			m.SetFloat("_RampSmooth", mRampSmoothing);
-			m.SetTexture("_Ramp", mRampTexture);
-			m.SetFloat("_RimMin", mRimMin);
-			m.SetFloat("_RimMax", mRimMax);
+        GUI.enabled = !mUnityShader;
+        GUI.enabled &= !mRampTextureFlag;
+        GUILayout.BeginHorizontal();
+        GUILayout.Label("Smoothing", GUILayout.Width(85));
+        mRampSmoothing = GUILayout.HorizontalSlider(mRampSmoothing, 0.01f, 1f, GUILayout.Width(115f));
+        GUILayout.EndHorizontal();
 
-			if(m.name.Contains("Robot"))
-			{
-				ToggleKeyword(m, mRobotOutlineNormals, "TCP2_TANGENT_AS_NORMALS");
-			}
-		}
+        if (GUI.changed)
+        {
+            if (mUnityShader)
+                UnityDiffuseShader();
+            else
+                UpdateShader();
+        }
 
-		foreach(var m in AffectedMaterials)
-		{
-			var s = TCP2_RuntimeUtils.GetShaderWithKeywords(m);
-			if(s == null)
-			{
-				var keywords = "";
-				foreach(var kw in m.shaderKeywords)
-					keywords += kw + ",";
-				keywords = keywords.TrimEnd(',');
-				Debug.LogError("[TCP2 Demo] Can't find shader for keywords: \"" + keywords + "\" in material \"" + m.name + "\"\nThe missing shaders probably need to be unpacked. See TCP2 Documentation!");
-			}
-			else
-			{
-				m.shader = s;
-			}
-		}
-	}
+        // Light Settings
+        GUI.enabled = true;
+        GUILayout.Space(10);
+        GUILayout.Label("Light Rotation");
+        mLightRotationX = GUILayout.HorizontalSlider(mLightRotationX, 0f, 360f, GUILayout.Width(200f));
+        mLightRotationY = GUILayout.HorizontalSlider(mLightRotationY, 0f, 360f, GUILayout.Width(200f));
 
-	private void RimOutlineColor()
-	{
-		foreach(var m in AffectedMaterials)
-		{
-			m.SetColor("_RimColor", Color.black);
-		}
-	}
+        GUILayout.Space(4);
+        GUILayout.Label("Hold Left mouse button to rotate character", "SmallLabelShadow");
+        r = GUILayoutUtility.GetLastRect();
+        GUI.Label(r, "Hold Left mouse button to rotate character", "SmallLabel");
+        GUILayout.Label("Hold Right/Middle mouse button to scroll", "SmallLabelShadow");
+        r = GUILayoutUtility.GetLastRect();
+        GUI.Label(r, "Hold Right/Middle mouse button to scroll", "SmallLabel");
+        GUILayout.Label("Use mouse scroll wheel or up/down keys to zoom", "SmallLabelShadow");
+        r = GUILayoutUtility.GetLastRect();
+        GUI.Label(r, "Use mouse scroll wheel or up/down keys to zoom", "SmallLabel");
 
-	private void RestoreRimColors()
-	{
-		foreach(var m in AffectedMaterials)
-		{
-			if(m.name.Contains("Robot"))
-				m.SetColor("_RimColor", new Color(0.2f,0.6f,1f,0.5f));
-			else
-				m.SetColor("_RimColor", new Color(1f,1f,1f,0.25f));
-		}
-	}
+        if (GUI.changed)
+        {
+            var angle = DirLight.transform.eulerAngles;
+            angle.y = mLightRotationX;
+            angle.x = mLightRotationY;
+            DirLight.transform.eulerAngles = angle;
+        }
 
-	private void ToggleKeyword(Material m, bool enabled, string keyword)
-	{
-		if(enabled)
-			m.EnableKeyword(keyword);
-		else
-			m.DisableKeyword(keyword);
-	}
+        GUILayout.EndArea();
+    }
 
-	private void PrevRamp()
-	{
-		var i = Array.IndexOf(RampTextures, mRampTexture);
-		i = Mathf.Clamp(i, 0, RampTextures.Length-1);
-		i--;
-		if(i < 0)
-			i = RampTextures.Length-1;
+    //--------------------------------------------------------------------------------------------------
+    // PRIVATE
 
-		mRampTexture = RampTextures[i];
-	}
+    private void UnityDiffuseShader()
+    {
+        var bumpedSpecular = Shader.Find("Bumped Specular");
+        var specular = Shader.Find("Specular");
+        foreach (var m in AffectedMaterials)
+        {
+            if (m.name.Contains("Robot"))
+                m.shader = specular;
+            else
+                m.shader = bumpedSpecular;
+        }
+    }
 
-	private void NextRamp()
-	{
-		var i = Array.IndexOf(RampTextures, mRampTexture);
-		i = Mathf.Clamp(i, 0, RampTextures.Length-1);
-		i++;
-		if(i >= RampTextures.Length)
-			i = 0;
-		
-		mRampTexture = RampTextures[i];
-	}
-	
+    private void UpdateShader()
+    {
+        foreach (var m in AffectedMaterials)
+        {
+            ToggleKeyword(m, mShaderSpecular, "TCP2_SPEC");
+            if (!m.name.Contains("Robot"))
+                ToggleKeyword(m, mShaderBump, "TCP2_BUMP");
+            ToggleKeyword(m, mShaderReflection, "TCP2_REFLECTION_MASKED");
+            ToggleKeyword(m, mShaderRim, "TCP2_RIM");
+            ToggleKeyword(m, mShaderRimOutline, "TCP2_RIMO");
+            ToggleKeyword(m, mShaderOutline, "OUTLINES");
+            ToggleKeyword(m, mRampTextureFlag, "TCP2_RAMPTEXT");
+
+            m.SetFloat("_RampSmooth", mRampSmoothing);
+            m.SetTexture("_Ramp", mRampTexture);
+            m.SetFloat("_RimMin", mRimMin);
+            m.SetFloat("_RimMax", mRimMax);
+
+            if (m.name.Contains("Robot"))
+            {
+                ToggleKeyword(m, mRobotOutlineNormals, "TCP2_TANGENT_AS_NORMALS");
+            }
+        }
+
+        foreach (var m in AffectedMaterials)
+        {
+            var s = TCP2_RuntimeUtils.GetShaderWithKeywords(m);
+            if (s == null)
+            {
+                var keywords = "";
+                foreach (var kw in m.shaderKeywords)
+                    keywords += kw + ",";
+                keywords = keywords.TrimEnd(',');
+                Debug.LogError("[TCP2 Demo] Can't find shader for keywords: \"" + keywords + "\" in material \"" + m.name + "\"\nThe missing shaders probably need to be unpacked. See TCP2 Documentation!");
+            }
+            else
+            {
+                m.shader = s;
+            }
+        }
+    }
+
+    private void RimOutlineColor()
+    {
+        foreach (var m in AffectedMaterials)
+        {
+            m.SetColor("_RimColor", Color.black);
+        }
+    }
+
+    private void RestoreRimColors()
+    {
+        foreach (var m in AffectedMaterials)
+        {
+            if (m.name.Contains("Robot"))
+                m.SetColor("_RimColor", new Color(0.2f, 0.6f, 1f, 0.5f));
+            else
+                m.SetColor("_RimColor", new Color(1f, 1f, 1f, 0.25f));
+        }
+    }
+
+    private void ToggleKeyword(Material m, bool enabled, string keyword)
+    {
+        if (enabled)
+            m.EnableKeyword(keyword);
+        else
+            m.DisableKeyword(keyword);
+    }
+
+    private void PrevRamp()
+    {
+        var i = Array.IndexOf(RampTextures, mRampTexture);
+        i = Mathf.Clamp(i, 0, RampTextures.Length - 1);
+        i--;
+        if (i < 0)
+            i = RampTextures.Length - 1;
+
+        mRampTexture = RampTextures[i];
+    }
+
+    private void NextRamp()
+    {
+        var i = Array.IndexOf(RampTextures, mRampTexture);
+        i = Mathf.Clamp(i, 0, RampTextures.Length - 1);
+        i++;
+        if (i >= RampTextures.Length)
+            i = 0;
+
+        mRampTexture = RampTextures[i];
+    }
 }

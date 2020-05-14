@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -27,6 +26,7 @@ public static class PlayerObjectRegistry
             player.Connection.UserData = player;
         }
 
+        player.PlayerName = playerInfoData.PlayerName;
         player.PlayerNumber = playerInfoData.PlayerNumber;
         player.TeamNumber = playerInfoData.TeamNumber;
         player.CostumeType = playerInfoData.CostumeType;
@@ -35,16 +35,45 @@ public static class PlayerObjectRegistry
         playerDict.Add(playerInfoData.PlayerNumber, player);
     }
 
-    // this simply returns the 'players' list cast to
-    // an IEnumerable<T> so that we hide the ability
-    // to modify the player list from the outside.
-    public static IEnumerable<PlayerObject> AllPlayers
+    public static void RemoveAllPlayers()
     {
-        get { return playerDict.Values; }
+        if (BoltNetwork.IsServer)
+        {
+            foreach (KeyValuePair<PlayerNumber, PlayerObject> kv in playerDict)
+            {
+                BoltNetwork.Destroy(kv.Value.Player.gameObject);
+            }
+        }
+
+        playerDict.Clear();
+        MyPlayer = null;
     }
 
-    // finds the server player by checking the
-    // .IsServer property for every player object.
+    public static void RemovePlayer(BoltConnection connection)
+    {
+        PlayerObject player = null;
+        foreach (KeyValuePair<PlayerNumber, PlayerObject> kv in playerDict)
+        {
+            if (kv.Value.Connection == null)
+            {
+                player = kv.Value;
+            }
+            else
+            {
+                if (kv.Value.Connection.ConnectionId == connection.ConnectionId)
+                {
+                    player = kv.Value;
+                }
+            }
+        }
+
+        if (player != null)
+        {
+            playerDict.Remove(player.PlayerNumber);
+            BoltNetwork.Destroy(player.Player.gameObject);
+        }
+    }
+
     public static PlayerObject ServerPlayer
     {
         get
@@ -64,12 +93,7 @@ public static class PlayerObjectRegistry
 
     public static void CreateServerPlayer()
     {
-        CreatePlayer(null, new PlayerInfoData(PlayerNumber.Player1, (TeamNumber) (playerDict.Count % 2), CostumeType.Costume1));
-    }
-
-    public static void CreateServerPlayer(PlayerInfoData playerInfoData)
-    {
-        CreatePlayer(null, playerInfoData);
+        CreatePlayer(null, new PlayerInfoData(PlayerPrefs.GetString("PlayerID"), PlayerNumber.Player1, (TeamNumber) (playerDict.Count % 2), CostumeType.Costume1));
     }
 
     public static void CreateClientPlayer(BoltConnection connection)
@@ -77,18 +101,19 @@ public static class PlayerObjectRegistry
         PlayerNumber pn = FindUnusedPlayerNumber();
         if (pn != PlayerNumber.None && pn != PlayerNumber.Player1)
         {
-            CreatePlayer(connection, new PlayerInfoData(pn, (TeamNumber) (playerDict.Count % 2), CostumeType.Costume1));
-        }
-    }
+            string playerName = "unknown";
+            if (connection.ConnectToken is ClientConnectToken cct)
+            {
+                playerName = cct.UserName;
+            }
 
-    public static void CreateClientPlayer(BoltConnection connection, PlayerInfoData playerInfoData)
-    {
-        CreatePlayer(connection, playerInfoData);
+            CreatePlayer(connection, new PlayerInfoData(playerName, pn, (TeamNumber) (playerDict.Count % 2), CostumeType.Costume1));
+        }
     }
 
     static PlayerNumber FindUnusedPlayerNumber()
     {
-        for (int i = 0; i < ConfigManager.MaximalPlayerNumber; i++)
+        for (int i = 0; i < ConfigManager.MaxPlayerNumber_Local; i++)
         {
             PlayerNumber pn = (PlayerNumber) i;
             if (!playerDict.ContainsKey(pn))

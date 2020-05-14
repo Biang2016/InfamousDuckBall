@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
+using System.Text;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -215,5 +217,14 @@ public static class ClientUtils
         Vector3 res = Vector3.Scale(new Vector3(1, 0, 1), vector3);
         res.y = y;
         return res;
+    }
+
+    public static string EncodeSHA512(this string src)
+    {
+        using (SHA512 alg = SHA512.Create())
+        {
+            alg.ComputeHash(Encoding.UTF8.GetBytes(src));
+            return BitConverter.ToString(alg.Hash);
+        }
     }
 }

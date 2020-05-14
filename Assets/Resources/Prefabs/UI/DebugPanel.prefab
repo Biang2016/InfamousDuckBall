@@ -1585,6 +1585,7 @@ MonoBehaviour:
   Score4Dot: {fileID: 7651601951209545377}
   LevelNameText: {fileID: 1496348896090857779}
   StartTipText: {fileID: 7733164803017192402}
+  ControlTipText: {fileID: 7993739021948845424}
   ConfigRowsToggle: {fileID: 5522547668960197157}
   ConfigRows: {fileID: 435929369187954838}
   fpsText: {fileID: 6343754879409220027}

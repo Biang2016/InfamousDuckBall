@@ -1,6 +1,6 @@
 ﻿public interface IRevivePlayer
 {
-    PlayerNumber AllowedPlayerNumber { get; }
+    TeamNumber AllowedTeamNumber { get; }
     void Init();
-    void Spawn(PlayerNumber playerNumber);
+    void Spawn(PlayerNumber playerNumber, TeamNumber teamNumber);
 }

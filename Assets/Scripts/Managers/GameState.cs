@@ -1,6 +1,4 @@
-﻿using UnityEngine;
-using System.Collections;
-using Bolt;
+﻿using Bolt;
 
 public class GameState : EntityBehaviour<IGameState>
 {

@@ -5,7 +5,7 @@
 			<value>Duck Charge</value>
 		</property>
 		<property name="outputFormat">
-			<value>2</value>
+			<value>1</value>
 		</property>
 		<relationship name="folder">
 			<destination>{9be8add1-10be-45ef-b8de-9df75140c701}</destination>
@@ -98,7 +98,7 @@
 	</object>
 	<object class="EventMixerGroup" id="{1b9c8e2e-d010-4c15-8e1f-d63e0b2bcef3}">
 		<property name="volume">
-			<value>-7.5</value>
+			<value>-11</value>
 		</property>
 		<property name="name">
 			<value>Audio 1</value>
@@ -116,7 +116,7 @@
 	<object class="MixerBusEffectChain" id="{d2cddfd2-6962-4e9a-a139-c0e20627791b}">
 		<relationship name="effects">
 			<destination>{b580fb4e-64db-4ffb-b79f-443bd93ba12f}</destination>
-			<destination>{64ae09dc-f6f4-46db-b8f8-06f4e9d0212b}</destination>
+			<destination>{308a2c1d-b8f3-458d-8794-5f83904713a6}</destination>
 		</relationship>
 	</object>
 	<object class="MixerBusPanner" id="{0de8dca8-f690-4b61-904f-f7ad94e40298}" />
@@ -128,6 +128,13 @@
 	</object>
 	<object class="MixerBusPanner" id="{0b774b86-57d1-478f-b6f7-62cd490b9d85}" />
 	<object class="MixerBusFader" id="{b580fb4e-64db-4ffb-b79f-443bd93ba12f}" />
-	<object class="SpatialiserEffect" id="{64ae09dc-f6f4-46db-b8f8-06f4e9d0212b}" />
+	<object class="ObjectSpatialiserEffect" id="{308a2c1d-b8f3-458d-8794-5f83904713a6}">
+		<property name="distanceRolloffType">
+			<value>4</value>
+		</property>
+		<property name="maximumDistance">
+			<value>500</value>
+		</property>
+	</object>
 	<object class="MixerBusFader" id="{b7ae5bab-2c1e-48e5-b48e-7354ee7d1b59}" />
 </objects>

@@ -1,8 +1,4 @@
-﻿using UnityEngine;
-using System.Collections;
-using System.Collections.Generic;
-
-[BoltGlobalBehaviour("Battle_FlagRace")]
+﻿[BoltGlobalBehaviour("Battle_FlagRace")]
 public class Battle_FlagRace_Callbacks : Bolt.GlobalEventListener
 {
     public override void OnEvent(BattleStartEvent evnt)
@@ -30,18 +26,28 @@ public class Battle_FlagRace_Callbacks : Bolt.GlobalEventListener
         team.Score = evnt.Score;
         if (!evnt.IsNewBattle)
         {
-            PlayerNumber playerNumber = (PlayerNumber) evnt.ScorePlayer;
-            AudioDuck.Instance.PlaySound(AudioDuck.Instance.BuoyInPlace, GameManager.Instance.Cur_BattleManager.GetPlayer(playerNumber).gameObject);
-        }
+            if (tn == TeamNumber.Team1)
+            {
+                UIManager.Instance.GetBaseUIForm<RoundSmallScorePanel>().RefreshScore_Team1(team.Score);
+            }
+            else if (tn == TeamNumber.Team2)
+            {
+                UIManager.Instance.GetBaseUIForm<RoundSmallScorePanel>().RefreshScore_Team2(team.Score);
+            }
 
-        GameManager.Instance.DebugPanel.RefreshScore(false);
+            PlayerNumber playerNumber = (PlayerNumber) evnt.ScorePlayer;
+            AudioDuck.Instance.PlaySound(AudioDuck.Instance.BuoyInPlace, GameManager.Instance.Cur_BattleManager.GetPlayer(playerNumber).Duck.gameObject);
+        }
     }
 
-    public override void OnEvent(SFX_Event evnt)
+    public override void OnEvent(PlayerTeamChangeEvent evnt)
     {
-        if (evnt.SoundName == "BuoyPop")
-        {
-            AudioDuck.Instance.PlaySound(AudioDuck.Instance.BuoyPop, gameObject);
-        }
+        TeamNumber newTeamNumber = (TeamNumber) evnt.TeamNumber;
+        TeamNumber oldTeamNumber = (TeamNumber) evnt.OriTeamNumber;
+        PlayerNumber pn = (PlayerNumber) evnt.PlayerNumber;
+        Player player = GameManager.Instance.Cur_BattleManager.GetPlayer(pn);
+        GameManager.Instance.Cur_BattleManager.TeamDict[oldTeamNumber].TeamPlayers.Remove(player);
+        GameManager.Instance.Cur_BattleManager.TeamDict[newTeamNumber].TeamPlayers.Add(player);
+        player.PlayerCostume.Initialize(pn, newTeamNumber, player.CostumeType);
     }
 }

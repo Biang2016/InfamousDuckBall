@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class PlayerObject
 {
+    public string PlayerName;
     public PlayerNumber PlayerNumber;
     public TeamNumber TeamNumber;
     public CostumeType CostumeType;
@@ -25,9 +26,9 @@ public class PlayerObject
         {
             Character = BoltNetwork.Instantiate(BoltPrefabs.Player, Vector3.zero, Quaternion.identity);
             Player = Character.GetComponent<Player>();
-            Player.Initialize_Server(PlayerNumber, TeamNumber, CostumeType);
+            Player.Initialize_Server(PlayerName, PlayerNumber, TeamNumber, CostumeType);
             GameManager.Instance.Cur_BattleManager.AddPlayer(Player);
-            GameManager.Instance.Cur_BattleManager.PlayerSpawnPointManager.Spawn(PlayerNumber);
+            GameManager.Instance.Cur_BattleManager.PlayerSpawnPointManager.Spawn(PlayerNumber, TeamNumber);
 
             if (IsServer)
             {

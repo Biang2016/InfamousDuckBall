@@ -1,11 +1,18 @@
-﻿using UnityEngine;
-using System.Collections;
+﻿using System.Collections.Generic;
 
 public class ConfigManager : MonoSingleton<ConfigManager>
 {
+    public static SortedDictionary<BattleTypes, int> BattleMaxPlayerNumberDict = new SortedDictionary<BattleTypes, int>
+    {
+        {BattleTypes.Smash, 2},
+        {BattleTypes.FlagRace, 4},
+    };
+
+    public const int MaxPlayerNumber_Local = 4;
+
     public const int Smash_TeamStartScore = 5;
     public const int Smash_TeamTargetMegaScore = 2;
-    public const int MaximalPlayerNumber = 4;
+
     public const int TeamNumberCount = 4;
     public const int CostumeTypeCount = 3;
 

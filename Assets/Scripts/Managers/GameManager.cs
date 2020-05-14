@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -7,6 +6,8 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoSingleton<GameManager>
 {
+    public float temp = 2f;
+
     private GameState gameState;
 
     public GameState GameState
@@ -24,46 +25,110 @@ public class GameManager : MonoSingleton<GameManager>
 
     void Awake()
     {
-        DontDestroyOnLoad(gameObject);
-        Application.targetFrameRate = 60;
-        AssignLayers();
-        Input.ResetInputAxes();
+        if (instance != null)
+        {
+            DestroyImmediate(gameObject);
+        }
+        else
+        {
+            DontDestroyOnLoad(gameObject);
+            Application.targetFrameRate = 60;
+            AssignLayers();
+            Input.ResetInputAxes();
+            BoltLauncher.StartClient();
+            InvokeRepeating("RepeatUpdateRoomInfo", 0, 2f);
+        }
     }
+
+    void RepeatUpdateRoomInfo()
+    {
+        BoltManager.UpdateCurrentSession();
+    }
+
+    public LobbyPanel LobbyPanel;
+    public HelpPanel HelpPanel;
+    public LeaveGamePanel LeaveGamePanel;
 
     public void Start()
     {
         DebugPanel = UIManager.Instance.ShowUIForms<DebugPanel>();
         DebugPanel.CloseUIForm();
+        CreateRoomPanel CreateRoomPanel = UIManager.Instance.ShowUIForms<CreateRoomPanel>();
+        CreateRoomPanel.CloseUIForm();
+        WaitingPanel WaitingPanel = UIManager.Instance.ShowUIForms<WaitingPanel>();
+        WaitingPanel.CloseUIForm();
+        PasswordPanel PasswordPanel = UIManager.Instance.ShowUIForms<PasswordPanel>();
+        PasswordPanel.CloseUIForm();
+        GameLogoPanel = UIManager.Instance.ShowUIForms<GameLogoPanel>();
+        GameLogoPanel.CloseUIForm();
+        RoundSmallScorePanel RoundSmallScorePanel = UIManager.Instance.ShowUIForms<RoundSmallScorePanel>();
+        RoundSmallScorePanel.CloseUIForm();
+        RoundPanel RoundPanel = UIManager.Instance.ShowUIForms<RoundPanel>();
+        RoundPanel.CloseUIForm();
+        WinPanel WinPanel = UIManager.Instance.ShowUIForms<WinPanel>();
+        WinPanel.CloseUIForm();
+
+        LeaveGamePanel = UIManager.Instance.ShowUIForms<LeaveGamePanel>();
+        LeaveGamePanel.CloseUIForm();
+
+        LobbyPanel.Hide();
+        HelpPanel.Hide();
+
+        UIManager.Instance.ShowUIForms<CreateNamePanel>();
+
+        AudioDuck.Instance.PlaySound(AudioDuck.Instance.BGM, gameObject);
     }
 
     public void Update()
     {
-        //if (BoltNetwork.IsClient && !BoltNetwork.IsConnected && Cur_BattleManager != null)
-        //{
-        //    SceneManager.LoadScene("BoltMenu");
-        //}
-
-        if (BoltNetwork.IsServer)
+        if (Input.GetKeyUp(KeyCode.Escape))
         {
-            if (Input.GetKeyUp(KeyCode.O))
+            if (Cur_BattleManager)
             {
-                GameState.state.DuckConfig.NeckMaxLengthMulti = GameState.state.DuckConfig.NeckMaxLengthMulti + 0.1f;
+                if (!LeaveGamePanel.IsShown)
+                {
+                    UIManager.Instance.ShowUIForms<LeaveGamePanel>().Initialize();
+                }
+                else
+                {
+                    LeaveGamePanel.CloseUIForm();
+                }
             }
+        }
+    }
 
-            if (Input.GetKeyUp(KeyCode.P))
-            {
-                GameState.state.DuckConfig.NeckMaxLengthMulti = GameState.state.DuckConfig.NeckMaxLengthMulti - 0.1f;
-            }
+    public void ReturnToLobby()
+    {
+        if (Cur_BattleManager)
+        {
+            StartCoroutine(Co_ReturnToLobby());
+        }
+    }
 
-            if (Input.GetKeyUp(KeyCode.K))
-            {
-                GameState.state.DuckConfig.MoveSpeedMulti = GameState.state.DuckConfig.MoveSpeedMulti + 0.1f;
-            }
+    IEnumerator Co_ReturnToLobby()
+    {
+        if (Cur_BattleManager)
+        {
+            Cur_BattleManager.IsClosing = true;
+            Cur_BattleManager.StopAllCoroutines();
+            PlayerObjectRegistry.RemoveAllPlayers();
+            BoltNetwork.Shutdown();
+            UIManager.Instance.ShowUIForms<WaitingPanel>();
+            yield return new WaitForSeconds(3f);
+            UIManager.Instance.CloseUIForm<WaitingPanel>();
+            BoatMenuManager.Instance.gameObject.SetActive(true);
+            BoatMenuManager.Instance.BoatMoveInWithoutGameLogoPanel();
+            LobbyPanel.Display();
+            UIManager.Instance.CloseUIForm<DebugPanel>();
+            SceneManager.LoadScene("BoltMenu");
+            BoltLauncher.StartClient();
+            BoltManager.UpdateRoomList(BoltNetwork.SessionList, LobbyPanel.CurrentFilter);
+            UIManager.Instance.CloseUIForm<RoundSmallScorePanel>();
+            UIManager.Instance.CloseUIForm<WinPanel>();
+            UIManager.Instance.CloseUIForm<RoundPanel>();
 
-            if (Input.GetKeyUp(KeyCode.L))
-            {
-                GameState.state.DuckConfig.MoveSpeedMulti = GameState.state.DuckConfig.MoveSpeedMulti - 0.1f;
-            }
+            AudioDuck.Instance.StopAllWOCEvents();
+            AudioDuck.Instance.PlaySound(AudioDuck.Instance.BGM, gameObject);
         }
     }
 
@@ -111,14 +176,19 @@ public class GameManager : MonoSingleton<GameManager>
     }
 
     public DebugPanel DebugPanel;
-
-    public void SwitchBattle(BattleTypes battleType)
-    {
-        Cur_BallBattleManager?.EndBattle_Server();
-        Menu.SwitchScene("Battle_" + battleType);
-    }
+    public GameLogoPanel GameLogoPanel;
 
     #region Events
+
+    public void SendSFXEvent(string sfxKey)
+    {
+        if (BoltNetwork.IsServer)
+        {
+            SFX_Event evnt = SFX_Event.Create();
+            evnt.SoundName = sfxKey;
+            evnt.Send();
+        }
+    }
 
     #endregion
 

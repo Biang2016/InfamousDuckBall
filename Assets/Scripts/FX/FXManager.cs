@@ -2,7 +2,7 @@
 
 public class FXManager : MonoSingleton<FXManager>
 {
-    public FX PlayFX(FX_Type fx_Type, Vector3 from,Quaternion direction)
+    public FX PlayFX(FX_Type fx_Type, Vector3 from, Quaternion direction)
     {
         FX fx = GameObjectPoolManager.Instance.FXDict[fx_Type].AllocateGameObject<FX>(transform);
         fx.transform.position = from;

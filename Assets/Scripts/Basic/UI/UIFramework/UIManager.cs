@@ -122,7 +122,7 @@ public class UIManager : MonoSingleton<UIManager>
         return (T) baseUIForm;
     }
 
-    #region  显示“UI管理器”内部核心数据，测试使用
+    #region 显示“UI管理器”内部核心数据，测试使用
 
     /// <summary>
     /// 显示"所有UI窗体"集合的数量
