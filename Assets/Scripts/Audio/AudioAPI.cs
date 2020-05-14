@@ -22,5 +22,14 @@
         //生成救生圈——DuckGenerateBuoy，鸭子碰到救生圈——DuckTouchBuoy;
         //河豚被捅——FishBreath, 河豚上岸摆动——FishFlapping;
         //放救生圈得分——BuoyInPlace, 救生圈爆炸——BuoyPop, 大海——Sea;
+        //********************************************************************
+        //新增音效
+        //回合开始——Round，得分（分数显示部分）——Score，
+        //321倒计时——开始：AudioDuck.Instance.PlaySpecial(count321);
+        //              停止：AudioDuck.Instance.StopSpecial(count321);
+        //2秒提示——开始：AudioDuck.Instance.PlaySpecial(count2);
+        //              停止：AudioDuck.Instance.StopSpecial(count2);，
+        //按键Hover——Hover，按下按键——Click，
+        //开始画面BGM——MenuBGM（原来的BGM游戏开始后再调用）
     }
 }
