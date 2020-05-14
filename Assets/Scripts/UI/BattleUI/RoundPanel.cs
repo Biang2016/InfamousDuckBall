@@ -40,6 +40,7 @@ public class RoundPanel : BaseUIForm
         if (showCoroutine != null)
         {
             StopCoroutine(showCoroutine);
+            // AudioDuck.Instance.StopSpecial(AudioDuck.Instance.count321);
         }
 
         showCoroutine = StartCoroutine(Co_Show(round));
@@ -64,6 +65,8 @@ public class RoundPanel : BaseUIForm
             BannerTextAnim.SetTrigger("Jump");
             yield return new WaitForSeconds(1f);
         }
+
+        // AudioDuck.Instance.PlaySpecial(AudioDuck.Instance.count321);
 
         BannerTextImage.sprite = CountingSprites[2];
         BannerTextAnim.SetTrigger("Jump");
@@ -97,6 +100,7 @@ public class RoundPanel : BaseUIForm
         if (showCoroutine != null)
         {
             StopCoroutine(showCoroutine);
+            // AudioDuck.Instance.StopSpecial(AudioDuck.Instance.count321);
         }
     }
 }

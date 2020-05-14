@@ -5,6 +5,20 @@ public class BaseUIForm : MonoBehaviour
 {
     public UIType UIType = new UIType();
 
+    #region Audio
+
+    public void OnButtonHover()
+    {
+        AudioDuck.Instance.PlaySound(AudioDuck.Instance.Hover, GameManager.Instance.gameObject);
+    }
+
+    public void OnButtonClick()
+    {
+        AudioDuck.Instance.PlaySound(AudioDuck.Instance.Click, GameManager.Instance.gameObject);
+    }
+
+    #endregion
+
     #region 窗体的四种(生命周期)状态
 
     private bool closeFlag = false;

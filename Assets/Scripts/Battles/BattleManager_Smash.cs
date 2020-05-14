@@ -182,6 +182,7 @@ public class BattleManager_Smash : BattleManager_BallGame
 
     public void StartNewRound(int round)
     {
+        AudioDuck.Instance.PlaySound(AudioDuck.Instance.Round, BattleCamera.gameObject);
         UIManager.Instance.ShowUIForms<RoundPanel>().Show(round);
 
         RoundSmallScorePanel rssp = UIManager.Instance.ShowUIForms<RoundSmallScorePanel>();

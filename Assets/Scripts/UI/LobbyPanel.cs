@@ -122,4 +122,14 @@ public class LobbyPanel : MonoBehaviour
             }
         }
     }
+    
+    public void OnButtonHover()
+    {
+        AudioDuck.Instance.PlaySound(AudioDuck.Instance.Hover, GameManager.Instance.gameObject);
+    }
+
+    public void OnButtonClick()
+    {
+        AudioDuck.Instance.PlaySound(AudioDuck.Instance.Click, GameManager.Instance.gameObject);
+    }
 }
