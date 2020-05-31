@@ -142,6 +142,11 @@ public class GameManager : MonoSingleton<GameManager>
 
             if (M_NetworkMode == NetworkMode.Online)
             {
+                if (PlayerObjectRegistry_Online.MyPlayer && PlayerObjectRegistry_Online.MyPlayer.Controller != null)
+                {
+                    PlayerObjectRegistry_Online.MyPlayer.Controller.Active = true;
+                }
+
                 PlayerObjectRegistry_Online.RemoveAllPlayers();
                 BoltNetwork.Shutdown();
                 UIManager.Instance.ShowUIForms<WaitingPanel>();

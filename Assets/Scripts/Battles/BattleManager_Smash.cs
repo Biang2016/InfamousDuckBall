@@ -53,8 +53,11 @@ public class BattleManager_Smash : BattleManager_BallGame
         }
     }
 
+    private bool tickStart = false;
+
     public override void StartBattleReadyToggle(bool start, int tick)
     {
+        tickStart = start;
         if (start)
         {
             UIManager.Instance.GetBaseUIForm<RoundSmallScorePanel>().SetScoreShown(false);
@@ -62,31 +65,30 @@ public class BattleManager_Smash : BattleManager_BallGame
         }
         else
         {
-            if (PlayerDict.Count == 2)
+            if (GameManager.Instance.M_NetworkMode == GameManager.NetworkMode.Local || BoltNetwork.IsServer)
             {
-                if (GameManager.Instance.M_NetworkMode == GameManager.NetworkMode.Local || BoltNetwork.IsServer)
+                if (PlayerDict.Count == 2)
                 {
                     UIManager.Instance.GetBaseUIForm<RoundSmallScorePanel>().SetRoomStatusText("Press F10 to start the game");
                 }
-                else
-                {
-                    UIManager.Instance.GetBaseUIForm<RoundSmallScorePanel>().SetRoomStatusText("Waiting for the game to start");
-                }
-            }
-            else
-            {
-                UIManager.Instance.GetBaseUIForm<RoundSmallScorePanel>().SetRoomStatusText("Waiting for other players " + PlayerDict.Count + "/2");
             }
         }
     }
 
     public override void RefreshPlayerNumber(int playerNumber)
     {
-        if (GameManager.Instance.M_NetworkMode == GameManager.NetworkMode.Local || BoltNetwork.IsServer)
+        if (!tickStart)
         {
-            if (playerNumber == 2)
+            if (GameManager.Instance.M_NetworkMode == GameManager.NetworkMode.Local || BoltNetwork.IsServer)
             {
-                UIManager.Instance.GetBaseUIForm<RoundSmallScorePanel>().SetRoomStatusText("Press F10 to start the game");
+                if (playerNumber == 2)
+                {
+                    UIManager.Instance.GetBaseUIForm<RoundSmallScorePanel>().SetRoomStatusText("Press F10 to start the game");
+                }
+                else
+                {
+                    UIManager.Instance.GetBaseUIForm<RoundSmallScorePanel>().SetRoomStatusText("Waiting for other players " + playerNumber + "/2");
+                }
             }
             else
             {

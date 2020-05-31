@@ -114,7 +114,7 @@ public abstract class BattleManager : MonoBehaviour
         {
             if (kv.Value)
             {
-                res.Add(kv.Value.transform.position);
+                res.Add(kv.Value.GetPlayerPosition);
             }
         }
 

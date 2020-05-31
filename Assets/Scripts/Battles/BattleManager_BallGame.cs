@@ -25,6 +25,11 @@ public abstract class BattleManager_BallGame : BattleManager
                 StartBattle_Server();
             }
         }
+
+        if (GameManager.Instance.M_NetworkMode == GameManager.NetworkMode.Local)
+        {
+            Battle_All_Callbacks.OnEvent_UpdatePlayerCountEvent(PlayerDict.Count);
+        }
     }
 
     public abstract void StartBattle_Server();

@@ -22,7 +22,7 @@ public static class PlayerObjectRegistry_Local
         }
 
         playerDict.Clear();
-        MultiControllerManager.Instance.PlayerControllerMap.Clear();
+        MultiControllerManager.Instance.Init();
     }
 
     public static PlayerNumber CreatePlayer(ControllerIndex controllerIndex)

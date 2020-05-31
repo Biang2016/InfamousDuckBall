@@ -47,7 +47,7 @@ public class Battle_All_ServerCallbacks : GlobalEventListener
         }
 
         UpdatePlayerCountEvent evnt = UpdatePlayerCountEvent.Create();
-        evnt.PlayerCount = BoltNetwork.Connections.Count() + 1;
+        evnt.PlayerCount = GameManager.Instance.Cur_BallBattleManager.PlayerDict.Count;
         evnt.Send();
     }
 
