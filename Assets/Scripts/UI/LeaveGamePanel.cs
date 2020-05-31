@@ -23,13 +23,20 @@ public class LeaveGamePanel : BaseUIForm
 
     public void Initialize()
     {
-        if (BoltMatchmaking.CurrentSession != null)
+        if (GameManager.Instance.M_NetworkMode == GameManager.NetworkMode.Online)
         {
-            IProtocolToken token = BoltMatchmaking.CurrentSession.GetProtocolToken();
-            if (token != null && token is RoomInfoToken rit)
+            if (BoltMatchmaking.CurrentSession != null)
             {
-                RoomIDText.text = "Room ID: " + rit.RoomName;
+                IProtocolToken token = BoltMatchmaking.CurrentSession.GetProtocolToken();
+                if (token != null && token is RoomInfoToken rit)
+                {
+                    RoomIDText.text = "Room ID: " + rit.RoomName;
+                }
             }
+        }
+        else
+        {
+            RoomIDText.text = "";
         }
     }
 
@@ -40,10 +47,17 @@ public class LeaveGamePanel : BaseUIForm
 
     public void OnLeaveButtonClick()
     {
-        if (BoltNetwork.IsServer)
+        if (GameManager.Instance.M_NetworkMode == GameManager.NetworkMode.Online)
         {
-            CloseRoomEvent evnt = CloseRoomEvent.Create();
-            evnt.Send();
+            if (BoltNetwork.IsServer)
+            {
+                CloseRoomEvent evnt = CloseRoomEvent.Create();
+                evnt.Send();
+            }
+            else
+            {
+                GameManager.Instance.ReturnToLobby();
+            }
         }
         else
         {

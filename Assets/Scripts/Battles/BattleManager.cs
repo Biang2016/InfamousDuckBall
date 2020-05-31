@@ -43,7 +43,7 @@ public abstract class BattleManager : MonoBehaviour
         Player[] players = FindObjectsOfType<Player>();
         foreach (Player player in players)
         {
-            if (BoltNetwork.IsServer)
+            if (GameManager.Instance.M_NetworkMode == GameManager.NetworkMode.Online && BoltNetwork.IsServer)
             {
                 player.state.UpdateState();
             }
@@ -129,16 +129,24 @@ public abstract class BattleManager : MonoBehaviour
 
     public void ResetAllPlayers()
     {
-        if (BoltNetwork.IsServer)
+        if (GameManager.Instance.M_NetworkMode == GameManager.NetworkMode.Local || BoltNetwork.IsServer)
         {
             foreach (KeyValuePair<PlayerNumber, Player> kv in PlayerDict)
             {
                 ResetPlayer(kv.Value);
-                PlayerRingEvent pre = PlayerRingEvent.Create();
-                pre.PlayerNumber = (int) kv.Key;
-                pre.HasRing = false;
-                pre.Exploded = false;
-                pre.Send();
+
+                if (GameManager.Instance.M_NetworkMode == GameManager.NetworkMode.Online)
+                {
+                    PlayerRingEvent pre = PlayerRingEvent.Create();
+                    pre.PlayerNumber = (int) kv.Key;
+                    pre.HasRing = false;
+                    pre.Exploded = false;
+                    pre.Send();
+                }
+                else
+                {
+                    Battle_All_Callbacks.OnEvent_PlayerRingEvent((int) kv.Key, false, 0, false);
+                }
             }
         }
     }

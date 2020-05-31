@@ -29,9 +29,17 @@ public class RoundPanel : BaseUIForm
     public override void Display()
     {
         base.Display();
-        if (PlayerObjectRegistry.MyPlayer && PlayerObjectRegistry.MyPlayer.PlayerController.Controller != null)
+        if (GameManager.Instance.M_NetworkMode == GameManager.NetworkMode.Online)
         {
-            PlayerObjectRegistry.MyPlayer.PlayerController.Controller.Active = false;
+            if (PlayerObjectRegistry_Online.MyPlayer && PlayerObjectRegistry_Online.MyPlayer.PlayerController.Controller != null)
+            {
+                PlayerObjectRegistry_Online.MyPlayer.PlayerController.Controller.Active = false;
+                PlayerObjectRegistry_Online.MyPlayer.PlayerController.Controller.Active_RightStick_OR = true;
+            }
+        }
+        else
+        {
+            PlayerObjectRegistry_Local.SetAllPlayerControllerActive(false, true);
         }
     }
 
@@ -85,9 +93,13 @@ public class RoundPanel : BaseUIForm
         yield return new WaitForSeconds(0.5f);
 
         BannerAnim.SetTrigger("Hide");
-        if (PlayerObjectRegistry.MyPlayer && PlayerObjectRegistry.MyPlayer.PlayerController.Controller != null)
+        if (PlayerObjectRegistry_Online.MyPlayer && PlayerObjectRegistry_Online.MyPlayer.PlayerController.Controller != null)
         {
-            PlayerObjectRegistry.MyPlayer.PlayerController.Controller.Active = true;
+            PlayerObjectRegistry_Online.MyPlayer.PlayerController.Controller.Active = true;
+        }
+        else
+        {
+            PlayerObjectRegistry_Local.SetAllPlayerControllerActive(true, true);
         }
 
         CloseUIForm();

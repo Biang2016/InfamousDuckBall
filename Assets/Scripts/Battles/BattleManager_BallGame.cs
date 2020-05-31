@@ -4,7 +4,7 @@ public abstract class BattleManager_BallGame : BattleManager
 {
     public override void Child_Initialize()
     {
-        if (BoltNetwork.IsServer)
+        if (GameManager.Instance.M_NetworkMode == GameManager.NetworkMode.Local || BoltNetwork.IsServer)
         {
             ResetAllPlayers();
         }

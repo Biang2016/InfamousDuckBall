@@ -7,6 +7,9 @@ public class PlayerObject
     public TeamNumber TeamNumber;
     public CostumeType CostumeType;
     public Player Player;
+
+    #region OnlineMode
+
     public BoltEntity Character;
     public BoltConnection Connection;
 
@@ -20,23 +23,39 @@ public class PlayerObject
         get { return Connection != null; }
     }
 
+    #endregion
+
     public void Spawn()
     {
-        if (!Character)
+        if (GameManager.Instance.M_NetworkMode == GameManager.NetworkMode.Online)
         {
-            Character = BoltNetwork.Instantiate(BoltPrefabs.Player, Vector3.zero, Quaternion.identity);
-            Player = Character.GetComponent<Player>();
-            Player.Initialize_Server(PlayerName, PlayerNumber, TeamNumber, CostumeType);
-            GameManager.Instance.Cur_BattleManager.AddPlayer(Player);
-            GameManager.Instance.Cur_BattleManager.PlayerSpawnPointManager.Spawn(PlayerNumber, TeamNumber);
+            if (!Character)
+            {
+                Character = BoltNetwork.Instantiate(BoltPrefabs.Player, Vector3.zero, Quaternion.identity);
+                Player = Character.GetComponent<Player>();
+                Player.Initialize_Server(PlayerName, PlayerNumber, TeamNumber, CostumeType);
+                GameManager.Instance.Cur_BattleManager.AddPlayer(Player);
+                GameManager.Instance.Cur_BattleManager.PlayerSpawnPointManager.Spawn(PlayerNumber, TeamNumber);
 
-            if (IsServer)
-            {
-                Character.TakeControl();
+                if (IsServer)
+                {
+                    Character.TakeControl();
+                }
+                else
+                {
+                    Character.AssignControl(Connection);
+                }
             }
-            else
+        }
+        else
+        {
+            if (!Player)
             {
-                Character.AssignControl(Connection);
+                GameObject playerGO = Object.Instantiate(PrefabManager.Instance.GetPrefab("Player"), Vector3.zero, Quaternion.identity);
+                Player = playerGO.GetComponent<Player>();
+                Player.Initialize_Server(PlayerName, PlayerNumber, TeamNumber, CostumeType);
+                GameManager.Instance.Cur_BattleManager.AddPlayer(Player);
+                GameManager.Instance.Cur_BattleManager.PlayerSpawnPointManager.Spawn(PlayerNumber, TeamNumber);
             }
         }
     }

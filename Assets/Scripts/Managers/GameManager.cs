@@ -7,8 +7,29 @@ using UnityEngine.SceneManagement;
 public class GameManager : MonoSingleton<GameManager>
 {
     public float temp = 2f;
-
     private GameState gameState;
+
+    public enum NetworkMode
+    {
+        Local,
+        Online
+    }
+
+    public NetworkMode M_NetworkMode;
+
+    public void SwitchNetworkMode(NetworkMode newMode)
+    {
+        if (M_NetworkMode != newMode)
+        {
+            M_NetworkMode = newMode;
+            if (newMode == NetworkMode.Local)
+            {
+                PlayerObjectRegistry_Local.Init();
+            }
+
+            MultiControllerManager.Instance.Init();
+        }
+    }
 
     public GameState GameState
     {
@@ -35,19 +56,25 @@ public class GameManager : MonoSingleton<GameManager>
             Application.targetFrameRate = 60;
             AssignLayers();
             Input.ResetInputAxes();
-            BoltLauncher.StartClient();
+            PlayerObjectRegistry_Local.Init();
             InvokeRepeating("RepeatUpdateRoomInfo", 0, 2f);
         }
     }
 
     void RepeatUpdateRoomInfo()
     {
-        BoltManager.UpdateCurrentSession();
+        if (M_NetworkMode == NetworkMode.Online)
+        {
+            BoltManager.UpdateCurrentSession();
+        }
     }
 
     public LobbyPanel LobbyPanel;
+    public LocalPanel LocalPanel;
     public HelpPanel HelpPanel;
     internal LeaveGamePanel LeaveGamePanel;
+    internal DebugPanel DebugPanel;
+    internal GameLogoPanel GameLogoPanel;
 
     public void Start()
     {
@@ -73,6 +100,7 @@ public class GameManager : MonoSingleton<GameManager>
 
         LobbyPanel.Hide();
         HelpPanel.Hide();
+        LocalPanel.Hide();
 
         UIManager.Instance.ShowUIForms<CreateNamePanel>();
 
@@ -111,18 +139,39 @@ public class GameManager : MonoSingleton<GameManager>
         {
             Cur_BattleManager.IsClosing = true;
             Cur_BattleManager.StopAllCoroutines();
-            PlayerObjectRegistry.RemoveAllPlayers();
-            BoltNetwork.Shutdown();
-            UIManager.Instance.ShowUIForms<WaitingPanel>();
-            yield return new WaitForSeconds(3f);
+
+            if (M_NetworkMode == NetworkMode.Online)
+            {
+                PlayerObjectRegistry_Online.RemoveAllPlayers();
+                BoltNetwork.Shutdown();
+                UIManager.Instance.ShowUIForms<WaitingPanel>();
+                yield return new WaitForSeconds(3f);
+            }
+            else
+            {
+                PlayerObjectRegistry_Local.RemoveAllPlayers();
+            }
+
             UIManager.Instance.CloseUIForm<WaitingPanel>();
             BoatMenuManager.Instance.gameObject.SetActive(true);
             BoatMenuManager.Instance.BoatMoveInWithoutGameLogoPanel();
-            LobbyPanel.Display();
+            if (M_NetworkMode == NetworkMode.Online)
+            {
+                LobbyPanel.Display();
+            }
+            else
+            {
+                LocalPanel.Display();
+            }
+
             UIManager.Instance.CloseUIForm<DebugPanel>();
             SceneManager.LoadScene("BoltMenu");
-            BoltLauncher.StartClient();
-            BoltManager.UpdateRoomList(BoltNetwork.SessionList, LobbyPanel.CurrentFilter);
+            if (M_NetworkMode == NetworkMode.Online)
+            {
+                BoltLauncher.StartClient();
+                BoltManager.UpdateRoomList(BoltNetwork.SessionList, LobbyPanel.CurrentFilter);
+            }
+
             UIManager.Instance.CloseUIForm<RoundSmallScorePanel>();
             UIManager.Instance.CloseUIForm<WinPanel>();
             UIManager.Instance.CloseUIForm<RoundPanel>();
@@ -175,18 +224,22 @@ public class GameManager : MonoSingleton<GameManager>
         return null;
     }
 
-    internal DebugPanel DebugPanel;
-    internal GameLogoPanel GameLogoPanel;
-
     #region Events
 
     public void SendSFXEvent(string sfxKey)
     {
-        if (BoltNetwork.IsServer)
+        if (Instance.M_NetworkMode == GameManager.NetworkMode.Online)
         {
-            SFX_Event evnt = SFX_Event.Create();
-            evnt.SoundName = sfxKey;
-            evnt.Send();
+            if (BoltNetwork.IsServer)
+            {
+                SFX_Event evnt = SFX_Event.Create();
+                evnt.SoundName = sfxKey;
+                evnt.Send();
+            }
+        }
+        else
+        {
+            Battle_All_Callbacks.OnEvent_SFX_Event(sfxKey);
         }
     }
 

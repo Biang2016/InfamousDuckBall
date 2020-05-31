@@ -20,12 +20,11 @@ public class HeadModel : MonoBehaviour
         {
             Vector3 diff = ball.transform.position - transform.position;
             float distance = diff.magnitude;
-            if (distance < Head.DuckConfig.PullRadius * GameManager.Instance.GameState.state.DuckConfig.PullRadiusMulti)
+            if (distance < Head.DuckConfig.PullRadius * ConfigManager.Instance.DuckConfiguration_Multiplier.PullRadiusMulti)
             {
                 ball.RigidBody.velocity = Vector3.zero;
                 ball.RigidBody.angularVelocity = Vector3.zero;
                 ball.RigidBody.DOMove(Head.transform.position + Head.transform.forward * Head.DuckConfig.PullBallStopFromHead, Head.DuckConfig.PullDuration);
-                ball.Kick(Head.Duck.Player.TeamNumber, (-diff.normalized) * 0);
                 AudioDuck.Instance.PlaySound(AudioDuck.Instance.FishBreath, ball.gameObject);
                 FXManager.Instance.PlayFX(FX_Type.BallKickParticleSystem, ball.transform.position, Quaternion.FromToRotation(Vector3.back, diff.normalized));
             }
@@ -54,7 +53,7 @@ public class HeadModel : MonoBehaviour
         {
             Vector3 diff = ball.transform.position - transform.position;
             float distance = diff.magnitude;
-            if (distance < Head.DuckConfig.PushRadius * GameManager.Instance.GameState.state.DuckConfig.PushRadiusMulti + Head.Duck.Body.ChargeDistance)
+            if (distance < Head.DuckConfig.PushRadius * ConfigManager.Instance.DuckConfiguration_Multiplier.PushRadiusMulti + Head.Duck.Body.ChargeDistance)
             {
                 AudioDuck.Instance.PlaySound(AudioDuck.Instance.FishBreath, ball.gameObject);
                 ball.Kick(Head.Duck.Player.TeamNumber, (Head.transform.forward) * (Head.DuckConfig.PushForce + Head.PushChargeForceRatio * Head.DuckConfig.PushChargingExtraForce));

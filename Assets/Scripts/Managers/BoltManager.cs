@@ -12,21 +12,27 @@ public class BoltManager : GlobalEventListener
 {
     public override void BoltStartBegin()
     {
-        BoltNetwork.RegisterTokenClass<RoomInfoToken>();
-        BoltNetwork.RegisterTokenClass<ClientConnectToken>();
-        BoltNetwork.RegisterTokenClass<ServerRefuseToken>();
+        if (GameManager.Instance.M_NetworkMode == GameManager.NetworkMode.Online)
+        {
+            BoltNetwork.RegisterTokenClass<RoomInfoToken>();
+            BoltNetwork.RegisterTokenClass<ClientConnectToken>();
+            BoltNetwork.RegisterTokenClass<ServerRefuseToken>();
+        }
     }
 
     public override void BoltStartDone()
     {
-        if (BoltNetwork.IsServer)
+        if (GameManager.Instance.M_NetworkMode == GameManager.NetworkMode.Online)
         {
-            OnBoltStartDone_Server?.Invoke();
-        }
+            if (BoltNetwork.IsServer)
+            {
+                OnBoltStartDone_Server?.Invoke();
+            }
 
-        if (BoltNetwork.IsClient)
-        {
-            OnBoltStartDone_Client?.Invoke();
+            if (BoltNetwork.IsClient)
+            {
+                OnBoltStartDone_Client?.Invoke();
+            }
         }
     }
 
@@ -34,50 +40,53 @@ public class BoltManager : GlobalEventListener
 
     public static void ConnectRequest_Server(UdpEndPoint endpoint, IProtocolToken token)
     {
-        if (BoltNetwork.IsServer)
+        if (GameManager.Instance.M_NetworkMode == GameManager.NetworkMode.Online)
         {
-            if (GameManager.Instance.Cur_BallBattleManager != null)
+            if (BoltNetwork.IsServer)
             {
-                if (GameManager.Instance.Cur_BallBattleManager.IsStart)
+                if (GameManager.Instance.Cur_BallBattleManager != null)
                 {
-                    ServerRefuseToken srt = new ServerRefuseToken();
-                    srt.Message = "The game has begun.";
-                    BoltNetwork.Refuse(endpoint, srt);
-                    return;
-                }
-            }
-
-            if (cur_ServerRoomInfo != null)
-            {
-                if (cur_ServerRoomInfo.Max_PlayerNumber <= BoltNetwork.Connections.ToList().Count + 1)
-                {
-                    ServerRefuseToken srt = new ServerRefuseToken();
-                    srt.Message = "The room is full";
-                    BoltNetwork.Refuse(endpoint, srt);
-                    return;
-                }
-                else
-                {
-                    if (token is ClientConnectToken cct)
-                    {
-                        BoltNetwork.Accept(endpoint);
-                        return;
-                    }
-                    else
+                    if (GameManager.Instance.Cur_BallBattleManager.IsStart)
                     {
                         ServerRefuseToken srt = new ServerRefuseToken();
-                        srt.Message = "Wrong protocol";
+                        srt.Message = "The game has begun.";
                         BoltNetwork.Refuse(endpoint, srt);
                         return;
                     }
                 }
-            }
-            else
-            {
-                ServerRefuseToken srt = new ServerRefuseToken();
-                srt.Message = "Errors in this room";
-                BoltNetwork.Refuse(endpoint, srt);
-                return;
+
+                if (cur_ServerRoomInfo != null)
+                {
+                    if (cur_ServerRoomInfo.Max_PlayerNumber <= BoltNetwork.Connections.ToList().Count + 1)
+                    {
+                        ServerRefuseToken srt = new ServerRefuseToken();
+                        srt.Message = "The room is full";
+                        BoltNetwork.Refuse(endpoint, srt);
+                        return;
+                    }
+                    else
+                    {
+                        if (token is ClientConnectToken cct)
+                        {
+                            BoltNetwork.Accept(endpoint);
+                            return;
+                        }
+                        else
+                        {
+                            ServerRefuseToken srt = new ServerRefuseToken();
+                            srt.Message = "Wrong protocol";
+                            BoltNetwork.Refuse(endpoint, srt);
+                            return;
+                        }
+                    }
+                }
+                else
+                {
+                    ServerRefuseToken srt = new ServerRefuseToken();
+                    srt.Message = "Errors in this room";
+                    BoltNetwork.Refuse(endpoint, srt);
+                    return;
+                }
             }
         }
     }
@@ -87,61 +96,67 @@ public class BoltManager : GlobalEventListener
 
     public static void StartServerSession(BattleTypes battleType, string roomName, bool hasPassword, string password, bool visible)
     {
-        if (BoltNetwork.IsServer)
+        if (GameManager.Instance.M_NetworkMode == GameManager.NetworkMode.Online)
         {
-            cur_ServerRoomInfo = new RoomInfoToken();
-            cur_ServerRoomInfo.UdpEndPoint = BoltNetwork.UdpSocket.WanEndPoint;
-            cur_ServerRoomInfo.RoomName = roomName;
-            string sessionID = roomName + DateTime.Now.ToLongTimeString();
-            cur_ServerRoomInfo.IsVisible = visible;
-            cur_ServerRoomInfo.BattleType = battleType;
-            cur_ServerRoomInfo.Cur_PlayerNumber = 1;
-            cur_ServerRoomInfo.M_Status = RoomInfoToken.Status.Waiting;
-            cur_ServerRoomInfo.Max_PlayerNumber = ConfigManager.BattleMaxPlayerNumberDict[battleType];
-            cur_ServerRoomInfo.HasPassword = hasPassword;
-            cur_ServerRoomInfo.Password = password;
+            if (BoltNetwork.IsServer)
+            {
+                cur_ServerRoomInfo = new RoomInfoToken();
+                cur_ServerRoomInfo.UdpEndPoint = BoltNetwork.UdpSocket.WanEndPoint;
+                cur_ServerRoomInfo.RoomName = roomName;
+                string sessionID = roomName + DateTime.Now.ToLongTimeString();
+                cur_ServerRoomInfo.IsVisible = visible;
+                cur_ServerRoomInfo.BattleType = battleType;
+                cur_ServerRoomInfo.Cur_PlayerNumber = 1;
+                cur_ServerRoomInfo.M_Status = RoomInfoToken.Status.Waiting;
+                cur_ServerRoomInfo.Max_PlayerNumber = ConfigManager.BattleMaxPlayerNumberDict[battleType];
+                cur_ServerRoomInfo.HasPassword = hasPassword;
+                cur_ServerRoomInfo.Password = password;
 
-            // TODO game name existed bug
-            BoltMatchmaking.CreateSession(
-                sessionID: sessionID,
-                sceneToLoad: "Battle_" + battleType,
-                token: cur_ServerRoomInfo
-            );
+                // TODO game name existed bug
+                BoltMatchmaking.CreateSession(
+                    sessionID: sessionID,
+                    sceneToLoad: "Battle_" + battleType,
+                    token: cur_ServerRoomInfo
+                );
+            }
         }
     }
 
     public static void UpdateCurrentSession()
     {
-        if (BoltNetwork.IsRunning && BoltNetwork.IsServer && cur_ServerRoomInfo != null)
+        if (GameManager.Instance.M_NetworkMode == GameManager.NetworkMode.Online)
         {
-            cur_ServerRoomInfo.Cur_PlayerNumber = BoltNetwork.Clients.ToList().Count + 1;
-            if (GameManager.Instance.Cur_BattleManager)
+            if (BoltNetwork.IsRunning && BoltNetwork.IsServer && cur_ServerRoomInfo != null)
             {
-                if (GameManager.Instance.Cur_BattleManager.IsClosing)
+                cur_ServerRoomInfo.Cur_PlayerNumber = BoltNetwork.Clients.ToList().Count + 1;
+                if (GameManager.Instance.Cur_BattleManager)
                 {
-                    cur_ServerRoomInfo.M_Status = RoomInfoToken.Status.Closing;
-                }
-                else
-                {
-                    if (GameManager.Instance.Cur_BattleManager.IsStart)
+                    if (GameManager.Instance.Cur_BattleManager.IsClosing)
                     {
-                        cur_ServerRoomInfo.M_Status = RoomInfoToken.Status.Playing;
+                        cur_ServerRoomInfo.M_Status = RoomInfoToken.Status.Closing;
                     }
                     else
                     {
-                        if (cur_ServerRoomInfo.Cur_PlayerNumber == cur_ServerRoomInfo.Max_PlayerNumber)
+                        if (GameManager.Instance.Cur_BattleManager.IsStart)
                         {
-                            cur_ServerRoomInfo.M_Status = RoomInfoToken.Status.Full;
+                            cur_ServerRoomInfo.M_Status = RoomInfoToken.Status.Playing;
                         }
                         else
                         {
-                            cur_ServerRoomInfo.M_Status = RoomInfoToken.Status.Waiting;
+                            if (cur_ServerRoomInfo.Cur_PlayerNumber == cur_ServerRoomInfo.Max_PlayerNumber)
+                            {
+                                cur_ServerRoomInfo.M_Status = RoomInfoToken.Status.Full;
+                            }
+                            else
+                            {
+                                cur_ServerRoomInfo.M_Status = RoomInfoToken.Status.Waiting;
+                            }
                         }
                     }
                 }
-            }
 
-            BoltMatchmaking.UpdateSession(cur_ServerRoomInfo);
+                BoltMatchmaking.UpdateSession(cur_ServerRoomInfo);
+            }
         }
     }
 
@@ -149,8 +164,11 @@ public class BoltManager : GlobalEventListener
 
     void Update()
     {
-        if (BoltNetwork.IsRunning && BoltNetwork.IsClient)
+        if (GameManager.Instance.M_NetworkMode == GameManager.NetworkMode.Online)
         {
+            if (BoltNetwork.IsRunning && BoltNetwork.IsClient)
+            {
+            }
         }
     }
 
@@ -162,43 +180,55 @@ public class BoltManager : GlobalEventListener
 
     private static void TryConnect(UdpSession session, string userName)
     {
-        if (BoltNetwork.IsRunning && BoltNetwork.IsClient)
+        if (GameManager.Instance.M_NetworkMode == GameManager.NetworkMode.Online)
         {
-            UIManager.Instance.ShowUIForms<WaitingPanel>();
-            ClientConnectToken cct = new ClientConnectToken();
-            cct.UserName = userName;
-            BoltMatchmaking.JoinSession(session, cct);
-        }
-        else
-        {
-            BoltLog.Warn("Only a started client can join sessions");
+            if (BoltNetwork.IsRunning && BoltNetwork.IsClient)
+            {
+                UIManager.Instance.ShowUIForms<WaitingPanel>();
+                ClientConnectToken cct = new ClientConnectToken();
+                cct.UserName = userName;
+                BoltMatchmaking.JoinSession(session, cct);
+            }
+            else
+            {
+                BoltLog.Warn("Only a started client can join sessions");
+            }
         }
     }
 
     public override void ConnectRefused(UdpEndPoint endpoint, IProtocolToken token)
     {
-        base.ConnectRefused(endpoint, token);
-        if (BoltNetwork.IsClient)
+        if (GameManager.Instance.M_NetworkMode == GameManager.NetworkMode.Online)
         {
-            NoticeManager.Instance.ShowInfoPanelCenter(((ServerRefuseToken) token).Message, 0f, 0.5f);
+            base.ConnectRefused(endpoint, token);
+            if (BoltNetwork.IsClient)
+            {
+                NoticeManager.Instance.ShowInfoPanelCenter(((ServerRefuseToken) token).Message, 0f, 0.5f);
+            }
         }
     }
 
     public override void Connected(BoltConnection connection)
     {
-        if (BoltNetwork.IsClient)
+        if (GameManager.Instance.M_NetworkMode == GameManager.NetworkMode.Online)
         {
-            base.Connected(connection);
-            OnConnectedAction?.Invoke();
+            if (BoltNetwork.IsClient)
+            {
+                base.Connected(connection);
+                OnConnectedAction?.Invoke();
+            }
         }
     }
 
     public override void ConnectFailed(UdpEndPoint endpoint, IProtocolToken token)
     {
-        if (BoltNetwork.IsClient)
+        if (GameManager.Instance.M_NetworkMode == GameManager.NetworkMode.Online)
         {
-            base.ConnectFailed(endpoint, token);
-            NoticeManager.Instance.ShowInfoPanelCenter("Failed to connect to bolt", 0f, 0.5f);
+            if (BoltNetwork.IsClient)
+            {
+                base.ConnectFailed(endpoint, token);
+                NoticeManager.Instance.ShowInfoPanelCenter("Failed to connect to bolt", 0f, 0.5f);
+            }
         }
     }
 
@@ -206,99 +236,105 @@ public class BoltManager : GlobalEventListener
 
     public override void SessionListUpdated(Map<Guid, UdpSession> sessionList)
     {
-        UpdateRoomList(sessionList, GameManager.Instance.LobbyPanel.CurrentFilter);
+        if (GameManager.Instance.M_NetworkMode == GameManager.NetworkMode.Online)
+        {
+            UpdateRoomList(sessionList, GameManager.Instance.LobbyPanel.CurrentFilter);
+        }
     }
 
     public static void UpdateRoomList(Map<Guid, UdpSession> sessionList, string filter)
     {
-        if (!BoltNetwork.IsRunning)
+        if (GameManager.Instance.M_NetworkMode == GameManager.NetworkMode.Online)
         {
-            BoltLauncher.StartClient();
-        }
-
-        Debug.LogFormat("Session list updated: {0} total sessions", sessionList.Count);
-        List<RoomInfoToken> roomInfos = new List<RoomInfoToken>();
-        foreach (KeyValuePair<Guid, UdpSession> kv in sessionList)
-        {
-            if (kv.Value.Source == UdpSessionSource.Photon)
+            if (!BoltNetwork.IsRunning)
             {
-                RoomInfoToken ri = (RoomInfoToken) kv.Value.GetProtocolToken();
+                BoltLauncher.StartClient();
+            }
 
-                ri.OnRoomButtonClick = delegate
+            Debug.LogFormat("Session list updated: {0} total sessions", sessionList.Count);
+            List<RoomInfoToken> roomInfos = new List<RoomInfoToken>();
+            foreach (KeyValuePair<Guid, UdpSession> kv in sessionList)
+            {
+                if (kv.Value.Source == UdpSessionSource.Photon)
                 {
-                    switch (ri.M_Status)
+                    RoomInfoToken ri = (RoomInfoToken) kv.Value.GetProtocolToken();
+
+                    ri.OnRoomButtonClick = delegate
                     {
-                        case RoomInfoToken.Status.Playing:
+                        switch (ri.M_Status)
                         {
-                            NoticeManager.Instance.ShowInfoPanelCenter("The game has begun", 0f, 0.5f);
-                            break;
-                        }
-                        case RoomInfoToken.Status.Full:
-                        {
-                            NoticeManager.Instance.ShowInfoPanelCenter("The room is full", 0f, 0.5f);
-                            break;
-                        }
-                        case RoomInfoToken.Status.Closing:
-                        {
-                            NoticeManager.Instance.ShowInfoPanelCenter("The game has closed", 0f, 0.5f);
-                            break;
-                        }
-                        case RoomInfoToken.Status.Waiting:
-                        {
-                            if (ri.HasPassword)
+                            case RoomInfoToken.Status.Playing:
                             {
-                                PasswordPanel pp = UIManager.Instance.ShowUIForms<PasswordPanel>();
-                                pp.ConfirmButton.onClick.RemoveAllListeners();
-                                pp.ConfirmButton.onClick.AddListener(delegate
+                                NoticeManager.Instance.ShowInfoPanelCenter("The game has begun", 0f, 0.5f);
+                                break;
+                            }
+                            case RoomInfoToken.Status.Full:
+                            {
+                                NoticeManager.Instance.ShowInfoPanelCenter("The room is full", 0f, 0.5f);
+                                break;
+                            }
+                            case RoomInfoToken.Status.Closing:
+                            {
+                                NoticeManager.Instance.ShowInfoPanelCenter("The game has closed", 0f, 0.5f);
+                                break;
+                            }
+                            case RoomInfoToken.Status.Waiting:
+                            {
+                                if (ri.HasPassword)
                                 {
-                                    if (ri.Password == pp.PasswordInputField.text.EncodeSHA512())
+                                    PasswordPanel pp = UIManager.Instance.ShowUIForms<PasswordPanel>();
+                                    pp.ConfirmButton.onClick.RemoveAllListeners();
+                                    pp.ConfirmButton.onClick.AddListener(delegate
                                     {
-                                        TryConnect(kv.Value, PlayerPrefs.GetString("PlayerID"));
-                                    }
-                                    else
-                                    {
-                                        NoticeManager.Instance.ShowInfoPanelCenter("Wrong password", 0f, 0.5f);
-                                    }
-                                });
-                            }
-                            else
-                            {
-                                TryConnect(kv.Value, PlayerPrefs.GetString("PlayerID"));
-                            }
+                                        if (ri.Password == pp.PasswordInputField.text.EncodeSHA512())
+                                        {
+                                            TryConnect(kv.Value, PlayerPrefs.GetString("PlayerID"));
+                                        }
+                                        else
+                                        {
+                                            NoticeManager.Instance.ShowInfoPanelCenter("Wrong password", 0f, 0.5f);
+                                        }
+                                    });
+                                }
+                                else
+                                {
+                                    TryConnect(kv.Value, PlayerPrefs.GetString("PlayerID"));
+                                }
 
-                            break;
+                                break;
+                            }
                         }
-                    }
-                };
+                    };
 
-                if (!string.IsNullOrWhiteSpace(filter))
-                {
-                    if (ri.IsVisible)
+                    if (!string.IsNullOrWhiteSpace(filter))
                     {
-                        if (ri.RoomName.ToUpper().Contains(filter.ToUpper()))
+                        if (ri.IsVisible)
                         {
-                            roomInfos.Add(ri);
+                            if (ri.RoomName.ToUpper().Contains(filter.ToUpper()))
+                            {
+                                roomInfos.Add(ri);
+                            }
+                        }
+                        else
+                        {
+                            if (ri.RoomName.ToUpper() == filter.ToUpper())
+                            {
+                                roomInfos.Add(ri);
+                            }
                         }
                     }
                     else
                     {
-                        if (ri.RoomName.ToUpper() == filter.ToUpper())
+                        if (ri.IsVisible)
                         {
                             roomInfos.Add(ri);
                         }
                     }
                 }
-                else
-                {
-                    if (ri.IsVisible)
-                    {
-                        roomInfos.Add(ri);
-                    }
-                }
             }
-        }
 
-        RefreshRoomListInUI?.Invoke(roomInfos);
+            RefreshRoomListInUI?.Invoke(roomInfos);
+        }
     }
 
     #endregion

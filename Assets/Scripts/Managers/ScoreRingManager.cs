@@ -11,12 +11,99 @@ public class ScoreRingManager : EntityBehaviour<IScoreRingManagerState>
 
     private SortedDictionary<TeamNumber, ScoreRing[]> TeamScoreRings = new SortedDictionary<TeamNumber, ScoreRing[]>();
 
+    private int ringNumber_Team1;
+
+    public int RingNumber_Team1
+    {
+        get
+        {
+            if (GameManager.Instance.M_NetworkMode == GameManager.NetworkMode.Online)
+            {
+                return state.RingNumber_Team1;
+            }
+            else
+            {
+                return ringNumber_Team1;
+            }
+        }
+        set
+        {
+            if (GameManager.Instance.M_NetworkMode == GameManager.NetworkMode.Online)
+            {
+                state.RingNumber_Team1 = value;
+            }
+            else
+            {
+                ringNumber_Team1 = value;
+            }
+        }
+    }
+
+    private int ringNumber_Team2;
+
+    public int RingNumber_Team2
+    {
+        get
+        {
+            if (GameManager.Instance.M_NetworkMode == GameManager.NetworkMode.Online)
+            {
+                return state.RingNumber_Team2;
+            }
+            else
+            {
+                return ringNumber_Team2;
+            }
+        }
+
+        set
+        {
+            if (GameManager.Instance.M_NetworkMode == GameManager.NetworkMode.Online)
+            {
+                state.RingNumber_Team2 = value;
+            }
+            else
+            {
+                ringNumber_Team2 = value;
+            }
+        }
+    }
+
+    private bool revertColor;
+
+    public bool RevertColor
+    {
+        get
+        {
+            if (GameManager.Instance.M_NetworkMode == GameManager.NetworkMode.Online)
+            {
+                return state.RevertColor;
+            }
+            else
+            {
+                return revertColor;
+            }
+        }
+
+        set
+        {
+            if (GameManager.Instance.M_NetworkMode == GameManager.NetworkMode.Online)
+            {
+                state.RevertColor = value;
+            }
+            else
+            {
+                revertColor = value;
+            }
+        }
+    }
+
     private ScoreRing[] GetScoreRings(TeamNumber teamNumber)
     {
-        if (state.RevertColor)
+        if (RevertColor)
         {
             return TeamScoreRings[teamNumber == TeamNumber.Team1 ? TeamNumber.Team2 : TeamNumber.Team1];
         }
+
         else
         {
             return TeamScoreRings[teamNumber];
@@ -25,24 +112,36 @@ public class ScoreRingManager : EntityBehaviour<IScoreRingManagerState>
 
     public override void Attached()
     {
+        Init();
+    }
+
+    void Awake()
+    {
+        if (GameManager.Instance.M_NetworkMode == GameManager.NetworkMode.Local)
+        {
+            Init();
+        }
+    }
+
+    void Init()
+    {
         TeamScoreRings.Add(TeamNumber.Team1, Team1ScoreRings);
         TeamScoreRings.Add(TeamNumber.Team2, Team2ScoreRings);
-
         SetTeamRingNumber(MaxRingNumber, MaxRingNumber);
     }
 
     public void Reset()
     {
-        if (BoltNetwork.IsServer)
+        if (GameManager.Instance.M_NetworkMode == GameManager.NetworkMode.Local || BoltNetwork.IsServer)
         {
-            state.RingNumber_Team1 = MaxRingNumber;
-            state.RingNumber_Team2 = MaxRingNumber;
+            RingNumber_Team1 = MaxRingNumber;
+            RingNumber_Team2 = MaxRingNumber;
         }
     }
 
     void Update()
     {
-        SetTeamRingNumber(state.RingNumber_Team1, state.RingNumber_Team2);
+        SetTeamRingNumber(RingNumber_Team1, RingNumber_Team2);
     }
 
     public CostumeType GetRingCostumeType(TeamNumber teamNumber)
@@ -51,7 +150,7 @@ public class ScoreRingManager : EntityBehaviour<IScoreRingManagerState>
         {
             case TeamNumber.Team1:
             {
-                int overflow_Team1 = state.RingNumber_Team1 > MaxRingNumber ? state.RingNumber_Team1 - MaxRingNumber : 0;
+                int overflow_Team1 = RingNumber_Team1 > MaxRingNumber ? RingNumber_Team1 - MaxRingNumber : 0;
                 if (overflow_Team1 > 0)
                 {
                     ScoreRing[] srs = GetScoreRings(TeamNumber.Team2);
@@ -59,20 +158,20 @@ public class ScoreRingManager : EntityBehaviour<IScoreRingManagerState>
                 }
                 else
                 {
-                    if (state.RingNumber_Team1 == 0)
+                    if (RingNumber_Team1 == 0)
                     {
                         return CostumeType.Costume1;
                     }
                     else
                     {
                         ScoreRing[] srs = GetScoreRings(TeamNumber.Team1);
-                        return srs[state.RingNumber_Team1 - 1].CostumeType;
+                        return srs[RingNumber_Team1 - 1].CostumeType;
                     }
                 }
             }
             case TeamNumber.Team2:
             {
-                int overflow_Team2 = state.RingNumber_Team2 > MaxRingNumber ? state.RingNumber_Team2 - MaxRingNumber : 0;
+                int overflow_Team2 = RingNumber_Team2 > MaxRingNumber ? RingNumber_Team2 - MaxRingNumber : 0;
                 if (overflow_Team2 > 0)
                 {
                     ScoreRing[] srs = GetScoreRings(TeamNumber.Team1);
@@ -80,14 +179,14 @@ public class ScoreRingManager : EntityBehaviour<IScoreRingManagerState>
                 }
                 else
                 {
-                    if (state.RingNumber_Team2 == 0)
+                    if (RingNumber_Team2 == 0)
                     {
                         return CostumeType.Costume1;
                     }
                     else
                     {
                         ScoreRing[] srs = GetScoreRings(TeamNumber.Team2);
-                        return srs[state.RingNumber_Team2 - 1].CostumeType;
+                        return srs[RingNumber_Team2 - 1].CostumeType;
                     }
                 }
             }
@@ -102,7 +201,9 @@ public class ScoreRingManager : EntityBehaviour<IScoreRingManagerState>
         int overflow_Team2 = ringNumber_Team2 > MaxRingNumber ? ringNumber_Team2 - MaxRingNumber : 0;
 
         ScoreRing[] srs = GetScoreRings(TeamNumber.Team1);
-        for (int i = 0; i < srs.Length; i++)
+        for (int i = 0;
+            i < srs.Length;
+            i++)
         {
             TeamNumber color = TeamNumber.None;
             if (i < ringNumber_Team1)
@@ -125,7 +226,9 @@ public class ScoreRingManager : EntityBehaviour<IScoreRingManagerState>
         }
 
         srs = GetScoreRings(TeamNumber.Team2);
-        for (int i = 0; i < srs.Length; i++)
+        for (int i = 0;
+            i < srs.Length;
+            i++)
         {
             TeamNumber color = TeamNumber.None;
             if (i < ringNumber_Team2)

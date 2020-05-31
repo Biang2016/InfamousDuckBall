@@ -1,51 +1,83 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 public class MultiControllerManager : MonoSingleton<MultiControllerManager>
 {
-    public Dictionary<PlayerNumber, PlayerNumber> PlayerControlMap = new Dictionary<PlayerNumber, PlayerNumber>(); // Key: playerNumber , Value: controller
-
-    public Dictionary<PlayerNumber, Controller> Controllers = new Dictionary<PlayerNumber, Controller>();
+    public Dictionary<PlayerNumber, ControllerIndex> PlayerControllerMap = new Dictionary<PlayerNumber, ControllerIndex>();
+    public Dictionary<ControllerIndex, Controller> Controllers = new Dictionary<ControllerIndex, Controller>();
 
     void Awake()
     {
-        foreach (object o in Enum.GetValues(typeof(PlayerNumber)))
+        Init();
+    }
+
+    public void Init()
+    {
+        PlayerControllerMap.Clear();
+        Controllers.Clear();
+        foreach (object o in Enum.GetValues(typeof(ControllerIndex)))
         {
-            PlayerNumber pn = (PlayerNumber) o;
-            if ((int) pn < ConfigManager.MaxPlayerNumber_Local)
+            ControllerIndex ci = (ControllerIndex) o;
+            if ((int) ci <= ConfigManager.MaxPlayerNumber_Local)
             {
-                Controllers.Add(pn, new XBoxController());
-                Controllers[pn].Init(pn);
+                Controllers.Add(ci, new XBoxController());
+                Controllers[ci].Init(ci);
             }
 
-            if ((int) pn == 4)
+            if ((int) ci > ConfigManager.MaxPlayerNumber_Local)
             {
-                Controllers.Add(pn, new KeyBoardController());
-                Controllers[pn].Init(pn);
+                Controllers.Add(ci, new KeyBoardController());
+                Controllers[ci].Init(ci);
             }
         }
     }
 
-    private void FixedUpdate()
+    private void Update()
     {
-        foreach (KeyValuePair<PlayerNumber, Controller> kv in Controllers)
+        foreach (KeyValuePair<ControllerIndex, Controller> kv in Controllers)
         {
-            kv.Value.FixedUpdate();
+            kv.Value.Update();
         }
 
-        foreach (object o in Enum.GetValues(typeof(PlayerNumber)))
+        foreach (object o in Enum.GetValues(typeof(ControllerIndex)))
         {
-            PlayerNumber pn = (PlayerNumber) o;
-            if ((int) pn <= ConfigManager.MaxPlayerNumber_Local)
+            ControllerIndex ci = (ControllerIndex) o;
+            if (Controllers[ci].AnyButtonPressed())
             {
-                if (Controllers[pn].AnyButtonPressed())
+                switch (GameManager.instance.M_NetworkMode)
                 {
-                    if (PlayerObjectRegistry.MyPlayer)
+                    case GameManager.NetworkMode.Local:
                     {
-                        if (!PlayerControlMap.ContainsKey(PlayerObjectRegistry.MyPlayer.PlayerNumber))
+                        if (GameManager.Instance.Cur_BattleManager != null)
                         {
-                            PlayerControlMap.Add(PlayerObjectRegistry.MyPlayer.PlayerNumber, pn);
+                            if (!PlayerControllerMap.Values.Contains(ci))
+                            {
+                                PlayerNumber pn = PlayerObjectRegistry_Local.CreatePlayer(ci);
+                                if (pn != PlayerNumber.None)
+                                {
+                                    PlayerObject playerObject = PlayerObjectRegistry_Local.GetPlayer(pn);
+                                    playerObject.Spawn();
+                                    PlayerControllerMap.Add(pn, ci);
+                                }
+
+                                // todo addPlayer
+                            }
                         }
+
+                        break;
+                    }
+                    case GameManager.NetworkMode.Online:
+                    {
+                        if (PlayerObjectRegistry_Online.MyPlayer)
+                        {
+                            if (!PlayerControllerMap.ContainsKey(PlayerObjectRegistry_Online.MyPlayer.PlayerNumber))
+                            {
+                                PlayerControllerMap.Add(PlayerObjectRegistry_Online.MyPlayer.PlayerNumber, ci);
+                            }
+                        }
+
+                        break;
                     }
                 }
             }

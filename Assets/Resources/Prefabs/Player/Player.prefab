@@ -3606,6 +3606,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Anim: {fileID: 6146708266854059427}
   HeadStatus: 0
+  HeadVerticalOffsetManualMax: 8
+  HeadVerticalOffsetManualMin: -1
 --- !u!1 &8025199647924164314
 GameObject:
   m_ObjectHideFlags: 0

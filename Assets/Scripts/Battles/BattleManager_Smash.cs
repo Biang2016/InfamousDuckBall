@@ -15,9 +15,17 @@ public class BattleManager_Smash : BattleManager_BallGame
     public override void Child_Initialize()
     {
         base.Child_Initialize();
-        if (BoltNetwork.IsServer)
+        if (GameManager.Instance.M_NetworkMode == GameManager.NetworkMode.Online)
         {
-            BoltEntity be1 = BoltNetwork.Instantiate(BoltPrefabs.ScoreRings, Boat.ScoreRingsPivot.position, Boat.ScoreRingsPivot.rotation);
+            if (BoltNetwork.IsServer)
+            {
+                BoltEntity be1 = BoltNetwork.Instantiate(BoltPrefabs.ScoreRings, Boat.ScoreRingsPivot.position, Boat.ScoreRingsPivot.rotation);
+                Boat.ScoreRingManager = be1.GetComponent<ScoreRingManager>();
+            }
+        }
+        else
+        {
+            GameObject be1 = Instantiate(PrefabManager.Instance.GetPrefab("ScoreRings"), Boat.ScoreRingsPivot.position, Boat.ScoreRingsPivot.rotation);
             Boat.ScoreRingManager = be1.GetComponent<ScoreRingManager>();
         }
 
@@ -32,12 +40,15 @@ public class BattleManager_Smash : BattleManager_BallGame
     protected override void Update()
     {
         base.Update();
-        if (IsStart && BoltNetwork.IsServer)
+        if (IsStart)
         {
-            if (Ball)
+            if (GameManager.Instance.M_NetworkMode == GameManager.NetworkMode.Local || BoltNetwork.IsServer)
             {
-                Ball.RigidBody.mass = GameManager.Instance.GameState.state.DuckConfig.BallWeight * ConfigManager.Instance.BallWeight;
-                Ball.Collider.material.bounciness = GameManager.Instance.GameState.state.DuckConfig.BallBounce * ConfigManager.Instance.BallBounce;
+                if (Ball)
+                {
+                    Ball.RigidBody.mass = ConfigManager.Instance.DuckConfiguration_Multiplier.BallWeightMulti * ConfigManager.Instance.BallWeight;
+                    Ball.Collider.material.bounciness = ConfigManager.Instance.DuckConfiguration_Multiplier.BallBounceMulti * ConfigManager.Instance.BallBounce;
+                }
             }
         }
     }
@@ -53,7 +64,7 @@ public class BattleManager_Smash : BattleManager_BallGame
         {
             if (PlayerDict.Count == 2)
             {
-                if (BoltNetwork.IsServer)
+                if (GameManager.Instance.M_NetworkMode == GameManager.NetworkMode.Local || BoltNetwork.IsServer)
                 {
                     UIManager.Instance.GetBaseUIForm<RoundSmallScorePanel>().SetRoomStatusText("Press F10 to start the game");
                 }
@@ -71,7 +82,7 @@ public class BattleManager_Smash : BattleManager_BallGame
 
     public override void RefreshPlayerNumber(int playerNumber)
     {
-        if (BoltNetwork.IsServer)
+        if (GameManager.Instance.M_NetworkMode == GameManager.NetworkMode.Local || BoltNetwork.IsServer)
         {
             if (playerNumber == 2)
             {
@@ -86,7 +97,7 @@ public class BattleManager_Smash : BattleManager_BallGame
 
     public override void StartBattle_Server()
     {
-        if (BoltNetwork.IsServer)
+        if (GameManager.Instance.M_NetworkMode == GameManager.NetworkMode.Local || BoltNetwork.IsServer)
         {
             if (startBattleCoroutine != null)
             {
@@ -102,16 +113,38 @@ public class BattleManager_Smash : BattleManager_BallGame
     {
         for (int i = 0; i < 5; i++)
         {
-            BattleReadyStartToggleEvent evnt = BattleReadyStartToggleEvent.Create();
-            evnt.Start = true;
-            evnt.Tick = 5 - i;
-            evnt.Send();
+            if (GameManager.Instance.M_NetworkMode == GameManager.NetworkMode.Online)
+            {
+                BattleReadyStartToggleEvent evnt = BattleReadyStartToggleEvent.Create();
+                evnt.Start = true;
+                evnt.Tick = 5 - i;
+                evnt.Send();
+            }
+            else
+            {
+                Battle_All_Callbacks.OnEvent_BattleReadyStartToggleEvent(true, 5 - i);
+            }
+
             yield return new WaitForSeconds(1f);
         }
 
-        if (BoltNetwork.IsServer)
+        if (GameManager.Instance.M_NetworkMode == GameManager.NetworkMode.Online)
         {
-            BattleStartEvent.Create().Send();
+            if (BoltNetwork.IsServer)
+            {
+                BattleStartEvent evnt = BattleStartEvent.Create();
+                evnt.Send();
+
+                ScoreRingManager.Reset();
+                foreach (KeyValuePair<TeamNumber, Team> kv in TeamDict)
+                {
+                    kv.Value.MegaScore = 0;
+                }
+            }
+        }
+        else
+        {
+            Battle_All_Callbacks.OnEvent_BattleStartEvent();
             ScoreRingManager.Reset();
             foreach (KeyValuePair<TeamNumber, Team> kv in TeamDict)
             {
@@ -132,23 +165,39 @@ public class BattleManager_Smash : BattleManager_BallGame
 
     public void StartNewRound_Server()
     {
-        if (BoltNetwork.IsServer)
+        if (GameManager.Instance.M_NetworkMode == GameManager.NetworkMode.Local || BoltNetwork.IsServer)
         {
-            RoundStartEvent evnt = RoundStartEvent.Create();
             int round = 0;
             foreach (KeyValuePair<TeamNumber, Team> kv in TeamDict)
             {
                 round += kv.Value.MegaScore;
             }
 
-            evnt.Round = round + 1;
-            evnt.Send();
+            if (GameManager.Instance.M_NetworkMode == GameManager.NetworkMode.Online)
+            {
+                RoundStartEvent evnt = RoundStartEvent.Create();
+                evnt.Round = round + 1;
+                evnt.Send();
+            }
+            else
+            {
+                Battle_Smash_Callbacks.OnEvent_RoundStartEvent(round + 1);
+            }
 
             if (!Ball)
             {
-                BoltEntity be1 = BoltNetwork.Instantiate(BoltPrefabs.Ball, BallPivot.position, BallPivot.rotation);
-                Ball = be1.GetComponent<Ball>();
-                Ball.state.BallName = "SmashBall";
+                if (GameManager.Instance.M_NetworkMode == GameManager.NetworkMode.Online)
+                {
+                    BoltEntity be1 = BoltNetwork.Instantiate(BoltPrefabs.Ball, BallPivot.position, BallPivot.rotation);
+                    Ball = be1.GetComponent<Ball>();
+                }
+                else
+                {
+                    GameObject be1 = Instantiate(PrefabManager.Instance.GetPrefab("Ball"), BallPivot.position, BallPivot.rotation);
+                    Ball = be1.GetComponent<Ball>();
+                }
+
+                Ball.BallName = "SmashBall";
                 Ball.ResetTransform = BallPivot;
                 BallDefaultPos = Ball.transform.position;
             }
@@ -169,12 +218,19 @@ public class BattleManager_Smash : BattleManager_BallGame
                     CostumeType ct = ScoreRingManager.GetRingCostumeType(kv.Key);
                     StartCoroutine(Co_PlayerRingRecover(goalies[0], ct));
 
-                    ScoreChangeEvent sce = ScoreChangeEvent.Create();
-                    sce.TeamNumber = (int) kv.Key;
-                    sce.Score = kv.Value.Score;
-                    sce.MegaScore = kv.Value.MegaScore;
-                    sce.IsNewBattle = true;
-                    sce.Send();
+                    if (GameManager.Instance.M_NetworkMode == GameManager.NetworkMode.Online)
+                    {
+                        ScoreChangeEvent sce = ScoreChangeEvent.Create();
+                        sce.TeamNumber = (int) kv.Key;
+                        sce.Score = kv.Value.Score;
+                        sce.MegaScore = kv.Value.MegaScore;
+                        sce.IsNewBattle = true;
+                        sce.Send();
+                    }
+                    else
+                    {
+                        Battle_Smash_Callbacks.OnEvent_ScoreChangeEvent((int) kv.Key, kv.Value.Score, kv.Value.MegaScore, true);
+                    }
                 }
             }
         }
@@ -198,11 +254,18 @@ public class BattleManager_Smash : BattleManager_BallGame
 
     IEnumerator Co_EndRound_Server(TeamNumber winnerTeamNumber, int Team1Score, int Team2Score, bool battleEnd)
     {
-        RoundEndEvent evnt = RoundEndEvent.Create();
-        evnt.WinTeamNumber = (int) winnerTeamNumber;
-        evnt.Team1Score = Team1Score;
-        evnt.Team2Score = Team2Score;
-        evnt.Send();
+        if (GameManager.Instance.M_NetworkMode == GameManager.NetworkMode.Online)
+        {
+            RoundEndEvent evnt = RoundEndEvent.Create();
+            evnt.WinTeamNumber = (int) winnerTeamNumber;
+            evnt.Team1Score = Team1Score;
+            evnt.Team2Score = Team2Score;
+            evnt.Send();
+        }
+        else
+        {
+            Battle_Smash_Callbacks.OnEvent_RoundEndEvent((int) winnerTeamNumber, Team1Score, Team2Score);
+        }
 
         if (battleEnd)
         {
@@ -218,9 +281,14 @@ public class BattleManager_Smash : BattleManager_BallGame
 
     public void EndRound(TeamNumber winnerTeam, int team1Score, int team2Score)
     {
-        if (PlayerObjectRegistry.MyPlayer && PlayerObjectRegistry.MyPlayer.PlayerController.Controller != null)
+        if (PlayerObjectRegistry_Online.MyPlayer && PlayerObjectRegistry_Online.MyPlayer.PlayerController.Controller != null)
         {
-            PlayerObjectRegistry.MyPlayer.PlayerController.Controller.Active = false;
+            PlayerObjectRegistry_Online.MyPlayer.PlayerController.Controller.Active = false;
+            PlayerObjectRegistry_Online.MyPlayer.PlayerController.Controller.Active_RightStick_OR = true;
+        }
+        else
+        {
+            PlayerObjectRegistry_Local.SetAllPlayerControllerActive(false, true);
         }
 
         RoundScorePanel rsp = UIManager.Instance.ShowUIForms<RoundScorePanel>();
@@ -230,11 +298,18 @@ public class BattleManager_Smash : BattleManager_BallGame
 
     public override void BallHit_Server(Ball ball, Player player, TeamNumber teamNumber)
     {
-        PlayerRingEvent pre = PlayerRingEvent.Create();
-        pre.HasRing = false;
-        pre.PlayerNumber = (int) player.PlayerNumber;
-        pre.Exploded = true;
-        pre.Send();
+        if (GameManager.Instance.M_NetworkMode == GameManager.NetworkMode.Online)
+        {
+            PlayerRingEvent pre = PlayerRingEvent.Create();
+            pre.HasRing = false;
+            pre.PlayerNumber = (int) player.PlayerNumber;
+            pre.Exploded = true;
+            pre.Send();
+        }
+        else
+        {
+            Battle_All_Callbacks.OnEvent_PlayerRingEvent((int) player.PlayerNumber, false, 0, true);
+        }
 
         Team hitTeam = TeamDict[teamNumber];
 
@@ -242,13 +317,21 @@ public class BattleManager_Smash : BattleManager_BallGame
         {
             TeamNumber otherTeam = teamNumber == TeamNumber.Team1 ? TeamNumber.Team2 : TeamNumber.Team1;
 
-            ScoreChangeEvent _sce = ScoreChangeEvent.Create();
-            _sce.TeamNumber = (int) otherTeam;
-            _sce.Score = TeamDict[otherTeam].Score;
             TeamDict[otherTeam].MegaScore += 1;
-            _sce.MegaScore = TeamDict[otherTeam].MegaScore;
-            _sce.IsNewBattle = false;
-            _sce.Send();
+
+            if (GameManager.Instance.M_NetworkMode == GameManager.NetworkMode.Online)
+            {
+                ScoreChangeEvent _sce = ScoreChangeEvent.Create();
+                _sce.TeamNumber = (int) otherTeam;
+                _sce.Score = TeamDict[otherTeam].Score;
+                _sce.MegaScore = TeamDict[otherTeam].MegaScore;
+                _sce.IsNewBattle = false;
+                _sce.Send();
+            }
+            else
+            {
+                Battle_Smash_Callbacks.OnEvent_ScoreChangeEvent((int) otherTeam, TeamDict[otherTeam].Score, TeamDict[otherTeam].MegaScore, false);
+            }
 
             if (TeamDict[otherTeam].MegaScore < ConfigManager.Smash_TeamTargetMegaScore)
             {
@@ -277,12 +360,20 @@ public class BattleManager_Smash : BattleManager_BallGame
         }
 
         hitTeam.Score -= 1;
-        ScoreChangeEvent sce = ScoreChangeEvent.Create();
-        sce.TeamNumber = (int) teamNumber;
-        sce.Score = hitTeam.Score;
-        sce.MegaScore = hitTeam.MegaScore;
-        sce.IsNewBattle = false;
-        sce.Send();
+
+        if (GameManager.Instance.M_NetworkMode == GameManager.NetworkMode.Online)
+        {
+            ScoreChangeEvent sce = ScoreChangeEvent.Create();
+            sce.TeamNumber = (int) teamNumber;
+            sce.Score = hitTeam.Score;
+            sce.MegaScore = hitTeam.MegaScore;
+            sce.IsNewBattle = false;
+            sce.Send();
+        }
+        else
+        {
+            Battle_Smash_Callbacks.OnEvent_ScoreChangeEvent((int) teamNumber, hitTeam.Score, hitTeam.MegaScore, false);
+        }
 
         ball.KickedFly();
         GameManager.Instance.SendSFXEvent(AudioDuck.Instance.FishBreath);
@@ -290,7 +381,7 @@ public class BattleManager_Smash : BattleManager_BallGame
 
     public override void EndBattle_Server(TeamNumber winnerTeam)
     {
-        if (BoltNetwork.IsServer)
+        if (GameManager.Instance.M_NetworkMode == GameManager.NetworkMode.Local || BoltNetwork.IsServer)
         {
             if (startBattleCoroutine != null)
             {
@@ -299,19 +390,33 @@ public class BattleManager_Smash : BattleManager_BallGame
             }
 
             {
-                BattleReadyStartToggleEvent evnt = BattleReadyStartToggleEvent.Create();
-                evnt.Start = false;
-                evnt.Tick = 0;
-                evnt.Send();
+                if (GameManager.Instance.M_NetworkMode == GameManager.NetworkMode.Online)
+                {
+                    BattleReadyStartToggleEvent evnt = BattleReadyStartToggleEvent.Create();
+                    evnt.Start = false;
+                    evnt.Tick = 0;
+                    evnt.Send();
+                }
+                else
+                {
+                    Battle_All_Callbacks.OnEvent_BattleReadyStartToggleEvent(false, 0);
+                }
             }
 
             {
-                BattleEndEvent evnt = BattleEndEvent.Create();
-                evnt.BattleType = (int) BattleTypes.Smash;
-                evnt.WinnerTeamNumber = (int) winnerTeam;
-                evnt.Team1Score = TeamDict[TeamNumber.Team1].MegaScore;
-                evnt.Team2Score = TeamDict[TeamNumber.Team2].MegaScore;
-                evnt.Send();
+                if (GameManager.Instance.M_NetworkMode == GameManager.NetworkMode.Online)
+                {
+                    BattleEndEvent evnt = BattleEndEvent.Create();
+                    evnt.BattleType = (int) BattleTypes.Smash;
+                    evnt.WinnerTeamNumber = (int) winnerTeam;
+                    evnt.Team1Score = TeamDict[TeamNumber.Team1].MegaScore;
+                    evnt.Team2Score = TeamDict[TeamNumber.Team2].MegaScore;
+                    evnt.Send();
+                }
+                else
+                {
+                    Battle_All_Callbacks.OnEvent_BattleEndEvent((int) BattleTypes.Smash, (int) winnerTeam, TeamDict[TeamNumber.Team1].MegaScore, TeamDict[TeamNumber.Team2].MegaScore);
+                }
             }
 
             if (Ball)
@@ -325,12 +430,20 @@ public class BattleManager_Smash : BattleManager_BallGame
             {
                 kv.Value.Score = ConfigManager.Smash_TeamStartScore;
                 kv.Value.MegaScore = 0;
-                ScoreChangeEvent sce = ScoreChangeEvent.Create();
-                sce.TeamNumber = (int) kv.Key;
-                sce.Score = kv.Value.Score;
-                sce.MegaScore = kv.Value.MegaScore;
-                sce.IsNewBattle = true;
-                sce.Send();
+
+                if (GameManager.Instance.M_NetworkMode == GameManager.NetworkMode.Online)
+                {
+                    ScoreChangeEvent sce = ScoreChangeEvent.Create();
+                    sce.TeamNumber = (int) kv.Key;
+                    sce.Score = kv.Value.Score;
+                    sce.MegaScore = kv.Value.MegaScore;
+                    sce.IsNewBattle = true;
+                    sce.Send();
+                }
+                else
+                {
+                    Battle_Smash_Callbacks.OnEvent_ScoreChangeEvent((int) kv.Key, kv.Value.Score, kv.Value.MegaScore, true);
+                }
             }
         }
     }
@@ -340,9 +453,16 @@ public class BattleManager_Smash : BattleManager_BallGame
         base.EndBattle(winnerTeam, team1Score, team2Score);
         if (winnerTeam == TeamNumber.None)
         {
-            if (PlayerObjectRegistry.MyPlayer && PlayerObjectRegistry.MyPlayer.PlayerController.Controller != null)
+            if (GameManager.Instance.M_NetworkMode == GameManager.NetworkMode.Online)
             {
-                PlayerObjectRegistry.MyPlayer.PlayerController.Controller.Active = true;
+                if (PlayerObjectRegistry_Online.MyPlayer && PlayerObjectRegistry_Online.MyPlayer.PlayerController.Controller != null)
+                {
+                    PlayerObjectRegistry_Online.MyPlayer.PlayerController.Controller.Active = true;
+                }
+            }
+            else
+            {
+                PlayerObjectRegistry_Local.SetAllPlayerControllerActive(true, true);
             }
 
             if (IsStart)
@@ -354,9 +474,16 @@ public class BattleManager_Smash : BattleManager_BallGame
         }
         else
         {
-            if (PlayerObjectRegistry.MyPlayer && PlayerObjectRegistry.MyPlayer.PlayerController.Controller != null)
+            if (GameManager.Instance.M_NetworkMode == GameManager.NetworkMode.Online)
             {
-                PlayerObjectRegistry.MyPlayer.PlayerController.Controller.Active = true;
+                if (PlayerObjectRegistry_Online.MyPlayer && PlayerObjectRegistry_Online.MyPlayer.PlayerController.Controller != null)
+                {
+                    PlayerObjectRegistry_Online.MyPlayer.PlayerController.Controller.Active = true;
+                }
+            }
+            else
+            {
+                PlayerObjectRegistry_Local.SetAllPlayerControllerActive(true, true);
             }
 
             WinPanel wp = UIManager.Instance.ShowUIForms<WinPanel>();
@@ -372,23 +499,31 @@ public class BattleManager_Smash : BattleManager_BallGame
     IEnumerator Co_PlayerRingRecover(Player player, CostumeType costumeType)
     {
         yield return new WaitForSeconds(ConfigManager.Instance.RingRecoverTime);
-        PlayerRingEvent pre = PlayerRingEvent.Create();
-        pre.HasRing = true;
-        pre.PlayerNumber = (int) player.PlayerNumber;
-        pre.CostumeType = (int) costumeType;
-        pre.Exploded = false;
-        pre.Send();
+
+        if (GameManager.Instance.M_NetworkMode == GameManager.NetworkMode.Online)
+        {
+            PlayerRingEvent pre = PlayerRingEvent.Create();
+            pre.HasRing = true;
+            pre.PlayerNumber = (int) player.PlayerNumber;
+            pre.CostumeType = (int) costumeType;
+            pre.Exploded = false;
+            pre.Send();
+        }
+        else
+        {
+            Battle_All_Callbacks.OnEvent_PlayerRingEvent((int) player.PlayerNumber, true, (int) costumeType, false);
+        }
 
         switch (player.TeamNumber)
         {
             case TeamNumber.Team1:
             {
-                ScoreRingManager.state.RingNumber_Team1--;
+                ScoreRingManager.RingNumber_Team1--;
                 break;
             }
             case TeamNumber.Team2:
             {
-                ScoreRingManager.state.RingNumber_Team2--;
+                ScoreRingManager.RingNumber_Team2--;
                 break;
             }
         }

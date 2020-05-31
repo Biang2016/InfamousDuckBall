@@ -1662,7 +1662,7 @@
           }
         },
         {
-          "Name": "BallWeight",
+          "Name": "BallWeightMulti",
           "Enabled": true,
           "Expanded": true,
           "ReplicationMode": 1,
@@ -1688,7 +1688,7 @@
           }
         },
         {
-          "Name": "BallBounce",
+          "Name": "BallBounceMulti",
           "Enabled": true,
           "Expanded": true,
           "ReplicationMode": 1,
@@ -1714,7 +1714,7 @@
           }
         },
         {
-          "Name": "RingDropIntervalRandomMin",
+          "Name": "RingDropIntervalRandomMinMulti",
           "Enabled": true,
           "Expanded": true,
           "ReplicationMode": 1,
@@ -1740,7 +1740,7 @@
           }
         },
         {
-          "Name": "RingDropIntervalRandomMax",
+          "Name": "RingDropIntervalRandomMaxMulti",
           "Enabled": true,
           "Expanded": true,
           "ReplicationMode": 1,
@@ -1766,7 +1766,7 @@
           }
         }
       ],
-      "Name": "DuckConfiguration",
+      "Name": "DuckConfigurationMulti",
       "Guid": "0dbe76c3-5f62-48ec-9caf-04fffd155302",
       "Groups": [
         "samples"

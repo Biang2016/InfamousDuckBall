@@ -77,11 +77,19 @@ public class LobbyPanel : MonoBehaviour
         gameObject.SetActive(true);
         UpdateUserName();
         RefreshButtonClick();
+        if (!BoltNetwork.IsRunning)
+        {
+            BoltLauncher.StartClient();
+        }
     }
 
     public void Hide()
     {
         gameObject.SetActive(false);
+        if (BoltNetwork.IsRunning)
+        {
+            BoltNetwork.Shutdown();
+        }
     }
 
     public void OnRenameButtonClick()
@@ -122,7 +130,7 @@ public class LobbyPanel : MonoBehaviour
             }
         }
     }
-    
+
     public void OnButtonHover()
     {
         AudioDuck.Instance.PlaySound(AudioDuck.Instance.Hover, GameManager.Instance.gameObject);

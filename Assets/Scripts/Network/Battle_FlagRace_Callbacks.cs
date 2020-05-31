@@ -1,30 +1,17 @@
 ﻿[BoltGlobalBehaviour("Battle_FlagRace")]
 public class Battle_FlagRace_Callbacks : Bolt.GlobalEventListener
 {
-    public override void OnEvent(BattleStartEvent evnt)
-    {
-        GameManager.Instance.Cur_BallBattleManager.StartBattle();
-    }
-
-    public override void OnEvent(PlayerRingEvent evnt)
-    {
-        Player player = GameManager.Instance.Cur_BattleManager.GetPlayer((PlayerNumber) evnt.PlayerNumber);
-        if (evnt.HasRing)
-        {
-            player.GetRing((CostumeType) evnt.CostumeType);
-        }
-        else
-        {
-            player.LoseRing(evnt.Exploded);
-        }
-    }
-
     public override void OnEvent(ScoreChangeEvent evnt)
     {
-        TeamNumber tn = (TeamNumber) evnt.TeamNumber;
+        OnEvent_ScoreChangeEvent(evnt.TeamNumber, evnt.Score, evnt.IsNewBattle, evnt.ScorePlayer);
+    }
+
+    public static void OnEvent_ScoreChangeEvent(int teamNumber, int score, bool isNewBattle, int scorePlayer)
+    {
+        TeamNumber tn = (TeamNumber) teamNumber;
         Team team = GameManager.Instance.Cur_BattleManager.TeamDict[tn];
-        team.Score = evnt.Score;
-        if (!evnt.IsNewBattle)
+        team.Score = score;
+        if (!isNewBattle)
         {
             if (tn == TeamNumber.Team1)
             {
@@ -35,16 +22,21 @@ public class Battle_FlagRace_Callbacks : Bolt.GlobalEventListener
                 UIManager.Instance.GetBaseUIForm<RoundSmallScorePanel>().RefreshScore_Team2(team.Score);
             }
 
-            PlayerNumber playerNumber = (PlayerNumber) evnt.ScorePlayer;
+            PlayerNumber playerNumber = (PlayerNumber) scorePlayer;
             AudioDuck.Instance.PlaySound(AudioDuck.Instance.BuoyInPlace, GameManager.Instance.Cur_BattleManager.GetPlayer(playerNumber).Duck.gameObject);
         }
     }
 
     public override void OnEvent(PlayerTeamChangeEvent evnt)
     {
-        TeamNumber newTeamNumber = (TeamNumber) evnt.TeamNumber;
-        TeamNumber oldTeamNumber = (TeamNumber) evnt.OriTeamNumber;
-        PlayerNumber pn = (PlayerNumber) evnt.PlayerNumber;
+        OnEvent_PlayerTeamChangeEvent(evnt.TeamNumber, evnt.OriTeamNumber, evnt.PlayerNumber);
+    }
+
+    public static void OnEvent_PlayerTeamChangeEvent(int teamNumber, int oriTeamNumber, int playerNumber)
+    {
+        TeamNumber newTeamNumber = (TeamNumber) teamNumber;
+        TeamNumber oldTeamNumber = (TeamNumber) oriTeamNumber;
+        PlayerNumber pn = (PlayerNumber) playerNumber;
         Player player = GameManager.Instance.Cur_BattleManager.GetPlayer(pn);
         GameManager.Instance.Cur_BattleManager.TeamDict[oldTeamNumber].TeamPlayers.Remove(player);
         GameManager.Instance.Cur_BattleManager.TeamDict[newTeamNumber].TeamPlayers.Add(player);

@@ -1,42 +1,94 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
+using BoltInternal;
+using UnityEngine.Events;
 using UnityEngine.UI;
 
 public class StartMenuPanel_Boat : MonoBehaviour
 {
-    [SerializeField] private Button PlayButton;
-    [SerializeField] private Button HelpButton;
-    [SerializeField] private Button CreditButton;
     [SerializeField] private Button ExitButton;
     [SerializeField] private Button BackButton;
 
+    public StartMenuButtonGroup ButtonGroup_Main;
+    public StartMenuButtonGroup ButtonGroup_Play;
+
+    void Start()
+    {
+        ButtonGroup_Play.Hide(false);
+    }
+
     public void OnPlayButtonClick()
     {
-        BoatMenuManager.Instance.FromStartMenuToLobby();
+        ButtonGroup_Play.Show();
+        ButtonGroup_Main.Hide(false);
+        ExitButton.gameObject.SetActive(false);
+        BackButton.gameObject.SetActive(true);
+        BackButton.onClick.AddListener(OnBackButtonClick_FromLocalToMain);
+        BackButton.onClick.RemoveListener(OnBackButtonClick_FromCreditToMain);
     }
 
     public void OnHelpButtonClick()
     {
-        BoatMenuManager.Instance.FromStartMenuToHelp();
+        BoatMenuManager.Instance.CameraPosSwitch(BoatMenuManager.CameraPos.UpDownPerspective);
+        BoatMenuManager.Instance.HelpPanel.Display();
     }
 
     public void OnCreditButtonClick()
     {
-        BoatMenuManager.Instance.BoatMenuBoat.ScoreRingsExplode();
-        PlayButton.gameObject.SetActive(false);
-        HelpButton.gameObject.SetActive(false);
-        CreditButton.gameObject.SetActive(false);
+        ButtonGroup_Main.Hide(true);
         ExitButton.gameObject.SetActive(false);
+        BackButton.onClick.RemoveListener(OnBackButtonClick_FromLocalToMain);
+        BackButton.onClick.AddListener(OnBackButtonClick_FromCreditToMain);
         BackButton.gameObject.SetActive(true);
     }
 
-    public void OnBackButtonClick()
+    public void OnLocalButtonClick()
     {
-        GameManager.Instance.GameLogoPanel.GameLogoDrop();
-        BoatMenuManager.Instance.BoatMenuBoat.ScoreRingRecover();
-        PlayButton.gameObject.SetActive(true);
-        HelpButton.gameObject.SetActive(true);
-        CreditButton.gameObject.SetActive(true);
+        ButtonGroup_Play.Hide(true);
+        BoatMenuManager.Instance.CameraPosSwitch(BoatMenuManager.CameraPos.UpDownPerspective);
+        BoatMenuManager.Instance.LocalPanel.Display();
+        GameManager.Instance.SwitchNetworkMode(GameManager.NetworkMode.Local);
+    }
+
+    public void OnOnlineButtonClick()
+    {
+        switch (Application.internetReachability)
+        {
+            case NetworkReachability.NotReachable:
+            {
+                NoticeManager.Instance.ShowInfoPanelCenter("Internet Not Reachable.", 0f, 1f);
+                break;
+            }
+            case NetworkReachability.ReachableViaLocalAreaNetwork:
+            {
+                BoatMenuManager.Instance.CameraPosSwitch(BoatMenuManager.CameraPos.UpDownPerspective);
+                BoatMenuManager.Instance.LobbyPanel.Display();
+                GameManager.Instance.SwitchNetworkMode(GameManager.NetworkMode.Online);
+                break;
+            }
+            case NetworkReachability.ReachableViaCarrierDataNetwork:
+            {
+                BoatMenuManager.Instance.CameraPosSwitch(BoatMenuManager.CameraPos.UpDownPerspective);
+                BoatMenuManager.Instance.LobbyPanel.Display();
+                GameManager.Instance.SwitchNetworkMode(GameManager.NetworkMode.Online);
+                break;
+            }
+        }
+    }
+
+    public void OnBackButtonClick_FromCreditToMain()
+    {
+        ButtonGroup_Main.Show();
+        ExitButton.gameObject.SetActive(true);
+        BackButton.gameObject.SetActive(false);
+    }
+
+    public void OnBackButtonClick_FromLocalToMain()
+    {
+        ButtonGroup_Main.Show();
+        ButtonGroup_Play.Hide(false);
         ExitButton.gameObject.SetActive(true);
         BackButton.gameObject.SetActive(false);
     }
@@ -54,5 +106,46 @@ public class StartMenuPanel_Boat : MonoBehaviour
     public void OnButtonClick()
     {
         AudioDuck.Instance.PlaySound(AudioDuck.Instance.Click, GameManager.Instance.gameObject);
+    }
+
+    [Serializable]
+    public class StartMenuButton
+    {
+        public Button Button;
+        public ScoreRingSingleBoatMenu ScoreRing;
+
+        public void Show()
+        {
+            Button.gameObject.SetActive(true);
+            ScoreRing.Recover();
+        }
+
+        public void Hide(bool withSound)
+        {
+            Button.gameObject.SetActive(false);
+            ScoreRing.Explode(withSound);
+        }
+    }
+
+    [Serializable]
+    public class StartMenuButtonGroup
+    {
+        public List<StartMenuButton> StartMenuButtons = new List<StartMenuButton>();
+
+        public void Show()
+        {
+            foreach (StartMenuButton button in StartMenuButtons)
+            {
+                button.Show();
+            }
+        }
+
+        public void Hide(bool withSound)
+        {
+            foreach (StartMenuButton button in StartMenuButtons)
+            {
+                button.Hide(withSound);
+            }
+        }
     }
 }

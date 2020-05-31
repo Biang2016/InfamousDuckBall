@@ -5,15 +5,15 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 
 [BoltGlobalBehaviour(BoltNetworkModes.Server, "Battle_FlagRace", "Battle_Smash")]
-public class Battle_All_ServerCallbacks : Bolt.GlobalEventListener
+public class Battle_All_ServerCallbacks : GlobalEventListener
 {
     private static BoltEntity gameStateGO;
 
     void Awake()
     {
-        if (PlayerObjectRegistry.MyPlayer == null)
+        if (PlayerObjectRegistry_Online.MyPlayer == null)
         {
-            PlayerObjectRegistry.CreateServerPlayer();
+            PlayerObjectRegistry_Online.CreateServerPlayer();
         }
 
         if (gameStateGO == null)
@@ -25,22 +25,22 @@ public class Battle_All_ServerCallbacks : Bolt.GlobalEventListener
 
     public override void Connected(BoltConnection connection)
     {
-        PlayerObjectRegistry.CreateClientPlayer(connection);
+        PlayerObjectRegistry_Online.CreateClientPlayer(connection);
     }
 
     public override void SceneLoadLocalDone(string map)
     {
-        if (PlayerObjectRegistry.ServerPlayer.Player == null)
+        if (PlayerObjectRegistry_Online.ServerPlayer.Player == null)
         {
-            PlayerObjectRegistry.ServerPlayer.Spawn();
+            PlayerObjectRegistry_Online.ServerPlayer.Spawn();
         }
 
-        PlayerObjectRegistry.MyPlayer = PlayerObjectRegistry.ServerPlayer.Player;
+        PlayerObjectRegistry_Online.MyPlayer = PlayerObjectRegistry_Online.ServerPlayer.Player;
     }
 
     public override void SceneLoadRemoteDone(BoltConnection connection)
     {
-        PlayerObject player = PlayerObjectRegistry.GetPlayer(connection);
+        PlayerObject player = PlayerObjectRegistry_Online.GetPlayer(connection);
         if (player.Player == null)
         {
             player.Spawn();

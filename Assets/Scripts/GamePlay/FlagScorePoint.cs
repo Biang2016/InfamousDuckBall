@@ -15,7 +15,7 @@ public class FlagScorePoint : MonoBehaviour
 
     void OnTriggerEnter(Collider c)
     {
-        if (BoltNetwork.IsServer)
+        if (GameManager.Instance.M_NetworkMode == GameManager.NetworkMode.Local || BoltNetwork.IsServer)
         {
             if (c.gameObject.GetComponentInParent<PlayerCollider>())
             {
@@ -33,7 +33,7 @@ public class FlagScorePoint : MonoBehaviour
 
     void OnTriggerStay(Collider c)
     {
-        if (BoltNetwork.IsServer)
+        if (GameManager.Instance.M_NetworkMode == GameManager.NetworkMode.Local || BoltNetwork.IsServer)
         {
             if (c.gameObject.GetComponentInParent<PlayerCollider>())
             {
@@ -61,7 +61,7 @@ public class FlagScorePoint : MonoBehaviour
 
     void OnTriggerExit(Collider c)
     {
-        if (BoltNetwork.IsServer)
+        if (GameManager.Instance.M_NetworkMode == GameManager.NetworkMode.Local || BoltNetwork.IsServer)
         {
             if (c.gameObject.GetComponentInParent<PlayerCollider>())
             {

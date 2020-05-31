@@ -35,7 +35,8 @@ public class HelpPanel : MonoBehaviour
 
     public void OnBackButtonClick()
     {
-        BoatMenuManager.Instance.FromHelpBackToStartMenu();
+        BoatMenuManager.Instance.CameraPosSwitch(BoatMenuManager.CameraPos.SidePerspective);
+        Hide();
     }
 
     private void SetPage(int page)

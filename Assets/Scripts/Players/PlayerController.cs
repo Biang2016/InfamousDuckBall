@@ -25,7 +25,7 @@ public class PlayerController : MonoBehaviour
     {
     }
 
-    void PollKeys(bool mouse)
+    private void PollKeys(bool mouse)
     {
         if (Player.Controller != null)
         {
@@ -45,11 +45,6 @@ public class PlayerController : MonoBehaviour
 
         headTargetPos = Player.Duck.Body.Cur_HeadTargetPosition;
         headLookAtPos = Player.Duck.Head.Cur_HeadLookAtPosition;
-    }
-
-    void Update()
-    {
-        PollKeys(true);
     }
 
     public void SimulateController()
@@ -75,10 +70,39 @@ public class PlayerController : MonoBehaviour
         Player.entity.QueueInput(input);
     }
 
+    public void SimulateController_Local()
+    {
+        PollKeys(true);
+
+        Quaternion moveRot = new Quaternion();
+        if (GameManager.Instance.Cur_BattleManager)
+        {
+            moveRot = GameManager.Instance.Cur_BattleManager.PlayerControllerMoveDirectionQuaternion;
+        }
+
+        Vector3 diff = Vector3.zero;
+        diff += moveRot * Vector3.forward * leftHorizontal;
+        diff += moveRot * Vector3.right * leftVertical;
+        diff = Vector3.ClampMagnitude(diff, 1) * (Player.DuckConfig.Accelerate * ConfigManager.Instance.DuckConfiguration_Multiplier.MoveSpeedMulti);
+
+        Player.Duck.DuckRigidbody.AddForce(diff);
+        Player.Duck.Head.ExecuteCommand(leftTriggerDown, rightBumperDown, rightTriggerDown, rightTriggerUp, rightTriggerPressed);
+
+        if (!GameManager.Instance.Cur_BattleManager.IsStart)
+        {
+            if (dpad_RightUp || dpad_LeftUp)
+            {
+                TeamNumber oldTeamNumber = Player.TeamNumber;
+                TeamNumber newTeamNumber = Player.TeamNumber == TeamNumber.Team1 ? TeamNumber.Team2 : TeamNumber.Team1;
+                Player.TeamNumber = newTeamNumber;
+                Battle_FlagRace_Callbacks.OnEvent_PlayerTeamChangeEvent((int) newTeamNumber, (int) oldTeamNumber, (int) Player.PlayerNumber);
+            }
+        }
+    }
+
     public void ExecuteCommand(Command command, bool resetState)
     {
         PlayerCommand cmd = (PlayerCommand) command;
-
         if (resetState)
         {
             // we got a correction from the server, reset (this only runs on the client)
@@ -98,7 +122,7 @@ public class PlayerController : MonoBehaviour
             Vector3 diff = Vector3.zero;
             diff += moveRot * Vector3.forward * cmd.Input.LeftHorizontal;
             diff += moveRot * Vector3.right * cmd.Input.LeftVertical;
-            diff = Vector3.ClampMagnitude(diff, 1) * (Player.DuckConfig.Accelerate * GameManager.Instance.GameState.state.DuckConfig.MoveSpeedMulti);
+            diff = Vector3.ClampMagnitude(diff, 1) * (Player.DuckConfig.Accelerate * ConfigManager.Instance.DuckConfiguration_Multiplier.MoveSpeedMulti);
 
             Player.Duck.DuckRigidbody.AddForce(diff);
             Player.Duck.Head.ExecuteCommand(cmd.Input.LeftTriggerDown, cmd.Input.RightBumperDown, cmd.Input.RightTriggerDown, cmd.Input.RightTriggerUp, cmd.Input.RightTrigger);
@@ -118,7 +142,7 @@ public class PlayerController : MonoBehaviour
                     {
                         TeamNumber oldTeamNumber = Player.TeamNumber;
                         TeamNumber newTeamNumber = Player.TeamNumber == TeamNumber.Team1 ? TeamNumber.Team2 : TeamNumber.Team1;
-                        Player.state.PlayerInfo.TeamNumber = (int) newTeamNumber;
+                        Player.TeamNumber = newTeamNumber;
                         PlayerTeamChangeEvent evnt = PlayerTeamChangeEvent.Create();
                         evnt.PlayerNumber = (int) Player.PlayerNumber;
                         evnt.TeamNumber = (int) newTeamNumber;
@@ -127,8 +151,8 @@ public class PlayerController : MonoBehaviour
                     }
                 }
 
-                Player.state.HeadTargetPosition = cmd.Input.HeadTargetPos;
-                Player.state.HeadLookAtPosition = cmd.Input.HeadLookAtPos;
+                Player.HeadTargetPosition = cmd.Input.HeadTargetPos;
+                Player.HeadLookAtPosition = cmd.Input.HeadLookAtPos;
 
                 Player.state.Input.LeftTriggerDown = cmd.Input.LeftTriggerDown;
                 Player.state.Input.RightBumperDown = cmd.Input.RightBumperDown;
@@ -141,9 +165,12 @@ public class PlayerController : MonoBehaviour
 
     private void LateUpdate()
     {
-        if (!Player.entity.IsControllerOrOwner)
+        if (GameManager.Instance.M_NetworkMode == GameManager.NetworkMode.Online)
         {
-            Player.Duck.Feet.transform.position = Player.state.FeetPosition;
+            if (!Player.entity.IsControllerOrOwner)
+            {
+                Player.Duck.Feet.transform.position = Player.state.FeetPosition;
+            }
         }
     }
 }

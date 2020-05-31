@@ -17,6 +17,34 @@ public class Ball : EntityEventListener<IBallState>
 
     private Vector3 defaultScale;
 
+    private string ballName;
+
+    public string BallName
+    {
+        get
+        {
+            if (GameManager.Instance.M_NetworkMode == GameManager.NetworkMode.Online)
+            {
+                return state.BallName;
+            }
+            else
+            {
+                return ballName;
+            }
+        }
+        set
+        {
+            if (GameManager.Instance.M_NetworkMode == GameManager.NetworkMode.Online)
+            {
+                state.BallName = value;
+            }
+            else
+            {
+                ballName = value;
+            }
+        }
+    }
+
     void Awake()
     {
         defaultScale = Model.gameObject.transform.localScale;
@@ -24,17 +52,17 @@ public class Ball : EntityEventListener<IBallState>
 
     void OnTriggerEnter(Collider c)
     {
-        if (BoltNetwork.IsServer)
+        if (GameManager.Instance.M_NetworkMode == GameManager.NetworkMode.Local || BoltNetwork.IsServer)
         {
             if (c.gameObject.GetComponent<GoalCollider>())
             {
                 Player p = c.GetComponentInParent<Player>();
-                if (PlayerObjectRegistry.MyPlayer == p)
+                if (PlayerObjectRegistry_Online.MyPlayer == p)
                 {
                     //Todo Vibrate
                 }
 
-                GameManager.Instance.Cur_BallBattleManager.BallHit_Server(this, p, (TeamNumber) p.state.PlayerInfo.TeamNumber);
+                GameManager.Instance.Cur_BallBattleManager.BallHit_Server(this, p, p.TeamNumber);
                 HideSOSBubble_Server();
             }
 
@@ -49,7 +77,7 @@ public class Ball : EntityEventListener<IBallState>
 
     void OnCollisionEnter(Collision c)
     {
-        if (BoltNetwork.IsServer)
+        if (GameManager.Instance.M_NetworkMode == GameManager.NetworkMode.Local || BoltNetwork.IsServer)
         {
             GameManager.Instance.SendSFXEvent(AudioDuck.Instance.FishFlapping);
         }
@@ -68,7 +96,7 @@ public class Ball : EntityEventListener<IBallState>
             {
                 if (smash.Ball == null)
                 {
-                    if (state.BallName == "SmashBall")
+                    if (BallName == "SmashBall")
                     {
                         smash.Ball = this;
                     }
@@ -79,7 +107,7 @@ public class Ball : EntityEventListener<IBallState>
             {
                 if (flagRace.LeftBall == null)
                 {
-                    if (state.BallName == "FlagRaceBall_Left")
+                    if (BallName == "FlagRaceBall_Left")
                     {
                         flagRace.LeftBall = this;
                     }
@@ -87,22 +115,30 @@ public class Ball : EntityEventListener<IBallState>
 
                 if (flagRace.RightBall == null)
                 {
-                    if (state.BallName == "FlagRaceBall_Right")
+                    if (BallName == "FlagRaceBall_Right")
                     {
                         flagRace.RightBall = this;
                     }
                 }
             }
 
-            if (BoltNetwork.IsServer)
+            if (GameManager.Instance.M_NetworkMode == GameManager.NetworkMode.Local || BoltNetwork.IsServer)
             {
                 noTouchTick += Time.deltaTime;
                 if (noTouchTick > NoTouchDurationBeforeSOS)
                 {
-                    BallSOSEvent evnt = BallSOSEvent.Create();
-                    evnt.BallName = state.BallName;
-                    evnt.Shown = true;
-                    evnt.Send();
+                    if (GameManager.Instance.M_NetworkMode == GameManager.NetworkMode.Online)
+                    {
+                        BallSOSEvent evnt = BallSOSEvent.Create();
+                        evnt.BallName = BallName;
+                        evnt.Shown = true;
+                        evnt.Send();
+                    }
+                    else
+                    {
+                        Battle_All_Callbacks.OnEvent_BallSOSEvent(true, BallName);
+                    }
+
                     noTouchTick = 0f;
                 }
             }
@@ -122,7 +158,7 @@ public class Ball : EntityEventListener<IBallState>
 
     public void ResetBall()
     {
-        if (BoltNetwork.IsServer)
+        if (GameManager.Instance.M_NetworkMode == GameManager.NetworkMode.Local || BoltNetwork.IsServer)
         {
             StartCoroutine(Co_ResetBall(1f));
         }
@@ -142,7 +178,7 @@ public class Ball : EntityEventListener<IBallState>
 
     public void Kick(TeamNumber teamNumber, Vector3 force)
     {
-        if (BoltNetwork.IsServer)
+        if (GameManager.Instance.M_NetworkMode == GameManager.NetworkMode.Local || BoltNetwork.IsServer)
         {
             RigidBody.AddForce(force);
             HideSOSBubble_Server();
@@ -152,10 +188,18 @@ public class Ball : EntityEventListener<IBallState>
     private void HideSOSBubble_Server()
     {
         noTouchTick = 0;
-        BallSOSEvent evnt = BallSOSEvent.Create();
-        evnt.BallName = state.BallName;
-        evnt.Shown = false;
-        evnt.Send();
+
+        if (GameManager.Instance.M_NetworkMode == GameManager.NetworkMode.Online)
+        {
+            BallSOSEvent evnt = BallSOSEvent.Create();
+            evnt.BallName = BallName;
+            evnt.Shown = false;
+            evnt.Send();
+        }
+        else
+        {
+            Battle_All_Callbacks.OnEvent_BallSOSEvent(false, BallName);
+        }
     }
 
     public void SetSOSBubbleShown_Client(bool shown)
@@ -214,7 +258,7 @@ public class Ball : EntityEventListener<IBallState>
 
     void FixedUpdate()
     {
-        if (BoltNetwork.IsServer)
+        if (GameManager.Instance.M_NetworkMode == GameManager.NetworkMode.Local || BoltNetwork.IsServer)
         {
             if (transform.position.y > 5f)
             {

@@ -29,9 +29,19 @@ public class DuckUI : MonoBehaviour
 
     void Update()
     {
-        if (Player && Player.entity && Player.entity.IsAttached && Player.state != null)
+        if (GameManager.Instance.M_NetworkMode == GameManager.NetworkMode.Online)
         {
-            PlayerName.text = Player.state.PlayerInfo.PlayerName;
+            if (Player && Player.entity && Player.entity.IsAttached && Player.state != null)
+            {
+                PlayerName.text = Player.PlayerName;
+            }
+        }
+        else
+        {
+            if (Player)
+            {
+                PlayerName.text = Player.PlayerName;
+            }
         }
     }
 

@@ -18,13 +18,13 @@ public class ScoreRingSingleBoatMenu : MonoBehaviour
 
     public void Recover()
     {
-        ScoreRing.Renderer.enabled = true;
+        gameObject.SetActive(true);
         ScoreRing.Initialize((TeamNumber) Random.Range(0, 2), (CostumeType) Random.Range(0, 3));
     }
 
     public void Explode(bool sound)
     {
-        ScoreRing.Renderer.enabled = false;
+        gameObject.SetActive(false);
         if (sound) AudioDuck.Instance.PlaySound(AudioDuck.Instance.BuoyPop, gameObject);
         FXManager.Instance.PlayFX(FX_Type.ScoreRingExplosion, transform.position, Quaternion.Euler(0, 1, 0));
     }

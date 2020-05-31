@@ -1,20 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
+using UnityEngine;
 
 public class Controller
 {
-    public PlayerNumber ControllerNumber = PlayerNumber.None;
-    public int ControllerIndex = 0;
+    public PlayerNumber PlayerNumber;
+    public int ControllerIndex_Int => (int) ControllerIndex;
+    public ControllerIndex ControllerIndex;
     public Dictionary<ControlAxis, float> Axises = new Dictionary<ControlAxis, float>();
     public Dictionary<ControlButtons, bool> ButtonPressedLastFrame = new Dictionary<ControlButtons, bool>();
     public Dictionary<ControlButtons, bool> ButtonPressed = new Dictionary<ControlButtons, bool>();
     public Dictionary<ControlButtons, bool> ButtonDown = new Dictionary<ControlButtons, bool>();
     public Dictionary<ControlButtons, bool> ButtonUp = new Dictionary<ControlButtons, bool>();
 
-    public void Init(PlayerNumber controllerNumber)
+    public void Init(ControllerIndex controllerIndex)
     {
-        ControllerIndex = (int) controllerNumber + 1;
-        ControllerNumber = controllerNumber;
+        ControllerIndex = controllerIndex;
         foreach (object b in Enum.GetValues(typeof(ControlButtons)))
         {
             ControlButtons btn = (ControlButtons) b;
@@ -33,14 +34,18 @@ public class Controller
 
     public bool Active = true;
 
-    public virtual void FixedUpdate()
+    /// <summary>
+    /// 如果为true，则右摇杆在Active为false时仍可设置为活动
+    /// 如果为false，则右摇杆随Active
+    /// </summary>
+    public bool Active_RightStick_OR = true;
+
+    public virtual void Update()
     {
         foreach (KeyValuePair<ControlButtons, bool> kv in ButtonPressed)
         {
             ButtonDown[kv.Key] = ButtonPressed[kv.Key] && !ButtonPressedLastFrame[kv.Key];
             ButtonUp[kv.Key] = !ButtonPressed[kv.Key] && ButtonPressedLastFrame[kv.Key];
-
-            //if (ButtonUp[kv.Key]) Debug.Log(kv.Key);
         }
 
         foreach (KeyValuePair<ControlButtons, bool> kv in ButtonPressed)

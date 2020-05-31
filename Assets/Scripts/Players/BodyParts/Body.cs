@@ -33,7 +33,7 @@ public class Body : MonoBehaviour
         if (Player.Controller != null)
         {
             // Move Neck
-            if (Player.Controller.ControllerNumber != PlayerNumber.Player5) // xbox one controller input
+            if (Player.Controller.ControllerIndex != ControllerIndex.KeyBoard) // xbox one controller input
             {
                 Quaternion moveRot = new Quaternion();
                 if (GameManager.Instance.Cur_BattleManager)
@@ -58,8 +58,8 @@ public class Body : MonoBehaviour
                         ChargeDistance = 0f;
                     }
 
-                    neckTargetPos += moveRot * Vector3.forward * (DuckConfig.NeckSpeed * GameManager.Instance.GameState.state.DuckConfig.NeckSpeedMulti * h);
-                    neckTargetPos += moveRot * Vector3.right * (DuckConfig.NeckSpeed * GameManager.Instance.GameState.state.DuckConfig.NeckSpeedMulti * v);
+                    neckTargetPos += moveRot * Vector3.forward * (DuckConfig.NeckSpeed * ConfigManager.Instance.DuckConfiguration_Multiplier.NeckSpeedMulti * h);
+                    neckTargetPos += moveRot * Vector3.right * (DuckConfig.NeckSpeed * ConfigManager.Instance.DuckConfiguration_Multiplier.NeckSpeedMulti * v);
 
                     float targetRadius = (neckTargetPos - transform.position).magnitude;
                     if (targetRadius < DuckConfig.Radius * 2)
@@ -77,7 +77,7 @@ public class Body : MonoBehaviour
                     }
 
                     Vector3 diff = neckTargetPos - Duck.Player.GetPlayerPosition;
-                    diff = Vector3.ClampMagnitude(diff, GameManager.Instance.GameState.state.DuckConfig.NeckMaxLengthMulti * DuckConfig.MaxNeckLength);
+                    diff = Vector3.ClampMagnitude(diff, ConfigManager.Instance.DuckConfiguration_Multiplier.NeckMaxLengthMulti * DuckConfig.MaxNeckLength);
                     diff = diff.magnitude < DuckConfig.MinNeckLength ? diff.normalized * DuckConfig.MinNeckLength : diff;
                     neckTargetPos = diff + Duck.Player.GetPlayerPosition;
                     MoveNeckTo(neckTargetPos);
@@ -104,7 +104,7 @@ public class Body : MonoBehaviour
                     Vector3 mousePos = ray.GetPoint(enter);
                     Vector3 dir = (mousePos - (neckTargetPos + chargingBackward_mouse)).normalized;
 
-                    neckTargetPos += dir * (DuckConfig.NeckSpeed * GameManager.Instance.GameState.state.DuckConfig.NeckSpeedMulti);
+                    neckTargetPos += dir * (DuckConfig.NeckSpeed * ConfigManager.Instance.DuckConfiguration_Multiplier.NeckSpeedMulti);
 
                     float targetRadius = (neckTargetPos - transform.position).magnitude;
                     if (targetRadius < DuckConfig.Radius * 2)
@@ -122,7 +122,7 @@ public class Body : MonoBehaviour
                     }
 
                     Vector3 diff = neckTargetPos - Duck.Player.GetPlayerPosition;
-                    diff = Vector3.ClampMagnitude(diff, GameManager.Instance.GameState.state.DuckConfig.NeckMaxLengthMulti * DuckConfig.MaxNeckLength);
+                    diff = Vector3.ClampMagnitude(diff, ConfigManager.Instance.DuckConfiguration_Multiplier.NeckMaxLengthMulti * DuckConfig.MaxNeckLength);
                     diff = diff.magnitude < DuckConfig.MinNeckLength ? diff.normalized * DuckConfig.MinNeckLength : diff;
                     neckTargetPos = diff + Duck.Player.GetPlayerPosition;
                     neckTargetPos -= chargingBackward_mouse / 10f;
@@ -238,7 +238,7 @@ public class Body : MonoBehaviour
         BodyRotate.rotation = BodyTargetRot;
         Duck.Neck.NeckTargetPos = targetPos;
         Duck.Neck.NeckDeform();
-        if (Player.entity.HasControl)
+        if (GameManager.Instance.M_NetworkMode == GameManager.NetworkMode.Local || Player.entity.HasControl)
         {
             Cur_HeadTargetPosition = targetPos;
         }
@@ -246,9 +246,9 @@ public class Body : MonoBehaviour
 
     protected void LateUpdate()
     {
-        if (!Player.entity.HasControl)
+        if (GameManager.Instance.M_NetworkMode == GameManager.NetworkMode.Online && !Player.entity.HasControl)
         {
-            MoveNeckTo(Player.state.HeadTargetPosition);
+            MoveNeckTo(Player.HeadTargetPosition);
         }
         else
         {

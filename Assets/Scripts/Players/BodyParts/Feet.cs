@@ -55,7 +55,14 @@ public class Feet : MonoBehaviour
 
     void LateUpdate()
     {
-        MyPlayerCircle.enabled = Player.entity.HasControl;
+        if (GameManager.Instance.M_NetworkMode == GameManager.NetworkMode.Online)
+        {
+            MyPlayerCircle.enabled = Player.entity.HasControl;
+        }
+        else
+        {
+            MyPlayerCircle.enabled = true;
+        }
 
         if (Duck.DuckRigidbody.velocity.magnitude < DuckConfig.BrakeVelocityThreshold)
         {

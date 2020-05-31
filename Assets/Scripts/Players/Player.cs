@@ -1,13 +1,210 @@
+using System;
 using System.Collections;
 using Bolt;
 using UnityEngine;
 
 public class Player : EntityBehaviour<IPlayerState>
 {
-    public string PlayerName => state.PlayerInfo.PlayerName;
-    public PlayerNumber PlayerNumber => (PlayerNumber) state.PlayerInfo.PlayerNumber;
-    public TeamNumber TeamNumber => (TeamNumber) state.PlayerInfo.TeamNumber;
-    public CostumeType CostumeType => (CostumeType) state.PlayerInfo.CostumeType;
+    #region Local
+
+    private string playerName_Local;
+    private PlayerNumber playerNumber_Local;
+    private TeamNumber teamNumber_Local;
+    private CostumeType costumeType_Local;
+
+    #endregion
+
+    #region Online
+
+    #endregion
+
+    public string PlayerName
+    {
+        get
+        {
+            if (GameManager.Instance.M_NetworkMode == GameManager.NetworkMode.Online)
+            {
+                return state.PlayerInfo.PlayerName;
+            }
+            else
+            {
+                return playerName_Local;
+            }
+        }
+        set
+        {
+            if (GameManager.Instance.M_NetworkMode == GameManager.NetworkMode.Online)
+            {
+                state.PlayerInfo.PlayerName = value;
+            }
+            else
+            {
+                playerName_Local = value;
+            }
+        }
+    }
+
+    public PlayerNumber PlayerNumber
+    {
+        get
+        {
+            if (GameManager.Instance.M_NetworkMode == GameManager.NetworkMode.Online)
+            {
+                return (PlayerNumber) state.PlayerInfo.PlayerNumber;
+            }
+            else
+            {
+                return playerNumber_Local;
+            }
+        }
+        set
+        {
+            if (GameManager.Instance.M_NetworkMode == GameManager.NetworkMode.Online)
+            {
+                state.PlayerInfo.PlayerNumber = (int) value;
+            }
+            else
+            {
+                playerNumber_Local = value;
+            }
+        }
+    }
+
+    public TeamNumber TeamNumber
+    {
+        get
+        {
+            if (GameManager.Instance.M_NetworkMode == GameManager.NetworkMode.Online)
+            {
+                return (TeamNumber) state.PlayerInfo.TeamNumber;
+            }
+            else
+            {
+                return teamNumber_Local;
+            }
+        }
+        set
+        {
+            if (GameManager.Instance.M_NetworkMode == GameManager.NetworkMode.Online)
+            {
+                state.PlayerInfo.TeamNumber = (int) value;
+            }
+            else
+            {
+                teamNumber_Local = value;
+            }
+        }
+    }
+
+    public CostumeType CostumeType
+    {
+        get
+        {
+            if (GameManager.Instance.M_NetworkMode == GameManager.NetworkMode.Online)
+            {
+                return (CostumeType) state.PlayerInfo.CostumeType;
+            }
+            else
+            {
+                return costumeType_Local;
+            }
+        }
+        set
+        {
+            if (GameManager.Instance.M_NetworkMode == GameManager.NetworkMode.Online)
+            {
+                state.PlayerInfo.CostumeType = (int) value;
+            }
+            else
+            {
+                costumeType_Local = value;
+            }
+        }
+    }
+
+    private Vector3 headTargetPosition;
+
+    public Vector3 HeadTargetPosition
+    {
+        get
+        {
+            if (GameManager.Instance.M_NetworkMode == GameManager.NetworkMode.Online)
+            {
+                return state.HeadTargetPosition;
+            }
+            else
+            {
+                return HeadTargetPosition;
+            }
+        }
+        set
+        {
+            if (GameManager.Instance.M_NetworkMode == GameManager.NetworkMode.Online)
+            {
+                state.HeadTargetPosition = value;
+            }
+            else
+            {
+                HeadTargetPosition = value;
+            }
+        }
+    }
+
+    private Vector3 headLookAtPosition;
+
+    public Vector3 HeadLookAtPosition
+    {
+        get
+        {
+            if (GameManager.Instance.M_NetworkMode == GameManager.NetworkMode.Online)
+            {
+                return state.HeadLookAtPosition;
+            }
+            else
+            {
+                return headLookAtPosition;
+            }
+        }
+        set
+        {
+            if (GameManager.Instance.M_NetworkMode == GameManager.NetworkMode.Online)
+            {
+                state.HeadLookAtPosition = value;
+            }
+            else
+            {
+                headLookAtPosition = value;
+            }
+        }
+    }
+
+    private Vector3 feetPosition;
+
+    public Vector3 FeetPosition
+    {
+        get
+        {
+            if (GameManager.Instance.M_NetworkMode == GameManager.NetworkMode.Online)
+            {
+                return state.FeetPosition;
+            }
+            else
+            {
+                return feetPosition;
+            }
+        }
+        set
+        {
+            if (GameManager.Instance.M_NetworkMode == GameManager.NetworkMode.Online)
+            {
+                state.FeetPosition = value;
+            }
+            else
+            {
+                feetPosition = value;
+            }
+        }
+    }
 
     public bool HasRing;
 
@@ -25,17 +222,37 @@ public class Player : EntityBehaviour<IPlayerState>
     public DuckConfig DuckConfig;
     public PlayerCollider PlayerCollider;
 
+    void Awake()
+    {
+        if (GameManager.Instance.M_NetworkMode == GameManager.NetworkMode.Local)
+        {
+            PlayerController.Attached();
+            Duck.Attached();
+        }
+    }
+
     public override void Attached()
     {
-        PlayerController.Attached();
-        Duck.Attached();
-        state.OnUpdateState += OnStateChanged;
+        if (GameManager.Instance.M_NetworkMode == GameManager.NetworkMode.Online)
+        {
+            PlayerController.Attached();
+            Duck.Attached();
+            state.OnUpdateState += OnStateChanged;
+        }
     }
 
     public override void Detached()
     {
         base.Detached();
         Duck.Detached();
+    }
+
+    void OnDestroy()
+    {
+        if (GameManager.Instance && GameManager.Instance.M_NetworkMode == GameManager.NetworkMode.Local)
+        {
+            Duck.Detached();
+        }
     }
 
     public override void ControlGained()
@@ -59,10 +276,20 @@ public class Player : EntityBehaviour<IPlayerState>
 
     public void Initialize_Server(string playerName, PlayerNumber playerNumber, TeamNumber teamNumber, CostumeType costumeType)
     {
-        state.PlayerInfo.PlayerName = playerName;
-        state.PlayerInfo.PlayerNumber = (int) playerNumber;
-        state.PlayerInfo.TeamNumber = (int) teamNumber;
-        if (entity.IsOwner && !IsInitialized)
+        PlayerName = playerName;
+        PlayerNumber = playerNumber;
+        TeamNumber = teamNumber;
+        CostumeType = CostumeType;
+
+        if (IsInitialized) return;
+        if (GameManager.Instance.M_NetworkMode == GameManager.NetworkMode.Online)
+        {
+            if (entity.IsOwner)
+            {
+                Initialize();
+            }
+        }
+        else
         {
             Initialize();
         }
@@ -100,12 +327,28 @@ public class Player : EntityBehaviour<IPlayerState>
 
     private void LateUpdate()
     {
-        if (entity.HasControl && Controller == null)
+        if (GameManager.Instance.M_NetworkMode == GameManager.NetworkMode.Online)
         {
-            if (MultiControllerManager.Instance.PlayerControlMap.ContainsKey(PlayerNumber))
+            if (entity.HasControl && Controller == null)
             {
-                Controller = MultiControllerManager.Instance.Controllers[MultiControllerManager.Instance.PlayerControlMap[PlayerNumber]];
+                if (MultiControllerManager.Instance.PlayerControllerMap.ContainsKey(PlayerNumber))
+                {
+                    Controller = MultiControllerManager.Instance.Controllers[MultiControllerManager.Instance.PlayerControllerMap[PlayerNumber]];
+                }
             }
+        }
+        else
+        {
+            if (Controller == null)
+            {
+                if (MultiControllerManager.Instance.PlayerControllerMap.ContainsKey(PlayerNumber))
+                {
+                    Controller = MultiControllerManager.Instance.Controllers[MultiControllerManager.Instance.PlayerControllerMap[PlayerNumber]];
+                }
+            }
+
+            PlayerController.SimulateController_Local();
+            Duck.Body.SimulateController();
         }
     }
 

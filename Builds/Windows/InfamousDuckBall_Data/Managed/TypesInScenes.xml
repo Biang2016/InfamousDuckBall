@@ -106,6 +106,7 @@
 		<type fullname="HelpPanel" preserve="nothing"/>
 		<type fullname="LeaveGamePanel" preserve="nothing"/>
 		<type fullname="LobbyPanel" preserve="nothing"/>
+		<type fullname="LocalPanel" preserve="nothing"/>
 		<type fullname="MakerPanel" preserve="nothing"/>
 		<type fullname="MultiControllerManager" preserve="nothing"/>
 		<type fullname="Neck" preserve="nothing"/>

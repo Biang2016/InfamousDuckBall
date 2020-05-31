@@ -126,14 +126,17 @@ public class Head : MonoBehaviour
 
     void LateUpdate()
     {
-        if (!Player.entity.IsControllerOrOwner)
+        if (GameManager.Instance.M_NetworkMode == GameManager.NetworkMode.Online)
         {
-            ExecuteCommand(
-                Player.state.Input.LeftTriggerDown,
-                Player.state.Input.RightBumperDown,
-                Player.state.Input.RightTriggerDown,
-                Player.state.Input.RightTriggerUp,
-                Player.state.Input.RightTrigger);
+            if (!Player.entity.IsControllerOrOwner)
+            {
+                ExecuteCommand(
+                    Player.state.Input.LeftTriggerDown,
+                    Player.state.Input.RightBumperDown,
+                    Player.state.Input.RightTriggerDown,
+                    Player.state.Input.RightTriggerUp,
+                    Player.state.Input.RightTrigger);
+            }
         }
 
         transform.position = Duck.Neck.HeadPosPivot.position;
@@ -160,17 +163,17 @@ public class Head : MonoBehaviour
             }
             else
             {
-                if (Duck.Player.entity.HasControl)
+                if (GameManager.Instance.M_NetworkMode == GameManager.NetworkMode.Local || Duck.Player.entity.HasControl)
                 {
                     if (Input.GetAxis("Mouse ScrollWheel") > 0f || (Duck.Player.Controller != null && Duck.Player.Controller.ButtonPressed[ControlButtons.DPAD_Up]))
                     {
                         HeadVerticalOffsetManual += 0.5f;
-                        HeadVerticalOffsetManual = Mathf.Clamp(HeadVerticalOffsetManual, -1f, 8f);
+                        HeadVerticalOffsetManual = Mathf.Clamp(HeadVerticalOffsetManual, HeadVerticalOffsetManualMin, HeadVerticalOffsetManualMax);
                     }
                     else if (Input.GetAxis("Mouse ScrollWheel") < 0f || (Duck.Player.Controller != null && Duck.Player.Controller.ButtonPressed[ControlButtons.DPAD_Down]))
                     {
                         HeadVerticalOffsetManual -= 0.5f;
-                        HeadVerticalOffsetManual = Mathf.Clamp(HeadVerticalOffsetManual, -1f, 8f);
+                        HeadVerticalOffsetManual = Mathf.Clamp(HeadVerticalOffsetManual, HeadVerticalOffsetManualMin, HeadVerticalOffsetManualMax);
                     }
 
                     if (Duck.Player.Controller != null)
@@ -197,11 +200,13 @@ public class Head : MonoBehaviour
                 }
                 else
                 {
-                    transform.LookAt(Duck.Player.state.HeadLookAtPosition);
+                    transform.LookAt(Duck.Player.HeadLookAtPosition);
                 }
             }
         }
     }
 
     private float HeadVerticalOffsetManual = 0f;
+    [SerializeField] private float HeadVerticalOffsetManualMax = 8f;
+    [SerializeField] private float HeadVerticalOffsetManualMin = -1f;
 }

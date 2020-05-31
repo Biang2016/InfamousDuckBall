@@ -14,22 +14,4 @@ public class BoatMenuBoat : MonoBehaviour
     {
         UIManager.Instance.ShowUIForms<MakerPanel>();
     }
-
-    public List<ScoreRingSingleBoatMenu> ScoreRings = new List<ScoreRingSingleBoatMenu>();
-
-    public void ScoreRingsExplode()
-    {
-        foreach (ScoreRingSingleBoatMenu sr in ScoreRings)
-        {
-            sr.Explode(false);
-        }
-    }
-
-    public void ScoreRingRecover()
-    {
-        foreach (ScoreRingSingleBoatMenu sr in ScoreRings)
-        {
-            sr.Recover();
-        }
-    }
 }

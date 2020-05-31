@@ -22,14 +22,24 @@ public class ScoreRingSingleSpawner : MonoBehaviour
 
     public void Spawn()
     {
-        if (BoltNetwork.IsServer)
+        if (GameManager.Instance.M_NetworkMode == GameManager.NetworkMode.Local || BoltNetwork.IsServer)
         {
             if (ScoreRingSingles.Count < 5)
             {
-                BoltEntity be = BoltNetwork.Instantiate(BoltPrefabs.ScoreRingSingle, GetRandomPos(), Random.rotation);
-                ScoreRingSingle srs = be.GetComponent<ScoreRingSingle>();
-                srs.state.TeamNumber = (int) TeamNumber;
-                srs.state.CostumeType = Random.Range(0, ConfigManager.CostumeTypeCount);
+                ScoreRingSingle srs = null;
+                if (GameManager.Instance.M_NetworkMode == GameManager.NetworkMode.Online)
+                {
+                    BoltEntity be = BoltNetwork.Instantiate(BoltPrefabs.ScoreRingSingle, GetRandomPos(), Random.rotation);
+                    srs = be.GetComponent<ScoreRingSingle>();
+                }
+                else
+                {
+                    GameObject be = Instantiate(PrefabManager.Instance.GetPrefab("ScoreRingSingle"), GetRandomPos(), Random.rotation);
+                    srs = be.GetComponent<ScoreRingSingle>();
+                }
+
+                srs.TeamNumber = TeamNumber;
+                srs.CostumeType = (CostumeType) Random.Range(0, ConfigManager.CostumeTypeCount);
                 ScoreRingSingles.Add(srs);
                 srs.OnRemove = delegate { ScoreRingSingles.Remove(srs); };
             }
@@ -38,13 +48,20 @@ public class ScoreRingSingleSpawner : MonoBehaviour
 
     public void Clear()
     {
-        if (BoltNetwork.IsServer)
+        if (GameManager.Instance.M_NetworkMode == GameManager.NetworkMode.Local || BoltNetwork.IsServer)
         {
             foreach (ScoreRingSingle srs in ScoreRingSingles)
             {
                 if (srs != null)
                 {
-                    BoltNetwork.Destroy(srs.gameObject);
+                    if (GameManager.Instance.M_NetworkMode == GameManager.NetworkMode.Online)
+                    {
+                        BoltNetwork.Destroy(srs.gameObject);
+                    }
+                    else
+                    {
+                        GameObject.Destroy(srs.gameObject);
+                    }
                 }
             }
         }

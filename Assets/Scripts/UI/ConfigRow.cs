@@ -13,7 +13,7 @@ public class ConfigRow : PoolObject
         myConfigRowType = configRowType;
         Slider.maxValue = max;
         Slider.minValue = min;
-        if (BoltNetwork.IsServer)
+        if (GameManager.Instance.M_NetworkMode == GameManager.NetworkMode.Local || BoltNetwork.IsServer)
         {
             Slider.onValueChanged.RemoveAllListeners();
             Label.text = configRowType + " = " + Slider.value.ToString("#0.00");
@@ -21,56 +21,56 @@ public class ConfigRow : PoolObject
             {
                 case ConfigRowType.NeckMaxLength:
                 {
-                    Slider.value = GameManager.Instance.GameState.state.DuckConfig.NeckMaxLengthMulti;
-                    Slider.onValueChanged.AddListener(delegate { GameManager.Instance.GameState.state.DuckConfig.NeckMaxLengthMulti = Slider.value; });
+                    Slider.value = ConfigManager.Instance.DuckConfiguration_Multiplier.NeckMaxLengthMulti;
+                    Slider.onValueChanged.AddListener(delegate { ConfigManager.Instance.DuckConfiguration_Multiplier.NeckMaxLengthMulti = Slider.value; });
                     break;
                 }
                 case ConfigRowType.MoveSpeed:
                 {
-                    Slider.value = GameManager.Instance.GameState.state.DuckConfig.MoveSpeedMulti;
-                    Slider.onValueChanged.AddListener(delegate { GameManager.Instance.GameState.state.DuckConfig.MoveSpeedMulti = Slider.value; });
+                    Slider.value = ConfigManager.Instance.DuckConfiguration_Multiplier.MoveSpeedMulti;
+                    Slider.onValueChanged.AddListener(delegate { ConfigManager.Instance.DuckConfiguration_Multiplier.MoveSpeedMulti = Slider.value; });
                     break;
                 }
                 case ConfigRowType.NeckSpeed:
                 {
-                    Slider.value = GameManager.Instance.GameState.state.DuckConfig.NeckSpeedMulti;
-                    Slider.onValueChanged.AddListener(delegate { GameManager.Instance.GameState.state.DuckConfig.NeckSpeedMulti = Slider.value; });
+                    Slider.value = ConfigManager.Instance.DuckConfiguration_Multiplier.NeckSpeedMulti;
+                    Slider.onValueChanged.AddListener(delegate { ConfigManager.Instance.DuckConfiguration_Multiplier.NeckSpeedMulti = Slider.value; });
                     break;
                 }
                 case ConfigRowType.PullRadius:
                 {
-                    Slider.value = GameManager.Instance.GameState.state.DuckConfig.PullRadiusMulti;
-                    Slider.onValueChanged.AddListener(delegate { GameManager.Instance.GameState.state.DuckConfig.PullRadiusMulti = Slider.value; });
+                    Slider.value = ConfigManager.Instance.DuckConfiguration_Multiplier.PullRadiusMulti;
+                    Slider.onValueChanged.AddListener(delegate { ConfigManager.Instance.DuckConfiguration_Multiplier.PullRadiusMulti = Slider.value; });
                     break;
                 }
                 case ConfigRowType.PushRadius:
                 {
-                    Slider.value = GameManager.Instance.GameState.state.DuckConfig.PushRadiusMulti;
-                    Slider.onValueChanged.AddListener(delegate { GameManager.Instance.GameState.state.DuckConfig.PushRadiusMulti = Slider.value; });
+                    Slider.value = ConfigManager.Instance.DuckConfiguration_Multiplier.PushRadiusMulti;
+                    Slider.onValueChanged.AddListener(delegate { ConfigManager.Instance.DuckConfiguration_Multiplier.PushRadiusMulti = Slider.value; });
                     break;
                 }
                 case ConfigRowType.BallBounce:
                 {
-                    Slider.value = GameManager.Instance.GameState.state.DuckConfig.BallBounce;
-                    Slider.onValueChanged.AddListener(delegate { GameManager.Instance.GameState.state.DuckConfig.BallBounce = Slider.value; });
+                    Slider.value = ConfigManager.Instance.DuckConfiguration_Multiplier.BallBounceMulti;
+                    Slider.onValueChanged.AddListener(delegate { ConfigManager.Instance.DuckConfiguration_Multiplier.BallBounceMulti = Slider.value; });
                     break;
                 }
                 case ConfigRowType.BallWeight:
                 {
-                    Slider.value = GameManager.Instance.GameState.state.DuckConfig.BallWeight;
-                    Slider.onValueChanged.AddListener(delegate { GameManager.Instance.GameState.state.DuckConfig.BallWeight = Slider.value; });
+                    Slider.value = ConfigManager.Instance.DuckConfiguration_Multiplier.BallWeightMulti;
+                    Slider.onValueChanged.AddListener(delegate { ConfigManager.Instance.DuckConfiguration_Multiplier.BallWeightMulti = Slider.value; });
                     break;
                 }
                 case ConfigRowType.RingDropMin:
                 {
-                    Slider.value = GameManager.Instance.GameState.state.DuckConfig.RingDropIntervalRandomMin;
-                    Slider.onValueChanged.AddListener(delegate { GameManager.Instance.GameState.state.DuckConfig.RingDropIntervalRandomMin = Slider.value; });
+                    Slider.value = ConfigManager.Instance.DuckConfiguration_Multiplier.RingDropIntervalRandomMinMulti;
+                    Slider.onValueChanged.AddListener(delegate { ConfigManager.Instance.DuckConfiguration_Multiplier.RingDropIntervalRandomMinMulti = Slider.value; });
                     break;
                 }
                 case ConfigRowType.RingDropMax:
                 {
-                    Slider.value = GameManager.Instance.GameState.state.DuckConfig.RingDropIntervalRandomMax;
-                    Slider.onValueChanged.AddListener(delegate { GameManager.Instance.GameState.state.DuckConfig.RingDropIntervalRandomMax = Slider.value; });
+                    Slider.value = ConfigManager.Instance.DuckConfiguration_Multiplier.RingDropIntervalRandomMaxMulti;
+                    Slider.onValueChanged.AddListener(delegate { ConfigManager.Instance.DuckConfiguration_Multiplier.RingDropIntervalRandomMaxMulti = Slider.value; });
                     break;
                 }
             }
@@ -83,62 +83,74 @@ public class ConfigRow : PoolObject
 
     public void Refresh()
     {
-        if (BoltNetwork.IsClient)
+        if (GameManager.Instance.M_NetworkMode == GameManager.NetworkMode.Online)
         {
-            if (GameManager.Instance.GameState)
+            if (BoltNetwork.IsClient)
             {
-                switch (myConfigRowType)
+                if (GameManager.Instance.GameState)
                 {
-                    case ConfigRowType.NeckMaxLength:
-                    {
-                        Slider.value = GameManager.Instance.GameState.state.DuckConfig.NeckMaxLengthMulti;
-                        break;
-                    }
-                    case ConfigRowType.MoveSpeed:
-                    {
-                        Slider.value = GameManager.Instance.GameState.state.DuckConfig.MoveSpeedMulti;
-                        break;
-                    }
-                    case ConfigRowType.NeckSpeed:
-                    {
-                        Slider.value = GameManager.Instance.GameState.state.DuckConfig.NeckSpeedMulti;
-                        break;
-                    }
-                    case ConfigRowType.PullRadius:
-                    {
-                        Slider.value = GameManager.Instance.GameState.state.DuckConfig.PullRadiusMulti;
-                        break;
-                    }
-                    case ConfigRowType.PushRadius:
-                    {
-                        Slider.value = GameManager.Instance.GameState.state.DuckConfig.PushRadiusMulti;
-                        break;
-                    }
-                    case ConfigRowType.BallBounce:
-                    {
-                        Slider.value = GameManager.Instance.GameState.state.DuckConfig.BallBounce;
-                        break;
-                    }
-                    case ConfigRowType.BallWeight:
-                    {
-                        Slider.value = GameManager.Instance.GameState.state.DuckConfig.BallWeight;
-                        break;
-                    }
-                    case ConfigRowType.RingDropMin:
-                    {
-                        Slider.value = GameManager.Instance.GameState.state.DuckConfig.RingDropIntervalRandomMin;
-                        break;
-                    }
-                    case ConfigRowType.RingDropMax:
-                    {
-                        Slider.value = GameManager.Instance.GameState.state.DuckConfig.RingDropIntervalRandomMax;
-                        break;
-                    }
+                    RefreshCore();
                 }
             }
         }
+        else
+        {
+            RefreshCore();
+        }
 
         Label.text = myConfigRowType + " = " + Slider.value.ToString("#0.00");
+    }
+
+    private void RefreshCore()
+    {
+        switch (myConfigRowType)
+        {
+            case ConfigRowType.NeckMaxLength:
+            {
+                Slider.value = ConfigManager.Instance.DuckConfiguration_Multiplier.NeckMaxLengthMulti;
+                break;
+            }
+            case ConfigRowType.MoveSpeed:
+            {
+                Slider.value = ConfigManager.Instance.DuckConfiguration_Multiplier.MoveSpeedMulti;
+                break;
+            }
+            case ConfigRowType.NeckSpeed:
+            {
+                Slider.value = ConfigManager.Instance.DuckConfiguration_Multiplier.NeckSpeedMulti;
+                break;
+            }
+            case ConfigRowType.PullRadius:
+            {
+                Slider.value = ConfigManager.Instance.DuckConfiguration_Multiplier.PullRadiusMulti;
+                break;
+            }
+            case ConfigRowType.PushRadius:
+            {
+                Slider.value = ConfigManager.Instance.DuckConfiguration_Multiplier.PushRadiusMulti;
+                break;
+            }
+            case ConfigRowType.BallBounce:
+            {
+                Slider.value = ConfigManager.Instance.DuckConfiguration_Multiplier.BallBounceMulti;
+                break;
+            }
+            case ConfigRowType.BallWeight:
+            {
+                Slider.value = ConfigManager.Instance.DuckConfiguration_Multiplier.BallWeightMulti;
+                break;
+            }
+            case ConfigRowType.RingDropMin:
+            {
+                Slider.value = ConfigManager.Instance.DuckConfiguration_Multiplier.RingDropIntervalRandomMinMulti;
+                break;
+            }
+            case ConfigRowType.RingDropMax:
+            {
+                Slider.value = ConfigManager.Instance.DuckConfiguration_Multiplier.RingDropIntervalRandomMaxMulti;
+                break;
+            }
+        }
     }
 
     public enum ConfigRowType

@@ -6,7 +6,7 @@ public class ScoreRingSingleTrigger : MonoBehaviour
 
     void OnTriggerEnter(Collider c)
     {
-        if (BoltNetwork.IsServer)
+        if (GameManager.Instance.M_NetworkMode == GameManager.NetworkMode.Local || BoltNetwork.IsServer)
         {
             if (c.gameObject.GetComponentInParent<PlayerCollider>())
             {
