@@ -117,7 +117,8 @@
             "moduleName": "Core",
             "usedInScenes": [
                 "Assets/Scenes/BoltMenu.unity",
-                "Assets/Scenes/Battle_FlagRace.unity"
+                "Assets/Scenes/Battle_FlagRace.unity",
+                "Assets/Scenes/Battle_Smash.unity"
             ]
         },
         {
@@ -384,7 +385,8 @@
             "moduleName": "Core",
             "usedInScenes": [
                 "Assets/Scenes/BoltMenu.unity",
-                "Assets/Scenes/Battle_FlagRace.unity"
+                "Assets/Scenes/Battle_FlagRace.unity",
+                "Assets/Scenes/Battle_Smash.unity"
             ]
         },
         {

@@ -43,11 +43,30 @@ public class MultiControllerManager : MonoSingleton<MultiControllerManager>
         foreach (object o in Enum.GetValues(typeof(ControllerIndex)))
         {
             ControllerIndex ci = (ControllerIndex) o;
-            if (Controllers[ci].AnyButtonPressed())
+
+            switch (GameManager.instance.M_NetworkMode)
             {
-                switch (GameManager.instance.M_NetworkMode)
+                case GameManager.NetworkMode.Local:
                 {
-                    case GameManager.NetworkMode.Local:
+                    Controller c = Controllers[ci];
+                    bool addPlayer = false;
+                    if (c is KeyBoardController kbc)
+                    {
+                        if (kbc.ButtonDown[ControlButtons.LeftStickUp])
+                        {
+                            addPlayer = true;
+                        }
+                    }
+
+                    if (c is XBoxController xbc)
+                    {
+                        if (xbc.ButtonDown[ControlButtons.A])
+                        {
+                            addPlayer = true;
+                        }
+                    }
+
+                    if (addPlayer)
                     {
                         if (GameManager.Instance.Cur_BattleManager != null)
                         {
@@ -60,14 +79,15 @@ public class MultiControllerManager : MonoSingleton<MultiControllerManager>
                                     playerObject.Spawn();
                                     PlayerControllerMap.Add(pn, ci);
                                 }
-
-                                // todo addPlayer
                             }
                         }
-
-                        break;
                     }
-                    case GameManager.NetworkMode.Online:
+
+                    break;
+                }
+                case GameManager.NetworkMode.Online:
+                {
+                    if (Controllers[ci].AnyButtonPressed())
                     {
                         if (PlayerObjectRegistry_Online.MyPlayer)
                         {
@@ -76,9 +96,9 @@ public class MultiControllerManager : MonoSingleton<MultiControllerManager>
                                 PlayerControllerMap.Add(PlayerObjectRegistry_Online.MyPlayer.PlayerNumber, ci);
                             }
                         }
-
-                        break;
                     }
+
+                    break;
                 }
             }
         }

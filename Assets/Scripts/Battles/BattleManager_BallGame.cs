@@ -8,6 +8,8 @@ public abstract class BattleManager_BallGame : BattleManager
         {
             ResetAllPlayers();
         }
+
+        HelpSprites.SetActive(GameManager.Instance.M_NetworkMode == GameManager.NetworkMode.Local);
     }
 
     protected override void Update()
@@ -32,6 +34,8 @@ public abstract class BattleManager_BallGame : BattleManager
         }
     }
 
+    [SerializeField] private GameObject HelpSprites;
+
     public abstract void StartBattle_Server();
     protected Coroutine startBattleCoroutine;
 
@@ -40,6 +44,10 @@ public abstract class BattleManager_BallGame : BattleManager
 
     public virtual void StartBattle()
     {
+        if (GameManager.Instance.M_NetworkMode == GameManager.NetworkMode.Local)
+        {
+            HelpSprites.SetActive(false);
+        }
     }
 
     public abstract void BallHit_Server(Ball ball, Player hitPlayer, TeamNumber hitTeamNumber);
@@ -47,6 +55,11 @@ public abstract class BattleManager_BallGame : BattleManager
 
     public virtual void EndBattle(TeamNumber winnerTeam, int team1Score, int team2Score)
     {
+        if (GameManager.Instance.M_NetworkMode == GameManager.NetworkMode.Local)
+        {
+            HelpSprites.SetActive(true);
+        }
+
         StopAllCoroutines();
     }
 }
