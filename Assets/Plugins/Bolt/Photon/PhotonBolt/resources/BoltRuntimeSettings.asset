@@ -29,7 +29,7 @@ MonoBehaviour:
     serverDejitterDelay: 6
     serverDejitterDelayMin: 3
     serverDejitterDelayMax: 9
-    serverConnectionLimit: 32
+    serverConnectionLimit: 4
     serverConnectionAcceptMode: 1
     commandQueueSize: 60
     commandRedundancy: 6
@@ -61,7 +61,7 @@ MonoBehaviour:
   masterServerGameId: 09A20926-601A-4EF4-BFEE-374761B0D2A5
   showBoltEntityHints: 0
   serializeProjectAsText: 0
-  photonAppId: 0c36bf3d-b400-4139-bad1-86ec97f9aed3
+  photonAppId: ef758b19-24b8-4dd6-b7b3-1df1b1ff917e
   photonUsePunch: 1
   photonCloudRegionIndex: 12
   instantiateMode: 2

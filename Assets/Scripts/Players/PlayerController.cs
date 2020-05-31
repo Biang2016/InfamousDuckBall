@@ -107,8 +107,6 @@ public class PlayerController : MonoBehaviour
         {
             // we got a correction from the server, reset (this only runs on the client)
             Player.Duck.Feet.transform.position = cmd.Result.FeetPosition;
-            Player.Duck.DuckRigidbody.velocity = cmd.Result.PlayerVelocity;
-            Player.Duck.DuckRigidbody.angularVelocity = cmd.Result.PlayerAngularVelocity;
         }
         else
         {
@@ -126,10 +124,6 @@ public class PlayerController : MonoBehaviour
 
             Player.Duck.DuckRigidbody.AddForce(diff);
             Player.Duck.Head.ExecuteCommand(cmd.Input.LeftTriggerDown, cmd.Input.RightBumperDown, cmd.Input.RightTriggerDown, cmd.Input.RightTriggerUp, cmd.Input.RightTrigger);
-
-            // copy the motor state to the commands result (this gets sent back to the client)
-            cmd.Result.PlayerVelocity = Player.Duck.DuckRigidbody.velocity;
-            cmd.Result.PlayerAngularVelocity = Player.Duck.DuckRigidbody.angularVelocity;
 
             cmd.Result.FeetPosition = Player.GetPlayerPosition;
             Player.state.FeetPosition = cmd.Result.FeetPosition;

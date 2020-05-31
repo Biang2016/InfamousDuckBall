@@ -55,31 +55,44 @@ public class Feet : MonoBehaviour
 
     void LateUpdate()
     {
+        if (GameManager.Instance.M_NetworkMode == GameManager.NetworkMode.Local || BoltNetwork.IsServer)
+        {
+            if (Duck.DuckRigidbody.velocity.magnitude < DuckConfig.BrakeVelocityThreshold)
+            {
+                Duck.DuckRigidbody.velocity *= 0.9f;
+            }
+        }
+
         if (GameManager.Instance.M_NetworkMode == GameManager.NetworkMode.Online)
         {
-            MyPlayerCircle.enabled = Player.entity.HasControl;
+            if (!Player.entity.IsControllerOrOwner)
+            {
+                float _backForth = Vector3.Dot(Player.state.Velocity, Duck.Body.BodyRotate.transform.forward);
+                float _leftRight = Vector3.Dot(Player.state.Velocity, Duck.Body.BodyRotate.transform.right);
+
+                Anim.SetFloat("BackForth", _backForth);
+                Anim.SetFloat("LeftRight", _leftRight);
+            }
+            else
+            {
+                float _backForth = Vector3.Dot(Duck.DuckRigidbody.velocity, Duck.Body.BodyRotate.transform.forward);
+                float _leftRight = Vector3.Dot(Duck.DuckRigidbody.velocity, Duck.Body.BodyRotate.transform.right);
+
+                Anim.SetFloat("BackForth", _backForth);
+                Anim.SetFloat("LeftRight", _leftRight);
+            }
         }
         else
         {
-            MyPlayerCircle.enabled = true;
+            float backForth = Vector3.Dot(Duck.DuckRigidbody.velocity, Duck.Body.BodyRotate.transform.forward);
+            float leftRight = Vector3.Dot(Duck.DuckRigidbody.velocity, Duck.Body.BodyRotate.transform.right);
+
+            Anim.SetFloat("BackForth", backForth);
+            Anim.SetFloat("LeftRight", leftRight);
         }
-
-        if (Duck.DuckRigidbody.velocity.magnitude < DuckConfig.BrakeVelocityThreshold)
-        {
-            Duck.DuckRigidbody.velocity *= 0.9f;
-        }
-
-        Vector3 vel = (transform.position - lastPos) * Application.targetFrameRate;
-        lastPos = transform.position;
-
-        float backForth = Vector3.Dot(vel, Duck.Body.BodyRotate.transform.forward);
-        float leftRight = Vector3.Dot(vel, Duck.Body.BodyRotate.transform.right);
-
-        Anim.SetFloat("LeftRight", leftRight);
-        Anim.SetFloat("BackForth", backForth);
 
         // Walk
-        if (Mathf.Abs(vel.magnitude) > FeetMoveThreshold)
+        if (Mathf.Abs(Duck.DuckRigidbody.velocity.magnitude) > FeetMoveThreshold)
         {
             AudioDuck.Instance.StartPlayerMovementSound(Player.PlayerNumber, transform, Player.Duck.DuckRigidbody);
             Duck.Body.BodyAnimator.SetFloat("Breath", 0.1f);
@@ -101,6 +114,19 @@ public class Feet : MonoBehaviour
             float scale = ChargingCircle.transform.localScale.x - (1.5f / (DuckConfig.PushChargeTimeMaxDuration * Application.targetFrameRate));
             scale = Mathf.Clamp(scale, 0, 2);
             ChargingCircle.transform.localScale = Vector3.one * scale;
+        }
+
+        if (GameManager.Instance.M_NetworkMode == GameManager.NetworkMode.Online)
+        {
+            MyPlayerCircle.enabled = Player.entity.HasControl;
+            if (BoltNetwork.IsServer)
+            {
+                Player.state.Velocity = Duck.DuckRigidbody.velocity;
+            }
+        }
+        else
+        {
+            MyPlayerCircle.enabled = true;
         }
     }
 

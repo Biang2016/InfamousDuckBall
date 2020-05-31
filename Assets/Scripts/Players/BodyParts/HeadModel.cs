@@ -31,7 +31,7 @@ public class HeadModel : MonoBehaviour
         }
     }
 
-    public void OnPush()
+    private void OnPush()
     {
         Head.Duck.Body.BodyAnimator.SetFloat("Tail", 1.0f);
         Head.Duck.Body.BodyAnimator.SetFloat("Breath", 0.0f);
@@ -58,6 +58,32 @@ public class HeadModel : MonoBehaviour
                 AudioDuck.Instance.PlaySound(AudioDuck.Instance.FishBreath, ball.gameObject);
                 ball.Kick(Head.Duck.Player.TeamNumber, (Head.transform.forward) * (Head.DuckConfig.PushForce + Head.PushChargeForceRatio * Head.DuckConfig.PushChargingExtraForce));
                 FXManager.Instance.PlayFX(FX_Type.BallKickParticleSystem, ball.transform.position, Quaternion.FromToRotation(Vector3.back, diff.normalized));
+            }
+        }
+    }
+
+    public void OnPush_Server()
+    {
+        if (GameManager.Instance.M_NetworkMode == GameManager.NetworkMode.Online)
+        {
+            if (BoltNetwork.IsServer)
+            {
+                OnPush();
+            }
+        }
+        else
+        {
+            OnPush();
+        }
+    }
+
+    public void OnPush_Client()
+    {
+        if (GameManager.Instance.M_NetworkMode == GameManager.NetworkMode.Online)
+        {
+            if (BoltNetwork.IsClient)
+            {
+                OnPush();
             }
         }
     }

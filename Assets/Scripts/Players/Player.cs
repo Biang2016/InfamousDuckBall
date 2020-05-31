@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using Bolt;
+using Boo.Lang;
 using UnityEngine;
 
 public class Player : EntityBehaviour<IPlayerState>
@@ -11,10 +12,6 @@ public class Player : EntityBehaviour<IPlayerState>
     private PlayerNumber playerNumber_Local;
     private TeamNumber teamNumber_Local;
     private CostumeType costumeType_Local;
-
-    #endregion
-
-    #region Online
 
     #endregion
 
