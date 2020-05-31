@@ -148,6 +148,7 @@ public class GameManager : MonoSingleton<GameManager>
                 }
 
                 PlayerObjectRegistry_Online.RemoveAllPlayers();
+                MultiControllerManager.instance.Init();
                 BoltNetwork.Shutdown();
                 UIManager.Instance.ShowUIForms<WaitingPanel>();
                 yield return new WaitForSeconds(3f);
@@ -155,6 +156,7 @@ public class GameManager : MonoSingleton<GameManager>
             else
             {
                 PlayerObjectRegistry_Local.RemoveAllPlayers();
+                MultiControllerManager.instance.Init();
             }
 
             UIManager.Instance.CloseUIForm<WaitingPanel>();

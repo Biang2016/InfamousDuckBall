@@ -229,6 +229,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   GameLogoAnim: {fileID: 76731383642164210}
+  ClientVersionText: {fileID: 8268016060199418788}
 --- !u!1 &3103341698248279229
 GameObject:
   m_ObjectHideFlags: 0

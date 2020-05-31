@@ -5,6 +5,7 @@ using UnityEngine.Events;
 
 public class RoomInfoToken : IProtocolToken
 {
+    public string ClientVersion;
     public UdpEndPoint UdpEndPoint;
     public bool IsVisible;
     public string RoomName;
@@ -27,6 +28,7 @@ public class RoomInfoToken : IProtocolToken
 
     public void Read(UdpPacket packet)
     {
+        ClientVersion = packet.ReadString(Encoding.UTF32);
         uint packedAddress = packet.ReadUInt();
         ushort port = packet.ReadUShort(16);
         UdpEndPoint = new UdpEndPoint(new UdpIPv4Address(packedAddress), port);
@@ -42,6 +44,7 @@ public class RoomInfoToken : IProtocolToken
 
     public void Write(UdpPacket packet)
     {
+        packet.WriteString(ClientVersion,Encoding.UTF32);
         packet.WriteUInt(UdpEndPoint.Address.Packed);
         packet.WriteUShort(UdpEndPoint.Port);
         packet.WriteByte((byte) (IsVisible ? 0x00 : 0x01));

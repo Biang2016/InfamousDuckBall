@@ -74,6 +74,7 @@ public class BoatMenuManager : MonoSingleton<BoatMenuManager>
         LobbyPanel.Hide();
         CameraPosSwitch(CameraPos.SidePerspective);
         StartMenuPanel_Boat.ButtonGroup_Play.Show();
+        GameManager.Instance.M_NetworkMode = GameManager.NetworkMode.Local;
     }
 
     public void FromStartMenuToHelp()

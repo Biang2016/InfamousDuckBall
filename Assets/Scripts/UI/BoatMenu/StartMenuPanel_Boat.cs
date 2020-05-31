@@ -16,13 +16,13 @@ public class StartMenuPanel_Boat : MonoBehaviour
 
     void Start()
     {
-        ButtonGroup_Play.Hide(false);
+        ButtonGroup_Play.Hide(false,false);
     }
 
     public void OnPlayButtonClick()
     {
         ButtonGroup_Play.Show();
-        ButtonGroup_Main.Hide(false);
+        ButtonGroup_Main.Hide(false,true);
         ExitButton.gameObject.SetActive(false);
         BackButton.gameObject.SetActive(true);
         BackButton.onClick.AddListener(OnBackButtonClick_FromLocalToMain);
@@ -37,7 +37,7 @@ public class StartMenuPanel_Boat : MonoBehaviour
 
     public void OnCreditButtonClick()
     {
-        ButtonGroup_Main.Hide(true);
+        ButtonGroup_Main.Hide(true, true);
         ExitButton.gameObject.SetActive(false);
         BackButton.onClick.RemoveListener(OnBackButtonClick_FromLocalToMain);
         BackButton.onClick.AddListener(OnBackButtonClick_FromCreditToMain);
@@ -46,7 +46,7 @@ public class StartMenuPanel_Boat : MonoBehaviour
 
     public void OnLocalButtonClick()
     {
-        ButtonGroup_Play.Hide(true);
+        ButtonGroup_Play.Hide(true, true);
         BoatMenuManager.Instance.CameraPosSwitch(BoatMenuManager.CameraPos.UpDownPerspective);
         BoatMenuManager.Instance.LocalPanel.Display();
         GameManager.Instance.SwitchNetworkMode(GameManager.NetworkMode.Local);
@@ -54,28 +54,7 @@ public class StartMenuPanel_Boat : MonoBehaviour
 
     public void OnOnlineButtonClick()
     {
-        switch (Application.internetReachability)
-        {
-            case NetworkReachability.NotReachable:
-            {
-                NoticeManager.Instance.ShowInfoPanelCenter("Internet Not Reachable.", 0f, 1f);
-                break;
-            }
-            case NetworkReachability.ReachableViaLocalAreaNetwork:
-            {
-                BoatMenuManager.Instance.CameraPosSwitch(BoatMenuManager.CameraPos.UpDownPerspective);
-                BoatMenuManager.Instance.LobbyPanel.Display();
-                GameManager.Instance.SwitchNetworkMode(GameManager.NetworkMode.Online);
-                break;
-            }
-            case NetworkReachability.ReachableViaCarrierDataNetwork:
-            {
-                BoatMenuManager.Instance.CameraPosSwitch(BoatMenuManager.CameraPos.UpDownPerspective);
-                BoatMenuManager.Instance.LobbyPanel.Display();
-                GameManager.Instance.SwitchNetworkMode(GameManager.NetworkMode.Online);
-                break;
-            }
-        }
+        UIManager.Instance.ShowUIForms<SelectRegionPanel>();
     }
 
     public void OnBackButtonClick_FromCreditToMain()
@@ -88,7 +67,7 @@ public class StartMenuPanel_Boat : MonoBehaviour
     public void OnBackButtonClick_FromLocalToMain()
     {
         ButtonGroup_Main.Show();
-        ButtonGroup_Play.Hide(false);
+        ButtonGroup_Play.Hide(false, true);
         ExitButton.gameObject.SetActive(true);
         BackButton.gameObject.SetActive(false);
     }
@@ -120,10 +99,10 @@ public class StartMenuPanel_Boat : MonoBehaviour
             ScoreRing.Recover();
         }
 
-        public void Hide(bool withSound)
+        public void Hide(bool withSound, bool withFX)
         {
             Button.gameObject.SetActive(false);
-            ScoreRing.Explode(withSound);
+            ScoreRing.Explode(withSound, withFX);
         }
     }
 
@@ -140,11 +119,11 @@ public class StartMenuPanel_Boat : MonoBehaviour
             }
         }
 
-        public void Hide(bool withSound)
+        public void Hide(bool withSound, bool withFX)
         {
             foreach (StartMenuButton button in StartMenuButtons)
             {
-                button.Hide(withSound);
+                button.Hide(withSound, withFX);
             }
         }
     }

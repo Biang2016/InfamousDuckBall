@@ -133,6 +133,7 @@
 		<type fullname="ScoreRingSingleBoatMenu" preserve="nothing"/>
 		<type fullname="ScoreRingSingleSpawner" preserve="nothing"/>
 		<type fullname="ScoreRingSingleTrigger" preserve="nothing"/>
+		<type fullname="SelectRegionPanel" preserve="nothing"/>
 		<type fullname="StartMenuPanel_Boat" preserve="nothing"/>
 		<type fullname="SunGlasses" preserve="nothing"/>
 		<type fullname="TeamSpawnPoint" preserve="nothing"/>
@@ -166,6 +167,7 @@
 		<type fullname="UnityEngine.UI.Button" preserve="nothing"/>
 		<type fullname="UnityEngine.UI.CanvasScaler" preserve="nothing"/>
 		<type fullname="UnityEngine.UI.ContentSizeFitter" preserve="nothing"/>
+		<type fullname="UnityEngine.UI.Dropdown" preserve="nothing"/>
 		<type fullname="UnityEngine.UI.GraphicRaycaster" preserve="nothing"/>
 		<type fullname="UnityEngine.UI.HorizontalLayoutGroup" preserve="nothing"/>
 		<type fullname="UnityEngine.UI.Image" preserve="nothing"/>

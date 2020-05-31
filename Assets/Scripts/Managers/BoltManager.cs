@@ -101,6 +101,7 @@ public class BoltManager : GlobalEventListener
             if (BoltNetwork.IsServer)
             {
                 cur_ServerRoomInfo = new RoomInfoToken();
+                cur_ServerRoomInfo.ClientVersion = Application.version;
                 cur_ServerRoomInfo.UdpEndPoint = BoltNetwork.UdpSocket.WanEndPoint;
                 cur_ServerRoomInfo.RoomName = roomName;
                 string sessionID = roomName + DateTime.Now.ToLongTimeString();
@@ -261,47 +262,54 @@ public class BoltManager : GlobalEventListener
 
                     ri.OnRoomButtonClick = delegate
                     {
-                        switch (ri.M_Status)
+                        if (!ri.ClientVersion.Equals(Application.version))
                         {
-                            case RoomInfoToken.Status.Playing:
+                            NoticeManager.Instance.ShowInfoPanelCenter("The game runs on " + ri.ClientVersion, 0f, 0.5f);
+                        }
+                        else
+                        {
+                            switch (ri.M_Status)
                             {
-                                NoticeManager.Instance.ShowInfoPanelCenter("The game has begun", 0f, 0.5f);
-                                break;
-                            }
-                            case RoomInfoToken.Status.Full:
-                            {
-                                NoticeManager.Instance.ShowInfoPanelCenter("The room is full", 0f, 0.5f);
-                                break;
-                            }
-                            case RoomInfoToken.Status.Closing:
-                            {
-                                NoticeManager.Instance.ShowInfoPanelCenter("The game has closed", 0f, 0.5f);
-                                break;
-                            }
-                            case RoomInfoToken.Status.Waiting:
-                            {
-                                if (ri.HasPassword)
+                                case RoomInfoToken.Status.Playing:
                                 {
-                                    PasswordPanel pp = UIManager.Instance.ShowUIForms<PasswordPanel>();
-                                    pp.ConfirmButton.onClick.RemoveAllListeners();
-                                    pp.ConfirmButton.onClick.AddListener(delegate
+                                    NoticeManager.Instance.ShowInfoPanelCenter("The game has begun", 0f, 0.5f);
+                                    break;
+                                }
+                                case RoomInfoToken.Status.Full:
+                                {
+                                    NoticeManager.Instance.ShowInfoPanelCenter("The room is full", 0f, 0.5f);
+                                    break;
+                                }
+                                case RoomInfoToken.Status.Closing:
+                                {
+                                    NoticeManager.Instance.ShowInfoPanelCenter("The game has closed", 0f, 0.5f);
+                                    break;
+                                }
+                                case RoomInfoToken.Status.Waiting:
+                                {
+                                    if (ri.HasPassword)
                                     {
-                                        if (ri.Password == pp.PasswordInputField.text.EncodeSHA512())
+                                        PasswordPanel pp = UIManager.Instance.ShowUIForms<PasswordPanel>();
+                                        pp.ConfirmButton.onClick.RemoveAllListeners();
+                                        pp.ConfirmButton.onClick.AddListener(delegate
                                         {
-                                            TryConnect(kv.Value, PlayerPrefs.GetString("PlayerID"));
-                                        }
-                                        else
-                                        {
-                                            NoticeManager.Instance.ShowInfoPanelCenter("Wrong password", 0f, 0.5f);
-                                        }
-                                    });
-                                }
-                                else
-                                {
-                                    TryConnect(kv.Value, PlayerPrefs.GetString("PlayerID"));
-                                }
+                                            if (ri.Password == pp.PasswordInputField.text.EncodeSHA512())
+                                            {
+                                                TryConnect(kv.Value, PlayerPrefs.GetString("PlayerID"));
+                                            }
+                                            else
+                                            {
+                                                NoticeManager.Instance.ShowInfoPanelCenter("Wrong password", 0f, 0.5f);
+                                            }
+                                        });
+                                    }
+                                    else
+                                    {
+                                        TryConnect(kv.Value, PlayerPrefs.GetString("PlayerID"));
+                                    }
 
-                                break;
+                                    break;
+                                }
                             }
                         }
                     };

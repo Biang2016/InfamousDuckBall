@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.UI;
 
 public class GameLogoPanel : BaseUIForm
 {
@@ -12,6 +13,8 @@ public class GameLogoPanel : BaseUIForm
             uiForms_Type: UIFormTypes.Normal,
             uiForms_ShowMode: UIFormShowModes.Normal,
             uiForm_LucencyType: UIFormLucencyTypes.Penetrable);
+
+        ClientVersionText.text = Application.version;
     }
 
     void Update()
@@ -19,6 +22,7 @@ public class GameLogoPanel : BaseUIForm
     }
 
     [SerializeField] private Animator GameLogoAnim;
+    [SerializeField] private Text ClientVersionText;
 
     public void GameLogoDrop()
     {

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using UdpKit.Platform.Photon;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -7,12 +8,15 @@ public class LobbyPanel : MonoBehaviour
     void Awake()
     {
         BoltManager.RefreshRoomListInUI = RefreshRoomList;
+        VersionText.text = Application.version;
     }
 
     [SerializeField] private Transform RoomListContainer;
 
     public string CurrentFilter => RoomIDInputField.text;
 
+    [SerializeField] private Text VersionText;
+    [SerializeField] private Text RegionText;
     [SerializeField] private InputField RoomIDInputField;
     [SerializeField] private Text UserNameText;
     [SerializeField] private Button RenameButton;
@@ -55,15 +59,6 @@ public class LobbyPanel : MonoBehaviour
     {
         if (gameObject.activeInHierarchy)
         {
-            //if (!UIManager.Instance.GetBaseUIForm<CreateRoomPanel>().IsShown
-            //    && !UIManager.Instance.GetBaseUIForm<WaitingPanel>().IsShown
-            //    && !UIManager.Instance.GetBaseUIForm<CreateNamePanel>().IsShown)
-            //{
-            //    if (Input.GetKeyUp(KeyCode.Escape))
-            //    {
-            //        OnBackButtonClick();
-            //    }
-            //}
         }
     }
 
@@ -76,7 +71,9 @@ public class LobbyPanel : MonoBehaviour
     {
         gameObject.SetActive(true);
         UpdateUserName();
+        RegionText.text = "Region: " + PhotonRegion.GetRegion(Regions.CurSelectedRegion).Name;
         RefreshButtonClick();
+        RefreshRoomList(new List<RoomInfoToken>());
         if (!BoltNetwork.IsRunning)
         {
             BoltLauncher.StartClient();
@@ -88,7 +85,7 @@ public class LobbyPanel : MonoBehaviour
         gameObject.SetActive(false);
         if (BoltNetwork.IsRunning)
         {
-            BoltNetwork.Shutdown();
+            BoltNetwork.ShutdownImmediate();
         }
     }
 
@@ -99,7 +96,10 @@ public class LobbyPanel : MonoBehaviour
 
     public void RefreshButtonClick()
     {
-        BoltManager.UpdateRoomList(BoltNetwork.SessionList, CurrentFilter);
+        if (GameManager.Instance.M_NetworkMode == GameManager.NetworkMode.Online)
+        {
+            BoltManager.UpdateRoomList(BoltNetwork.SessionList, CurrentFilter);
+        }
     }
 
     public void OnBackButtonClick()
