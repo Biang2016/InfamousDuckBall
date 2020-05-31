@@ -19,7 +19,7 @@ public class Player : EntityBehaviour<IPlayerState>
     {
         get
         {
-            if (GameManager.Instance.M_NetworkMode == GameManager.NetworkMode.Online)
+            if (BoltNetwork.IsRunning && GameManager.Instance.M_NetworkMode == GameManager.NetworkMode.Online)
             {
                 return state.PlayerInfo.PlayerName;
             }
@@ -30,7 +30,7 @@ public class Player : EntityBehaviour<IPlayerState>
         }
         set
         {
-            if (GameManager.Instance.M_NetworkMode == GameManager.NetworkMode.Online)
+            if (BoltNetwork.IsRunning && GameManager.Instance.M_NetworkMode == GameManager.NetworkMode.Online)
             {
                 state.PlayerInfo.PlayerName = value;
             }
@@ -45,7 +45,7 @@ public class Player : EntityBehaviour<IPlayerState>
     {
         get
         {
-            if (GameManager.Instance.M_NetworkMode == GameManager.NetworkMode.Online)
+            if (BoltNetwork.IsRunning && GameManager.Instance.M_NetworkMode == GameManager.NetworkMode.Online)
             {
                 return (PlayerNumber) state.PlayerInfo.PlayerNumber;
             }
@@ -56,7 +56,7 @@ public class Player : EntityBehaviour<IPlayerState>
         }
         set
         {
-            if (GameManager.Instance.M_NetworkMode == GameManager.NetworkMode.Online)
+            if (BoltNetwork.IsRunning && GameManager.Instance.M_NetworkMode == GameManager.NetworkMode.Online)
             {
                 state.PlayerInfo.PlayerNumber = (int) value;
             }
@@ -71,7 +71,7 @@ public class Player : EntityBehaviour<IPlayerState>
     {
         get
         {
-            if (GameManager.Instance.M_NetworkMode == GameManager.NetworkMode.Online)
+            if (BoltNetwork.IsRunning && GameManager.Instance.M_NetworkMode == GameManager.NetworkMode.Online)
             {
                 return (TeamNumber) state.PlayerInfo.TeamNumber;
             }
@@ -82,7 +82,7 @@ public class Player : EntityBehaviour<IPlayerState>
         }
         set
         {
-            if (GameManager.Instance.M_NetworkMode == GameManager.NetworkMode.Online)
+            if (BoltNetwork.IsRunning && GameManager.Instance.M_NetworkMode == GameManager.NetworkMode.Online)
             {
                 state.PlayerInfo.TeamNumber = (int) value;
             }
@@ -97,7 +97,7 @@ public class Player : EntityBehaviour<IPlayerState>
     {
         get
         {
-            if (GameManager.Instance.M_NetworkMode == GameManager.NetworkMode.Online)
+            if (BoltNetwork.IsRunning && GameManager.Instance.M_NetworkMode == GameManager.NetworkMode.Online)
             {
                 return (CostumeType) state.PlayerInfo.CostumeType;
             }
@@ -108,7 +108,7 @@ public class Player : EntityBehaviour<IPlayerState>
         }
         set
         {
-            if (GameManager.Instance.M_NetworkMode == GameManager.NetworkMode.Online)
+            if (BoltNetwork.IsRunning && GameManager.Instance.M_NetworkMode == GameManager.NetworkMode.Online)
             {
                 state.PlayerInfo.CostumeType = (int) value;
             }
@@ -125,7 +125,7 @@ public class Player : EntityBehaviour<IPlayerState>
     {
         get
         {
-            if (GameManager.Instance.M_NetworkMode == GameManager.NetworkMode.Online)
+            if (BoltNetwork.IsRunning && GameManager.Instance.M_NetworkMode == GameManager.NetworkMode.Online)
             {
                 return state.HeadTargetPosition;
             }
@@ -136,7 +136,7 @@ public class Player : EntityBehaviour<IPlayerState>
         }
         set
         {
-            if (GameManager.Instance.M_NetworkMode == GameManager.NetworkMode.Online)
+            if (BoltNetwork.IsRunning && GameManager.Instance.M_NetworkMode == GameManager.NetworkMode.Online)
             {
                 state.HeadTargetPosition = value;
             }
@@ -153,7 +153,7 @@ public class Player : EntityBehaviour<IPlayerState>
     {
         get
         {
-            if (GameManager.Instance.M_NetworkMode == GameManager.NetworkMode.Online)
+            if (BoltNetwork.IsRunning && GameManager.Instance.M_NetworkMode == GameManager.NetworkMode.Online)
             {
                 return state.HeadLookAtPosition;
             }
@@ -164,7 +164,7 @@ public class Player : EntityBehaviour<IPlayerState>
         }
         set
         {
-            if (GameManager.Instance.M_NetworkMode == GameManager.NetworkMode.Online)
+            if (BoltNetwork.IsRunning && GameManager.Instance.M_NetworkMode == GameManager.NetworkMode.Online)
             {
                 state.HeadLookAtPosition = value;
             }
@@ -181,7 +181,7 @@ public class Player : EntityBehaviour<IPlayerState>
     {
         get
         {
-            if (GameManager.Instance.M_NetworkMode == GameManager.NetworkMode.Online)
+            if (BoltNetwork.IsRunning && GameManager.Instance.M_NetworkMode == GameManager.NetworkMode.Online)
             {
                 return state.FeetPosition;
             }
@@ -192,7 +192,7 @@ public class Player : EntityBehaviour<IPlayerState>
         }
         set
         {
-            if (GameManager.Instance.M_NetworkMode == GameManager.NetworkMode.Online)
+            if (BoltNetwork.IsRunning && GameManager.Instance.M_NetworkMode == GameManager.NetworkMode.Online)
             {
                 state.FeetPosition = value;
             }

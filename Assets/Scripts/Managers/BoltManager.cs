@@ -104,7 +104,7 @@ public class BoltManager : GlobalEventListener
                 cur_ServerRoomInfo.ClientVersion = Application.version;
                 cur_ServerRoomInfo.UdpEndPoint = BoltNetwork.UdpSocket.WanEndPoint;
                 cur_ServerRoomInfo.RoomName = roomName;
-                string sessionID = roomName + DateTime.Now.ToLongTimeString();
+                string sessionID = roomName + DateTime.Now.Ticks;
                 cur_ServerRoomInfo.IsVisible = visible;
                 cur_ServerRoomInfo.BattleType = battleType;
                 cur_ServerRoomInfo.Cur_PlayerNumber = 1;
