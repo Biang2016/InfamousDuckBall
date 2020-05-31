@@ -73,7 +73,8 @@
             "moduleName": "Core",
             "usedInScenes": [
                 "Assets/Scenes/BoltMenu.unity",
-                "Assets/Scenes/Battle_FlagRace.unity"
+                "Assets/Scenes/Battle_FlagRace.unity",
+                "Assets/Scenes/Battle_Smash.unity"
             ]
         },
         {
@@ -531,7 +532,8 @@
             "moduleName": "Core",
             "usedInScenes": [
                 "Assets/Scenes/BoltMenu.unity",
-                "Assets/Scenes/Battle_FlagRace.unity"
+                "Assets/Scenes/Battle_FlagRace.unity",
+                "Assets/Scenes/Battle_Smash.unity"
             ]
         },
         {
@@ -992,6 +994,13 @@
         {
             "managedAssemblyName": "Assembly-CSharp.dll",
             "nativeClass": "",
+            "fullManagedTypeName": "LocalPanel",
+            "moduleName": "",
+            "usedInScenes": []
+        },
+        {
+            "managedAssemblyName": "Assembly-CSharp.dll",
+            "nativeClass": "",
             "fullManagedTypeName": "MakerPanel",
             "moduleName": "",
             "usedInScenes": []
@@ -1168,6 +1177,13 @@
             "managedAssemblyName": "Assembly-CSharp.dll",
             "nativeClass": "",
             "fullManagedTypeName": "ScoreRingSingleTrigger",
+            "moduleName": "",
+            "usedInScenes": []
+        },
+        {
+            "managedAssemblyName": "Assembly-CSharp.dll",
+            "nativeClass": "",
+            "fullManagedTypeName": "SelectRegionPanel",
             "moduleName": "",
             "usedInScenes": []
         },
@@ -1357,6 +1373,13 @@
             "managedAssemblyName": "UnityEngine.UI.dll",
             "nativeClass": "",
             "fullManagedTypeName": "UnityEngine.UI.ContentSizeFitter",
+            "moduleName": "",
+            "usedInScenes": []
+        },
+        {
+            "managedAssemblyName": "UnityEngine.UI.dll",
+            "nativeClass": "",
+            "fullManagedTypeName": "UnityEngine.UI.Dropdown",
             "moduleName": "",
             "usedInScenes": []
         },
